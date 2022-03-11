@@ -1,0 +1,20 @@
+PODS:
+  - ReachabilitySwift (5.0.0)
+  - SwiftProtobuf (1.17.0)
+
+DEPENDENCIES:
+  - ReachabilitySwift (= 5.0.0)
+  - SwiftProtobuf
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - ReachabilitySwift
+    - SwiftProtobuf
+
+SPEC CHECKSUMS:
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  SwiftProtobuf: 9c85136c6ba74b0a1b84279dbf0f6db8efb714e0
+
+PODFILE CHECKSUM: 69c907e52f81265171d52d3775c5282535b1abfa
+
+COCOAPODS: 1.11.2
