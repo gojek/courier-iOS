@@ -1,0 +1,14 @@
+name: Testing
+on:
+  pull_request:
+    branches:
+    - main
+jobs:
+  test:
+    name: Courier Testing
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      - name: Testing Courier
+        run: exec ./.github/scripts/test.sh
