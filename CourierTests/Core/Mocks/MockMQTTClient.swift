@@ -52,6 +52,16 @@ class MockMQTTClient: IMQTTClient {
         invokedSubscribedMessageStreamGetterCount += 1
         return stubbedSubscribedMessageStream
     }
+    
+    var invokedMessageReceiverListenerGetter = false
+    var invokedMessageReceiverListenerGetterCount = 0
+    var stubbedMessageReceiverListener: IMessageReceiveListener!
+
+    var messageReceiverListener: IMessageReceiveListener {
+        invokedMessageReceiverListenerGetter = true
+        invokedMessageReceiverListenerGetterCount += 1
+        return stubbedMessageReceiverListener
+    }
 
     var invokedConnect = false
     var invokedConnectCount = 0

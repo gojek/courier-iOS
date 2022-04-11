@@ -134,6 +134,10 @@
 		8BC4131126C0E4BC005374C7 /* MockCourierAvailabilityListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4131026C0E4BC005374C7 /* MockCourierAvailabilityListener.swift */; };
 		8BC4E30E2803C4D90079DADE /* libMQTTClientGJ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B9A803927DAFB9500732992 /* libMQTTClientGJ.a */; };
 		8BC4E30F2803C4DF0079DADE /* libMQTTClientGJ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B9A803927DAFB9500732992 /* libMQTTClientGJ.a */; };
+		8BC4E3112803D3E00079DADE /* IncomingMessagePersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4E3102803D3E00079DADE /* IncomingMessagePersistence.swift */; };
+		8BC4E3132803D47A0079DADE /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4E3122803D47A0079DADE /* Debouncer.swift */; };
+		8BC4E3152803D4E70079DADE /* IncomingMessagePersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4E3142803D4E70079DADE /* IncomingMessagePersistenceTests.swift */; };
+		8BC4E3172803D54F0079DADE /* MockIncomingMessagePersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4E3162803D54F0079DADE /* MockIncomingMessagePersistence.swift */; };
 		8BCFCBB1270D6F38007FCF91 /* MQTTMessageSendSuccessEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFCBB0270D6F38007FCF91 /* MQTTMessageSendSuccessEvent.swift */; };
 		8BE0DD5C270BE41000630D60 /* ConnectOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79754B262801CC00FD704B /* ConnectOptions.swift */; };
 		8BE0DD5D270BE41000630D60 /* CourierEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4128D26BCE64C005374C7 /* CourierEvent.swift */; };
@@ -602,6 +606,10 @@
 		8BC4130B26C0E4A0005374C7 /* CourierConnectStatusPolicyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourierConnectStatusPolicyTests.swift; sourceTree = "<group>"; };
 		8BC4130C26C0E4A1005374C7 /* ConnectionServiceFailurePolicyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionServiceFailurePolicyTests.swift; sourceTree = "<group>"; };
 		8BC4131026C0E4BC005374C7 /* MockCourierAvailabilityListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCourierAvailabilityListener.swift; sourceTree = "<group>"; };
+		8BC4E3102803D3E00079DADE /* IncomingMessagePersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingMessagePersistence.swift; sourceTree = "<group>"; };
+		8BC4E3122803D47A0079DADE /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
+		8BC4E3142803D4E70079DADE /* IncomingMessagePersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingMessagePersistenceTests.swift; sourceTree = "<group>"; };
+		8BC4E3162803D54F0079DADE /* MockIncomingMessagePersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIncomingMessagePersistence.swift; sourceTree = "<group>"; };
 		8BCFCBB0270D6F38007FCF91 /* MQTTMessageSendSuccessEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTMessageSendSuccessEvent.swift; sourceTree = "<group>"; };
 		8BE0DD41270BE3B000630D60 /* libCourierCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCourierCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BE0DD6D270BE47300630D60 /* libCourierMQTT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCourierMQTT.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1041,6 +1049,7 @@
 				8B2B1DA326B14F5C003E647C /* PlistMessageAdapterTests.swift */,
 				8B06BE4126B790BB00934879 /* TextMessageAdapterTests.swift */,
 				8B3DAB9326D75A0000FFED68 /* DataMessageAdapterTests.swift */,
+				8BC4E3142803D4E70079DADE /* IncomingMessagePersistenceTests.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1096,6 +1105,7 @@
 				8B7976DE2628023100FD704B /* MockMessageReceiveListener.swift */,
 				8B7976DF2628023100FD704B /* MockConnectionServiceProvider.swift */,
 				8B1A78A92703FD3700476795 /* MockCourierConfig.swift */,
+				8BC4E3162803D54F0079DADE /* MockIncomingMessagePersistence.swift */,
 				8B7976E02628023100FD704B /* MockKeepAliveFailureHandler.swift */,
 				8B31F2A426328614001E0D7F /* MockCourierClient.swift */,
 				8B7976E32628023100FD704B /* MockMulticastDelegate.swift */,
@@ -1546,6 +1556,7 @@
 				8BE0DECA270BE50700630D60 /* IMessageReceiveListener.swift */,
 				8BE0DECB270BE50700630D60 /* Adapters */,
 				8BE0DED1270BE50700630D60 /* Factory */,
+				8BC4E3102803D3E00079DADE /* IncomingMessagePersistence.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1887,6 +1898,7 @@
 				8BE0DF59270BE50900630D60 /* MulticastDelegate.swift */,
 				8BE0DF5B270BE50900630D60 /* Atomic.swift */,
 				8BE0DF5C270BE50900630D60 /* AppStateObserver.swift */,
+				8BC4E3122803D47A0079DADE /* Debouncer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -2327,6 +2339,7 @@
 				8B7976FD2628023200FD704B /* MockSubscriptionStoreFactory.swift in Sources */,
 				8B7977142628023300FD704B /* MockAuthRetryPolicy.swift in Sources */,
 				8B79770D2628023300FD704B /* MockKeepAliveFailureHandler.swift in Sources */,
+				8BC4E3172803D54F0079DADE /* MockIncomingMessagePersistence.swift in Sources */,
 				8BE83B8D26AE52E800FD9008 /* CountrySectionProviderTests.swift in Sources */,
 				8BE7468B26956DE2003A2844 /* CourierClientFactoryTests.swift in Sources */,
 				8BC4130D26C0E4A1005374C7 /* MQTTFailureDebouncePolicyTests.swift in Sources */,
@@ -2365,6 +2378,7 @@
 				8BC4130226C0DFE7005374C7 /* MockAvailabilityPolicy.swift in Sources */,
 				8B1A78AA2703FD3700476795 /* MockCourierConfig.swift in Sources */,
 				8B7977022628023200FD704B /* MockMulticastCourierEventHandlerFactory.swift in Sources */,
+				8BC4E3152803D4E70079DADE /* IncomingMessagePersistenceTests.swift in Sources */,
 				8B31F2A526328614001E0D7F /* MockCourierClient.swift in Sources */,
 				8BE83B9726AE568D00FD9008 /* UsernameModifierTests.swift in Sources */,
 				8B7976FC2628023200FD704B /* MockSubscriptionStore.swift in Sources */,
@@ -2491,12 +2505,14 @@
 				8BE0DFCC270BE50A00630D60 /* Errors.swift in Sources */,
 				8BE0DFB8270BE50A00630D60 /* Create.swift in Sources */,
 				8BE0DF74270BE50900630D60 /* DataMessageAdapter.swift in Sources */,
+				8BC4E3132803D47A0079DADE /* Debouncer.swift in Sources */,
 				8BE0DFD2270BE50A00630D60 /* SchedulerServices+Emulation.swift in Sources */,
 				8BE0DFCF270BE50A00630D60 /* ObserverBase.swift in Sources */,
 				8BE0DF63270BE50900630D60 /* MQTTCourierClient+EventHandler.swift in Sources */,
 				8BE0DFC3270BE50A00630D60 /* SynchronizedUnsubscribeType.swift in Sources */,
 				8BE0DF65270BE50900630D60 /* IMQTTConnectionFactory.swift in Sources */,
 				8BE0DFAE270BE50A00630D60 /* Sink.swift in Sources */,
+				8BC4E3112803D3E00079DADE /* IncomingMessagePersistence.swift in Sources */,
 				8BE0DFD9270BE50B00630D60 /* ScheduledItemType.swift in Sources */,
 				8BE0DF80270BE50900630D60 /* DiskSubscriptionStore.swift in Sources */,
 				8BE0DFCA270BE50A00630D60 /* SchedulerType.swift in Sources */,

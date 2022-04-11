@@ -24,8 +24,8 @@ import SwiftUI
             config: MQTTClientConfig(
                 authService: HiveMQAuthService(),
                 messageAdapters: [
-                    JSONMessageAdapter()
-
+                    JSONMessageAdapter(),
+                    TextMessageAdapter()
                 ],
                 isUsernameModificationEnabled: true,
                 autoReconnectInterval: 1,
@@ -33,7 +33,9 @@ import SwiftUI
                 disableMQTTReconnectOnAuthFailure: true,
                 connectTimeoutPolicy: ConnectTimeoutPolicy(isEnabled: true),
                 idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(isEnabled: true),
-                countryCodeProvider: { "ID" }
+                countryCodeProvider: { "ID" },
+                messagePersistenceTTLSeconds: 86400,
+                messageCleanupInterval: 10
             )
         )
 

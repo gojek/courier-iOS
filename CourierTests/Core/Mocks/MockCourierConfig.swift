@@ -98,8 +98,8 @@ class MockCourierConfig: ICourierConfig {
 
     var invokedGetMqttClientConfig = false
     var invokedGetMqttClientConfigCount = 0
-    var invokedGetMqttClientConfigParameters: (courierTokenCachingMechanismRawValue: Int, autoReconnectInterval: Int, maxAutoReconnectInterval: Int, disableMQTTReconnectOnAuthFailure: Bool, useAppDidEnterBGAndWillEnterFGNotification: Bool, disableDisconnectOnConnectionUnavailable: Bool, enableAuthenticationTimeout: Bool, authenticationTimeoutInterval: TimeInterval, connectTimeoutPolicy: IConnectTimeoutPolicy, idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol, connectionServiceURLProvider: ConnectionServiceURLProvider)?
-    var invokedGetMqttClientConfigParametersList = [(courierTokenCachingMechanismRawValue: Int, autoReconnectInterval: Int, maxAutoReconnectInterval: Int, disableMQTTReconnectOnAuthFailure: Bool, useAppDidEnterBGAndWillEnterFGNotification: Bool, disableDisconnectOnConnectionUnavailable: Bool, enableAuthenticationTimeout: Bool, authenticationTimeoutInterval: TimeInterval, connectTimeoutPolicy: IConnectTimeoutPolicy, idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol, connectionServiceURLProvider: ConnectionServiceURLProvider)]()
+    var invokedGetMqttClientConfigParameters: (courierTokenCachingMechanismRawValue: Int, autoReconnectInterval: Int, maxAutoReconnectInterval: Int, disableMQTTReconnectOnAuthFailure: Bool, useAppDidEnterBGAndWillEnterFGNotification: Bool, disableDisconnectOnConnectionUnavailable: Bool, enableAuthenticationTimeout: Bool, authenticationTimeoutInterval: TimeInterval, connectTimeoutPolicy: IConnectTimeoutPolicy, idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol, messagePersistenceTTLSeconds: TimeInterval, messageCleanupInterval: TimeInterval, connectionServiceURLProvider: ConnectionServiceURLProvider)?
+    var invokedGetMqttClientConfigParametersList = [(courierTokenCachingMechanismRawValue: Int, autoReconnectInterval: Int, maxAutoReconnectInterval: Int, disableMQTTReconnectOnAuthFailure: Bool, useAppDidEnterBGAndWillEnterFGNotification: Bool, disableDisconnectOnConnectionUnavailable: Bool, enableAuthenticationTimeout: Bool, authenticationTimeoutInterval: TimeInterval, connectTimeoutPolicy: IConnectTimeoutPolicy, idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol, messagePersistenceTTLSeconds: TimeInterval, messageCleanupInterval: TimeInterval, connectionServiceURLProvider: ConnectionServiceURLProvider)]()
     var shouldInvokeGetMqttClientConfigJsonDateFormatterProvider = false
     var shouldInvokeGetMqttClientConfigBundleIDProvider = false
     var stubbedGetMqttClientConfigResult: MQTTClientConfig!
@@ -117,11 +117,13 @@ class MockCourierConfig: ICourierConfig {
         connectTimeoutPolicy: IConnectTimeoutPolicy,
         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol,
         bundleIDProvider: (() -> String?)?,
+        messagePersistenceTTLSeconds: TimeInterval,
+        messageCleanupInterval: TimeInterval,
         connectionServiceURLProvider: @escaping ConnectionServiceURLProvider) -> MQTTClientConfig {
         invokedGetMqttClientConfig = true
         invokedGetMqttClientConfigCount += 1
-        invokedGetMqttClientConfigParameters = (courierTokenCachingMechanismRawValue, autoReconnectInterval, maxAutoReconnectInterval, disableMQTTReconnectOnAuthFailure, useAppDidEnterBGAndWillEnterFGNotification, disableDisconnectOnConnectionUnavailable, enableAuthenticationTimeout, authenticationTimeoutInterval, connectTimeoutPolicy, idleActivityTimeoutPolicy, connectionServiceURLProvider)
-        invokedGetMqttClientConfigParametersList.append((courierTokenCachingMechanismRawValue, autoReconnectInterval, maxAutoReconnectInterval, disableMQTTReconnectOnAuthFailure, useAppDidEnterBGAndWillEnterFGNotification, disableDisconnectOnConnectionUnavailable, enableAuthenticationTimeout, authenticationTimeoutInterval, connectTimeoutPolicy, idleActivityTimeoutPolicy, connectionServiceURLProvider))
+        invokedGetMqttClientConfigParameters = (courierTokenCachingMechanismRawValue, autoReconnectInterval, maxAutoReconnectInterval, disableMQTTReconnectOnAuthFailure, useAppDidEnterBGAndWillEnterFGNotification, disableDisconnectOnConnectionUnavailable, enableAuthenticationTimeout, authenticationTimeoutInterval, connectTimeoutPolicy, idleActivityTimeoutPolicy, messagePersistenceTTLSeconds, messageCleanupInterval, connectionServiceURLProvider)
+        invokedGetMqttClientConfigParametersList.append((courierTokenCachingMechanismRawValue, autoReconnectInterval, maxAutoReconnectInterval, disableMQTTReconnectOnAuthFailure, useAppDidEnterBGAndWillEnterFGNotification, disableDisconnectOnConnectionUnavailable, enableAuthenticationTimeout, authenticationTimeoutInterval, connectTimeoutPolicy, idleActivityTimeoutPolicy, messagePersistenceTTLSeconds, messageCleanupInterval, connectionServiceURLProvider))
         if shouldInvokeGetMqttClientConfigJsonDateFormatterProvider {
             _ = jsonDateFormatterProvider()
         }
@@ -131,3 +133,4 @@ class MockCourierConfig: ICourierConfig {
         return stubbedGetMqttClientConfigResult
     }
 }
+

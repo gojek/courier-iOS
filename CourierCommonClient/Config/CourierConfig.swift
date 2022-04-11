@@ -36,6 +36,8 @@ public protocol ICourierConfig {
         connectTimeoutPolicy: IConnectTimeoutPolicy,
         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol,
         bundleIDProvider: (() -> String?)?,
+        messagePersistenceTTLSeconds: TimeInterval,
+        messageCleanupInterval: TimeInterval,
         connectionServiceURLProvider: @escaping ConnectionServiceURLProvider) -> MQTTClientConfig
 }
 
@@ -86,6 +88,8 @@ public struct CourierConfig: ICourierConfig {
         connectTimeoutPolicy: IConnectTimeoutPolicy = ConnectTimeoutPolicy(),
         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol = IdleActivityTimeoutPolicy(),
         bundleIDProvider: (() -> String?)?,
+        messagePersistenceTTLSeconds: TimeInterval = 0,
+        messageCleanupInterval: TimeInterval = 10,
         connectionServiceURLProvider: @escaping ConnectionServiceURLProvider) -> MQTTClientConfig {
         let formatter = jsonDateFormatterProvider()
         formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -113,7 +117,9 @@ public struct CourierConfig: ICourierConfig {
             authenticationTimeoutInterval: authenticationTimeoutInterval,
             connectTimeoutPolicy: connectTimeoutPolicy,
             idleActivityTimeoutPolicy: idleActivityTimeoutPolicy,
-            countryCodeProvider: regionCodeProvider
+            countryCodeProvider: regionCodeProvider,
+            messagePersistenceTTLSeconds: messagePersistenceTTLSeconds,
+            messageCleanupInterval: messageCleanupInterval
         )
     }
 }

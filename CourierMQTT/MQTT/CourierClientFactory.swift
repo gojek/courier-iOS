@@ -49,6 +49,14 @@ public struct MQTTClientConfig {
     public let enableAuthenticationTimeout: Bool
 
     public let authenticationTimeoutInterval: TimeInterval
+        
+    public let messagePersistenceTTLSeconds: TimeInterval
+    
+    public let messageCleanupInterval: TimeInterval
+    
+    public var incomingMessagePersistenceEnabled: Bool {
+        messagePersistenceTTLSeconds > 0
+    }
 
     public init(
         topics: [String: QoS] = [:],
@@ -66,7 +74,9 @@ public struct MQTTClientConfig {
         authenticationTimeoutInterval: TimeInterval = 30,
         connectTimeoutPolicy: IConnectTimeoutPolicy = ConnectTimeoutPolicy(),
         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol = IdleActivityTimeoutPolicy(),
-        countryCodeProvider: @escaping () -> String = { "ID" }
+        countryCodeProvider: @escaping () -> String = { "ID" },
+        messagePersistenceTTLSeconds: TimeInterval = 0,
+        messageCleanupInterval: TimeInterval = 10
     ) {
         self.topics = topics
         self.authService = authService
@@ -84,6 +94,8 @@ public struct MQTTClientConfig {
         self.connectTimeoutPolicy = connectTimeoutPolicy
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
         self.countryCodeProvider = countryCodeProvider
+        self.messagePersistenceTTLSeconds = messagePersistenceTTLSeconds
+        self.messageCleanupInterval = messageCleanupInterval
     }
 
 }

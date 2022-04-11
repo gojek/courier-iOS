@@ -10,6 +10,7 @@ class MQTTCourierClientTests: XCTestCase {
     var mockAuthRetryPolicy: MockAuthRetryPolicy!
     var mockMessageAdapter: MockMessageAdapter!
     var mockClient: MockMQTTClient!
+    var mockMessageListener: MockMessageReceiveListener!
     var cancellables = Set<AnyCancellable>()
     let pingInterval = 30
 
@@ -26,6 +27,9 @@ class MQTTCourierClientTests: XCTestCase {
         mockAuthRetryPolicy = MockAuthRetryPolicy()
         mockMessageAdapter = MockMessageAdapter()
         mockClient = MockMQTTClient()
+        mockMessageListener = MockMessageReceiveListener()
+                
+        mockClient.stubbedMessageReceiverListener = mockMessageListener
 
         let subscriptionStoreFactory = MockSubscriptionStoreFactory()
         subscriptionStoreFactory.stubbedMakeStoreResult = mockSubscriptionStore
@@ -197,6 +201,7 @@ class MQTTCourierClientTests: XCTestCase {
         XCTAssertTrue(mockSubscriptionStore.invokedClearAllSubscriptions)
         XCTAssertTrue(mockClient.invokedDeleteAllPersistedMessages)
         XCTAssertTrue(mockClient.invokedDestroy)
+        XCTAssertTrue(mockClient.invokedMessageReceiverListenerGetter)
     }
 
     func testHandleAuthFailure() {

@@ -9,6 +9,7 @@ public enum CourierError: Int, Error, LocalizedError {
     case decodingError
     case encodingError
     case connectOptionsNilError
+    case messageSaveError
     case otherError
 
     public var errorDescription: String? {
@@ -23,6 +24,8 @@ public enum CourierError: Int, Error, LocalizedError {
             return "Courier is unable to encode the message to data. Please provide a correct message adapter that can encode the message to Data format"
         case .connectOptionsNilError:
             return "Connect options nil error"
+        case .messageSaveError:
+            return "Failed to save incoming message"
         case .otherError:
             return "An error occured"
         }

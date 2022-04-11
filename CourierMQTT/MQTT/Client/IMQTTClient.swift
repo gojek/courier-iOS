@@ -8,6 +8,7 @@ protocol IMQTTClient {
 
     var connectOptions: ConnectOptions? { get }
     var subscribedMessageStream: Observable<MQTTPacket> { get }
+    var messageReceiverListener: IMessageReceiveListener { get }
 
     func connect(connectOptions: ConnectOptions)
     func reconnect()

@@ -86,8 +86,10 @@ class MQTTCourierClient: CourierClient {
             idleActivityTimeoutPolicy: config.idleActivityTimeoutPolicy,
             authFailureHandler: self,
             eventHandler: courierEventHandler,
-            usernameModifier: getUsernameModifier(isUsernameModificationEnabled: config.isUsernameModificationEnabled, countryCodeProvider: config.countryCodeProvider)
-        )
+            usernameModifier: getUsernameModifier(isUsernameModificationEnabled: config.isUsernameModificationEnabled,
+            countryCodeProvider: config.countryCodeProvider),
+            messagePersistenceTTLSeconds: config.messagePersistenceTTLSeconds,
+            messageCleanupInterval: config.messageCleanupInterval)
 
         let reachability = try? Reachability()
         self.client = mqttClientFactory.makeClient(configuration: configuration, reachability: reachability, useAppDidEnterBGAndWillEnterFGNotification: config.useAppDidEnterBGAndWillEnterFGNotification, dispatchQueue: dispatchQueue)
@@ -206,7 +208,9 @@ class MQTTCourierClient: CourierClient {
                 self.courierEventHandler.onEvent(.messageReceiveFailure(topic: topic, error: CourierError.decodingError.asNSError, sizeBytes: packet.data.count))
                 return nil
             }
-        return PassthroughSubject(observable: observable)
+        return PassthroughSubject(observable: observable,
+                                  sinkInitiated: self.generateSinkInitiatedClosure(topic: topic),
+                                  sinkCancelled: self.generateSinkCancelledClosure(topic: topic))
     }
 
     func messagePublisher<D, E>(topic: String, errorDecodeHandler: @escaping ((E) -> Error)) -> AnyPublisher<Result<D, NSError>, Never> {
@@ -226,13 +230,17 @@ class MQTTCourierClient: CourierClient {
                     return nil
                 }
             }
-        return PassthroughSubject(observable: observable)
+        return PassthroughSubject(observable: observable,
+                                  sinkInitiated: self.generateSinkInitiatedClosure(topic: topic),
+                                  sinkCancelled: self.generateSinkCancelledClosure(topic: topic))
     }
 
     func messagePublisher() -> AnyPublisher<Message, Never> {
         let observable: Observable<Message> = client.subscribedMessageStream
             .map { Message(data: $0.data, topic: $0.topic, qos: $0.qos) }
-        return PassthroughSubject(observable: observable)
+        return PassthroughSubject(observable: observable,
+                                  sinkInitiated: { [weak self] in self?.client.messageReceiverListener.handlePersistedMessages() }
+        )
     }
 
     func publishMessage<E>(_ data: E, topic: String, qos: QoS) throws {
@@ -292,6 +300,7 @@ class MQTTCourierClient: CourierClient {
         isDestroyed  = true
         subscriptionStore.clearAllSubscriptions()
         client.deleteAllPersistedMessages(clientId: client.connectOptions?.clientId ?? connectionServiceProvider.clientId)
+        client.messageReceiverListener.clearPersistedMessages()
         disconnect()
     }
 
@@ -327,6 +336,27 @@ extension MQTTCourierClient: IAuthFailureHandler {
         }
         connectionServiceProvider.clearCachedAuthResponse()
         connect()
+    }
+}
+
+extension MQTTCourierClient {
+    
+    func generateSinkInitiatedClosure(topic: String) -> (() -> ())? {
+        guard config.incomingMessagePersistenceEnabled else { return nil }
+        return { [weak self] in
+            guard let self = self else { return}
+            printDebug("COURIER - Sink Initiated, topic: \(topic)")
+            self.client.messageReceiverListener.addPublisherDict(topic: topic)
+        }
+    }
+    
+    func generateSinkCancelledClosure(topic: String) -> (() -> ())? {
+        guard config.incomingMessagePersistenceEnabled else { return nil }
+        return { [weak self] in
+            guard let self = self else { return}
+            print("COURIER - Sink Cancelled, topic \(topic)")
+            self.client.messageReceiverListener.removePublisherDict(topic: topic)
+        }
     }
 }
 

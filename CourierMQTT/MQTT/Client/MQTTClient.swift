@@ -9,7 +9,7 @@ class MQTTClient: IMQTTClient {
     private let eventHandler: ICourierEventHandler
 
     private var messagePublishSubject = PublishSubject<MQTTPacket>()
-    private var messageReceiverListener: IMessageReceiveListener
+    private(set) var messageReceiverListener: IMessageReceiveListener
 
     private let reachability: Reachability?
     private let notificationCenter: NotificationCenter
@@ -38,7 +38,11 @@ class MQTTClient: IMQTTClient {
         self.dispatchQueue = dispatchQueue
         eventHandler = configuration.eventHandler
 
-        messageReceiverListener = messageReceiveListenerFactory.makeListener(publishSubject: messagePublishSubject, publishSubjectDispatchQueue: dispatchQueue)
+        messageReceiverListener = messageReceiveListenerFactory.makeListener(
+            publishSubject: messagePublishSubject,
+            publishSubjectDispatchQueue: DispatchQueue(label: "com.courier.incomingMessage"),
+            messagePersistenceTTLSeconds: configuration.messagePersistenceTTLSeconds,
+            messageCleanupInterval: configuration.messageCleanupInterval)
 
         let connectionConfig = ConnectionConfig(
             connectRetryTimePolicy: configuration.connectRetryTimePolicy,
