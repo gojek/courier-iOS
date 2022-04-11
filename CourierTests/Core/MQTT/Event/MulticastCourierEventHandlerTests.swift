@@ -350,7 +350,7 @@ extension MulticastCourierEventHandlerTests {
     }
 
     var stubbedServerUri: String {
-        "https:
+        "https://example.com"
     }
 
     var stubbedTimeTaken: Int {

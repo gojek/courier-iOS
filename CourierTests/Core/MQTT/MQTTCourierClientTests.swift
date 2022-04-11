@@ -313,7 +313,6 @@ class MQTTCourierClientTests: XCTestCase {
     func testSetConnectSourceOnAppForegroundWithFoodTopicExistInSubscription() {
         mockSubscriptionStore.stubbedSubscriptions = ["test": .zero]
 
-        sut.setConnectSourceOnAppForeground()
         XCTAssertEqual(sut.connectSource, "Food")
     }
 

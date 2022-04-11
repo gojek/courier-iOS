@@ -62,7 +62,7 @@ class CourierConnectionServiceProviderTests: XCTestCase {
             deviceIdProvider: { "device_id" },
             userIdProvider: { "jane" },
             connectionServiceURLProvider: { _, success, _ in
-                let req = URLRequest(url: URL(string: "https:
+                let req = URLRequest(url: URL(string: "https://example.com")!)
                 let response = HTTPURLResponse(url: req.url!, statusCode: 200, httpVersion: nil, headerFields: nil)
                 success(req, response, Self.stubAuthResponseData)
             },
@@ -94,7 +94,7 @@ class CourierConnectionServiceProviderTests: XCTestCase {
             deviceIdProvider: { "device_id" },
             userIdProvider: { "jane" },
             connectionServiceURLProvider: { _, _, failure in
-                let req = URLRequest(url: URL(string: "https:
+                let req = URLRequest(url: URL(string: "https://example.com")!)
                 let response = HTTPURLResponse(url: req.url!, statusCode: 400, httpVersion: nil, headerFields: nil)
 
                 failure(response, Self.stubAuthResponseData, CourierError.httpError.asNSError)
@@ -123,7 +123,7 @@ class CourierConnectionServiceProviderTests: XCTestCase {
             deviceIdProvider: { "device_id" },
             userIdProvider: { "jane" },
             connectionServiceURLProvider: { _, success, _ in
-                let req = URLRequest(url: URL(string: "https:
+                let req = URLRequest(url: URL(string: "https://example.com")!)
                 let response = HTTPURLResponse(url: req.url!, statusCode: 200, httpVersion: nil, headerFields: nil)
                 providerInvokedCount += 1
                 success(req, response, Self.stubAuthResponseData)
@@ -148,7 +148,7 @@ class CourierConnectionServiceProviderTests: XCTestCase {
             deviceIdProvider: { "device_id" },
             userIdProvider: { "jane" },
             connectionServiceURLProvider: { _, success, _ in
-                let req = URLRequest(url: URL(string: "https:
+                let req = URLRequest(url: URL(string: "https://example.com")!)
                 let response = HTTPURLResponse(url: req.url!, statusCode: 200, httpVersion: nil, headerFields: nil)
                 providerInvokedCount += 1
                 success(req, response, Self.stubAuthResponseData)
@@ -175,7 +175,7 @@ class CourierConnectionServiceProviderTests: XCTestCase {
             deviceIdProvider: { "device_id" },
             userIdProvider: { "jane" },
             connectionServiceURLProvider: { _, success, _ in
-                let req = URLRequest(url: URL(string: "https:
+                let req = URLRequest(url: URL(string: "https://example.com")!)
                 let response = HTTPURLResponse(url: req.url!, statusCode: 200, httpVersion: nil, headerFields: nil)
                 providerInvokedCount += 1
                 success(req, response, Self.stubAuthResponseData)
