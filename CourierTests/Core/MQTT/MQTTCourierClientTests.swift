@@ -28,7 +28,7 @@ class MQTTCourierClientTests: XCTestCase {
         mockMessageAdapter = MockMessageAdapter()
         mockClient = MockMQTTClient()
         mockMessageListener = MockMessageReceiveListener()
-                
+        
         mockClient.stubbedMessageReceiverListener = mockMessageListener
 
         let subscriptionStoreFactory = MockSubscriptionStoreFactory()
@@ -39,13 +39,13 @@ class MQTTCourierClientTests: XCTestCase {
 
         let mqttClientFactory = MockMQTTClientFactory()
         mqttClientFactory.stubbedMakeClientResult = mockClient
-
+        
         let clientConfig = MQTTClientConfig(
             topics: stubbedTopicsDict,
             authService: mockConnectionServiceProvider,
             messageAdapters: [mockMessageAdapter]
         )
-
+        
         sut = MQTTCourierClient(
             config: clientConfig,
             subscriptionStoreFactory: subscriptionStoreFactory,
@@ -66,13 +66,13 @@ class MQTTCourierClientTests: XCTestCase {
         if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
             XCTAssert(false)
         }
-
+        
         XCTAssertFalse(mockConnectionServiceProvider.invokedGetConnectOptions)
     }
 
     func testConnect() {
         sut.connect()
-
+//        XCTAssertTrue(mockEventHandler.invokedReset)
         if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
             XCTAssert(true)
         } else {
@@ -84,7 +84,7 @@ class MQTTCourierClientTests: XCTestCase {
     func testConnectAlreadyConnected() {
         mockClient.stubbedIsConnected = true
         XCTAssertFalse(mockEventHandler.invokedReset)
-
+        
         if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
             XCTAssert(false)
         }
@@ -123,7 +123,7 @@ class MQTTCourierClientTests: XCTestCase {
         } else {
             XCTAssert(false)
         }
-
+        
         if case .connectionUnavailable = self.mockEventHandler.invokedOnEventParametersList[2]?.event {
             XCTAssert(true)
         } else {
@@ -145,7 +145,7 @@ class MQTTCourierClientTests: XCTestCase {
     }
 
     func testPublishMessage() {
-        let person = Person(name: "courier")
+        let person = Person(name: "gojek")
         let data = try! JSONEncoder().encode(person)
         mockMessageAdapter.stubbedToMessageResult = data
         mockClient.stubbedHasExistingSession = true
@@ -156,9 +156,9 @@ class MQTTCourierClientTests: XCTestCase {
         XCTAssertEqual(mockClient.invokedSendParameters?.packet.topic, "fbon")
         XCTAssertEqual(mockClient.invokedSendParameters?.packet.data, data)
     }
-
+    
     func testPublishMessageWithoutExistingSession() {
-        let person = Person(name: "courier")
+        let person = Person(name: "gojek")
         let data = try! JSONEncoder().encode(person)
         mockMessageAdapter.stubbedToMessageResult = data
         mockClient.stubbedHasExistingSession = false
@@ -206,7 +206,7 @@ class MQTTCourierClientTests: XCTestCase {
 
     func testHandleAuthFailure() {
         sut.handleAuthFailure()
-
+//        XCTAssertTrue(mockEventHandler.invokedReset)
         if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
             XCTAssert(true)
         } else {
@@ -253,7 +253,7 @@ class MQTTCourierClientTests: XCTestCase {
             expectation_.fulfill()
         }
         waitForExpectations(timeout: 0.1) { _ in
-
+//            XCTAssertTrue(self.mockEventHandler.invokedReset)
             if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
                 XCTAssert(true)
             } else {
@@ -271,7 +271,7 @@ class MQTTCourierClientTests: XCTestCase {
             expectation_.fulfill()
         }
         waitForExpectations(timeout: 0.1) { _ in
-
+//            XCTAssertTrue(self.mockEventHandler.invokedReset)
             if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
                 XCTAssert(true)
             } else {
@@ -299,28 +299,22 @@ class MQTTCourierClientTests: XCTestCase {
 
         XCTAssertTrue(mockClient.invokedSubscribedMessageStreamGetter)
     }
-
+    
     func testGetUserNameModifierWithoutModification() {
         let usernameModifier = sut.getUsernameModifier(isUsernameModificationEnabled: false, countryCodeProvider: {"ID"})
         XCTAssertTrue(usernameModifier is DefaultUserNameModifier)
     }
-
+    
     func testGetUserNameModifierWithModifiaction() {
         let usernameModifier = sut.getUsernameModifier(isUsernameModificationEnabled: true, countryCodeProvider: {"ID"})
         XCTAssertTrue(usernameModifier is UserNameModifier)
     }
-
+    
     func testConnectSource() {
-        sut.connect(source: "courier")
-        XCTAssertEqual(sut.connectSource, "courier")
+        sut.connect(source: "Gojek")
+        XCTAssertEqual(sut.connectSource, "Gojek")
     }
-
-    func testSetConnectSourceOnAppForegroundWithFoodTopicExistInSubscription() {
-        mockSubscriptionStore.stubbedSubscriptions = ["test": .zero]
-
-        XCTAssertEqual(sut.connectSource, "Food")
-    }
-
+    
 }
 
 extension MQTTCourierClientTests {
@@ -343,14 +337,14 @@ extension MQTTCourierClientTests {
             "fbon2": .two
         ]
     }
-
+    
     var stubbedTopics: [(String, QoS)] {
         [
             ("fbon", .zero),
             ("fbon2", .two)
         ]
     }
-
+    
     var stubConnectOptions: ConnectOptions {
         ConnectOptions(
             host: "hyz",
@@ -362,8 +356,10 @@ extension MQTTCourierClientTests {
             isCleanSession: true
         )
     }
-
+    
     var stubbedError: AuthError {
         .otherError(NSError(domain: NSURLErrorDomain, code: NSURLErrorNetworkConnectionLost, userInfo: [:]))
     }
 }
+
+
