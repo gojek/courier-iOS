@@ -1,4 +1,3 @@
-// MQTTClient.framework
 // 
 // Copyright © 2013-2017, Christoph Krey. All rights reserved.
 //
@@ -93,7 +92,7 @@ NSString * const MQTTClientcourier = @"GJ";
     self.streamSSLLevel = (NSString *)kCFStreamSocketSecurityLevelNegotiatedSSL;
     
     self.shouldEnableConnectCheckTimeout = false;
-    self.connectTimeoutCheckTimerInterval = 15;
+    self.connectTimeoutCheckTimerInterval = 16;
     self.connectTimeout = 10;
     self.connectTimestamp = 0;
 

@@ -13,7 +13,7 @@ public struct ConnectTimeoutPolicy: IConnectTimeoutPolicy {
 
     public init(
         isEnabled: Bool = false,
-        timerInterval: TimeInterval = 15,
+        timerInterval: TimeInterval = 16,
         timeout: TimeInterval = 10
     ) {
         self.isEnabled = isEnabled
