@@ -35,12 +35,17 @@ final class CourierConnectionServiceProvider: IConnectionServiceProvider {
     }
 
     var extraIdProvider: (() -> String?)?
+    let bundleIDProvider: (() -> String?)?
 
     var clientId: String {
         var id = "\(deviceId):\(userId)"
         if let extraId = extraIdProvider?(), !extraId.isEmpty {
             printDebug("COURIER - Auth Service: ClientID ExtraID: \(extraId)")
             id += ":\(extraId)"
+        }
+
+        if let bundleID = bundleIDProvider?() {
+            id += ":\(bundleID)"
         }
         printDebug("COURIER - Auth Service: Connecting with clientID: \(id)")
         return id
@@ -70,7 +75,9 @@ final class CourierConnectionServiceProvider: IConnectionServiceProvider {
         tokenCachingMechanismRawValue: Int = AuthResponseCachingType.noop.rawValue,
         userDefaults: UserDefaults = .standard,
         userDefaultsKey: String = "Courier.ConnectionServiceResponse",
-        extraIdProvider: (() -> String?)? = nil) {
+        extraIdProvider: (() -> String?)? = nil,
+        bundleIDProvider: (() -> String?)? = nil
+    ) {
         self.deviceIdProvider = deviceIdProvider
         self.userIdProvider = userIdProvider
         self.fetchURLProvider = connectionServiceURLProvider
@@ -79,6 +86,7 @@ final class CourierConnectionServiceProvider: IConnectionServiceProvider {
         self.userDefaults = userDefaults
         self.userDefaultsKey = userDefaultsKey
         self.extraIdProvider = extraIdProvider
+        self.bundleIDProvider = bundleIDProvider
 
         if cachingType == .disk, let data = userDefaults.data(forKey: userDefaultsKey),
            let authResponse = try? JSONDecoder().decode(AuthResponse.self, from: data) {

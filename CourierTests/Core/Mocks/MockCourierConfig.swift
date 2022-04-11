@@ -101,6 +101,7 @@ class MockCourierConfig: ICourierConfig {
     var invokedGetMqttClientConfigParameters: (courierTokenCachingMechanismRawValue: Int, autoReconnectInterval: Int, maxAutoReconnectInterval: Int, disableMQTTReconnectOnAuthFailure: Bool, useAppDidEnterBGAndWillEnterFGNotification: Bool, disableDisconnectOnConnectionUnavailable: Bool, enableAuthenticationTimeout: Bool, authenticationTimeoutInterval: TimeInterval, connectTimeoutPolicy: IConnectTimeoutPolicy, idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol, connectionServiceURLProvider: ConnectionServiceURLProvider)?
     var invokedGetMqttClientConfigParametersList = [(courierTokenCachingMechanismRawValue: Int, autoReconnectInterval: Int, maxAutoReconnectInterval: Int, disableMQTTReconnectOnAuthFailure: Bool, useAppDidEnterBGAndWillEnterFGNotification: Bool, disableDisconnectOnConnectionUnavailable: Bool, enableAuthenticationTimeout: Bool, authenticationTimeoutInterval: TimeInterval, connectTimeoutPolicy: IConnectTimeoutPolicy, idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol, connectionServiceURLProvider: ConnectionServiceURLProvider)]()
     var shouldInvokeGetMqttClientConfigJsonDateFormatterProvider = false
+    var shouldInvokeGetMqttClientConfigBundleIDProvider = false
     var stubbedGetMqttClientConfigResult: MQTTClientConfig!
 
     func getMqttClientConfig(
@@ -115,6 +116,7 @@ class MockCourierConfig: ICourierConfig {
         authenticationTimeoutInterval: TimeInterval,
         connectTimeoutPolicy: IConnectTimeoutPolicy,
         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol,
+        bundleIDProvider: (() -> String?)?,
         connectionServiceURLProvider: @escaping ConnectionServiceURLProvider) -> MQTTClientConfig {
         invokedGetMqttClientConfig = true
         invokedGetMqttClientConfigCount += 1
@@ -122,6 +124,9 @@ class MockCourierConfig: ICourierConfig {
         invokedGetMqttClientConfigParametersList.append((courierTokenCachingMechanismRawValue, autoReconnectInterval, maxAutoReconnectInterval, disableMQTTReconnectOnAuthFailure, useAppDidEnterBGAndWillEnterFGNotification, disableDisconnectOnConnectionUnavailable, enableAuthenticationTimeout, authenticationTimeoutInterval, connectTimeoutPolicy, idleActivityTimeoutPolicy, connectionServiceURLProvider))
         if shouldInvokeGetMqttClientConfigJsonDateFormatterProvider {
             _ = jsonDateFormatterProvider()
+        }
+        if shouldInvokeGetMqttClientConfigBundleIDProvider {
+            _ = bundleIDProvider?()
         }
         return stubbedGetMqttClientConfigResult
     }
