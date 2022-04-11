@@ -132,6 +132,8 @@
 		8BC4130E26C0E4A1005374C7 /* CourierConnectStatusPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4130B26C0E4A0005374C7 /* CourierConnectStatusPolicyTests.swift */; };
 		8BC4130F26C0E4A1005374C7 /* ConnectionServiceFailurePolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4130C26C0E4A1005374C7 /* ConnectionServiceFailurePolicyTests.swift */; };
 		8BC4131126C0E4BC005374C7 /* MockCourierAvailabilityListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4131026C0E4BC005374C7 /* MockCourierAvailabilityListener.swift */; };
+		8BC4E30E2803C4D90079DADE /* libMQTTClientGJ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B9A803927DAFB9500732992 /* libMQTTClientGJ.a */; };
+		8BC4E30F2803C4DF0079DADE /* libMQTTClientGJ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B9A803927DAFB9500732992 /* libMQTTClientGJ.a */; };
 		8BCFCBB1270D6F38007FCF91 /* MQTTMessageSendSuccessEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFCBB0270D6F38007FCF91 /* MQTTMessageSendSuccessEvent.swift */; };
 		8BE0DD5C270BE41000630D60 /* ConnectOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79754B262801CC00FD704B /* ConnectOptions.swift */; };
 		8BE0DD5D270BE41000630D60 /* CourierEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC4128D26BCE64C005374C7 /* CourierEvent.swift */; };
@@ -785,6 +787,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BC4E30E2803C4D90079DADE /* libMQTTClientGJ.a in Frameworks */,
 				8BC15920270C03F00016A433 /* libCourierCommonClient.a in Frameworks */,
 				8BC15921270C03F00016A433 /* libCourierCore.a in Frameworks */,
 				8BC15922270C03F00016A433 /* libCourierMQTT.a in Frameworks */,
@@ -804,6 +807,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BC4E30F2803C4DF0079DADE /* libMQTTClientGJ.a in Frameworks */,
 				8B9A80CE27DB08D100732992 /* libCourierCommonClient.a in Frameworks */,
 				8B9A80CF27DB08D100732992 /* libCourierCore.a in Frameworks */,
 				8B9A80D027DB08D100732992 /* libCourierMQTT.a in Frameworks */,
