@@ -14,7 +14,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Install Pod Dependencies
+      - uses: actions/cache@v3
+        id: pod-cache
+        with:
+            path: Pods
+            key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+            restore-keys: |
+              ${{ runner.os }}-pods-
+      - name: Cocoapods
         run: exec pod install
       - name: Build
         run: exec ./.github/scripts/build.sh
@@ -26,7 +33,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Install Pod Dependencies
+      - uses: actions/cache@v3
+        id: pod-cache
+        with:
+            path: Pods
+            key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+            restore-keys: |
+              ${{ runner.os }}-pods-
+      - name: Cocoapods
         run: exec pod install
       - name: Testing
         run: exec ./.github/scripts/test.sh
@@ -38,7 +52,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Run Pod Install
-        run: exec ./.github/scripts/pod_install.sh
+      - uses: actions/cache@v3
+        id: pod-cache
+        with:
+            path: Pods
+            key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+            restore-keys: |
+              ${{ runner.os }}-pods-
+      - name: Cocoapods
+        run: exec pod install
       - name: Publish
         run: exec ./.github/scripts/publish.sh
