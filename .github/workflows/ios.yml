@@ -1,0 +1,44 @@
+name: iOS CI
+on:
+  pull_request:
+    branches:
+    - main
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Pod Dependencies
+        run: exec pod install
+      - name: Build
+        run: exec ./.github/scripts/build.sh
+      
+  test:
+    name: Test
+    needs: Build
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Pod Dependencies
+        run: exec pod install
+      - name: Testing
+        run: exec ./.github/scripts/test.sh
+
+  publish:
+    name: Publish
+    needs: Test
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Run Pod Install
+        run: exec ./.github/scripts/pod_install.sh
+      - name: Publish
+        run: exec ./.github/scripts/publish.sh
