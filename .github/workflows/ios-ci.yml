@@ -1,0 +1,46 @@
+name: iOS CI
+on:
+  pull_request:
+    branches:
+    - main
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - uses: actions/cache@v3
+        id: pod-cache
+        with:
+            path: Pods
+            key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+            restore-keys: |
+              ${{ runner.os }}-pods-
+      - name: Cocoapods
+        run: exec pod install
+      - name: Build
+        run: exec ./.github/scripts/build.sh
+      
+  test:
+    name: Test
+    needs: Build
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - uses: actions/cache@v3
+        id: pod-cache
+        with:
+            path: Pods
+            key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+            restore-keys: |
+              ${{ runner.os }}-pods-
+      - name: Cocoapods
+        run: exec pod install
+      - name: Testing
+        run: exec ./.github/scripts/test.sh
