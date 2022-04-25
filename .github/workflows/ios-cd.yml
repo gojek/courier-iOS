@@ -60,4 +60,6 @@ jobs:
       - name: Cocoapods
         run: exec pod install
       - name: Publish
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         run: exec ./.github/scripts/publish.sh
