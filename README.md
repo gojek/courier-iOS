@@ -231,6 +231,10 @@ Finally, make sure to have strong reference to the instance, and invoke `Courier
 courierClient.addEventHandler(analytics)
 ```
 
+## Contribution Guidelines
+
+Read our [contribution guide](./CONTRIBUTION.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Courier Android library.
+
 ## License
 
 All Courier modules except MQTTClientGJ are [MIT Licensed](./LICENSES/LICENSE). MQTTClientGJ is [Eclipse Licensed](./LICENSES/LICENSE.MQTTClientGJ).
