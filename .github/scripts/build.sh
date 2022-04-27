@@ -16,13 +16,6 @@ xcodebuild -workspace Courier.xcworkspace \
     -destination "generic/platform=iOS Simulator" \
     -configuration Release 
 
-echo "Building CourierCommonClient"
-
-xcodebuild -workspace Courier.xcworkspace \
-    -scheme CourierCommonClient \
-    -destination "generic/platform=iOS Simulator" \
-    -configuration Release 
-
 echo "Building CourierProtobuf"
 
 xcodebuild -workspace Courier.xcworkspace \

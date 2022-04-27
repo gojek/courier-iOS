@@ -17,7 +17,6 @@ Courier uses Cocoapods for adding it as a dependency to a project in a `Podfile`
 - `CourierCore`: Contains public APIs such as protocols and data types for Courier. Other modules have basic dependency on this module. You can use this module if you want to implement the interface in your project without adding Courier implementation in your project.
 - `CourierMQTT`: Contains implementation of `CourierClient` and `CourierSession` using `MQTT`. This module has dependency to `MQTTClientGJ`.
 - `MQTTClientGJ`: A forked version of open source library [MQTT-Client-Framework](https://github.com/novastone-media/MQTT-Client-Framework). It add several features such as connect and inactivity timeout. It also fixes race condition crashes in `MQTTSocketEncoder` and `Connack` status 5 not completing the decode before `MQTTTransportDidClose` got invoked bugs.
-- `CourierCommonClient`: Contains helpers implementation for configurating Authentication using `CourierConfig`, `Analytics` with `CourierAnalyticsService`, and Availability fallback policies (`CourierAvailability`) handling. This module is not required if you plan to only use the core features.
 - `CourierProtobuf`: Contains implementation of `ProtobufMessageAdapter` using `Protofobuf`. It has dependency to `SwiftProtobuf` library, this is `optional` and can be used if you are using protobuf for data serialization.
 
 
@@ -28,7 +27,6 @@ target 'Example-App' do
   pod 'CourierCore'
   pod 'CourierMQTT'
   pod 'CourierProtobuf'
-  pod 'CourierCommonClient'
 end
 ```
 

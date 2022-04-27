@@ -11,11 +11,6 @@ target 'CourierMQTT' do
   courier_pods
 end
 
-target 'CourierCommonClient' do
-  use_frameworks!
-  courier_pods
-end
-
 target 'CourierProtobuf' do
   use_frameworks!
   pod 'SwiftProtobuf'
