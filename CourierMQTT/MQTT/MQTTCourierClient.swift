@@ -86,8 +86,6 @@ class MQTTCourierClient: CourierClient {
             idleActivityTimeoutPolicy: config.idleActivityTimeoutPolicy,
             authFailureHandler: self,
             eventHandler: courierEventHandler,
-            usernameModifier: getUsernameModifier(isUsernameModificationEnabled: config.isUsernameModificationEnabled,
-            countryCodeProvider: config.countryCodeProvider),
             messagePersistenceTTLSeconds: config.messagePersistenceTTLSeconds,
             messageCleanupInterval: config.messageCleanupInterval)
 
@@ -186,13 +184,6 @@ class MQTTCourierClient: CourierClient {
                 self.authFailureReconnectTimer?.schedule()
             }
         }
-    }
-
-    func getUsernameModifier(isUsernameModificationEnabled: Bool, countryCodeProvider: @escaping () -> String) -> IUserNameModifier {
-        if isUsernameModificationEnabled {
-            return UserNameModifier(countrySectionProvider: CountrySectionProvider(countryCodeProvider: countryCodeProvider))
-        }
-        return DefaultUserNameModifier()
     }
 
     func messagePublisher<D>(topic: String) -> AnyPublisher<D, Never> {

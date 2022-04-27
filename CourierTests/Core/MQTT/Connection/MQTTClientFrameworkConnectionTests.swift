@@ -39,8 +39,7 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
                 eventHandler: mockEventHandler,
                 authFailureHandler: mockAuthFailureHandler,
                 connectTimeoutPolicy: mockConnectTimeoutPolicy,
-                idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
-                usernameModifier: DefaultUserNameModifier()
+                idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy()
             ),
             clientFactory: mockClientFactory,
             persistenceFactory: mockPersistenceFactory

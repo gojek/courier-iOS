@@ -7,7 +7,6 @@ protocol IMQTTClientFrameworkFactory {
         persistenceFactory: IMQTTPersistenceFactory,
         dispatchQueue: DispatchQueue,
         delegate: MQTTClientFrameworkSessionManagerDelegate,
-        usernameModifier: IUserNameModifier,
         connectTimeoutPolicy: IConnectTimeoutPolicy,
         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
     ) -> IMQTTClientFrameworkSessionManager
@@ -17,7 +16,7 @@ struct MQTTClientFrameworkFactory: IMQTTClientFrameworkFactory {
 
     let isPersistenceEnabled: Bool
 
-    func makeSessionManager(connectRetryTimePolicy: IConnectRetryTimePolicy, persistenceFactory: IMQTTPersistenceFactory, dispatchQueue: DispatchQueue, delegate: MQTTClientFrameworkSessionManagerDelegate, usernameModifier: IUserNameModifier, connectTimeoutPolicy: IConnectTimeoutPolicy,
+    func makeSessionManager(connectRetryTimePolicy: IConnectRetryTimePolicy, persistenceFactory: IMQTTPersistenceFactory, dispatchQueue: DispatchQueue, delegate: MQTTClientFrameworkSessionManagerDelegate, connectTimeoutPolicy: IConnectTimeoutPolicy,
                             idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol) -> IMQTTClientFrameworkSessionManager {
         guard !MQTTClientcourier.isEmpty else { fatalError("Please use the MQTTClientGJ from courier podspecs") }
 
@@ -28,7 +27,6 @@ struct MQTTClientFrameworkFactory: IMQTTClientFrameworkFactory {
             streamSSLLevel: kCFStreamSocketSecurityLevelNegotiatedSSL as String,
             queue: dispatchQueue,
             mqttPersistenceFactory: persistenceFactory,
-            userNameModifier: usernameModifier,
             connectTimeoutPolicy: connectTimeoutPolicy,
             idleActivityTimeoutPolicy: idleActivityTimeoutPolicy
         )

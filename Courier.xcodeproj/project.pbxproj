@@ -167,14 +167,6 @@
 		8BE0DF80270BE50900630D60 /* DiskSubscriptionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEDF270BE50700630D60 /* DiskSubscriptionStore.swift */; };
 		8BE0DF81270BE50900630D60 /* ISubscriptionStoreFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEE1270BE50700630D60 /* ISubscriptionStoreFactory.swift */; };
 		8BE0DF82270BE50900630D60 /* CourierClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEE2270BE50700630D60 /* CourierClientFactory.swift */; };
-		8BE0DF83270BE50900630D60 /* IUserNameSectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEE4270BE50700630D60 /* IUserNameSectionProvider.swift */; };
-		8BE0DF84270BE50900630D60 /* PlatformSectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEE5270BE50700630D60 /* PlatformSectionProvider.swift */; };
-		8BE0DF85270BE50900630D60 /* AppVersionSectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEE6270BE50700630D60 /* AppVersionSectionProvider.swift */; };
-		8BE0DF86270BE50900630D60 /* AppStateSectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEE7270BE50700630D60 /* AppStateSectionProvider.swift */; };
-		8BE0DF87270BE50900630D60 /* IUserNameModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEE8270BE50700630D60 /* IUserNameModifier.swift */; };
-		8BE0DF88270BE50900630D60 /* NetworkSectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEE9270BE50700630D60 /* NetworkSectionProvider.swift */; };
-		8BE0DF89270BE50900630D60 /* CountrySectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEEA270BE50700630D60 /* CountrySectionProvider.swift */; };
-		8BE0DF8A270BE50900630D60 /* DefaultUserNameModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEEB270BE50700630D60 /* DefaultUserNameModifier.swift */; };
 		8BE0DF8B270BE50900630D60 /* KeepAliveFailureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEED270BE50700630D60 /* KeepAliveFailureHandler.swift */; };
 		8BE0DF8C270BE50900630D60 /* MQTTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEEF270BE50700630D60 /* MQTTError.swift */; };
 		8BE0DF8D270BE50900630D60 /* ICourierEventHandlerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEF2270BE50700630D60 /* ICourierEventHandlerFactory.swift */; };
@@ -271,17 +263,7 @@
 		8BE0E03C270BEBBE00630D60 /* ProtobufMessageAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B06C09526B92D4100934879 /* ProtobufMessageAdapterTests.swift */; };
 		8BE0E03D270BEBC300630D60 /* notes.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B06C0A126B92E4500934879 /* notes.pb.swift */; };
 		8BE7468B26956DE2003A2844 /* CourierClientFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE7468A26956DE2003A2844 /* CourierClientFactoryTests.swift */; };
-		8BE83B8526AE4D3F00FD9008 /* DefaultUserNameModiferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B8426AE4D3F00FD9008 /* DefaultUserNameModiferTests.swift */; };
-		8BE83B8726AE4DE500FD9008 /* PlatformSectionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B8626AE4DE500FD9008 /* PlatformSectionProviderTests.swift */; };
-		8BE83B8926AE4E4300FD9008 /* NetworkSectionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B8826AE4E4300FD9008 /* NetworkSectionProviderTests.swift */; };
-		8BE83B8B26AE517A00FD9008 /* MockNetworkTypeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B8A26AE517A00FD9008 /* MockNetworkTypeProvider.swift */; };
-		8BE83B8D26AE52E800FD9008 /* CountrySectionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B8C26AE52E800FD9008 /* CountrySectionProviderTests.swift */; };
-		8BE83B8F26AE535000FD9008 /* AppVersionSectionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B8E26AE535000FD9008 /* AppVersionSectionProviderTests.swift */; };
-		8BE83B9126AE54BA00FD9008 /* MockAppVersionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B9026AE54BA00FD9008 /* MockAppVersionProvider.swift */; };
-		8BE83B9326AE554100FD9008 /* AppStateSectionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B9226AE554100FD9008 /* AppStateSectionProviderTests.swift */; };
 		8BE83B9526AE557C00FD9008 /* MockAppStateObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B9426AE557B00FD9008 /* MockAppStateObserver.swift */; };
-		8BE83B9726AE568D00FD9008 /* UsernameModifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B9626AE568D00FD9008 /* UsernameModifierTests.swift */; };
-		8BE83B9926AE577D00FD9008 /* MockUserNameSectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B9826AE577D00FD9008 /* MockUserNameSectionProvider.swift */; };
 		8BE83B9C26AE71B500FD9008 /* AppStateObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE83B9B26AE71B400FD9008 /* AppStateObserverTests.swift */; };
 		8BE871C527A013FC00C51CD8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE871C427A013FC00C51CD8 /* Message.swift */; };
 		8BEFF539265780BB00C23C06 /* DiskSubscriptionStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEFF538265780BB00C23C06 /* DiskSubscriptionStoreTests.swift */; };
@@ -521,14 +503,6 @@
 		8BE0DEDF270BE50700630D60 /* DiskSubscriptionStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskSubscriptionStore.swift; sourceTree = "<group>"; };
 		8BE0DEE1270BE50700630D60 /* ISubscriptionStoreFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ISubscriptionStoreFactory.swift; sourceTree = "<group>"; };
 		8BE0DEE2270BE50700630D60 /* CourierClientFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourierClientFactory.swift; sourceTree = "<group>"; };
-		8BE0DEE4270BE50700630D60 /* IUserNameSectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IUserNameSectionProvider.swift; sourceTree = "<group>"; };
-		8BE0DEE5270BE50700630D60 /* PlatformSectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlatformSectionProvider.swift; sourceTree = "<group>"; };
-		8BE0DEE6270BE50700630D60 /* AppVersionSectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppVersionSectionProvider.swift; sourceTree = "<group>"; };
-		8BE0DEE7270BE50700630D60 /* AppStateSectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStateSectionProvider.swift; sourceTree = "<group>"; };
-		8BE0DEE8270BE50700630D60 /* IUserNameModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IUserNameModifier.swift; sourceTree = "<group>"; };
-		8BE0DEE9270BE50700630D60 /* NetworkSectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSectionProvider.swift; sourceTree = "<group>"; };
-		8BE0DEEA270BE50700630D60 /* CountrySectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountrySectionProvider.swift; sourceTree = "<group>"; };
-		8BE0DEEB270BE50700630D60 /* DefaultUserNameModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultUserNameModifier.swift; sourceTree = "<group>"; };
 		8BE0DEED270BE50700630D60 /* KeepAliveFailureHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeepAliveFailureHandler.swift; sourceTree = "<group>"; };
 		8BE0DEEF270BE50700630D60 /* MQTTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MQTTError.swift; sourceTree = "<group>"; };
 		8BE0DEF2270BE50700630D60 /* ICourierEventHandlerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICourierEventHandlerFactory.swift; sourceTree = "<group>"; };
@@ -620,17 +594,7 @@
 		8BE0DF5C270BE50900630D60 /* AppStateObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStateObserver.swift; sourceTree = "<group>"; };
 		8BE0DFEA270BE85B00630D60 /* libCourierProtobuf.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCourierProtobuf.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BE7468A26956DE2003A2844 /* CourierClientFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourierClientFactoryTests.swift; sourceTree = "<group>"; };
-		8BE83B8426AE4D3F00FD9008 /* DefaultUserNameModiferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserNameModiferTests.swift; sourceTree = "<group>"; };
-		8BE83B8626AE4DE500FD9008 /* PlatformSectionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformSectionProviderTests.swift; sourceTree = "<group>"; };
-		8BE83B8826AE4E4300FD9008 /* NetworkSectionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSectionProviderTests.swift; sourceTree = "<group>"; };
-		8BE83B8A26AE517A00FD9008 /* MockNetworkTypeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkTypeProvider.swift; sourceTree = "<group>"; };
-		8BE83B8C26AE52E800FD9008 /* CountrySectionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySectionProviderTests.swift; sourceTree = "<group>"; };
-		8BE83B8E26AE535000FD9008 /* AppVersionSectionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionSectionProviderTests.swift; sourceTree = "<group>"; };
-		8BE83B9026AE54BA00FD9008 /* MockAppVersionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppVersionProvider.swift; sourceTree = "<group>"; };
-		8BE83B9226AE554100FD9008 /* AppStateSectionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateSectionProviderTests.swift; sourceTree = "<group>"; };
 		8BE83B9426AE557B00FD9008 /* MockAppStateObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppStateObserver.swift; sourceTree = "<group>"; };
-		8BE83B9626AE568D00FD9008 /* UsernameModifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameModifierTests.swift; sourceTree = "<group>"; };
-		8BE83B9826AE577D00FD9008 /* MockUserNameSectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserNameSectionProvider.swift; sourceTree = "<group>"; };
 		8BE83B9B26AE71B400FD9008 /* AppStateObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateObserverTests.swift; sourceTree = "<group>"; };
 		8BE871C427A013FC00C51CD8 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8BEFF538265780BB00C23C06 /* DiskSubscriptionStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSubscriptionStoreTests.swift; sourceTree = "<group>"; };
@@ -847,7 +811,6 @@
 		8B7976C02628023000FD704B /* MQTT */ = {
 			isa = PBXGroup;
 			children = (
-				8BE83B8326AE4D2400FD9008 /* UsernameSectionProvider */,
 				8B7976ED2628023200FD704B /* MQTTCourierClientTests.swift */,
 				8B7976C12628023000FD704B /* Connection */,
 				8B7976C32628023000FD704B /* Message */,
@@ -948,10 +911,7 @@
 				8B410BEE266A1D0F0025E07B /* MockMQTTSessionFactory.swift */,
 				8B410BF2266A1EC60025E07B /* MockMQTTPersistence.swift */,
 				8B410BF4266A22D90025E07B /* MockMQTTPersistenceFactory.swift */,
-				8BE83B8A26AE517A00FD9008 /* MockNetworkTypeProvider.swift */,
-				8BE83B9026AE54BA00FD9008 /* MockAppVersionProvider.swift */,
 				8BE83B9426AE557B00FD9008 /* MockAppStateObserver.swift */,
-				8BE83B9826AE577D00FD9008 /* MockUserNameSectionProvider.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1169,7 +1129,6 @@
 				8BE0DED6270BE50700630D60 /* Policies */,
 				8BE0DEDC270BE50700630D60 /* Subscriptions */,
 				8BE0DEE2270BE50700630D60 /* CourierClientFactory.swift */,
-				8BE0DEE3270BE50700630D60 /* UserNameSectionProvider */,
 				8BE0DEEC270BE50700630D60 /* KeepAlive */,
 				8BE0DEEE270BE50700630D60 /* Error */,
 				8BE0DEF0270BE50700630D60 /* Event */,
@@ -1300,21 +1259,6 @@
 				8BE0DEE1270BE50700630D60 /* ISubscriptionStoreFactory.swift */,
 			);
 			path = Factory;
-			sourceTree = "<group>";
-		};
-		8BE0DEE3270BE50700630D60 /* UserNameSectionProvider */ = {
-			isa = PBXGroup;
-			children = (
-				8BE0DEE4270BE50700630D60 /* IUserNameSectionProvider.swift */,
-				8BE0DEE5270BE50700630D60 /* PlatformSectionProvider.swift */,
-				8BE0DEE6270BE50700630D60 /* AppVersionSectionProvider.swift */,
-				8BE0DEE7270BE50700630D60 /* AppStateSectionProvider.swift */,
-				8BE0DEE8270BE50700630D60 /* IUserNameModifier.swift */,
-				8BE0DEE9270BE50700630D60 /* NetworkSectionProvider.swift */,
-				8BE0DEEA270BE50700630D60 /* CountrySectionProvider.swift */,
-				8BE0DEEB270BE50700630D60 /* DefaultUserNameModifier.swift */,
-			);
-			path = UserNameSectionProvider;
 			sourceTree = "<group>";
 		};
 		8BE0DEEC270BE50700630D60 /* KeepAlive */ = {
@@ -1589,20 +1533,6 @@
 				8B06C08226B9275600934879 /* ProtobufMessageAdapter.swift */,
 			);
 			path = CourierProtobuf;
-			sourceTree = "<group>";
-		};
-		8BE83B8326AE4D2400FD9008 /* UsernameSectionProvider */ = {
-			isa = PBXGroup;
-			children = (
-				8BE83B8426AE4D3F00FD9008 /* DefaultUserNameModiferTests.swift */,
-				8BE83B8626AE4DE500FD9008 /* PlatformSectionProviderTests.swift */,
-				8BE83B8826AE4E4300FD9008 /* NetworkSectionProviderTests.swift */,
-				8BE83B8C26AE52E800FD9008 /* CountrySectionProviderTests.swift */,
-				8BE83B8E26AE535000FD9008 /* AppVersionSectionProviderTests.swift */,
-				8BE83B9226AE554100FD9008 /* AppStateSectionProviderTests.swift */,
-				8BE83B9626AE568D00FD9008 /* UsernameModifierTests.swift */,
-			);
-			path = UsernameSectionProvider;
 			sourceTree = "<group>";
 		};
 		8BE83B9A26AE71AA00FD9008 /* Utils */ = {
@@ -1963,7 +1893,6 @@
 				8B7977142628023300FD704B /* MockAuthRetryPolicy.swift in Sources */,
 				8B79770D2628023300FD704B /* MockKeepAliveFailureHandler.swift in Sources */,
 				8BC4E3172803D54F0079DADE /* MockIncomingMessagePersistence.swift in Sources */,
-				8BE83B8D26AE52E800FD9008 /* CountrySectionProviderTests.swift in Sources */,
 				8BE7468B26956DE2003A2844 /* CourierClientFactoryTests.swift in Sources */,
 				8B7977042628023200FD704B /* MockMessageAdapter.swift in Sources */,
 				8B7976F62628023200FD704B /* MQTTMessageReceiveListenerTests.swift in Sources */,
@@ -1971,8 +1900,6 @@
 				8B7976F72628023200FD704B /* JSONMessageAdapterTests.swift in Sources */,
 				8B7976F92628023200FD704B /* InMemorySubscriptionStoreTests.swift in Sources */,
 				8BEFF539265780BB00C23C06 /* DiskSubscriptionStoreTests.swift in Sources */,
-				8BE83B9326AE554100FD9008 /* AppStateSectionProviderTests.swift in Sources */,
-				8BE83B8526AE4D3F00FD9008 /* DefaultUserNameModiferTests.swift in Sources */,
 				8B410BEB266A00CA0025E07B /* MockMQTTClientFrameworkFactory.swift in Sources */,
 				8B2B1DA226B14E25003E647C /* MessageAdaptersCoordinatorTests.swift in Sources */,
 				8B7977172628023300FD704B /* MockReachability.swift in Sources */,
@@ -1982,21 +1909,16 @@
 				8B3DAB9426D75A0000FFED68 /* DataMessageAdapterTests.swift in Sources */,
 				8B7977132628023300FD704B /* MockMessageReceiveListenerFactory.swift in Sources */,
 				8B410BEF266A1D0F0025E07B /* MockMQTTSessionFactory.swift in Sources */,
-				8BE83B8B26AE517A00FD9008 /* MockNetworkTypeProvider.swift in Sources */,
 				8B7977002628023200FD704B /* MockMQTTConnection.swift in Sources */,
 				8B410BE92669F3690025E07B /* MockMQTTSession.swift in Sources */,
-				8BE83B8926AE4E4300FD9008 /* NetworkSectionProviderTests.swift in Sources */,
 				8B7976FB2628023200FD704B /* MQTTClientTests.swift in Sources */,
 				8B410BE72669ED610025E07B /* MockMQTTClientFrameworkSessionManagerDelegate.swift in Sources */,
-				8BE83B8F26AE535000FD9008 /* AppVersionSectionProviderTests.swift in Sources */,
-				8BE83B9926AE577D00FD9008 /* MockUserNameSectionProvider.swift in Sources */,
 				8B7976FA2628023200FD704B /* MulticastCourierEventHandlerTests.swift in Sources */,
 				8B7977192628023300FD704B /* MQTTCourierClientTests.swift in Sources */,
 				8BE0E03C270BEBBE00630D60 /* ProtobufMessageAdapterTests.swift in Sources */,
 				8B7977022628023200FD704B /* MockMulticastCourierEventHandlerFactory.swift in Sources */,
 				8BC4E3152803D4E70079DADE /* IncomingMessagePersistenceTests.swift in Sources */,
 				8B31F2A526328614001E0D7F /* MockCourierClient.swift in Sources */,
-				8BE83B9726AE568D00FD9008 /* UsernameModifierTests.swift in Sources */,
 				8B7976FC2628023200FD704B /* MockSubscriptionStore.swift in Sources */,
 				8B06BE4226B790BB00934879 /* TextMessageAdapterTests.swift in Sources */,
 				8B410BE32669ECDC0025E07B /* MockMQTTClientFrameworkSessionManager.swift in Sources */,
@@ -2005,7 +1927,6 @@
 				8B7977162628023300FD704B /* MockAuthFailureHandler.swift in Sources */,
 				8B2B1DA426B14F5C003E647C /* PlistMessageAdapterTests.swift in Sources */,
 				8B7976F82628023200FD704B /* AuthRetryPolicyTests.swift in Sources */,
-				8BE83B9126AE54BA00FD9008 /* MockAppVersionProvider.swift in Sources */,
 				8B7977032628023200FD704B /* MockMQTTClientFactory.swift in Sources */,
 				8B7977112628023300FD704B /* MockMQTTConnectionFactory.swift in Sources */,
 				8B7977122628023300FD704B /* MockNotificationCenter.swift in Sources */,
@@ -2015,7 +1936,6 @@
 				8B7977152628023300FD704B /* MockMQTTClient.swift in Sources */,
 				8BE83B9526AE557C00FD9008 /* MockAppStateObserver.swift in Sources */,
 				8B410BE12669E84C0025E07B /* MQTTClientFrameworkConnectionTests.swift in Sources */,
-				8BE83B8726AE4DE500FD9008 /* PlatformSectionProviderTests.swift in Sources */,
 				8B7977092628023300FD704B /* MockConnectRetryTimePolicy.swift in Sources */,
 				8B410BF3266A1EC60025E07B /* MockMQTTPersistence.swift in Sources */,
 				8B410BED266A19D10025E07B /* MQTTClientFrameworkSessionManagerTests.swift in Sources */,
@@ -2095,7 +2015,6 @@
 				8BE0DFDD270BE50B00630D60 /* ImmediateSchedulerType.swift in Sources */,
 				8BE0DFBD270BE50A00630D60 /* ObserverType.swift in Sources */,
 				8BE0DFC7270BE50A00630D60 /* PublishSubject.swift in Sources */,
-				8BE0DF88270BE50900630D60 /* NetworkSectionProvider.swift in Sources */,
 				8BE0DF82270BE50900630D60 /* CourierClientFactory.swift in Sources */,
 				8BE0DFA0270BE50A00630D60 /* ScheduledDisposable.swift in Sources */,
 				8B7898F7278FD01F00422A6E /* IdleActivityTimeoutPolicy.swift in Sources */,
@@ -2143,7 +2062,6 @@
 				8BE0DF9A270BE50A00630D60 /* Bag.swift in Sources */,
 				8BE0DFDB270BE50B00630D60 /* Infallible+Operators.swift in Sources */,
 				8BE0DF6D270BE50900630D60 /* IMQTTSession.swift in Sources */,
-				8BE0DF89270BE50900630D60 /* CountrySectionProvider.swift in Sources */,
 				8BE0DF5F270BE50900630D60 /* IAuthFailureHandler.swift in Sources */,
 				8BE0DF79270BE50900630D60 /* IAuthRetryPolicy.swift in Sources */,
 				8BE0DFBA270BE50A00630D60 /* SwiftSupport.swift in Sources */,
@@ -2161,13 +2079,10 @@
 				8BE0DF69270BE50900630D60 /* MQTTCommandType+Extension.swift in Sources */,
 				8BE0DF67270BE50900630D60 /* MQTTClientFrameworkSessionManager.swift in Sources */,
 				8BE0DF95270BE50A00630D60 /* PrimitiveSequence.swift in Sources */,
-				8BE0DF83270BE50900630D60 /* IUserNameSectionProvider.swift in Sources */,
 				8BE0DF5E270BE50900630D60 /* AnyCancellable.swift in Sources */,
-				8BE0DF8A270BE50900630D60 /* DefaultUserNameModifier.swift in Sources */,
 				8BE0DF92270BE50A00630D60 /* Cancelable.swift in Sources */,
 				8BE0DF8B270BE50900630D60 /* KeepAliveFailureHandler.swift in Sources */,
 				8BE0DF8E270BE50900630D60 /* MulticastCourierEventHandler.swift in Sources */,
-				8BE0DF86270BE50900630D60 /* AppStateSectionProvider.swift in Sources */,
 				8BE0DF9C270BE50A00630D60 /* InfiniteSequence.swift in Sources */,
 				8BE0DF93270BE50A00630D60 /* RxMutableBox.swift in Sources */,
 				8BE0DF75270BE50900630D60 /* TextMessageAdapter.swift in Sources */,
@@ -2176,7 +2091,6 @@
 				8BE0DFD0270BE50A00630D60 /* TailRecursiveSink.swift in Sources */,
 				8BE0DFDA270BE50B00630D60 /* SerialDispatchQueueScheduler.swift in Sources */,
 				8BE0DFA1270BE50A00630D60 /* NopDisposable.swift in Sources */,
-				8BE0DF87270BE50900630D60 /* IUserNameModifier.swift in Sources */,
 				8BE0DFAC270BE50A00630D60 /* Error.swift in Sources */,
 				8BE0DFA9270BE50A00630D60 /* Do.swift in Sources */,
 				8BE0DF7D270BE50900630D60 /* IConnectRetryTimeoutPolicy.swift in Sources */,
@@ -2193,7 +2107,6 @@
 				8BE0DF61270BE50900630D60 /* IMQTTConfiguration.swift in Sources */,
 				8BE0DFAF270BE50A00630D60 /* CompactMap.swift in Sources */,
 				8BE0DF9B270BE50A00630D60 /* Queue.swift in Sources */,
-				8BE0DF84270BE50900630D60 /* PlatformSectionProvider.swift in Sources */,
 				8BE0DFAD270BE50A00630D60 /* Empty.swift in Sources */,
 				8BE0DFCB270BE50A00630D60 /* ObservableType.swift in Sources */,
 				8BE0DF7A270BE50900630D60 /* ConnectRetryTimePolicy.swift in Sources */,
@@ -2219,7 +2132,6 @@
 				8BE0DF70270BE50900630D60 /* IMessageReceiveListener.swift in Sources */,
 				8BE0DFC0270BE50A00630D60 /* SynchronizedOnType.swift in Sources */,
 				8BE0DFC8270BE50A00630D60 /* ObservableConvertibleType.swift in Sources */,
-				8BE0DF85270BE50900630D60 /* AppVersionSectionProvider.swift in Sources */,
 				8BE0DF72270BE50900630D60 /* JSONMessageAdapter.swift in Sources */,
 				8BE0DF90270BE50A00630D60 /* IMQTTClient.swift in Sources */,
 				8BE0DFA6270BE50A00630D60 /* BinaryDisposable.swift in Sources */,

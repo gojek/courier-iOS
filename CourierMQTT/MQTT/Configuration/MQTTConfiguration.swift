@@ -7,7 +7,6 @@ struct MQTTConfiguration: IMQTTConfiguration {
     var idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
     var authFailureHandler: IAuthFailureHandler
     var eventHandler: ICourierEventHandler
-    var usernameModifier: IUserNameModifier 
     var messagePersistenceTTLSeconds: TimeInterval
     var messageCleanupInterval: TimeInterval
 
@@ -16,7 +15,6 @@ struct MQTTConfiguration: IMQTTConfiguration {
          idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol = IdleActivityTimeoutPolicy(),
          authFailureHandler: IAuthFailureHandler,
          eventHandler: ICourierEventHandler,
-         usernameModifier: IUserNameModifier,
          messagePersistenceTTLSeconds: TimeInterval = 0,
          messageCleanupInterval: TimeInterval = 10) {
         self.connectRetryTimePolicy = connectRetryTimePolicy
@@ -24,7 +22,6 @@ struct MQTTConfiguration: IMQTTConfiguration {
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
         self.authFailureHandler = authFailureHandler
         self.eventHandler = eventHandler
-        self.usernameModifier = usernameModifier
         self.messagePersistenceTTLSeconds = messagePersistenceTTLSeconds
         self.messageCleanupInterval = messageCleanupInterval
     }

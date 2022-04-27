@@ -300,16 +300,6 @@ class MQTTCourierClientTests: XCTestCase {
         XCTAssertTrue(mockClient.invokedSubscribedMessageStreamGetter)
     }
     
-    func testGetUserNameModifierWithoutModification() {
-        let usernameModifier = sut.getUsernameModifier(isUsernameModificationEnabled: false, countryCodeProvider: {"ID"})
-        XCTAssertTrue(usernameModifier is DefaultUserNameModifier)
-    }
-    
-    func testGetUserNameModifierWithModifiaction() {
-        let usernameModifier = sut.getUsernameModifier(isUsernameModificationEnabled: true, countryCodeProvider: {"ID"})
-        XCTAssertTrue(usernameModifier is UserNameModifier)
-    }
-    
     func testConnectSource() {
         sut.connect(source: "Gojek")
         XCTAssertEqual(sut.connectSource, "Gojek")

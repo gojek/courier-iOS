@@ -7,5 +7,4 @@ struct ConnectionConfig {
     var authFailureHandler: IAuthFailureHandler
     var connectTimeoutPolicy: IConnectTimeoutPolicy
     var idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
-    var usernameModifier: IUserNameModifier
 }

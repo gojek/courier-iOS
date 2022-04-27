@@ -32,7 +32,6 @@ class MQTTClientFrameworkSessionManagerTests: XCTestCase {
             queue: .main,
             mqttSessionFactory: sessionFactory,
             mqttPersistenceFactory: persistenceFactory,
-            userNameModifier: DefaultUserNameModifier(),
             connectTimeoutPolicy: ConnectTimeoutPolicy(),
             idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy()
         )

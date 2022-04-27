@@ -88,8 +88,6 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     private var maxMessages: Int
     private var streamSSLLevel: String
 
-    private var userNameModifier: IUserNameModifier
-
     private var connectTimeoutPolicy: IConnectTimeoutPolicy
     private var idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
 
@@ -107,7 +105,6 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
          queue: DispatchQueue = .main,
          mqttSessionFactory: IMQTTSessionFactory = MQTTSessionFactory(),
          mqttPersistenceFactory: IMQTTPersistenceFactory = MQTTPersistenceFactory(),
-         userNameModifier: IUserNameModifier,
          connectTimeoutPolicy: IConnectTimeoutPolicy,
          idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
     ) {
@@ -119,7 +116,6 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.maxMessages = maxMessages
         self.mqttSessionFactory = mqttSessionFactory
         self.mqttPersistenceFactory = mqttPersistenceFactory
-        self.userNameModifier = userNameModifier
         self.connectTimeoutPolicy = connectTimeoutPolicy
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
 
@@ -280,7 +276,6 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         transport.voip = session.voip
         transport.queue = self.queue
         transport.streamSSLLevel = self.streamSSLLevel
-        self.session?.userName = self.userNameModifier.provideUserName(username: self.username ?? "")
         self.session?.transport = transport
         self.lastError = nil
         self.session?.connect(connectHandler: connectHandler)

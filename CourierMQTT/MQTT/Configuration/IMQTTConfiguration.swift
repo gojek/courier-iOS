@@ -7,7 +7,6 @@ protocol IMQTTConfiguration {
     var idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol { get }
     var authFailureHandler: IAuthFailureHandler { get }
     var eventHandler: ICourierEventHandler { get }
-    var usernameModifier: IUserNameModifier { get }
     var messagePersistenceTTLSeconds: TimeInterval { get }
     var messageCleanupInterval: TimeInterval { get }
 }

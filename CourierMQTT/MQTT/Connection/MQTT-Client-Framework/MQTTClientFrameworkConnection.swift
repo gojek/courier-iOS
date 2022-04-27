@@ -53,7 +53,6 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
             connectRetryTimePolicy: connectionConfig.connectRetryTimePolicy, persistenceFactory: persistenceFactory,
             dispatchQueue: mqttDispatchQueue,
             delegate: self,
-            usernameModifier: connectionConfig.usernameModifier,
             connectTimeoutPolicy: connectionConfig.connectTimeoutPolicy,
             idleActivityTimeoutPolicy: connectionConfig.idleActivityTimeoutPolicy
         )
