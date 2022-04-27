@@ -24,23 +24,13 @@ public struct MQTTClientConfig {
 
     public let messageAdapters: [MessageAdapter]
 
-    public let isSubscriptionStoreDiskPersistenceEnabled: Bool
-
     public let isMessagePersistenceEnabled: Bool
-
-    public let isUsernameModificationEnabled: Bool
 
     public let countryCodeProvider: () -> String
 
     public let autoReconnectInterval: UInt16
 
     public let maxAutoReconnectInterval: UInt16
-
-    public let disableMQTTReconnectOnAuthFailure: Bool
-
-    public let useAppDidEnterBGAndWillEnterFGNotification: Bool
-
-    public let disableDisconnectOnConnectionUnavailable: Bool
 
     public let connectTimeoutPolicy: IConnectTimeoutPolicy
 
@@ -62,14 +52,9 @@ public struct MQTTClientConfig {
         topics: [String: QoS] = [:],
         authService: IConnectionServiceProvider,
         messageAdapters: [MessageAdapter] = [JSONMessageAdapter()],
-        isSubscriptionStoreDiskPersistenceEnabled: Bool = false,
         isMessagePersistenceEnabled: Bool = false,
-        isUsernameModificationEnabled: Bool = false,
         autoReconnectInterval: UInt16 = 5,
         maxAutoReconnectInterval: UInt16 = 10,
-        disableMQTTReconnectOnAuthFailure: Bool = false,
-        useAppDidEnterBGAndWillEnterFGNotification: Bool = true,
-        disableDisconnectOnConnectionUnavailable: Bool = false,
         enableAuthenticationTimeout: Bool = false,
         authenticationTimeoutInterval: TimeInterval = 30,
         connectTimeoutPolicy: IConnectTimeoutPolicy = ConnectTimeoutPolicy(),
@@ -81,14 +66,9 @@ public struct MQTTClientConfig {
         self.topics = topics
         self.authService = authService
         self.messageAdapters = messageAdapters
-        self.isSubscriptionStoreDiskPersistenceEnabled = isSubscriptionStoreDiskPersistenceEnabled
         self.isMessagePersistenceEnabled = isMessagePersistenceEnabled
-        self.isUsernameModificationEnabled = isUsernameModificationEnabled
         self.autoReconnectInterval = autoReconnectInterval
         self.maxAutoReconnectInterval = maxAutoReconnectInterval
-        self.disableMQTTReconnectOnAuthFailure = disableMQTTReconnectOnAuthFailure
-        self.useAppDidEnterBGAndWillEnterFGNotification = useAppDidEnterBGAndWillEnterFGNotification
-        self.disableDisconnectOnConnectionUnavailable = disableDisconnectOnConnectionUnavailable
         self.enableAuthenticationTimeout = enableAuthenticationTimeout
         self.authenticationTimeoutInterval = authenticationTimeoutInterval
         self.connectTimeoutPolicy = connectTimeoutPolicy

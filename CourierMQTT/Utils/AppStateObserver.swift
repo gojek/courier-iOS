@@ -16,32 +16,15 @@ public class AppStateObserver: IAppStateObserver {
         get { _appState.value }
     }
     private let notificationCenter: NotificationCenter
-    private var useAppDidEnterBGAndWillEnterFGNotification: Bool
 
-    init(useAppDidEnterBGAndWillEnterFGNotification: Bool = true,
-         notificationCenter: NotificationCenter = .default) {
+    init(notificationCenter: NotificationCenter = .default) {
         self.notificationCenter = notificationCenter
-        self.useAppDidEnterBGAndWillEnterFGNotification = useAppDidEnterBGAndWillEnterFGNotification
         self.registerObservers()
     }
 
     func registerObservers() {
-        if useAppDidEnterBGAndWillEnterFGNotification {
-            notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-            notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-        } else {
-            notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
-            notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
-        }
-    }
-
-    func update(useAppDidEnterBGAndWillEnterFGNotification: Bool) {
-        removeObservers()
-        self.useAppDidEnterBGAndWillEnterFGNotification = useAppDidEnterBGAndWillEnterFGNotification
-        self.registerObservers()
-        DispatchQueue.main.async {
-            self.state = UIApplication.shared.applicationState == .background ? .background : .active
-        }
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
     @objc func appMovedToBackground() {
@@ -53,13 +36,8 @@ public class AppStateObserver: IAppStateObserver {
     }
 
     func removeObservers() {
-        if useAppDidEnterBGAndWillEnterFGNotification {
-            notificationCenter.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
-            notificationCenter.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
-        } else {
-            notificationCenter.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
-            notificationCenter.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
-        }
+        notificationCenter.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
+        notificationCenter.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
     deinit {

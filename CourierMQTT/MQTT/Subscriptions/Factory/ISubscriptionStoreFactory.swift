@@ -2,15 +2,11 @@ import CourierCore
 import Foundation
 
 protocol ISubscriptionStoreFactory {
-    func makeStore(topics: [String: QoS], isDiskPersistenceEnabled: Bool) -> ISubscriptionStore
+    func makeStore(topics: [String: QoS]) -> ISubscriptionStore
 }
 
 struct SubscriptionStoreFactory: ISubscriptionStoreFactory {
-    func makeStore(topics: [String: QoS], isDiskPersistenceEnabled: Bool) -> ISubscriptionStore {
-        if isDiskPersistenceEnabled {
-            return DiskSubscriptionStore(topics: topics)
-        } else {
-            return InMemorySubscriptionStore(topics: topics)
-        }
+    func makeStore(topics: [String: QoS]) -> ISubscriptionStore {
+        return DiskSubscriptionStore(topics: topics)
     }
 }

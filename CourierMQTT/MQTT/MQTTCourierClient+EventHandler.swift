@@ -23,10 +23,6 @@ extension MQTTCourierClient: ICourierEventHandler {
             onAppBackground()
         case .connectionAvailable:
             connect()
-        case .connectionUnavailable:
-            if !config.disableDisconnectOnConnectionUnavailable {
-                client.disconnect()
-            }
 
         default: break
         }
@@ -66,16 +62,12 @@ extension MQTTCourierClient: ICourierEventHandler {
 
     private func onAppBackground() {
         let delay: TimeInterval
-        if config.useAppDidEnterBGAndWillEnterFGNotification {
-            self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "Cleanup pending unsub") { [weak self] in
-                guard let self = self, let backgroundTaskID = self.backgroundTaskID else { return }
-                UIApplication.shared.endBackgroundTask(backgroundTaskID)
-                self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
-            }
-            delay = 1.0
-        } else {
-            delay = 0.6
+        self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "Cleanup pending unsub") { [weak self] in
+            guard let self = self, let backgroundTaskID = self.backgroundTaskID else { return }
+            UIApplication.shared.endBackgroundTask(backgroundTaskID)
+            self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
         }
+        delay = 1.0
 
         #if DEBUG || INTEGRATION
         printDebug("MQTT - COURIER: ON App Background, Unsubscribing: \(self.subscriptionStore.pendingUnsubscriptions.map { $0 })")

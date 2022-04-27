@@ -7,8 +7,7 @@ class CourierClientFactoryTests: XCTestCase {
 
     func testMakeMQTTClient() {
         let config = MQTTClientConfig(
-            authService: MockConnectionServiceProvider(),
-            isSubscriptionStoreDiskPersistenceEnabled: true
+            authService: MockConnectionServiceProvider()
         )
 
         let client = sut.makeMQTTClient(config: config) as! MQTTCourierClient

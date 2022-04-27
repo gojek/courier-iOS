@@ -66,15 +66,13 @@ class MQTTCourierClient: CourierClient {
          multicastEventHandlerFactory: IMulticastCourierEventHandlerFactory = MulticastCourierEventHandlerFactory(),
          mqttClientFactory: IMQTTClientFactory = MQTTClientFactory(isPersistenceEnabled: false),
          authRetryPolicy: IAuthRetryPolicy = AuthRetryPolicy()) {
-        AppStateObserver.shared.update(useAppDidEnterBGAndWillEnterFGNotification: config.useAppDidEnterBGAndWillEnterFGNotification)
 
         self.config = config
         self.connectionServiceProvider = config.authService
         self.authRetryPolicy = authRetryPolicy
         self.messageAdaptersCoordinator = MessageAdaptersCoordinator(messageAdapters: config.messageAdapters)
         self.subscriptionStore = subscriptionStoreFactory.makeStore(
-            topics: config.topics,
-            isDiskPersistenceEnabled: config.isSubscriptionStoreDiskPersistenceEnabled
+            topics: config.topics
         )
 
         let courierEventHandler = multicastEventHandlerFactory.makeHandler()
@@ -90,13 +88,11 @@ class MQTTCourierClient: CourierClient {
             messageCleanupInterval: config.messageCleanupInterval)
 
         let reachability = try? Reachability()
-        self.client = mqttClientFactory.makeClient(configuration: configuration, reachability: reachability, useAppDidEnterBGAndWillEnterFGNotification: config.useAppDidEnterBGAndWillEnterFGNotification, dispatchQueue: dispatchQueue)
+        self.client = mqttClientFactory.makeClient(configuration: configuration, reachability: reachability, dispatchQueue: dispatchQueue)
         courierEventHandler.addEventHandler(self)
 
-        if self.config.disableMQTTReconnectOnAuthFailure {
-            self.authFailureReconnectTimer = ReconnectTimer(retryInterval: TimeInterval(config.autoReconnectInterval), maxRetryInterval: TimeInterval(config.maxAutoReconnectInterval), queue: dispatchQueue) { [weak self] in
-                self?.handleAuthFailure()
-            }
+        self.authFailureReconnectTimer = ReconnectTimer(retryInterval: TimeInterval(config.autoReconnectInterval), maxRetryInterval: TimeInterval(config.maxAutoReconnectInterval), queue: dispatchQueue) { [weak self] in
+            self?.handleAuthFailure()
         }
     }
 
@@ -322,9 +318,7 @@ class MQTTCourierClient: CourierClient {
 
 extension MQTTCourierClient: IAuthFailureHandler {
     func handleAuthFailure() {
-        if config.disableMQTTReconnectOnAuthFailure {
-            client.disconnect()
-        }
+        client.disconnect()
         connectionServiceProvider.clearCachedAuthResponse()
         connect()
     }
