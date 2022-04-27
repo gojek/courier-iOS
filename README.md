@@ -230,3 +230,7 @@ Finally, make sure to have strong reference to the instance, and invoke `Courier
 ```swift
 courierClient.addEventHandler(analytics)
 ```
+
+## License
+
+All Courier modules except MQTTClientGJ are [MIT Licensed](./LICENSES/LICENSE). MQTTClientGJ is [Eclipse Licensed](./LICENSES/LICENSE.MQTTClientGJ).
