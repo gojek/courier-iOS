@@ -239,4 +239,4 @@ All Courier modules except MQTTClientGJ are [MIT Licensed](LICENSE). MQTTClientG
 
 [1]: https://medium.com/gojekengineering/courier-library-for-gojeks-information-superhighway-368dc5f052fa
 [2]: https://broker.mqttdashboard.com/
-[3]: https://github.com/gojek/courier-ios/tree/main/app
+[3]: https://github.com/gojek/courier-iOS/tree/main/app
