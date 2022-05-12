@@ -235,4 +235,8 @@ Read our [contribution guide](./CONTRIBUTION.md) to learn about our development 
 
 ## License
 
-All Courier modules except MQTTClientGJ are [MIT Licensed](./LICENSES/LICENSE). MQTTClientGJ is [Eclipse Licensed](./LICENSES/LICENSE.MQTTClientGJ).
+All Courier modules except MQTTClientGJ are [MIT Licensed](LICENSE). MQTTClientGJ is [Eclipse Licensed](LICENSE.paho).
+
+[1]: https://medium.com/gojekengineering/courier-library-for-gojeks-information-superhighway-368dc5f052fa
+[2]: https://broker.mqttdashboard.com/
+[3]: https://github.com/gojek/courier-ios/tree/main/app
