@@ -12,8 +12,7 @@
    baseUrl: '/courier-iOS/',
    onBrokenLinks: 'throw',
    onBrokenMarkdownLinks: 'warn',
-   favicon: 'img/favicon.ico',
-
+   favicon: 'img/courier-logo.ico',
    // GitHub pages deployment config.
    // If you aren't using GitHub pages, you don't need these.
    organizationName: 'gojek', // Usually your GitHub org/user name.
@@ -37,7 +36,7 @@
            // Please change this to your repo.
            // Remove this to remove the "edit this page" links.
            editUrl:
-             'https://github.com/gojek/courier-iOS/blob/docusauras/docs/',
+             'https://github.com/gojek/courier-iOS/edit/main/docs/',
          },
          theme: {
            customCss: require.resolve('./src/css/custom.css'),
@@ -53,7 +52,7 @@
          title: 'Courier',
          logo: {
            alt: 'Courier',
-           src: 'img/logo.svg',
+           src: 'img/courier-logo.svg',
          },
          items: [
            {
