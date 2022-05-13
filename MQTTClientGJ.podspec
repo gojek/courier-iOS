@@ -6,7 +6,7 @@ Pod::Spec.new do |mqttc|
 	mqttc.license      = "EPLv1"
 	mqttc.author       = { "Alfian Losari" => "alfian.losari@gojek.com" }
 	mqttc.source       = {
-		:http => "https://github.com/gojek/courier-iOS.git",
+		:git => "https://github.com/gojek/courier-iOS.git",
 		:tag => "0.0.1"
 	}
 

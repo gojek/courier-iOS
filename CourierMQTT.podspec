@@ -10,7 +10,7 @@ Pod::Spec.new do |c|
     c.platform        = :ios, '11.0'
   
     c.source          = {
-		:http => "https://github.com/gojek/courier-iOS.git",
+		:git => "https://github.com/gojek/courier-iOS.git",
 		:tag => "0.0.1"
 	}
     c.swift_version   = '5.3'
