@@ -136,6 +136,17 @@
         }
         [data appendVariableLength:properties.length];
         [data appendData:properties];
+    } else if (protocolLevel == MQTTProtocolVersion311) {
+        NSMutableData *properties = [[NSMutableData alloc] init];
+        if (userProperty) {
+            for (NSString *key in userProperty.allKeys) {
+                [properties appendByte:MQTTUserProperty];
+                [properties appendMQTTString:key];
+                [properties appendMQTTString:userProperty[key]];
+            }
+        }
+        [data appendVariableLength:properties.length];
+        [data appendData:properties];
     }
 
     [data appendMQTTString:clientId];

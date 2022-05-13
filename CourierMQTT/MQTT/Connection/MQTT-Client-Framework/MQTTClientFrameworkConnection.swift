@@ -93,6 +93,7 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
             securityPolicy: securityPolicy,
             certificates: nil,
             protocolLevel: .version311,
+            userProperties: connectOptions.userProperties,
             connectHandler: nil
         )
     }

@@ -37,6 +37,7 @@ protocol IMQTTClientFrameworkSessionManager {
         securityPolicy: MQTTSSLSecurityPolicy?,
         certificates: [Any]?,
         protocolLevel: MQTTProtocolVersion,
+        userProperties: [String: String]?,
         connectHandler: MQTTConnectHandler?)
 
     func disconnect(with disconnectHandler: MQTTDisconnectHandler?)
@@ -144,6 +145,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         securityPolicy: MQTTSSLSecurityPolicy? = nil,
         certificates: [Any]? = nil,
         protocolLevel: MQTTProtocolVersion = .version311,
+        userProperties: [String: String]? = nil,
         connectHandler: MQTTConnectHandler? = nil) {
         printDebug("MQTT - COURIER: Client Session Manager connect to: \(host)")
         let shouldReconnect = self.session != nil
@@ -214,6 +216,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
             session?.persistence = persistence
 
             session?.delegate = self
+            session?.userProperty = userProperties
             self.reconnectFlag = false
         }
 

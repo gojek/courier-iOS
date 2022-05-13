@@ -401,6 +401,28 @@ class MockMQTTSession: IMQTTSession {
         }
     }
 
+    var invokedUserPropertySetter = false
+    var invokedUserPropertySetterCount = 0
+    var invokedUserProperty: [String: String]?
+    var invokedUserPropertyList = [[String: String]?]()
+    var invokedUserPropertyGetter = false
+    var invokedUserPropertyGetterCount = 0
+    var stubbedUserProperty: [String: String]!
+
+    var userProperty: [String: String]! {
+        set {
+            invokedUserPropertySetter = true
+            invokedUserPropertySetterCount += 1
+            invokedUserProperty = newValue
+            invokedUserPropertyList.append(newValue)
+        }
+        get {
+            invokedUserPropertyGetter = true
+            invokedUserPropertyGetterCount += 1
+            return stubbedUserProperty
+        }
+    }
+
     var invokedShouldEnableActivityCheckTimeoutSetter = false
     var invokedShouldEnableActivityCheckTimeoutSetterCount = 0
     var invokedShouldEnableActivityCheckTimeout: Bool?
