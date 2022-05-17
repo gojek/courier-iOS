@@ -124,11 +124,7 @@
             [properties appendUInt16BigEndian:topicAliasMaximum.unsignedIntValue];
         }
         if (userProperty) {
-            for (NSString *key in userProperty.allKeys) {
-                [properties appendByte:MQTTUserProperty];
-                [properties appendMQTTString:key];
-                [properties appendMQTTString:userProperty[key]];
-            }
+            [self updateProperties:properties userProperty:userProperty];
         }
         if (maximumPacketSize) {
             [properties appendByte:MQTTMaximumPacketSize];
@@ -136,19 +132,7 @@
         }
         [data appendVariableLength:properties.length];
         [data appendData:properties];
-    } else if (protocolLevel == MQTTProtocolVersion311) {
-        NSMutableData *properties = [[NSMutableData alloc] init];
-        if (userProperty) {
-            for (NSString *key in userProperty.allKeys) {
-                [properties appendByte:MQTTUserProperty];
-                [properties appendMQTTString:key];
-                [properties appendMQTTString:userProperty[key]];
-            }
-        }
-        [data appendVariableLength:properties.length];
-        [data appendData:properties];
     }
-
     [data appendMQTTString:clientId];
     if (willTopic) {
         [data appendMQTTString:willTopic];
@@ -163,10 +147,28 @@
     if (password) {
         [data appendMQTTString:password];
     }
-
+    
+    if (protocolLevel == MQTTProtocolVersion311) {
+        NSMutableData *properties = [[NSMutableData alloc] init];
+        [self updateProperties:properties userProperty:userProperty];
+        [data appendVariableLength:properties.length];
+        [data appendData:properties];
+    }
+    
     MQTTMessage *msg = [[MQTTMessage alloc] initWithType:MQTTConnect
                                                     data:data];
     return msg;
+}
+
++ (void)updateProperties:(NSMutableData *)properties
+          userProperty:(NSDictionary<NSString *,NSString *> *)userProperty {
+    if (userProperty) {
+        for (NSString *key in userProperty.allKeys) {
+            [properties appendByte:MQTTUserProperty];
+            [properties appendMQTTString:key];
+            [properties appendMQTTString:userProperty[key]];
+        }
+    }
 }
 
 + (MQTTMessage *)pingreqMessage {
