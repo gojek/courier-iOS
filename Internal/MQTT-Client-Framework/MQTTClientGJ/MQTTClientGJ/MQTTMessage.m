@@ -151,7 +151,6 @@
     if (protocolLevel == MQTTProtocolVersion311) {
         NSMutableData *properties = [[NSMutableData alloc] init];
         [self updateProperties:properties userProperty:userProperty];
-        [data appendVariableLength:properties.length];
         [data appendData:properties];
     }
     
