@@ -24,10 +24,8 @@ class CourierObservableObject: ObservableObject {
                     JSONMessageAdapter(),
                     TextMessageAdapter()
                 ],
-                isUsernameModificationEnabled: true,
                 autoReconnectInterval: 1,
                 maxAutoReconnectInterval: 30,
-                disableMQTTReconnectOnAuthFailure: true,
                 connectTimeoutPolicy: ConnectTimeoutPolicy(isEnabled: true),
                 idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(isEnabled: true),
                 countryCodeProvider: { "ID" },

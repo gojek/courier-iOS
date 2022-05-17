@@ -20,7 +20,8 @@ import CourierCore
             clientId: clientId,
             username: username,
             password: "",
-            isCleanSession: false
+            isCleanSession: false,
+            userProperties: ["service": "hivemq", "type": "public"]
         )
 
         completion(.success(connectOptions))

@@ -20,6 +20,7 @@ protocol IMQTTSession: AnyObject {
     var transport: MQTTTransportProtocol! { get set }
     var certificates: [Any]! { get set }
     var voip: Bool { get set }
+    var userProperty: [String: String]! { get set}
 
     var shouldEnableActivityCheckTimeout: Bool { get set }
     var shouldEnableConnectCheckTimeout: Bool { get set }
