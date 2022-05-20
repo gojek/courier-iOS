@@ -1,6 +1,6 @@
 ### Providing Connect Options
 
-To connect to MQTT broker you need to provide `ConnectOptions` by implementing IConnectionServiceProvider. First you need to implement `IConnectionServiceProvider/clientId` to return an unique string to identify your client. This must be unique for each device that connect to broker.
+To connect to MQTT broker you need to provide `ConnectOptions` by implementing `IConnectionServiceProvider`. First you need to implement `IConnectionServiceProvider/clientId` to return an unique string to identify your client. This must be unique for each device that connect to broker.
 
 ```swift
 var clientId: String {

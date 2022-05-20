@@ -29,7 +29,17 @@
     {
       type: 'category',
       label: 'Guides',
-      items: ["Setup Connection", "Event Handling"],
+      items: [
+        "Setup Connection",
+        "Configuring Client",
+        "Message Adapter",
+        "Connect to broker",
+        "Connection Lifeycle",
+        "Message QoS",
+        "Subscribe & Receive Message",
+        "Publish Message",
+        "Event Handling"
+        ],
     },
     {
       type: 'doc',
