@@ -28,7 +28,6 @@ class CourierObservableObject: ObservableObject {
                 maxAutoReconnectInterval: 30,
                 connectTimeoutPolicy: ConnectTimeoutPolicy(isEnabled: true),
                 idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(isEnabled: true),
-                countryCodeProvider: { "ID" },
                 messagePersistenceTTLSeconds: 86400,
                 messageCleanupInterval: 10
             )

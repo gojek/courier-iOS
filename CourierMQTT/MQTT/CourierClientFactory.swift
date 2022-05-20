@@ -26,8 +26,6 @@ public struct MQTTClientConfig {
 
     public let isMessagePersistenceEnabled: Bool
 
-    public let countryCodeProvider: () -> String
-
     public let autoReconnectInterval: UInt16
 
     public let maxAutoReconnectInterval: UInt16
@@ -59,7 +57,6 @@ public struct MQTTClientConfig {
         authenticationTimeoutInterval: TimeInterval = 30,
         connectTimeoutPolicy: IConnectTimeoutPolicy = ConnectTimeoutPolicy(),
         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol = IdleActivityTimeoutPolicy(),
-        countryCodeProvider: @escaping () -> String = { "ID" },
         messagePersistenceTTLSeconds: TimeInterval = 0,
         messageCleanupInterval: TimeInterval = 10
     ) {
@@ -73,7 +70,6 @@ public struct MQTTClientConfig {
         self.authenticationTimeoutInterval = authenticationTimeoutInterval
         self.connectTimeoutPolicy = connectTimeoutPolicy
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
-        self.countryCodeProvider = countryCodeProvider
         self.messagePersistenceTTLSeconds = messagePersistenceTTLSeconds
         self.messageCleanupInterval = messageCleanupInterval
     }
