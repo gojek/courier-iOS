@@ -74,6 +74,7 @@
        prism: {
          theme: lightCodeTheme,
          darkTheme: darkCodeTheme,
+         additionalLanguages: ['swift'],
        },
      }),
  };
