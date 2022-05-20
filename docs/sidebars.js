@@ -24,7 +24,7 @@
     {
       type: 'category',
       label: 'Getting Started',
-      items: ["Installation"],
+      items: ["Installation", "Sample App"],
     },
     {
       type: 'category',
