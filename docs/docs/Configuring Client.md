@@ -17,6 +17,6 @@ let courierClient = clientFactory.makeMQTTClient(
 )
 ```
 
-- `MQTTClientConfig/messageAdapters`: we need to pass array of `MessageAdapter`. This will be used for serialization when receiving from broker and sending message to the broker. `CourierMQTT` provides built in message adapters for JSON `(JSONMessageAdapter)` and Plist `(PlistMessageAdapter)` format that conforms to `Codable` protocol. You can only use one of them because both implements to Codable to avoid any conflict. To use protobuf, please import `CourierProtobuf` and pass `ProtobufMessageAdapter`.
+- `MQTTClientConfig/messageAdapters`: we need to pass array of `MessageAdapter`. This will be used for serialization when receiving from broker and sending message to the broker. `CourierMQTT` provides built in message adapters for JSON `(JSONMessageAdapter)` and Plist `(PlistMessageAdapter)` format that conforms to `Codable` protocol. You can only use one of them because both implements to Codable to avoid any conflict. To use protobuf, please import `CourierProtobuf` and pass `ProtobufMessageAdapter`. You can read more about this in Message Adapter doc.
 - `MQTTClientConfig/authService`: we need to pass our implementation of IConnectionServiceProvider protocol for providing the ConnectOptions to the client.
 - `MQTTClientConfig/autoReconnectInterval` The interval used to make reconnection to broker in case of connection lost. This will be multiplied by 2 for each time until it successfully make the connection. The upper limit is based on `MQTTClientConfig/maxAutoReconnectInterval`.
