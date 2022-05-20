@@ -1,4 +1,4 @@
-## Handle Courier Events
+## Listening to Courier System Events
 
 Courier provides ability to register and listen to internal events emitted by the Client. All you need to do is conforming to `ICourierEventHandler` protocol and implement `ICourierEventHandler/onEvent(_:)` method.
 
@@ -14,10 +14,14 @@ class MyEventHandler: ICourierEventHandler {
 Finally, make sure to have strong reference to the instance, and invoke the `addEventHandler(_:)` from the `CourierClient` passing the instance.
 
 ```swift
-courierClient.addEventHandler(analytics)
+self.myEventHandler = MyEventHandler()
+courierClient.addEventHandler(self.myEventHandler)
 ```
 
-List of `CourierEvent` enumerations:
+## List of CourierEvent Enumerations
+
+Here is the list containing all the cases for `CourierEvent` enum:
+
 ```swift
 public enum CourierEvent {
 
