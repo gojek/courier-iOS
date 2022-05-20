@@ -29,7 +29,7 @@
     {
       type: 'category',
       label: 'Guides',
-      items: ["Event Handling"],
+      items: ["Setup Connection", "Event Handling"],
     },
     {
       type: 'doc',

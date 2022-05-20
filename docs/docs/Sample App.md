@@ -71,4 +71,5 @@ func connect() {
             guard let self = self else { return }
             self.messages.insert(Message(id: UUID().uuidString, name: "Text Adapter: \(message)", timestamp: Date()), at: 0)
         }.store(in: &cancellables)
+}
 ```
