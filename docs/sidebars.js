@@ -33,7 +33,6 @@
         "Setup Connection",
         "Configuring Client",
         "Message Adapter",
-        "Connect to broker",
         "Connection Lifeycle",
         "Message QoS",
         "Subscribe & Receive Message",
