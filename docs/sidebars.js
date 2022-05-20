@@ -19,7 +19,7 @@
     {
       type: 'category',
       label: 'Documentation',
-      items: ['README', "Event Handling", 'CONTRIBUTION', 'LICENSE'],
+      items: ['Introduction', "Installation", "Event Handling", 'CONTRIBUTION', 'LICENSE'],
     },
   ],
 };
