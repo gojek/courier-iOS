@@ -17,9 +17,29 @@
   // But you can create a sidebar manually
   tutorialSidebar: [
     {
+      type: 'doc',
+      label: 'Introduction',
+      id: "Introduction"
+    },
+    {
       type: 'category',
-      label: 'Documentation',
-      items: ['Introduction', "Installation", "Event Handling", 'CONTRIBUTION', 'LICENSE'],
+      label: 'Getting Started',
+      items: ["Installation"],
+    },
+    {
+      type: 'category',
+      label: 'Guides',
+      items: ["Event Handling"],
+    },
+    {
+      type: 'doc',
+      label: 'Contribution',
+      id: "CONTRIBUTION"
+    },
+    {
+      type: 'doc',
+      label: 'License',
+      id: "LICENSE"
     },
   ],
 };
