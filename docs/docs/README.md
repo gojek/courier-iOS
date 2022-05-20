@@ -221,16 +221,6 @@ try? courierService?.publishMessage(
 )
 ```
 
-### Listen to Courier internal events
-
-To listen to Courier system events such on `CourierEvent/connectionSuccess`, `CourierEvent/connectionAttempt`, and many more casess declared in `CourierEvent` enum, you can implement the `ICourierEventHandler` protocol and implement `ICourierEventHandler/onEvent(_:)` method. This method will be invoked for any courier system events.
-
-Finally, make sure to have strong reference to the instance, and invoke `CourierEventManager/addEventHandler(_:)` passing the instance.
-
-```swift
-courierClient.addEventHandler(analytics)
-```
-
 ## Contribution Guidelines
 
 Read our [contribution guide](./CONTRIBUTION.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Courier iOS library.
