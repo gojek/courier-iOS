@@ -8,7 +8,7 @@
  const config = {
    title: 'Courier',
    tagline: 'Information Superhighway',
-   url: 'https://your-docusaurus-test-site.com',
+   url: 'https://gojek.github.io/',
    baseUrl: '/courier-iOS/',
    onBrokenLinks: 'throw',
    onBrokenMarkdownLinks: 'warn',
@@ -58,7 +58,7 @@
            {
              type: 'doc',
              position: 'left',
-             docId: 'README',
+             docId: 'Introduction',
              label: 'Docs',
            },
            {
