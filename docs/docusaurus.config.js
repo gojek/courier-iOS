@@ -62,6 +62,18 @@
              label: 'Docs',
            },
            {
+            type: 'doc',
+            position: 'left',
+            docId: 'Installation',
+            label: 'Getting Started',
+          },
+          {
+            type: 'doc',
+            position: 'left',
+            docId: 'Setup Connection',
+            label: 'Guides',
+          },
+          {
              href: 'https://github.com/gojek/courier-iOS',
              label: 'GitHub',
              position: 'right',
