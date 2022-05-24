@@ -6,7 +6,7 @@
 
  /** @type {import('@docusaurus/types').Config} */
  const config = {
-   title: 'Courier',
+   title: 'Courier iOS',
    tagline: 'Information Superhighway',
    url: 'https://gojek.github.io/',
    baseUrl: '/courier-iOS/',
@@ -69,6 +69,22 @@
          ],
        },
        footer: {
+        style: 'dark',
+        links: [
+          {
+            title: 'Docs',
+            items: [
+              { label: 'Getting Started', to: '/docs/Installation' },
+              { label: 'Guides', to: '/docs/Setup Connection' },
+            ],
+          },
+          {
+            title: 'Community',
+            items: [
+              { label: 'Github', href: 'https://github.com/gojek/courier-iOS', },
+            ],
+          },
+        ],
          copyright: `Copyright © ${new Date().getFullYear()} Gojek`,
        },
        prism: {
