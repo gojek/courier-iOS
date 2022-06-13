@@ -145,6 +145,14 @@ final class ConnectionObservableObject: ObservableObject {
         subscriptionList.remove(atOffsets: indexSet)
     }
     
+    func removeMessage(indexSet: IndexSet) {
+        messageList.remove(atOffsets: indexSet)
+    }
+    
+    func removellMessages() {
+        messageList.removeAll()
+    }
+    
     private func handleMessageReceiveEvent(_ message: Result<Data, NSError>, topic: String, qos: Int) {
         switch message {
         case let .success(message):

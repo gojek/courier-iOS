@@ -144,6 +144,12 @@ struct ConnectionView: View {
     var messagesSection: some View {
         Section {
             DisclosureGroup {
+                if connectionVM.messageList.count > 8 {
+                    Button("Clear All", role: .destructive) {
+                        connectionVM.removellMessages()
+                    }
+                }
+                
                 ForEach(connectionVM.messageList) { messageData in
                     VStack(alignment: .leading) {
                         HStack {
@@ -155,6 +161,7 @@ struct ConnectionView: View {
                         Text(messageData.message)
                     }
                 }
+                .onDelete { connectionVM.removeMessage(indexSet: $0) }
             } label: {
                 Text("Messages (\(String(connectionVM.messageList.count)))")
                     .font(.headline)
