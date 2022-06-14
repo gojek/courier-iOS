@@ -1,59 +1,87 @@
-To understand the connection flow and behaviors of the library, you can play around, debug, and run the sample SwiftUI App that connects to [HiveMQ](https://broker.mqttdashboard.com) public broker. 
+To understand the connection flow and behaviors of the library, you can play around, debug, and run the sample SwiftUI App that you can customize to connect to any broker that you want.
+
+![image banner](./../static/img/courier-e2e-1.jpg)
+![image banner](./../static/img/courier-e2e-2.jpg)
+
+## Features
+- Configure connection (ip, port, clientid, username, password, ping, clean session)
+- Subscribe/Unsubscribe to broker and visualize current subscriptions
+- Publish message to broker
+- Display received messages history
 
 ## Steps
 - Clone the project from [GitHub](https://github.com/gojek/courier-iOS)
 - Run `pod install`
 - Open `Courier.xcworkspace`
-- Select `Chat-Example` from the scheme.
+- Select `CourierE2EApp` from the scheme.
 
+## ConnectionServiceProvider
 
-## HiveMQAuthService
-
-The app provides `HiveMQAuthService` that conforms to `IConnectionServiceProvider` to provide connection options to public HiveMQ Broker
+The app provides `ConnectionServiceProvider` that conforms to `IConnectionServiceProvider` to provide connection options to Courier
 
 ```swift
-final class HiveMQAuthService: IConnectionServiceProvider {
-
-  var extraIdProvider: (() -> String?)?
-
-  var clientId: String {
-      let deviceId = UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString
-      return "\(deviceId)|\(username)"
-  }
-
-  private let username = "123456"
-
-  func getConnectOptions(completion: @escaping (Result<ConnectOptions, AuthError>) -> Void) {
-      let connectOptions = ConnectOptions(
-          host: "broker.mqttdashboard.com",
-          port: 1883,
-          keepAlive: 60,
-          clientId: clientId,
-          username: username,
-          password: "",
-          isCleanSession: false,
-          userProperties: ["service": "hivemq", "type": "public"]
-      )
-
-      completion(.success(connectOptions))
-  }
+class ConnectionServiceProvider: IConnectionServiceProvider {
+    
+    let ipAddress: String
+    let port: Int
+    
+    let clientId: String
+    let username: String?
+    let password: String?
+    
+    let isCleanSession: Bool
+    let pingInterval: Int
+    
+    var extraIdProvider: (() -> String?)? = nil
+    
+    init(ipAddress: String,
+        port: Int,
+        clientId: String,
+        username: String? = nil,
+        password: String? = nil,
+        isCleanSession: Bool,
+        pingInterval: Int) {
+        self.ipAddress = ipAddress
+        self.port = port
+        self.clientId = clientId
+        self.username = username
+        self.password = password
+        self.isCleanSession = isCleanSession
+        self.pingInterval = pingInterval
+    }
+    
+    func getConnectOptions(completion: @escaping (Result<ConnectOptions, AuthError>) -> Void) {
+        completion(.success(.init(
+            host: ipAddress,
+            port: UInt16(port),
+            keepAlive: UInt16(pingInterval),
+            clientId: clientId,
+            username: username ?? "",
+            password: password ?? "",
+            isCleanSession: isCleanSession
+        )))
+    }
 }
 ```
 
-## Client Setup in CourierObservableObject
+## Courier Client Configuration in CourierObservableObject
 
-You can peek at how the client is created and configured inside `CourierObservableObject` class `connect` method.
+You can peek at how the client is created and configured inside `ConnectionObservableObject` class.
 
 ```swift
-  
-func connect() {
+init(connectionserviceProvider: ConnectionServiceProvider) {
+    self.connectionServiceProvider = connectionserviceProvider
+    
+    // Configure & Initialize Courier
     let clientFactory = CourierClientFactory()
-    let courierClient = clientFactory.makeMQTTClient(
+    self.courierClient = clientFactory.makeMQTTClient(
         config: MQTTClientConfig(
-            authService: HiveMQAuthService(),
+            authService: connectionserviceProvider,
             messageAdapters: [
+                DataMessageAdapter(),
                 JSONMessageAdapter(),
                 TextMessageAdapter()
+                
             ],
             autoReconnectInterval: 1,
             maxAutoReconnectInterval: 30,
@@ -63,13 +91,5 @@ func connect() {
             messageCleanupInterval: 10
         )
     )
-
-    courierClient.connect()
-    courierClient.subscribe((topic, qos))
-    courierClient.messagePublisher(topic: topic)
-        .sink { [weak self] (message: String) in
-            guard let self = self else { return }
-            self.messages.insert(Message(id: UUID().uuidString, name: "Text Adapter: \(message)", timestamp: Date()), at: 0)
-        }.store(in: &cancellables)
 }
 ```

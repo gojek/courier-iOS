@@ -65,19 +65,20 @@ final class ConnectionObservableObject: ObservableObject {
                 messageCleanupInterval: 10
             )
         )
-        
+    }
+    
+    func connect() { 
+        courierClient.connect() 
         courierClient.connectionStatePublisher
             .sink { [weak self] in
                 self?.handleConnectionStateEvent($0)
             }.store(in: &cancellables)
     }
-    
-    func connect() { courierClient.connect() }
+
     func disconnect() {
         // You can also call destroy() to clear all the persisted message
         courierClient.disconnect()
     }
-    
     
     private func handleConnectionStateEvent(_ connectionState: ConnectionState) {
         switch connectionState {
