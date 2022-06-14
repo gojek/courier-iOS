@@ -1,6 +1,6 @@
 To understand the connection flow and behaviors of the library, you can play around, debug, and run the sample SwiftUI App that you can customize to connect to any broker that you want.
 
-![image banner](./../static/img/courier-e2e.jpg)
+![image banner](./../static/img/courier_e2e.jpg)
 
 ## Features
 - Configure connection (ip, port, clientid, username, password, ping, clean session)
