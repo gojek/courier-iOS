@@ -1,5 +1,5 @@
 platform :ios, '11.0'
-source 'https://github.com/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
 # use_modular_headers!
 
 def courier_pods
@@ -16,7 +16,7 @@ target 'CourierProtobuf' do
   pod 'SwiftProtobuf'
 end
 
-target 'Chat-Example' do
+target 'CourierE2EApp' do
   use_frameworks!
   courier_pods
   pod 'SwiftProtobuf'
