@@ -94,6 +94,7 @@
             title: 'Community',
             items: [
               { label: 'Github', href: 'https://github.com/gojek/courier-iOS', },
+              { label: 'Discord', href: 'https://discord.gg/C823qK4AK7', },
             ],
           },
         ],
