@@ -20,7 +20,7 @@ Setup Courier to subscribe, send, and receive message with bi-directional long r
 
 ### Sample App
 
-You can run the sample App that connects to [HiveMQ](https://broker.mqttdashboard.com) public broker. Select `Chat-Example` from the scheme.
+You can run the sample App to connect to any broker that you can configure. Select `CourierE2EApp` from the scheme.
 
 
 ### Installation
