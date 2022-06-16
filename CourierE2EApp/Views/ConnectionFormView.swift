@@ -7,25 +7,63 @@
 
 import SwiftUI
 
+enum FormFlow: String, Hashable, CaseIterable, Identifiable {
+    case courierE2E = "E2E"
+    case mqtt = "Normal"
+    
+    
+    var id: String { self.rawValue }
+}
+
 struct ConnectionFormView: View {
+    
+    @State var formFlow = FormFlow.courierE2E
     
     @State var ipAddress: String = ""
     @State var port: String = "1883"
     
-    @State var clientID = ""
+    @State var clientID = UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString
     @State var username = ""
     @State var password = ""
+    @State var roomCode = ""
     
     @State var isCleanSession = true
     @State var pingInterval = "60"
     @State var isErrorShown = false
     @State var errorMessage: String?
-    @State var connectionServiceProvider: ConnectionServiceProvider?
+    @State var connectionServiceProviderForE2EFlow: ConnectionServiceProvider?
+    @State var connectionServiceProviderForNormalFlow: ConnectionServiceProvider?
+    
+    var footerText: String {
+        if formFlow == .courierE2E {
+            return "In E2E flow, you need to provide the username and room code to connect. Subscription will be made to \"chat/{room_code}/receive\" topic and published message will be send to \"chat/{username}/send\" topic"
+        } else {
+            return "Standard MQTT Flow"
+        }
+    }
     
     var body: some View {
         Form {
             List {
-                Section("Connection") {
+                Section {
+                    Picker(selection: $formFlow) {
+                        ForEach(FormFlow.allCases) { flow in
+                            Text(flow.rawValue)
+                                .tag(flow)
+                        }
+                    } label: {
+                        Text("Flow")
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                } header: {
+                    Text("Flow")
+                } footer: {
+                    Text(footerText)
+                }
+             
+
+                
+                Section {
                     HStack {
                         Text("IP Address:")
                         TextField("Enter Broker IP", text: $ipAddress)
@@ -41,8 +79,9 @@ struct ConnectionFormView: View {
                     Button("Use HiveMQ Public Address & Port") {
                         self.ipAddress = "broker.mqttdashboard.com"
                         self.port = "1883"
-                        
                     }
+                } header: {
+                    Text("Connection")
                 }
                 
                 Section("ClientID") {
@@ -65,15 +104,25 @@ struct ConnectionFormView: View {
                   
                     HStack {
                         Text("Username:")
-                        TextField("Enter Username (optional)", text: $username)
+                        TextField("Enter Username \(formFlow != .courierE2E ? "(optional)" : "") ", text: $username)
                             .textContentType(.username)
                         
                     }
                     
-                    HStack {
-                        Text("Password:")
-                        TextField("Enter Password (optional)", text: $username)
-                        
+                    if formFlow != .courierE2E {
+                        HStack {
+                            Text("Password:")
+                            TextField("Enter Password (optional)", text: $password)
+                            
+                        }
+                    }
+                    
+                    if formFlow == .courierE2E {
+                        HStack {
+                            Text("Room Code:")
+                            TextField("Enter room code", text: $roomCode)
+
+                        }
                     }
                 }
                 
@@ -89,13 +138,19 @@ struct ConnectionFormView: View {
         .disableAutocorrection(true)
         .autocapitalization(.none)
         .multilineTextAlignment(.trailing)
-        .navigationTitle("Courier E2E")
+        .navigationTitle("Courier")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Connect") { buttonTapped() }
+                Button("Connect") { connectButtonTapped() }
+            }
+            
+        }
+        .fullScreenCover(item: $connectionServiceProviderForE2EFlow) { provider in
+            NavigationView {
+                ConnectionE2EView(connectionVM: ConnectionE2EObservableObject(connectionserviceProvider: provider, username: username, roomCode: roomCode))
             }
         }
-        .fullScreenCover(item: $connectionServiceProvider) { provider in
+        .fullScreenCover(item: $connectionServiceProviderForNormalFlow) { provider in
             NavigationView {
                 ConnectionView(connectionVM: ConnectionObservableObject(connectionserviceProvider: provider))
             }
@@ -107,7 +162,7 @@ struct ConnectionFormView: View {
         } message: { Text($0) }
     }
     
-    func buttonTapped() {
+    func connectButtonTapped() {
         var errorMessages = [String]()
         if ipAddress.isEmpty {
             errorMessages.append("Please fill IP Address field.")
@@ -119,6 +174,14 @@ struct ConnectionFormView: View {
         
         if clientID.isEmpty {
             errorMessages.append("Please fill ClientID field.")
+        }
+        
+        if formFlow == .courierE2E && username.isEmpty {
+            errorMessages.append("Please fill username field.")
+        }
+        
+        if formFlow == .courierE2E && roomCode.isEmpty {
+            errorMessages.append("Please fill the room code")
         }
         
         if Int(self.pingInterval) == nil {
@@ -135,12 +198,18 @@ struct ConnectionFormView: View {
     }
     
     func startConnect() {
-        self.connectionServiceProvider = ConnectionServiceProvider(
+        let provider = ConnectionServiceProvider(
             ipAddress: ipAddress,
             port: Int(self.port) ?? 1883,
             clientId: self.clientID,
             isCleanSession: self.isCleanSession,
             pingInterval: Int(self.pingInterval) ?? 60)
+        switch formFlow {
+        case .courierE2E:
+            self.connectionServiceProviderForE2EFlow = provider
+        case .mqtt:
+            self.connectionServiceProviderForNormalFlow = provider
+        }
     }
     
 }
