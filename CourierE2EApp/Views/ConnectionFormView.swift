@@ -34,11 +34,11 @@ struct ConnectionFormView: View {
     @State var connectionServiceProviderForE2EFlow: ConnectionServiceProvider?
     @State var connectionServiceProviderForNormalFlow: ConnectionServiceProvider?
     
-    var footerText: String {
+    var headerFlowText: String {
         if formFlow == .courierE2E {
             return "In E2E flow, you need to provide the username and room code to connect. Subscription will be made to \"chat/{room_code}/receive\" topic and published message will be send to \"chat/{username}/send\" topic"
         } else {
-            return "Standard MQTT Flow"
+            return "Standard MQTT Flow, you can subscribe and publish to any topic(s)"
         }
     }
     
@@ -58,7 +58,7 @@ struct ConnectionFormView: View {
                 } header: {
                     Text("Flow")
                 } footer: {
-                    Text(footerText)
+                    Text(headerFlowText)
                 }
              
 
