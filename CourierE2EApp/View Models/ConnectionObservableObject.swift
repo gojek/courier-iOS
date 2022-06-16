@@ -10,20 +10,6 @@ import CourierCore
 import CourierMQTT
 import CourierProtobuf
 
-struct MessageData: Identifiable {
-    let id = UUID()
-    let topic: String
-    let qos: Int
-    let message: String
-    let timestamp: Date
-}
-
-struct SubscribeData: Identifiable {
-    let id = UUID()
-    let topic: String
-    let qos: Int
-}
-
 final class ConnectionObservableObject: ObservableObject {
     
     private let courierClient: CourierClient
