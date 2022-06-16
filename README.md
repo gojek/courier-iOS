@@ -10,6 +10,10 @@
 
 Courier is a library for creating long running connections using [MQTT](https://mqtt.org) which is the industry standard for IoT Messaging. Long running connection is a persistent connection established between client & server for bi-directional communication. A long running connection is maintained for as long as possible with the help of keepalive packets for instant updates. This also saves battery and data on mobile devices.
 
+## Detailed Documentation
+
+Find the detailed documentation here - https://gojek.github.io/courier-iOS/
+
 ## Getting Started
 
 Setup Courier to subscribe, send, and receive message with bi-directional long running connection between iOS device and broker.
