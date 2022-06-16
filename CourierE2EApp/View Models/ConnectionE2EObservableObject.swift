@@ -56,6 +56,7 @@ final class ConnectionE2EObservableObject: ObservableObject {
                 messageCleanupInterval: 10
             )
         )
+        courierClient.addEventHandler(self)
     }
     
     func connect() {
@@ -64,7 +65,6 @@ final class ConnectionE2EObservableObject: ObservableObject {
             .sink { [weak self] in
                 self?.handleConnectionStateEvent($0)
             }.store(in: &cancellables)
-        courierClient.subscribe(("chat/\(roomCode)/receive", .zero))
     }
 
     func disconnect() {
@@ -124,3 +124,13 @@ final class ConnectionE2EObservableObject: ObservableObject {
     }
 }
 
+extension ConnectionE2EObservableObject: ICourierEventHandler {
+    
+    func onEvent(_ event: CourierEvent) {
+        switch event {
+        case .connectionSuccess:
+            courierClient.subscribe(("chat/\(roomCode)/receive", .zero))
+        default: break
+        }
+    }
+}
