@@ -112,7 +112,7 @@
           alt: 'Gojek Open Source Logo',
           src: 'img/gojek-logo-white.png',
           width: 250,
-          height: 50,
+          height: 35,
           href: 'https://github.com/gojek/',
         },
          copyright: `Copyright © ${new Date().getFullYear()} Gojek`,
