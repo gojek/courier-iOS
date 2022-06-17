@@ -94,7 +94,7 @@ class MQTTCourierClientTests: XCTestCase {
     func testConnectWithSuccessCredentials() {
         mockConnectionServiceProvider.stubbedGetConnectOptionsCompletionResult = (.success(stubConnectOptions), ())
         sut.connect()
-        if case let .connectionServiceAuthSuccess(host, port, _) = self.mockEventHandler.invokedOnEventParameters?.event {
+        if case let .connectionServiceAuthSuccess(host, port) = self.mockEventHandler.invokedOnEventParameters?.event {
             XCTAssertEqual(host, stubConnectOptions.host)
             XCTAssertEqual(port, Int(stubConnectOptions.port))
         } else {

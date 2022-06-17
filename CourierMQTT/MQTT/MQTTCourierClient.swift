@@ -155,8 +155,7 @@ class MQTTCourierClient: CourierClient {
             courierEventHandler.onEvent(
                 .connectionServiceAuthSuccess(
                     host: connectOptions.host,
-                    port: Int(connectOptions.port),
-                    isCache: connectOptions.isCache
+                    port: Int(connectOptions.port)
                 )
             )
             authRetryPolicy.resetParams()

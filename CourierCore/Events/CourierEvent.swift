@@ -3,7 +3,7 @@ import Foundation
 public enum CourierEvent {
 
     case connectionServiceAuthStart(source: String? = nil)
-    case connectionServiceAuthSuccess(host: String, port: Int, isCache: Bool)
+    case connectionServiceAuthSuccess(host: String, port: Int)
     case connectionServiceAuthFailure(error: Error?)
     case connectedPacketSent
     case courierDisconnect(clearState: Bool)

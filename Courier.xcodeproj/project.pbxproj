@@ -245,7 +245,6 @@
 		8BE0DFF4270BE86E00630D60 /* libCourierCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE0DD41270BE3B000630D60 /* libCourierCore.a */; };
 		8BE0DFF5270BE86E00630D60 /* libCourierMQTT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE0DD6D270BE47300630D60 /* libCourierMQTT.a */; };
 		8BE0DFF8270BE89200630D60 /* ProtobufMessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B06C08226B9275600934879 /* ProtobufMessageAdapter.swift */; };
-		8BE0E03A270BEAA100630D60 /* PrintDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DF5A270BE50900630D60 /* PrintDebug.swift */; };
 		8BE0E03C270BEBBE00630D60 /* ProtobufMessageAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B06C09526B92D4100934879 /* ProtobufMessageAdapterTests.swift */; };
 		8BE0E03D270BEBC300630D60 /* notes.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B06C0A126B92E4500934879 /* notes.pb.swift */; };
 		8BE7468B26956DE2003A2844 /* CourierClientFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE7468A26956DE2003A2844 /* CourierClientFactoryTests.swift */; };
@@ -262,6 +261,7 @@
 		B00C824D285B152000B2BDBA /* ConnectionE2EView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C8244285B152000B2BDBA /* ConnectionE2EView.swift */; };
 		B00C824E285B152000B2BDBA /* MesssageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C8246285B152000B2BDBA /* MesssageData.swift */; };
 		B00C824F285B152000B2BDBA /* SubscribeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C8247285B152000B2BDBA /* SubscribeData.swift */; };
+		B00C842C285C3CA000B2BDBA /* PrintDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C842B285C3CA000B2BDBA /* PrintDebug.swift */; };
 		B0DA90B92856F5E300F6512D /* CourierE2EApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DA90B82856F5E300F6512D /* CourierE2EApp.swift */; };
 		B0DA90BD2856F5E400F6512D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0DA90BC2856F5E400F6512D /* Assets.xcassets */; };
 		B0DA90C02856F5E400F6512D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0DA90BF2856F5E400F6512D /* Preview Assets.xcassets */; };
@@ -613,7 +613,6 @@
 		8BE0DF55270BE50800630D60 /* Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
 		8BE0DF56270BE50800630D60 /* ConnectionState+MQTT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ConnectionState+MQTT.swift"; sourceTree = "<group>"; };
 		8BE0DF59270BE50900630D60 /* MulticastDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
-		8BE0DF5A270BE50900630D60 /* PrintDebug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrintDebug.swift; sourceTree = "<group>"; };
 		8BE0DF5B270BE50900630D60 /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 		8BE0DF5C270BE50900630D60 /* AppStateObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStateObserver.swift; sourceTree = "<group>"; };
 		8BE0DFEA270BE85B00630D60 /* libCourierProtobuf.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCourierProtobuf.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -635,6 +634,7 @@
 		B00C8244285B152000B2BDBA /* ConnectionE2EView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionE2EView.swift; sourceTree = "<group>"; };
 		B00C8246285B152000B2BDBA /* MesssageData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MesssageData.swift; sourceTree = "<group>"; };
 		B00C8247285B152000B2BDBA /* SubscribeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscribeData.swift; sourceTree = "<group>"; };
+		B00C842B285C3CA000B2BDBA /* PrintDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintDebug.swift; sourceTree = "<group>"; };
 		B0CB3A1749D97E9B69534617 /* Pods-CourierCommonClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierCommonClient.debug.xcconfig"; path = "Target Support Files/Pods-CourierCommonClient/Pods-CourierCommonClient.debug.xcconfig"; sourceTree = "<group>"; };
 		B0DA90B62856F5E300F6512D /* CourierE2EApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourierE2EApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0DA90B82856F5E300F6512D /* CourierE2EApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourierE2EApp.swift; sourceTree = "<group>"; };
@@ -1024,7 +1024,6 @@
 		8BBF94E72626D5B600FFC013 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
-				8BE0DF5A270BE50900630D60 /* PrintDebug.swift */,
 				8B7975A9262801D600FD704B /* Reactive.swift */,
 				8BBF94EA2626D5C200FFC013 /* Helpers */,
 			);
@@ -1505,6 +1504,7 @@
 			isa = PBXGroup;
 			children = (
 				8BE0DF59270BE50900630D60 /* MulticastDelegate.swift */,
+				B00C842B285C3CA000B2BDBA /* PrintDebug.swift */,
 				8BE0DF5B270BE50900630D60 /* Atomic.swift */,
 				8BE0DF5C270BE50900630D60 /* AppStateObserver.swift */,
 				8BC4E3122803D47A0079DADE /* Debouncer.swift */,
@@ -2028,7 +2028,6 @@
 				8BE0DD5F270BE41000630D60 /* IConnectionServiceProvider.swift in Sources */,
 				8BE0DD5E270BE41000630D60 /* CourierClient.swift in Sources */,
 				8BE0DD65270BE41000630D60 /* CourierEventManager.swift in Sources */,
-				8BE0E03A270BEAA100630D60 /* PrintDebug.swift in Sources */,
 				8BE0DD5C270BE41000630D60 /* ConnectOptions.swift in Sources */,
 				8BE871C527A013FC00C51CD8 /* Message.swift in Sources */,
 				8BE0DD67270BE41000630D60 /* QoS.swift in Sources */,
@@ -2064,6 +2063,7 @@
 				8BE0DF6E270BE50900630D60 /* MessageAdaptersCoordinator.swift in Sources */,
 				8BE0DFD3270BE50A00630D60 /* CurrentThreadScheduler.swift in Sources */,
 				8BE0DFCC270BE50A00630D60 /* Errors.swift in Sources */,
+				B00C842C285C3CA000B2BDBA /* PrintDebug.swift in Sources */,
 				8BE0DFB8270BE50A00630D60 /* Create.swift in Sources */,
 				8BE0DF74270BE50900630D60 /* DataMessageAdapter.swift in Sources */,
 				8BC4E3132803D47A0079DADE /* Debouncer.swift in Sources */,

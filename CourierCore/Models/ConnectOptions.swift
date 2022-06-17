@@ -15,8 +15,6 @@ public struct ConnectOptions: Equatable {
     public let password: String
 
     public let isCleanSession: Bool
-
-    public let isCache: Bool
     
     public let userProperties: [String: String]?
 
@@ -28,7 +26,6 @@ public struct ConnectOptions: Equatable {
         username: String,
         password: String,
         isCleanSession: Bool = false,
-        isCache: Bool = false,
         userProperties: [String: String]? = nil
     ) {
         self.host = host
@@ -38,7 +35,6 @@ public struct ConnectOptions: Equatable {
         self.username = username
         self.password = password
         self.isCleanSession = isCleanSession
-        self.isCache = isCache
         self.userProperties = userProperties
     }
 }

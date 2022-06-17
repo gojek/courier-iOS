@@ -61,43 +61,30 @@ extension MQTTCourierClient: ICourierEventHandler {
     }
 
     private func onAppBackground() {
-        let delay: TimeInterval
         self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "Cleanup pending unsub") { [weak self] in
-            guard let self = self, let backgroundTaskID = self.backgroundTaskID else { return }
-            UIApplication.shared.endBackgroundTask(backgroundTaskID)
-            self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+            self?.invalidateBackgroundTask()
         }
-        delay = 1.0
 
         #if DEBUG || INTEGRATION
         printDebug("MQTT - COURIER: ON App Background, Unsubscribing: \(self.subscriptionStore.pendingUnsubscriptions.map { $0 })")
         #endif
 
-        self.clearConnectionTimerAndFlags()
-        let token = Date().timeIntervalSince1970
-        self.onBackgroundToken = token
-
-        dispatchQueue.asyncAfter(deadline: .now() + delay) { [weak self] in
-            guard let self = self, self.onBackgroundToken == token else { return }
-            printDebug("MQTT - COURIER: Disconnected on background")
-            self.client.disconnect()
-            if let backgroundTaskID = self.backgroundTaskID {
-                UIApplication.shared.endBackgroundTask(backgroundTaskID)
-                self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
-            }
+        dispatchQueue.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.invalidateBackgroundTask()
         }
     }
 
     private func onAppForeground() {
-        self.onBackgroundToken = nil
+        self.invalidateBackgroundTask()
+        dispatchQueue.async { [weak self] in
+            self?.connect()
+        }
+    }
+    
+    private func invalidateBackgroundTask() {
         if let backgroundTaskID = self.backgroundTaskID {
             UIApplication.shared.endBackgroundTask(backgroundTaskID)
             self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
-        }
-
-        dispatchQueue.async { [weak self] in
-            self?.connectSource = "App Foreground"
-            self?.connect()
         }
     }
 }

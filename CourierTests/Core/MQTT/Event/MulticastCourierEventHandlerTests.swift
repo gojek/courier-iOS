@@ -58,9 +58,9 @@ class MulticastCourierEventHandlerTests: XCTestCase {
     }
 
     func testConnectionServiceAuthSuccess() {
-        sut.onEvent(.connectionServiceAuthSuccess(host: "xyz", port: 999, isCache: false))
+        sut.onEvent(.connectionServiceAuthSuccess(host: "xyz", port: 999))
         switch mockCourierEventHandler.invokedOnEventParameters?.event {
-        case let .connectionServiceAuthSuccess(host, port, _):
+        case let .connectionServiceAuthSuccess(host, port):
             XCTAssertEqual(host, "xyz")
             XCTAssertEqual(port, 999)
         default:
