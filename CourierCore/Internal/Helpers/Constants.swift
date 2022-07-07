@@ -5,7 +5,7 @@ enum Constants {
     enum SDK {
 
         static let name = "Courier"
-        static let version = "0.0.6"
+        static let version = "0.0.7"
 
     }
 }
