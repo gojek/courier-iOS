@@ -63,7 +63,7 @@ class MQTTCourierClientTests: XCTestCase {
     func testConnectWhenAlreadyConnected() {
         mockClient.stubbedIsConnected = true
         sut.connect()
-        if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
+        if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event.type {
             XCTAssert(false)
         }
         
@@ -73,7 +73,7 @@ class MQTTCourierClientTests: XCTestCase {
     func testConnect() {
         sut.connect()
 //        XCTAssertTrue(mockEventHandler.invokedReset)
-        if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
+        if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event.type {
             XCTAssert(true)
         } else {
             XCTAssert(false)
@@ -85,7 +85,7 @@ class MQTTCourierClientTests: XCTestCase {
         mockClient.stubbedIsConnected = true
         XCTAssertFalse(mockEventHandler.invokedReset)
         
-        if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
+        if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event.type {
             XCTAssert(false)
         }
         XCTAssertFalse(mockConnectionServiceProvider.invokedGetConnectOptions)
@@ -94,7 +94,7 @@ class MQTTCourierClientTests: XCTestCase {
     func testConnectWithSuccessCredentials() {
         mockConnectionServiceProvider.stubbedGetConnectOptionsCompletionResult = (.success(stubConnectOptions), ())
         sut.connect()
-        if case let .connectionServiceAuthSuccess(host, port) = self.mockEventHandler.invokedOnEventParameters?.event {
+        if case let .connectionServiceAuthSuccess(host, port) = self.mockEventHandler.invokedOnEventParameters?.event.type {
             XCTAssertEqual(host, stubConnectOptions.host)
             XCTAssertEqual(port, Int(stubConnectOptions.port))
         } else {
@@ -118,13 +118,13 @@ class MQTTCourierClientTests: XCTestCase {
         mockAuthRetryPolicy.stubbedGetRetryTimeResult = 0.1
 
         sut.connect()
-        if case .connectionServiceAuthFailure = self.mockEventHandler.invokedOnEventParametersList[1]?.event {
+        if case .connectionServiceAuthFailure = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
             XCTAssert(true)
         } else {
             XCTAssert(false)
         }
         
-        if case .connectionUnavailable = self.mockEventHandler.invokedOnEventParametersList[2]?.event {
+        if case .connectionUnavailable = self.mockEventHandler.invokedOnEventParametersList[2]?.event.type {
             XCTAssert(true)
         } else {
             XCTAssert(false)
@@ -207,7 +207,7 @@ class MQTTCourierClientTests: XCTestCase {
     func testHandleAuthFailure() {
         sut.handleAuthFailure()
 //        XCTAssertTrue(mockEventHandler.invokedReset)
-        if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
+        if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event.type {
             XCTAssert(true)
         } else {
             XCTAssert(false)
@@ -217,44 +217,44 @@ class MQTTCourierClientTests: XCTestCase {
 
     func testOnConnectAttempt() {
         testPublishConnectionState {
-            sut.onEvent(.connectionAttempt)
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionAttempt))
         }
     }
 
     func testOnConnectionSuccess() {
         testPublishConnectionState {
-            sut.onEvent(.connectionSuccess)
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionSuccess))
             XCTAssertTrue(mockClient.invokedSubscribe)
         }
     }
 
     func testOnConnectionFailure() {
         testPublishConnectionState {
-            sut.onEvent(.connectionFailure(error: nil))
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionFailure(error: nil)))
         }
     }
 
     func testOnConnectionLost() {
         testPublishConnectionState {
-            sut.onEvent(.connectionLost(error: nil, diffLastInbound: nil, diffLastOutbound: nil))
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionLost(error: nil, diffLastInbound: nil, diffLastOutbound: nil)))
         }
     }
 
     func testOnConnectionDisconnect() {
         testPublishConnectionState {
-            sut.onEvent(.connectionDisconnect)
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionDisconnect))
         }
     }
 
     func testOnAppForegroundConnect() {
-        sut.onEvent(.appForeground)
+        sut.onEvent(.init(connectionInfo: nil, event: .appForeground))
         let expectation_ = expectation(description: "test")
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
             expectation_.fulfill()
         }
         waitForExpectations(timeout: 0.1) { _ in
 //            XCTAssertTrue(self.mockEventHandler.invokedReset)
-            if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
+            if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event.type {
                 XCTAssert(true)
             } else {
                 XCTAssert(false)
@@ -265,14 +265,14 @@ class MQTTCourierClientTests: XCTestCase {
 
     func testOnConnectionAvailableConnect() {
         mockSubscriptionStore.stubbedSubscriptions = stubbedTopicsDict
-        sut.onEvent(.connectionAvailable)
+        sut.onEvent(.init(connectionInfo: nil, event: .connectionAvailable))
         let expectation_ = expectation(description: "test")
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
             expectation_.fulfill()
         }
         waitForExpectations(timeout: 0.1) { _ in
 //            XCTAssertTrue(self.mockEventHandler.invokedReset)
-            if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event {
+            if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event.type {
                 XCTAssert(true)
             } else {
                 XCTAssert(false)

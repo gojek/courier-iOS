@@ -62,8 +62,8 @@ class MQTTClientTests: XCTestCase {
     func testReconnectWithOptions() {
         sut.connect(connectOptions: stubConnectOptions)
         sut.reconnect()
-
-        if case .reconnect = self.mockEventHandler.invokedOnEventParametersList.first!!.event {
+        
+        if case .reconnect = self.mockEventHandler.invokedOnEventParametersList.first!!.event.type {
             XCTAssert(true)
         } else {
             XCTAssert(false)
@@ -73,7 +73,8 @@ class MQTTClientTests: XCTestCase {
 
     func testReconnectWithOptionsNil() {
         sut.reconnect()
-        if case .reconnect = self.mockEventHandler.invokedOnEventParameters?.event {
+        
+        if case .reconnect = self.mockEventHandler.invokedOnEventParameters?.event.type {
             XCTAssert(false)
         }
         XCTAssertFalse(mockConnection.invokedConnect)
@@ -118,7 +119,7 @@ class MQTTClientTests: XCTestCase {
         mockConnection.stubbedIsConnected = true
         sut.disconnect()
 
-        if case .connectionDisconnect = self.mockEventHandler.invokedOnEventParametersList.first!!.event {
+        if case .connectionDisconnect = self.mockEventHandler.invokedOnEventParametersList.first!!.event.type {
             XCTAssert(true)
         } else {
             XCTAssert(false)
@@ -243,7 +244,7 @@ class MQTTClientTests: XCTestCase {
 
     func testOnForegroundConnectionAvailable() {
         sut.onForeground()
-        if case .appForeground = self.mockEventHandler.invokedOnEventParameters?.event {
+        if case .appForeground = self.mockEventHandler.invokedOnEventParameters?.event.type {
             XCTAssert(true)
         } else {
             XCTAssert(false)
@@ -253,7 +254,7 @@ class MQTTClientTests: XCTestCase {
     func testOnBackground() {
         mockReachability.stubbedConnection = .wifi
         sut.onBackground()
-        if case .appBackground = self.mockEventHandler.invokedOnEventParameters?.event {
+        if case .appBackground = self.mockEventHandler.invokedOnEventParameters?.event.type {
             XCTAssert(true)
         } else {
             XCTAssert(false)
@@ -263,7 +264,7 @@ class MQTTClientTests: XCTestCase {
     func testHandleConnectionChangeWhenConnectionAvailable() {
         mockReachability.stubbedConnection = .wifi
         sut.handleConnectionChange()
-        if case .connectionAvailable = self.mockEventHandler.invokedOnEventParameters?.event {
+        if case .connectionAvailable = self.mockEventHandler.invokedOnEventParameters?.event.type {
             XCTAssert(true)
         } else {
             XCTAssert(false)
@@ -273,7 +274,7 @@ class MQTTClientTests: XCTestCase {
     func testHandleConnectionChangeWhenConnectionUnavailable() {
         mockReachability.stubbedConnection = .unavailable
         sut.handleConnectionChange()
-        if case .connectionUnavailable = self.mockEventHandler.invokedOnEventParameters?.event {
+        if case .connectionUnavailable = self.mockEventHandler.invokedOnEventParameters?.event.type {
             XCTAssert(true)
         } else {
             XCTAssert(false)

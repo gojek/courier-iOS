@@ -127,7 +127,7 @@ final class ConnectionE2EObservableObject: ObservableObject {
 extension ConnectionE2EObservableObject: ICourierEventHandler {
     
     func onEvent(_ event: CourierEvent) {
-        switch event {
+        switch event.type {
         case .connectionSuccess:
             courierClient.subscribe(("chat/\(roomCode)/receive", .zero))
         default: break
