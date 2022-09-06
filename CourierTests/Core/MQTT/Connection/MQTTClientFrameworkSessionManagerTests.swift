@@ -22,10 +22,6 @@ class MQTTClientFrameworkSessionManagerTests: XCTestCase {
         mockDelegate = MockMQTTClientFrameworkSessionManagerDelegate()
 
         sut = MQTTClientFrameworkSessionManager(
-            persistence: true,
-            maxWindowSize: 100,
-            maxMessages: 100,
-            maxSize: 100,
             retryInterval: 10,
             maxRetryInterval: 15,
             streamSSLLevel: "9999",
@@ -62,11 +58,6 @@ class MQTTClientFrameworkSessionManagerTests: XCTestCase {
         XCTAssertEqual(mockSession.invokedQueue, .main)
         XCTAssertNil(mockSession.invokedCertificates)
         XCTAssertEqual(mockSession.invokedStreamSSLLevel, "9999")
-        XCTAssertTrue(mockSession.invokedPersistence === mockPersistence)
-        XCTAssertTrue(mockPersistence.invokedPersistent!)
-        XCTAssertEqual(mockPersistence.invokedMaxWindowSize, UInt(100))
-        XCTAssertEqual(mockPersistence.invokedMaxSize, UInt(100))
-        XCTAssertEqual(mockPersistence.invokedMaxMessages, UInt(100))
         XCTAssertTrue(mockSession.invokedDelegate === sut)
         XCTAssertFalse(mockSession.invokedClose)
         XCTAssertEqual(sut.state, .connecting)
