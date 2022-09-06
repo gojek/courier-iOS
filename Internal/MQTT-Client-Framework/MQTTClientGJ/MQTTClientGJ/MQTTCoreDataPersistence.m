@@ -479,8 +479,10 @@
                                                         options:options
                                                           error:&error]) {
         DDLogError(@"[MQTTPersistence] managedObjectContext save: %@", error);
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"MQTTPersistenceFailedToAddStore" object:nil userInfo: @{NSLocalizedDescriptionKey: error.localizedDescription}];
+        if (error) {
+            [[NSNotificationCenter defaultCenter]
+             postNotificationName:@"MQTTPersistenceFailedToAddStore" object:nil userInfo: @{NSLocalizedDescriptionKey: error.localizedDescription}];
+        }
         persistentStoreCoordinator = nil;
     }
     
@@ -495,8 +497,10 @@
                                                             options:options
                                                               error:&error]) {
             DDLogError(@"[MQTTPersistence] managedObjectContext save: %@", error);
-            [[NSNotificationCenter defaultCenter]
-             postNotificationName:@"MQTTPersistenceFailedToAddStore" object:nil userInfo: @{NSLocalizedDescriptionKey: error.localizedDescription}];
+            if (error) {
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:@"MQTTPersistenceFailedToAddStore" object:nil userInfo: @{NSLocalizedDescriptionKey: error.localizedDescription}];
+            }
             persistentStoreCoordinator = nil;
         }
     }
