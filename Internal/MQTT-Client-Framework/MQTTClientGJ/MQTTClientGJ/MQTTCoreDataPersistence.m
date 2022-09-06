@@ -479,12 +479,12 @@
                                                         options:options
                                                           error:&error]) {
         DDLogError(@"[MQTTPersistence] managedObjectContext save: %@", error);
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"MQTTPersistenceFailedToAddStore" object:nil userInfo: @{NSLocalizedDescriptionKey: error.localizedDescription}];
         persistentStoreCoordinator = nil;
     }
-
-      
-      
-     if (persistentStoreCoordinator == nil && error != nil && self.persistent) {
+    
+    if (persistentStoreCoordinator == nil && error != nil && self.persistent) {
         DDLogError(@"[MQTTPersistence] Initializing Persistent Store with SQLite failed, will try to use inMemory instead to avoid crashes");
         persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
                                       initWithManagedObjectModel:model];
@@ -495,6 +495,8 @@
                                                             options:options
                                                               error:&error]) {
             DDLogError(@"[MQTTPersistence] managedObjectContext save: %@", error);
+            [[NSNotificationCenter defaultCenter]
+             postNotificationName:@"MQTTPersistenceFailedToAddStore" object:nil userInfo: @{NSLocalizedDescriptionKey: error.localizedDescription}];
             persistentStoreCoordinator = nil;
         }
     }
