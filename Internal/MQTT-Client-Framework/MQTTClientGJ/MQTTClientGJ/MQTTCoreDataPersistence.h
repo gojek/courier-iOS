@@ -8,7 +8,7 @@
 #import "MQTTPersistence.h"
 
 @interface MQTTCoreDataPersistence : NSObject <MQTTPersistence>
-
+- (void)initializeManagedObjectContext;
 @end
 
 @interface MQTTFlow : NSManagedObject <MQTTFlow>

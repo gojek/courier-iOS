@@ -52,8 +52,8 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     private(set) var host: String?
     private(set) var port: UInt32?
     weak var delegate: MQTTClientFrameworkSessionManagerDelegate?
+    private let persistence: MQTTPersistence
     private let mqttSessionFactory: IMQTTSessionFactory
-    private let mqttPersistenceFactory: IMQTTPersistenceFactory
 
     private let _state = Atomic<MQTTSessionManagerState?>(nil)
     private(set) var state: MQTTSessionManagerState? {
@@ -83,10 +83,6 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     private var certificates: [Any]?
     private var protocolLevel: MQTTProtocolVersion?
 
-    private var persistent = false
-    private var maxWindowSize: Int
-    private var maxSize: Int
-    private var maxMessages: Int
     private var streamSSLLevel: String
 
     private var connectTimeoutPolicy: IConnectTimeoutPolicy
@@ -96,11 +92,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         state != .closed && state != .starting
     }
 
-    init(persistence: Bool = false,
-         maxWindowSize: Int = 16,
-         maxMessages: Int = 5000,
-         maxSize: Int = 128 * 1024 * 1024,
-         retryInterval: TimeInterval = 10.0,
+    init(retryInterval: TimeInterval = 10.0,
          maxRetryInterval: TimeInterval = 12.0,
          streamSSLLevel: String = kCFStreamSocketSecurityLevelNegotiatedSSL as String,
          queue: DispatchQueue = .main,
@@ -111,15 +103,11 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     ) {
         self.streamSSLLevel = streamSSLLevel
         self.queue = queue
-        self.persistent = persistence
-        self.maxWindowSize = maxWindowSize
-        self.maxSize = maxSize
-        self.maxMessages = maxMessages
+        self.persistence = mqttPersistenceFactory.makePersistence()
         self.mqttSessionFactory = mqttSessionFactory
-        self.mqttPersistenceFactory = mqttPersistenceFactory
         self.connectTimeoutPolicy = connectTimeoutPolicy
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
-
+        
         super.init()
 
         self.updateState(to: .starting)
@@ -208,11 +196,6 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
             session?.inactivityTimeout = self.idleActivityTimeoutPolicy.inactivityTimeout
             session?.readTimeout = self.idleActivityTimeoutPolicy.readTimeout
 
-            let persistence = mqttPersistenceFactory.makePersistence()
-            persistence.persistent = self.persistent
-            persistence.maxWindowSize = UInt(self.maxWindowSize)
-            persistence.maxSize = UInt(self.maxSize)
-            persistence.maxMessages = UInt(self.maxMessages)
             session?.persistence = persistence
 
             session?.delegate = self
