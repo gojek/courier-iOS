@@ -192,6 +192,10 @@
     return self;
 }
 
+- (void)initializeManagedObjectContext {
+    [self managedObjectContext];
+}
+
 - (NSManagedObjectContext *)managedObjectContext {
     if (!_managedObjectContext) {
         NSPersistentStoreCoordinator *coordinator = [self createPersistentStoreCoordinator];

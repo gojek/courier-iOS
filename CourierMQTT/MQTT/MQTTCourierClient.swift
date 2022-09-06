@@ -57,14 +57,14 @@ class MQTTCourierClient: CourierClient {
     convenience init(config: MQTTClientConfig) {
         self.init(
             config: config,
-            mqttClientFactory: MQTTClientFactory(isPersistenceEnabled: config.isMessagePersistenceEnabled)
+            mqttClientFactory: MQTTClientFactory()
         )
     }
 
     init(config: MQTTClientConfig,
          subscriptionStoreFactory: ISubscriptionStoreFactory = SubscriptionStoreFactory(),
          multicastEventHandlerFactory: IMulticastCourierEventHandlerFactory = MulticastCourierEventHandlerFactory(),
-         mqttClientFactory: IMQTTClientFactory = MQTTClientFactory(isPersistenceEnabled: false),
+         mqttClientFactory: IMQTTClientFactory = MQTTClientFactory(),
          authRetryPolicy: IAuthRetryPolicy = AuthRetryPolicy()) {
 
         self.config = config
@@ -85,7 +85,9 @@ class MQTTCourierClient: CourierClient {
             authFailureHandler: self,
             eventHandler: courierEventHandler,
             messagePersistenceTTLSeconds: config.messagePersistenceTTLSeconds,
-            messageCleanupInterval: config.messageCleanupInterval)
+            messageCleanupInterval: config.messageCleanupInterval,
+            isMQTTPersistentEnabled: config.isMessagePersistenceEnabled,
+            shouldInitializeCoreDataPersistenceContext: config.shouldInitializeCoreDataPersistenceContext)
 
         let reachability = try? Reachability()
         self.client = mqttClientFactory.makeClient(configuration: configuration, reachability: reachability, dispatchQueue: dispatchQueue)
