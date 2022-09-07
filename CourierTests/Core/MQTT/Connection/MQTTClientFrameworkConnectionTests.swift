@@ -436,17 +436,14 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
     }
     
     func testDeleteAllPersistedMessage() {
-        sut.deleteAllPersistedMessages(clientId: "xxx")
-        XCTAssertTrue(mockPersistence.invokedPersistentSetter)
-        XCTAssertTrue(mockPersistence.invokedPersistent!)
-        
+        sut.deleteAllPersistedMessages()
+    
         let expectation_ = expectation(description: "test")
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
             expectation_.fulfill()
         }
         waitForExpectations(timeout: 0.1) { _ in
-            XCTAssertTrue(self.mockPersistence.invokedDeleteAllFlows)
-            XCTAssertEqual(self.mockPersistence.invokedDeleteAllFlowsParameters?.clientId, "xxx")
+            XCTAssertTrue(self.mockSessionManager.invokedDeleteAllPersistedMessages)
         }
     }
 }

@@ -286,7 +286,7 @@ class MQTTCourierClient: CourierClient {
     func destroy() {
         isDestroyed  = true
         subscriptionStore.clearAllSubscriptions()
-        client.deleteAllPersistedMessages(clientId: client.connectOptions?.clientId ?? connectionServiceProvider.clientId)
+        client.deleteAllPersistedMessages()
         client.messageReceiverListener.clearPersistedMessages()
         disconnect()
     }

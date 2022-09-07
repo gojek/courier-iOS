@@ -1,6 +1,7 @@
 import Foundation
 @testable import CourierCore
 @testable import CourierMQTT
+
 class MockMQTTConnection: IMQTTConnection {
 
     var invokedIsConnectedGetter = false
@@ -87,14 +88,10 @@ class MockMQTTConnection: IMQTTConnection {
 
     var invokedDeleteAllPersistedMessages = false
     var invokedDeleteAllPersistedMessagesCount = 0
-    var invokedDeleteAllPersistedMessagesParameters: (clientId: String, Void)?
-    var invokedDeleteAllPersistedMessagesParametersList = [(clientId: String, Void)]()
 
-    func deleteAllPersistedMessages(clientId: String) {
+    func deleteAllPersistedMessages() {
         invokedDeleteAllPersistedMessages = true
         invokedDeleteAllPersistedMessagesCount += 1
-        invokedDeleteAllPersistedMessagesParameters = (clientId, ())
-        invokedDeleteAllPersistedMessagesParametersList.append((clientId, ()))
     }
 
     var invokedSubscribe = false

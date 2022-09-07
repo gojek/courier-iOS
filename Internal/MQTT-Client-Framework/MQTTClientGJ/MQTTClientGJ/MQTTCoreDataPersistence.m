@@ -264,6 +264,28 @@
     [self sync];
 }
 
+- (void)deleteAllFlows {
+    [self.managedObjectContext performBlockAndWait:^{
+        NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"MQTTFlow"];
+        NSBatchDeleteRequest *deleteRequest = [[NSBatchDeleteRequest alloc] initWithFetchRequest:fetchRequest];
+        deleteRequest.resultType = NSBatchDeleteResultTypeObjectIDs;
+
+        NSError *error = nil;
+        NSBatchDeleteResult *batchDelete = [self.managedObjectContext executeRequest:deleteRequest error:&error];
+        
+        if (error) {
+            DDLogInfo(@"[MQTTCoreDataPersistence] Failed to delete all flows %@", error);
+            return;
+        }
+        NSArray *deletedIds = batchDelete.result;
+        if (deletedIds && deletedIds.count > 0) {
+            NSDictionary *deletedObjects = @{ NSDeletedObjectsKey: deletedIds };
+            [NSManagedObjectContext mergeChangesFromRemoteContextSave: deletedObjects intoContexts:@[self.managedObjectContext]];
+        }
+    }];
+    [self sync];
+}
+
 - (void)sync {
     [self.managedObjectContext performBlockAndWait:^{
         [self internalSync];
