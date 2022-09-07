@@ -45,6 +45,8 @@ protocol IMQTTClientFrameworkSessionManager {
 
     func subscribe(_ topics: [(topic: String, qos: QoS)])
     func unsubscribe(_ topics: [String])
+    
+    func deleteAllPersistedMessages()
 }
 
 class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionManager {
@@ -310,6 +312,19 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
 
     func publish(packet: MQTTPacket) {
         sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
+    }
+    
+    func deleteAllPersistedMessages() {
+        let _persistence: MQTTCoreDataPersistence
+        if self.persistence.persistent, let coreDataPeristence = self.persistence as? MQTTCoreDataPersistence {
+            _persistence = coreDataPeristence
+        } else {
+            _persistence = MQTTCoreDataPersistence()
+            _persistence.persistent = true
+        }
+        queue.async {
+            _persistence.deleteAllFlows()
+        }
     }
 }
 

@@ -282,7 +282,7 @@ class MQTTClientTests: XCTestCase {
     }
 
     func testDeleteAllPersistedMessages() {
-        sut.deleteAllPersistedMessages(clientId: "xyz")
+        sut.deleteAllPersistedMessages()
         XCTAssertTrue(mockConnection.invokedDeleteAllPersistedMessages)
     }
 

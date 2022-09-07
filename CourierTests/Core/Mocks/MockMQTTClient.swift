@@ -1,6 +1,7 @@
 import Foundation
 @testable import CourierCore
 @testable import CourierMQTT
+
 class MockMQTTClient: IMQTTClient {
 
     var invokedIsConnectedGetter = false
@@ -52,7 +53,7 @@ class MockMQTTClient: IMQTTClient {
         invokedSubscribedMessageStreamGetterCount += 1
         return stubbedSubscribedMessageStream
     }
-    
+
     var invokedMessageReceiverListenerGetter = false
     var invokedMessageReceiverListenerGetterCount = 0
     var stubbedMessageReceiverListener: IMessageReceiveListener!
@@ -129,14 +130,10 @@ class MockMQTTClient: IMQTTClient {
 
     var invokedDeleteAllPersistedMessages = false
     var invokedDeleteAllPersistedMessagesCount = 0
-    var invokedDeleteAllPersistedMessagesParameters: (clientId: String, Void)?
-    var invokedDeleteAllPersistedMessagesParametersList = [(clientId: String, Void)]()
 
-    func deleteAllPersistedMessages(clientId: String) {
+    func deleteAllPersistedMessages() {
         invokedDeleteAllPersistedMessages = true
         invokedDeleteAllPersistedMessagesCount += 1
-        invokedDeleteAllPersistedMessagesParameters = (clientId, ())
-        invokedDeleteAllPersistedMessagesParametersList.append((clientId, ()))
     }
 
     var invokedReset = false

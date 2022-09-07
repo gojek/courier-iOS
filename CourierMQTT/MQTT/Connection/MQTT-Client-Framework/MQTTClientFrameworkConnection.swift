@@ -113,12 +113,8 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
         sessionManager.publish(packet: packet)
     }
 
-    func deleteAllPersistedMessages(clientId: String) {
-        let persistence = persistenceFactory.makePersistence()
-        persistence.persistent = true
-        mqttDispatchQueue.async {
-            persistence.deleteAllFlows(forClientId: clientId)
-        }
+    func deleteAllPersistedMessages() {
+        sessionManager.deleteAllPersistedMessages()
     }
 
     func subscribe(_ topics: [(topic: String, qos: QoS)]) {

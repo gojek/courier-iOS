@@ -91,8 +91,8 @@ class MQTTClient: IMQTTClient {
         connection.publish(packet: packet)
     }
 
-    func deleteAllPersistedMessages(clientId: String) {
-        connection.deleteAllPersistedMessages(clientId: clientId)
+    func deleteAllPersistedMessages() {
+        connection.deleteAllPersistedMessages()
     }
 
     func subscribe(_ topics: [(topic: String, qos: QoS)]) {

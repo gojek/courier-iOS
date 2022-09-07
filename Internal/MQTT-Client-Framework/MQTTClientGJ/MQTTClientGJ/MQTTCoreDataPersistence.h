@@ -9,6 +9,7 @@
 
 @interface MQTTCoreDataPersistence : NSObject <MQTTPersistence>
 - (void)initializeManagedObjectContext;
+- (void)deleteAllFlows;
 @end
 
 @interface MQTTFlow : NSManagedObject <MQTTFlow>

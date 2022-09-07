@@ -2,7 +2,7 @@ import Foundation
 import MQTTClientGJ
 @testable import CourierCore
 @testable import CourierMQTT
-class MockMQTTPersistence: MQTTPersistence {
+class MockMQTTPersistence: MQTTCoreDataPersistence {
 
     var invokedMaxWindowSizeSetter = false
     var invokedMaxWindowSizeSetterCount = 0
@@ -11,7 +11,7 @@ class MockMQTTPersistence: MQTTPersistence {
     var invokedMaxWindowSizeGetter = false
     var invokedMaxWindowSizeGetterCount = 0
     var stubbedMaxWindowSize: UInt!
-    var maxWindowSize: UInt {
+    override var maxWindowSize: UInt {
         set {
             invokedMaxWindowSizeSetter = true
             invokedMaxWindowSizeSetterCount += 1
@@ -34,7 +34,7 @@ class MockMQTTPersistence: MQTTPersistence {
     var invokedMaxMessagesGetterCount = 0
     var stubbedMaxMessages: UInt!
 
-    var maxMessages: UInt {
+    override var maxMessages: UInt {
         set {
             invokedMaxMessagesSetter = true
             invokedMaxMessagesSetterCount += 1
@@ -56,7 +56,7 @@ class MockMQTTPersistence: MQTTPersistence {
     var invokedPersistentGetter = false
     var invokedPersistentGetterCount = 0
     var stubbedPersistent: Bool!
-    var persistent: Bool {
+    override var persistent: Bool {
         set {
             invokedPersistentSetter = true
             invokedPersistentSetterCount += 1
@@ -78,7 +78,7 @@ class MockMQTTPersistence: MQTTPersistence {
     var invokedMaxSizeGetter = false
     var invokedMaxSizeGetterCount = 0
     var stubbedMaxSize: UInt!
-    var maxSize: UInt {
+    override var maxSize: UInt {
         set {
             invokedMaxSizeSetter = true
             invokedMaxSizeSetterCount += 1
@@ -93,35 +93,35 @@ class MockMQTTPersistence: MQTTPersistence {
         }
     }
 
-    func windowSize(_ clientId: String!) -> UInt {
+    override func windowSize(_ clientId: String!) -> UInt {
         0
     }
 
-    func storeMessage(forClientId clientId: String!, topic: String!, data: Data!, retainFlag: Bool, qos: MQTTQosLevel, msgId: UInt16, incomingFlag: Bool, commandType: UInt8, deadline: Date!) -> MQTTFlowProtocol! {
+    override func storeMessage(forClientId clientId: String!, topic: String!, data: Data!, retainFlag: Bool, qos: MQTTQosLevel, msgId: UInt16, incomingFlag: Bool, commandType: UInt8, deadline: Date!) -> MQTTFlowProtocol! {
         nil
     }
 
-    func delete(_ flow: MQTTFlowProtocol!) {}
+    override func delete(_ flow: MQTTFlowProtocol!) {}
 
     var invokedDeleteAllFlows = false
     var invokedDeleteAllFlowsCount = 0
     var invokedDeleteAllFlowsParameters: (clientId: String, Void)?
     var invokedDeleteAllFlowsParametersList = [(clientId: String, Void)]()
-    func deleteAllFlows(forClientId clientId: String!) {
+    override func deleteAllFlows(forClientId clientId: String!) {
         invokedDeleteAllFlows = true
         invokedDeleteAllFlowsCount += 1
         invokedDeleteAllFlowsParameters = (clientId, ())
         invokedDeleteAllFlowsParametersList.append((clientId, ()))
     }
 
-    func allFlowsforClientId(_ clientId: String!, incomingFlag: Bool) -> [Any]! {
+    override func allFlowsforClientId(_ clientId: String!, incomingFlag: Bool) -> [Any]! {
         nil
     }
 
-    func flowforClientId(_ clientId: String!, incomingFlag: Bool, messageId: UInt16) -> MQTTFlowProtocol! {
+    override func flowforClientId(_ clientId: String!, incomingFlag: Bool, messageId: UInt16) -> MQTTFlowProtocol! {
         nil
     }
 
-    func sync() {}
+    override func sync() {}
 
 }

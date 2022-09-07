@@ -112,4 +112,12 @@ class MockMQTTClientFrameworkSessionManager: IMQTTClientFrameworkSessionManager 
         invokedUnsubscribeParameters = (topics, ())
         invokedUnsubscribeParametersList.append((topics, ()))
     }
+
+    var invokedDeleteAllPersistedMessages = false
+    var invokedDeleteAllPersistedMessagesCount = 0
+
+    func deleteAllPersistedMessages() {
+        invokedDeleteAllPersistedMessages = true
+        invokedDeleteAllPersistedMessagesCount += 1
+    }
 }
