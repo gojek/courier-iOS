@@ -38,6 +38,7 @@ protocol IMQTTClientFrameworkSessionManager {
         certificates: [Any]?,
         protocolLevel: MQTTProtocolVersion,
         userProperties: [String: String]?,
+        alpn: [String]?,
         connectHandler: MQTTConnectHandler?)
 
     func disconnect(with disconnectHandler: MQTTDisconnectHandler?)
@@ -84,6 +85,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     private var securityPolicy: MQTTSSLSecurityPolicy?
     private var certificates: [Any]?
     private var protocolLevel: MQTTProtocolVersion?
+    private var alpn: [String]?
 
     private var streamSSLLevel: String
 
@@ -136,6 +138,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         certificates: [Any]? = nil,
         protocolLevel: MQTTProtocolVersion = .version311,
         userProperties: [String: String]? = nil,
+        alpn: [String]? = nil,
         connectHandler: MQTTConnectHandler? = nil) {
         printDebug("MQTT - COURIER: Client Session Manager connect to: \(host)")
         let shouldReconnect = self.session != nil
@@ -154,7 +157,8 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
             Int(lastWillQoS?.rawValue ?? 0) != self.willQoS ||
             lastWillRetainFlag != self.willRetainFlag ||
             clientId != self.clientId ||
-            securityPolicy != self.securityPolicy {
+            securityPolicy != self.securityPolicy ||
+            alpn != self.alpn {
             self.host = host
             self.port = UInt32(port)
             self.tls = isTls
@@ -172,6 +176,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
             self.securityPolicy = securityPolicy
             self.certificates = certificates
             self.protocolLevel = protocolLevel
+            self.alpn = alpn
 
             self.session = mqttSessionFactory.makeSession()
             session?.clientId = clientId
@@ -256,6 +261,9 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
             transport = securityTransport
         } else {
             transport = MQTTCFSocketTransport()
+        }
+        if let alpn = alpn {
+            transport.alpn = alpn
         }
         transport.host = host
         transport.port = port
