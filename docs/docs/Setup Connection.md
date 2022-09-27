@@ -36,6 +36,10 @@ public let username: String
 public let password: String
 /// Tells broker whether to clear the previous session by the clients
 public let isCleanSession: Bool
+/// Include Optional user properties in Connect Packet
+public let userProperties: [String: Any]?
+/// Include Optional ALPN array, (e.g if you use service like AWS IoT Core and TSL, you can pass the protocol)
+public let alpn: [String]?
 ```
 
 ## Example of IConnectionServiceProvider Implementation
@@ -62,8 +66,7 @@ final class HiveMQAuthService: IConnectionServiceProvider {
           clientId: clientId,
           username: username,
           password: "",
-          isCleanSession: false,
-          userProperties: ["service": "hivemq", "type": "public"]
+          isCleanSession: false
       )
 
       completion(.success(connectOptions))
