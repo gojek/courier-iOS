@@ -25,10 +25,6 @@ struct MQTTPersistenceFactory: IMQTTPersistenceFactory {
         persistence.maxWindowSize = UInt(self.maxWindowSize)
         persistence.maxSize = UInt(self.maxSize)
         persistence.maxMessages = UInt(self.maxMessages)
-        
-        if shouldInitializeCoreDataPersistenceContext {
-            persistence.initializeManagedObjectContext()
-        }
         return persistence
     }
 }

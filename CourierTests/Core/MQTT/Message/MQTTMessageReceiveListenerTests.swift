@@ -78,7 +78,6 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
         XCTAssertTrue(mockMessagePersistence.invokedDeleteAllMessages)
     }
     
-    
     func testOnMessageArrivedWithIncomingMessagePersistenceEnabled() {
         let exp = expectation(description: "messageArrivedIncomingMessagePersistence")
         let exp2 = expectation(description: "messageArrivedIncomingMessagePersistence2")
@@ -87,9 +86,7 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
 
         sut = MqttMessageReceiverListener(publishSubject: publishSubject, publishSubjectDispatchQueue: dispatchQueue, incomingMessagePersistence: mockMessagePersistence, messagePersistenceTTLSeconds: 30, messageCleanupInterval: 0.5)
         mockMessagePersistence.stubbedGetAllMessagesResult = [MQTTPacket(data: data, topic: "fbon", qos: .two)]
-        sut.messagePublisherDict.mutate { dict in
-            dict["fbon", default: 0] += 1
-        }
+        sut.messagePublisherDict["fbon", default: 0] += 1
                 
         publishSubject
             .asObservable()
@@ -103,7 +100,6 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
             }
             .disposed(by: disposeBag)
         
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             XCTAssertTrue(self.mockMessagePersistence.invokedDeleteMessages)
             XCTAssertTrue(self.mockMessagePersistence.invokedDeleteMessagesWithOlderTimestamp)
@@ -116,4 +112,3 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
     }
     
 }
-

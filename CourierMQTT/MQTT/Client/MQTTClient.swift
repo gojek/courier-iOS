@@ -4,11 +4,9 @@ import Reachability
 
 class MQTTClient: IMQTTClient {
     let connection: IMQTTConnection
-    private var _connectOptions = Atomic<ConnectOptions?>(nil)
-    private(set) var connectOptions: ConnectOptions? {
-        get { _connectOptions.value }
-        set { _connectOptions.mutate { $0 = newValue } }
-    }
+
+    @Atomic<ConnectOptions?>(nil) private(set) var connectOptions
+
     private(set) var isInitialized = false
     private let eventHandler: ICourierEventHandler
 
