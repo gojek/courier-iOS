@@ -198,9 +198,11 @@
 
 - (NSManagedObjectContext *)managedObjectContext {
     if (!_managedObjectContext) {
-        NSPersistentStoreCoordinator *coordinator = [self createPersistentStoreCoordinator];
-        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-       _managedObjectContext.persistentStoreCoordinator = coordinator;
+        @synchronized (self) {
+            NSPersistentStoreCoordinator *coordinator = [self createPersistentStoreCoordinator];
+            _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+           _managedObjectContext.persistentStoreCoordinator = coordinator;
+        }
     }
     return _managedObjectContext;
 }

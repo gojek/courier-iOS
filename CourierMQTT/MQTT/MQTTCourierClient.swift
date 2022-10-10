@@ -15,45 +15,24 @@ class MQTTCourierClient: CourierClient {
     let dispatchQueue = DispatchQueue(label: "courier.mqtt.queue", qos: .default)
     private var authFailureReconnectTimer: ReconnectTimer?
     var backgroundTaskID: UIBackgroundTaskIdentifier?
-
-    private var _onBackgroundToken = Atomic<TimeInterval?>(nil)
-    var onBackgroundToken: TimeInterval? {
-        get { _onBackgroundToken.value }
-        set { _onBackgroundToken.mutate { $0 = newValue } }
-    }
-
-    var _connectSource = Atomic<String?>(nil)
-    var connectSource: String? {
-        get { _connectSource.value }
-        set { _connectSource.mutate { $0 = newValue } }
-    }
-
-    private var _isAuthenticating = Atomic<Bool>(false)
-    private var isAuthenticating: Bool {
-        get { _isAuthenticating.value }
-        set { _isAuthenticating.mutate { $0 = newValue } }
-    }
-
-    var _isDestroyed = Atomic<Bool>(false)
-    var isDestroyed: Bool {
-        get { _isDestroyed.value }
-        set { _isDestroyed.mutate { $0 = newValue } }
-    }
+    
+    @Atomic<String?>(nil) private(set) var connectSource
+    @Atomic<Bool>(false) private(set) var isAuthenticating
+    @Atomic<ReconnectTimer?>(nil) private(set) var authenticationTimeoutTimer
+    @Atomic<Bool>(false) private(set) var isDestroyed
 
     var connectionState: ConnectionState {
         ConnectionState(client: client)
     }
-
+    
     var connectionStatePublisher: AnyPublisher<ConnectionState, Never> {
         PassthroughSubject(observable: connectionSubject.asObservable())
     }
-
+    
     var hasExistingSession: Bool {
         client.hasExistingSession
     }
-
-    var authenticationTimeoutTimer: ReconnectTimer?
-
+    
     convenience init(config: MQTTClientConfig) {
         self.init(
             config: config,

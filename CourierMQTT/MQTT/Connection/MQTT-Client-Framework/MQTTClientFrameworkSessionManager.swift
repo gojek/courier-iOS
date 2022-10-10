@@ -58,13 +58,9 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     private let persistence: MQTTPersistence
     private let mqttSessionFactory: IMQTTSessionFactory
 
-    private let _state = Atomic<MQTTSessionManagerState?>(nil)
-    private(set) var state: MQTTSessionManagerState? {
-        get { _state.value }
-        set {
-            _state.mutate { $0 = newValue }
-        }
-    }
+    
+    @Atomic<MQTTSessionManagerState?>(nil) private(set) var state
+
     private(set) var lastError: NSError?
 
     private var reconnectTimer: ReconnectTimer?
@@ -113,6 +109,11 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
         
         super.init()
+        if let coreDataPersistence = persistence as? MQTTCoreDataPersistence,
+           let persistenceFactory = mqttPersistenceFactory as? MQTTPersistenceFactory,
+           persistenceFactory.shouldInitializeCoreDataPersistenceContext {
+            queue.async { coreDataPersistence.initializeManagedObjectContext() }
+        }
 
         self.updateState(to: .starting)
         self.reconnectTimer = ReconnectTimer(retryInterval: retryInterval, maxRetryInterval: maxRetryInterval, queue: queue, reconnect: { [weak self] in

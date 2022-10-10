@@ -18,11 +18,7 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
     private let connectionConfig: ConnectionConfig
     private(set) var messageReceiveListener: IMessageReceiveListener?
     
-    private var _connectOptions = Atomic<ConnectOptions?>(nil)
-    private(set) var connectOptions: ConnectOptions? {
-        get { _connectOptions.value }
-        set { _connectOptions.mutate { $0 = newValue } }
-    }
+    @Atomic<ConnectOptions?>(nil) private(set) var connectOptions
 
     private(set) var lastPing: Date?
     private(set) var lastPong: Date?
