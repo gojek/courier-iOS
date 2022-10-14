@@ -19,10 +19,9 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
     private(set) var messageReceiveListener: IMessageReceiveListener?
     
     @Atomic<ConnectOptions?>(nil) private(set) var connectOptions
-
-    private(set) var lastPing: Date?
-    private(set) var lastPong: Date?
-
+    @Atomic<Date?>(nil) private(set) var lastPing
+    @Atomic<Date?>(nil) private(set) var lastPong
+    
     var isConnected: Bool { sessionManager?.state == .connected }
     var isConnecting: Bool { sessionManager?.state == .connecting }
     var isDisconnecting: Bool { sessionManager?.state == .closing }
@@ -158,6 +157,7 @@ extension MQTTClientFrameworkConnection: MQTTClientFrameworkSessionManagerDelega
 
         case .connecting:
             printDebug("MQTT - COURIER: Connecting")
+            resetParams()
             eventHandler.onEvent(.init(connectionInfo: connectOptions , event: .connectionAttempt))
 
         case .connected:
