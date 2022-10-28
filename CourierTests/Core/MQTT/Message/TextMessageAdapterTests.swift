@@ -20,4 +20,9 @@ class TextMessageAdapterTests: XCTestCase {
         let convertedData = try! sut.toMessage(data: name)
         XCTAssertEqual("hiro", String(data: convertedData, encoding: .utf8))
     }
+    
+    func testContentType() {
+        XCTAssertEqual(sut.contentType, "text/plain")
+    }
+    
 }

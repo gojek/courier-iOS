@@ -18,4 +18,8 @@ class DataMessageAdapterTests: XCTestCase {
         let test = "test".data(using: .utf8)!
         XCTAssertNoThrow(try sut.toMessage(data: test))
     }
+    
+    func testContentType() {
+        XCTAssertEqual(sut.contentType, "application/octet-stream")
+    }
 }

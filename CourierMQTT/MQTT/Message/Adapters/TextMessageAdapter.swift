@@ -3,6 +3,8 @@ import Foundation
 
 public struct TextMessageAdapter: MessageAdapter {
 
+    public var contentType: String { "text/plain" }
+    
     public init() {}
 
     public func fromMessage<T>(_ message: Data) throws -> T {

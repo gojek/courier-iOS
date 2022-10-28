@@ -4,6 +4,8 @@ import Foundation
 public struct PlistMessageAdapter: MessageAdapter {
     private let plistDecoder: PropertyListDecoder
     private let plistEncoder: PropertyListEncoder
+    
+    public var contentType: String { "application/xml" }
 
     public init(plistDecoder: PropertyListDecoder = PropertyListDecoder(),
                 plistEncoder: PropertyListEncoder = PropertyListEncoder()) {

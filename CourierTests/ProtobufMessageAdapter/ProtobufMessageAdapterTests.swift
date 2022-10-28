@@ -28,6 +28,10 @@ class ProtobufMessageAdapterTests: XCTestCase {
         XCTAssertEqual(decodedNote.title, note.title)
         XCTAssertEqual(decodedNote.content, note.content)
     }
+    
+    func testContentType() {
+        XCTAssertEqual(sut.contentType, "application/x-protobuf")
+    }
 
 }
 

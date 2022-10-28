@@ -1,7 +1,18 @@
 import Foundation
 @testable import CourierCore
 @testable import CourierMQTT
+
 class MockMessageAdapter: MessageAdapter {
+
+    var invokedContentTypeGetter = false
+    var invokedContentTypeGetterCount = 0
+    var stubbedContentType: String! = ""
+
+    var contentType: String {
+        invokedContentTypeGetter = true
+        invokedContentTypeGetterCount += 1
+        return stubbedContentType
+    }
 
     var invokedFromMessage = false
     var invokedFromMessageCount = 0

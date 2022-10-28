@@ -3,6 +3,8 @@ import Foundation
 
 public struct DataMessageAdapter: MessageAdapter {
 
+    public var contentType: String { "application/octet-stream" }
+    
     public init() {}
 
     public func fromMessage<T>(_ message: Data) throws -> T {

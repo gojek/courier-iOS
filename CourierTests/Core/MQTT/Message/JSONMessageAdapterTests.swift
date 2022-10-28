@@ -25,4 +25,8 @@ class JSONMessageAdapterTests: XCTestCase {
         let person = Person(name: "henry")
         XCTAssertNoThrow(try sut.toMessage(data: person))
     }
+    
+    func testContentType() {
+        XCTAssertEqual(sut.contentType, "application/json")
+    }
 }

@@ -5,6 +5,8 @@ public struct JSONMessageAdapter: MessageAdapter {
 
     private let jsonDecoder: JSONDecoder
     private let jsonEncoder: JSONEncoder
+    
+    public var contentType: String { "application/json" }
 
     public init(jsonDecoder: JSONDecoder = JSONDecoder(),
                 jsonEncoder: JSONEncoder = JSONEncoder()) {
