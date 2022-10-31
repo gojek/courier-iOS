@@ -11,12 +11,12 @@ class DataMessageAdapterTests: XCTestCase {
 
     func testFromMessage() {
         let test = "test".data(using: .utf8)!
-        XCTAssertEqual(test, try! sut.fromMessage(test))
+        XCTAssertEqual(test, try! sut.fromMessage(test, topic: "x"))
     }
 
     func testToMessage() {
         let test = "test".data(using: .utf8)!
-        XCTAssertNoThrow(try sut.toMessage(data: test))
+        XCTAssertNoThrow(try sut.toMessage(data: test, topic: "x"))
     }
     
     func testContentType() {

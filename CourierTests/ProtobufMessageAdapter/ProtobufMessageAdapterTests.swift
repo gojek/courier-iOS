@@ -15,16 +15,16 @@ class ProtobufMessageAdapterTests: XCTestCase {
         let note = stubbedNote(title: "x", content: "y")
         let data = try! note.serializedData()
 
-        let decodedNote: Note = try! sut.fromMessage(data)
+        let decodedNote: Note = try! sut.fromMessage(data, topic: "x")
         XCTAssertEqual(decodedNote.title, note.title)
         XCTAssertEqual(decodedNote.content, note.content)
     }
 
     func testProtoDataSerialization() {
         let note = stubbedNote(title: "x", content: "y")
-        let encodedData = try! sut.toMessage(data: note)
+        let encodedData = try! sut.toMessage(data: note, topic: "x")
 
-        let decodedNote: Note = try! sut.fromMessage(encodedData)
+        let decodedNote: Note = try! sut.fromMessage(encodedData, topic: "x")
         XCTAssertEqual(decodedNote.title, note.title)
         XCTAssertEqual(decodedNote.content, note.content)
     }

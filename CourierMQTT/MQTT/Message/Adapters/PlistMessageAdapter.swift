@@ -13,7 +13,7 @@ public struct PlistMessageAdapter: MessageAdapter {
         self.plistEncoder = plistEncoder
     }
 
-    public func fromMessage<T>(_ message: Data) throws -> T {
+    public func fromMessage<T>(_ message: Data, topic: String) throws -> T {
         if let decodableType = T.self as? Decodable.Type,
            let value = try decodableType.init(data: message, plistDecoder: plistDecoder) as? T {
             return value
@@ -21,7 +21,7 @@ public struct PlistMessageAdapter: MessageAdapter {
         throw CourierError.decodingError.asNSError
     }
 
-    public func toMessage<T>(data: T) throws -> Data {
+    public func toMessage<T>(data: T, topic: String) throws -> Data {
         if let encodable = data as? Encodable {
             return try encodable.encode(plistEncoder: plistEncoder)
         }

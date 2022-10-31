@@ -168,7 +168,7 @@ class MQTTCourierClient: CourierClient {
             .filter { $0.topic == topic }
             .compactMap { [weak self] packet in
                 guard let self = self else { return nil }
-                if let message: D = self.messageAdaptersCoordinator.decodeMessage(packet.data) {
+                if let message: D = self.messageAdaptersCoordinator.decodeMessage(packet.data, topic: topic) {
                     return message
                 }
                 self.courierEventHandler.onEvent(.init(connectionInfo: self.client.connectOptions, event: .messageReceiveFailure(topic: topic, error: CourierError.decodingError.asNSError, sizeBytes: packet.data.count)))
@@ -187,9 +187,9 @@ class MQTTCourierClient: CourierClient {
             .filter { $0.topic == topic }
             .compactMap { [weak self] (packet) -> Result<D, NSError>? in
                 guard let self = self else { return nil }
-                if let model: D = self.messageAdaptersCoordinator.decodeMessage(packet.data) {
+                if let model: D = self.messageAdaptersCoordinator.decodeMessage(packet.data, topic: topic) {
                     return .success(model)
-                } else if let decodedError: E = self.messageAdaptersCoordinator.decodeMessage(packet.data) {
+                } else if let decodedError: E = self.messageAdaptersCoordinator.decodeMessage(packet.data, topic: topic) {
                     return .failure(errorDecodeHandler(decodedError) as NSError)
                 } else {
                     self.courierEventHandler.onEvent(.init(connectionInfo: self.client.connectOptions, event: .messageReceiveFailure(topic: topic, error: CourierError.decodingError.asNSError, sizeBytes: packet.data.count)))
@@ -215,7 +215,7 @@ class MQTTCourierClient: CourierClient {
         }
 
         do {
-            let data = try messageAdaptersCoordinator.encodeMessage(data)
+            let data = try messageAdaptersCoordinator.encodeMessage(data, topic: topic)
             printDebug("COURIER Publish - topic:\(topic), payload: \(String(data: data, encoding: .utf8) ?? "")")
             client.send(packet: MQTTPacket(data: data, topic: topic, qos: qos))
         } catch {

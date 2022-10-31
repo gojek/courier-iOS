@@ -14,7 +14,7 @@ public struct JSONMessageAdapter: MessageAdapter {
         self.jsonEncoder = jsonEncoder
     }
 
-    public func fromMessage<T>(_ message: Data) throws -> T {
+    public func fromMessage<T>(_ message: Data, topic: String) throws -> T {
         if let decodableType = T.self as? Decodable.Type,
            let value = try decodableType.init(data: message, jsonDecoder: jsonDecoder) as? T {
             return value
@@ -22,7 +22,7 @@ public struct JSONMessageAdapter: MessageAdapter {
         throw CourierError.decodingError.asNSError
     }
 
-    public func toMessage<T>(data: T) throws -> Data {
+    public func toMessage<T>(data: T, topic: String) throws -> Data {
         guard !(data is Data) else {
             throw CourierError.encodingError.asNSError
         }
