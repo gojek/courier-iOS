@@ -1,20 +1,31 @@
 import Foundation
 @testable import CourierCore
 @testable import CourierMQTT
+
 class MockMessageAdapter: MessageAdapter {
+
+    var invokedContentTypeGetter = false
+    var invokedContentTypeGetterCount = 0
+    var stubbedContentType: String! = ""
+
+    var contentType: String {
+        invokedContentTypeGetter = true
+        invokedContentTypeGetterCount += 1
+        return stubbedContentType
+    }
 
     var invokedFromMessage = false
     var invokedFromMessageCount = 0
-    var invokedFromMessageParameters: (message: Data, Void)?
-    var invokedFromMessageParametersList = [(message: Data, Void)]()
+    var invokedFromMessageParameters: (message: Data, topic: String)?
+    var invokedFromMessageParametersList = [(message: Data, topic: String)]()
     var stubbedFromMessageError: Error?
     var stubbedFromMessageResult: Any!
 
-    func fromMessage<T>(_ message: Data) throws -> T {
+    func fromMessage<T>(_ message: Data, topic: String) throws -> T {
         invokedFromMessage = true
         invokedFromMessageCount += 1
-        invokedFromMessageParameters = (message, ())
-        invokedFromMessageParametersList.append((message, ()))
+        invokedFromMessageParameters = (message, topic)
+        invokedFromMessageParametersList.append((message, topic))
         if let error = stubbedFromMessageError {
             throw error
         }
@@ -23,16 +34,16 @@ class MockMessageAdapter: MessageAdapter {
 
     var invokedToMessage = false
     var invokedToMessageCount = 0
-    var invokedToMessageParameters: (data: Any, Void)?
-    var invokedToMessageParametersList = [(data: Any, Void)]()
+    var invokedToMessageParameters: (data: Any, topic: String)?
+    var invokedToMessageParametersList = [(data: Any, topic: String)]()
     var stubbedToMessageError: Error?
     var stubbedToMessageResult: Data!
 
-    func toMessage<T>(data: T) throws -> Data {
+    func toMessage<T>(data: T, topic: String) throws -> Data {
         invokedToMessage = true
         invokedToMessageCount += 1
-        invokedToMessageParameters = (data, ())
-        invokedToMessageParametersList.append((data, ()))
+        invokedToMessageParameters = (data, topic)
+        invokedToMessageParametersList.append((data, topic))
         if let error = stubbedToMessageError {
             throw error
         }

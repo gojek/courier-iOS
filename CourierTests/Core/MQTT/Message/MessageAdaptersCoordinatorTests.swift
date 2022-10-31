@@ -16,10 +16,10 @@ class MessageAdaptersCoordinatorsTests: XCTestCase {
         let henryAsJSONData = try! JSONEncoder().encode(Person(name: "HENRY"))
         let dennisAsPlistData = try! PropertyListEncoder().encode(Person(name: "DENNIS"))
 
-        let dennis: Person? = sut.decodeMessage(dennisAsPlistData)
+        let dennis: Person? = sut.decodeMessage(dennisAsPlistData, topic: "x")
         XCTAssertEqual(dennis?.name, "DENNIS")
 
-        let henry: Person? = sut.decodeMessage(henryAsJSONData)
+        let henry: Person? = sut.decodeMessage(henryAsJSONData, topic: "x")
         XCTAssertEqual(henry?.name, "HENRY")
     }
 
@@ -27,7 +27,7 @@ class MessageAdaptersCoordinatorsTests: XCTestCase {
         setupJSONAndPlistMessageAdapters()
 
         let henry = Person(name: "Henry")
-        let data = try! sut.encodeMessage(henry)
+        let data = try! sut.encodeMessage(henry, topic: "x")
 
         XCTAssertNoThrow(try JSONSerialization.jsonObject(with: data, options: .mutableContainers))
     }
