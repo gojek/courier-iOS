@@ -20,6 +20,7 @@ class MQTTCourierClient: CourierClient {
     @Atomic<Bool>(false) private(set) var isAuthenticating
     @Atomic<ReconnectTimer?>(nil) private(set) var authenticationTimeoutTimer
     @Atomic<Bool>(false) private(set) var isDestroyed
+    @Atomic<Date>(Date()) private(set) var authStartTimestamp
 
     var connectionState: ConnectionState {
         ConnectionState(client: client)
@@ -90,7 +91,8 @@ class MQTTCourierClient: CourierClient {
             }
         }
         
-        courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .connectionServiceAuthStart(source: connectSource)))
+        authStartTimestamp = Date()
+        courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .connectionServiceAuthStart))
         isAuthenticating = true
         isDestroyed = false
 
@@ -133,10 +135,7 @@ class MQTTCourierClient: CourierClient {
     private func handleAuthenticationResult(_ result: Result<ConnectOptions, AuthError>) {
         switch result {
         case let .success(connectOptions):
-            courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .connectionServiceAuthSuccess(
-                host: connectOptions.host,
-                port: Int(connectOptions.port)
-            )))
+            courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .connectionServiceAuthSuccess(timeTaken: self.authStartTimestamp.timeTaken)))
        
             authRetryPolicy.resetParams()
             authFailureReconnectTimer?.resetRetryInterval()
@@ -145,7 +144,7 @@ class MQTTCourierClient: CourierClient {
 
         case let .failure(error):
             let nsError = error.asNSError()
-            courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .connectionServiceAuthFailure(error: nsError)))
+            courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .connectionServiceAuthFailure(timeTaken: self.authStartTimestamp.timeTaken, error: nsError)))
             let networkErrors = [NSURLErrorNetworkConnectionLost, NSURLErrorNotConnectedToInternet]
             if nsError.domain == NSURLErrorDomain, networkErrors.contains(nsError.code) {
                 courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .connectionUnavailable))
