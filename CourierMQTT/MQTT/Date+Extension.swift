@@ -9,7 +9,7 @@ import Foundation
 
 extension Date {
     var timeTaken: Int {
-        Int((Date().timeIntervalSince1970 - self.timeIntervalSince1970) * 10000)
+        Int((Date().timeIntervalSince1970 - self.timeIntervalSince1970) * 1000)
     }
 }
 

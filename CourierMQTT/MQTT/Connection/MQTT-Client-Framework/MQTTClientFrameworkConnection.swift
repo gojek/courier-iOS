@@ -78,7 +78,6 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
             securityPolicy?.allowInvalidCertificates = true
         }
 
-        eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionAttempt))
         sessionManager.connect(
             to: connectOptions.host,
             port: port,
@@ -209,9 +208,9 @@ extension MQTTClientFrameworkConnection: MQTTClientFrameworkSessionManagerDelega
 
     func sessionManagerDidReceivePong(_ sessionManager: IMQTTClientFrameworkSessionManager) {
         lastPong = Date()
-        if let lastPing = self.lastPing, let lastPong = self.lastPong {
+        if let lastPing = self.lastPing {
             printDebug("MQTT - COURIER: Pong received at \(Date()), last ping: \(lastPing)")
-            eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .pongReceived(timeTaken: Int(lastPong.timeIntervalSinceNow - lastPing.timeIntervalSinceNow) * 1000)))
+            eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .pongReceived(timeTaken: lastPing.timeTaken)))
         }
         lastPing = nil
     }
@@ -241,7 +240,7 @@ extension MQTTClientFrameworkConnection: MQTTClientFrameworkSessionManagerDelega
 
     func sessionManager(_ sessionManager: IMQTTClientFrameworkSessionManager, didSubscribeTopics topics: [String]) {
         #if DEBUG
-        topics.forEach { printDebug("MQTT - COURIER: Subscribed to \(topic)") }
+        topics.forEach { printDebug("MQTT - COURIER: Subscribed to \($0)") }
         #endif
     }
 
