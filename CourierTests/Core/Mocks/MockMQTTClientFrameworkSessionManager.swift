@@ -37,8 +37,8 @@ class MockMQTTClientFrameworkSessionManager: IMQTTClientFrameworkSessionManager 
 
     var invokedConnect = false
     var invokedConnectCount = 0
-    var invokedConnectParameters: (host: String, port: Int, keepAlive: Int, isCleanSession: Bool, isAuth: Bool, clientId: String, username: String, password: String, lastWill: Bool, lastWillTopic: String?, lastWillMessage: Data?, lastWillQoS: MQTTQosLevel?, lastWillRetainFlag: Bool, securityPolicy: MQTTSSLSecurityPolicy?, certificates: [Any]?, protocolLevel: MQTTProtocolVersion, userProperties: [String: String]?, alpn: [String]?, connectHandler: MQTTConnectHandler?)?
-    var invokedConnectParametersList = [(host: String, port: Int, keepAlive: Int, isCleanSession: Bool, isAuth: Bool, clientId: String, username: String, password: String, lastWill: Bool, lastWillTopic: String?, lastWillMessage: Data?, lastWillQoS: MQTTQosLevel?, lastWillRetainFlag: Bool, securityPolicy: MQTTSSLSecurityPolicy?, certificates: [Any]?, protocolLevel: MQTTProtocolVersion, userProperties: [String: String]?, alpn: [String]?, connectHandler: MQTTConnectHandler?)]()
+    var invokedConnectParameters: (host: String, port: Int, keepAlive: Int, isCleanSession: Bool, isAuth: Bool, clientId: String, username: String, password: String, lastWill: Bool, lastWillTopic: String?, lastWillMessage: Data?, lastWillQoS: MQTTQosLevel?, lastWillRetainFlag: Bool, securityPolicy: MQTTSSLSecurityPolicy?, certificates: [Any]?, protocolLevel: MQTTProtocolVersion, userProperties: [String: String]?, alpn: [String]?, connectOptions: ConnectOptions, connectHandler: MQTTConnectHandler?)?
+    var invokedConnectParametersList = [(host: String, port: Int, keepAlive: Int, isCleanSession: Bool, isAuth: Bool, clientId: String, username: String, password: String, lastWill: Bool, lastWillTopic: String?, lastWillMessage: Data?, lastWillQoS: MQTTQosLevel?, lastWillRetainFlag: Bool, securityPolicy: MQTTSSLSecurityPolicy?, certificates: [Any]?, protocolLevel: MQTTProtocolVersion, userProperties: [String: String]?, alpn: [String]?, connectOptions: ConnectOptions, connectHandler: MQTTConnectHandler?)]()
 
     func connect(
         to host: String,
@@ -59,11 +59,12 @@ class MockMQTTClientFrameworkSessionManager: IMQTTClientFrameworkSessionManager 
         protocolLevel: MQTTProtocolVersion,
         userProperties: [String: String]?,
         alpn: [String]?,
+        connectOptions: ConnectOptions,
         connectHandler: MQTTConnectHandler?) {
         invokedConnect = true
         invokedConnectCount += 1
-        invokedConnectParameters = (host, port, keepAlive, isCleanSession, isAuth, clientId, username, password, lastWill, lastWillTopic, lastWillMessage, lastWillQoS, lastWillRetainFlag, securityPolicy, certificates, protocolLevel, userProperties, alpn, connectHandler)
-        invokedConnectParametersList.append((host, port, keepAlive, isCleanSession, isAuth, clientId, username, password, lastWill, lastWillTopic, lastWillMessage, lastWillQoS, lastWillRetainFlag, securityPolicy, certificates, protocolLevel, userProperties, alpn, connectHandler))
+        invokedConnectParameters = (host, port, keepAlive, isCleanSession, isAuth, clientId, username, password, lastWill, lastWillTopic, lastWillMessage, lastWillQoS, lastWillRetainFlag, securityPolicy, certificates, protocolLevel, userProperties, alpn, connectOptions, connectHandler)
+        invokedConnectParametersList.append((host, port, keepAlive, isCleanSession, isAuth, clientId, username, password, lastWill, lastWillTopic, lastWillMessage, lastWillQoS, lastWillRetainFlag, securityPolicy, certificates, protocolLevel, userProperties, alpn, connectOptions, connectHandler))
     }
 
     var invokedDisconnect = false

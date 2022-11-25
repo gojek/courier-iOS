@@ -39,6 +39,7 @@ protocol IMQTTClientFrameworkSessionManager {
         protocolLevel: MQTTProtocolVersion,
         userProperties: [String: String]?,
         alpn: [String]?,
+        connectOptions: ConnectOptions,
         connectHandler: MQTTConnectHandler?)
 
     func disconnect(with disconnectHandler: MQTTDisconnectHandler?)
@@ -57,11 +58,12 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     weak var delegate: MQTTClientFrameworkSessionManagerDelegate?
     private let persistence: MQTTPersistence
     private let mqttSessionFactory: IMQTTSessionFactory
+    private let eventHandler: ICourierEventHandler
 
-    
     @Atomic<MQTTSessionManagerState?>(nil) private(set) var state
 
     private(set) var lastError: NSError?
+    @Atomic<ConnectOptions?>(nil) var connectOptions
 
     private var reconnectTimer: ReconnectTimer?
     private var reconnectFlag = false
@@ -87,6 +89,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
 
     private var connectTimeoutPolicy: IConnectTimeoutPolicy
     private var idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
+    
 
     var requiresTeardown: Bool {
         state != .closed && state != .starting
@@ -99,7 +102,8 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
          mqttSessionFactory: IMQTTSessionFactory = MQTTSessionFactory(),
          mqttPersistenceFactory: IMQTTPersistenceFactory = MQTTPersistenceFactory(),
          connectTimeoutPolicy: IConnectTimeoutPolicy,
-         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
+         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol,
+         eventHandler: ICourierEventHandler
     ) {
         self.streamSSLLevel = streamSSLLevel
         self.queue = queue
@@ -107,6 +111,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.mqttSessionFactory = mqttSessionFactory
         self.connectTimeoutPolicy = connectTimeoutPolicy
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
+        self.eventHandler = eventHandler
         
         super.init()
         if let coreDataPersistence = persistence as? MQTTCoreDataPersistence,
@@ -140,8 +145,10 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         protocolLevel: MQTTProtocolVersion = .version311,
         userProperties: [String: String]? = nil,
         alpn: [String]? = nil,
+        connectOptions: ConnectOptions,
         connectHandler: MQTTConnectHandler? = nil) {
         printDebug("MQTT - COURIER: Client Session Manager connect to: \(host)")
+        self.connectOptions = connectOptions
         let shouldReconnect = self.session != nil
         let isTls = port == 443
 
@@ -293,27 +300,39 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
 
     func subscribe(_ topics: [(topic: String, qos: QoS)]) {
         var topicsDict = [String: NSNumber]()
+        var eventTopics: [String] = []
         topics.forEach { topicQoS in
+            eventTopics.append(topicQoS.topic)
             topicsDict[topicQoS.topic] = NSNumber(value: topicQoS.qos.rawValue)
         }
 
+        let connectOptions = self.connectOptions
+        let attemptTimestamp = Date()
+        eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeAttempt(topics: eventTopics)))
         session?.subscribe(toTopics: topicsDict, subscribeHandler: { [weak self] (error, _) in
             guard let self = self else { return }
             let topicsArray = topics.map { $0.topic }
             if let error = error {
+                self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeFailure(topics: topics, timeTaken: attemptTimestamp.timeTaken, error: error)))
                 self.delegate?.sessionManager(self, didFailToSubscribeTopics: topicsArray, error: error)
             } else {
+                self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeSuccess(topics: topics, timeTaken: attemptTimestamp.timeTaken)))
                 self.delegate?.sessionManager(self, didSubscribeTopics: topicsArray)
             }
         })
     }
 
     func unsubscribe(_ topics: [String]) {
+        let connectOptions = self.connectOptions
+        let attemptTimestamp = Date()
+        eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeAttempt(topics: topics)))
         session?.unsubscribeTopics(topics, unsubscribeHandler: { [weak self] error in
             guard let self = self else { return }
             if let error = error {
+                self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeFailure(topics: topics, timeTaken: attemptTimestamp.timeTaken, error: error)))
                 self.delegate?.sessionManager(self, didFailToUnsubscribeTopics: topics, error: error)
             } else {
+                self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeSuccess(topics: topics, timeTaken: attemptTimestamp.timeTaken)))
                 self.delegate?.sessionManager(self, didUnsubscribeTopics: topics)
             }
         })
