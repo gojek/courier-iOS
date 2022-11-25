@@ -27,8 +27,8 @@ public enum CourierEventType {
     case connectDiscarded(reason: String)
 
     case subscribeAttempt(topics: [String])
-    case unsubscribeAttempt(topic: [String])
-    case subscribeSuccess(topis: [(topic: String, qos: QoS)], timeTaken: Int)
+    case unsubscribeAttempt(topics: [String])
+    case subscribeSuccess(topics: [(topic: String, qos: QoS)], timeTaken: Int)
     case unsubscribeSuccess(topics: [String], timeTaken: Int)
     case subscribeFailure(topics: [(topic: String, qos: QoS)], timeTaken: Int, error: Error?)
     case unsubscribeFailure(topics: [String], timeTaken: Int, error: Error?)

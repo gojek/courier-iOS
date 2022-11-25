@@ -646,12 +646,14 @@ class MockMQTTSession: IMQTTSession {
     var invokedSubscribeParameters: (topics: [String: NSNumber]?, subscribeHandler: MQTTSubscribeHandler?)?
     var invokedSubscribeParametersList = [(topics: [String: NSNumber]?, subscribeHandler: MQTTSubscribeHandler?)]()
     var stubbedSubscribeResult: UInt16! = 0
+    var stubbedSubscribeSubscribeHandlerResult: (NSError?, [NSNumber]?)?
 
     func subscribe(toTopics topics: [String: NSNumber]!, subscribeHandler: MQTTSubscribeHandler!) -> UInt16 {
         invokedSubscribe = true
         invokedSubscribeCount += 1
         invokedSubscribeParameters = (topics, subscribeHandler)
         invokedSubscribeParametersList.append((topics, subscribeHandler))
+        subscribeHandler(stubbedSubscribeSubscribeHandlerResult?.0, stubbedSubscribeSubscribeHandlerResult?.1)
         return stubbedSubscribeResult
     }
 
@@ -660,12 +662,14 @@ class MockMQTTSession: IMQTTSession {
     var invokedUnsubscribeTopicsParameters: (topics: [String]?, unsubscribeHandler: MQTTUnsubscribeHandler?)?
     var invokedUnsubscribeTopicsParametersList = [(topics: [String]?, unsubscribeHandler: MQTTUnsubscribeHandler?)]()
     var stubbedUnsubscribeTopicsResult: UInt16! = 0
+    var stubbedUnsubscribeHandlerResult: NSError?
 
     func unsubscribeTopics(_ topics: [String]!, unsubscribeHandler: MQTTUnsubscribeHandler!) -> UInt16 {
         invokedUnsubscribeTopics = true
         invokedUnsubscribeTopicsCount += 1
         invokedUnsubscribeTopicsParameters = (topics, unsubscribeHandler)
         invokedUnsubscribeTopicsParametersList.append((topics, unsubscribeHandler))
+        unsubscribeHandler(stubbedUnsubscribeHandlerResult)
         return stubbedUnsubscribeTopicsResult
     }
 

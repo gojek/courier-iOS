@@ -1,13 +1,7 @@
-
-
-
-
-
-
-
 import XCTest
 @testable import CourierCore
 @testable import CourierMQTT
+
 class MulticastCourierEventHandlerTests: XCTestCase {
 
     var sut: MulticastCourierEventHandler!
@@ -37,11 +31,10 @@ class MulticastCourierEventHandlerTests: XCTestCase {
     }
 
     func testConnectionServiceAuthStart() {
-        sut.onEvent(.init(connectionInfo: nil, event: .connectionServiceAuthStart(source: "TEST")))
+        sut.onEvent(.init(connectionInfo: nil, event: .connectionServiceAuthStart))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case .connectionServiceAuthStart(let source):
+        case .connectionServiceAuthStart:
             XCTAssert(true)
-            XCTAssertEqual(source, "TEST")
         default:
             XCTAssert(false)
         }
@@ -58,23 +51,23 @@ class MulticastCourierEventHandlerTests: XCTestCase {
     }
 
     func testConnectionServiceAuthSuccess() {
-        sut.onEvent(.init(connectionInfo: nil, event: .connectionServiceAuthSuccess(host: "xyz", port: 999)))
+        sut.onEvent(.init(connectionInfo: nil, event: .connectionServiceAuthSuccess(timeTaken: 5)))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case let .connectionServiceAuthSuccess(host, port):
-            XCTAssertEqual(host, "xyz")
-            XCTAssertEqual(port, 999)
+        case let .connectionServiceAuthSuccess(timeTaken):
+            XCTAssertEqual(timeTaken, 5)
         default:
             XCTAssert(false)
         }
     }
 
     func testConnectionServiceAuthFailure() {
-        sut.onEvent(.init(connectionInfo: nil, event: .connectionServiceAuthFailure(error: stubbedError)))
+        sut.onEvent(.init(connectionInfo: nil, event: .connectionServiceAuthFailure(timeTaken: 5, error: stubbedError)))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case let .connectionServiceAuthFailure(error):
+        case let .connectionServiceAuthFailure(timeTaken, error):
             let error = error! as NSError
             XCTAssertEqual(error.domain, stubbedError.domain)
             XCTAssertEqual(error.code, stubbedError.code)
+            XCTAssertEqual(timeTaken, 5)
         default:
             XCTAssert(false)
         }
@@ -101,34 +94,36 @@ class MulticastCourierEventHandlerTests: XCTestCase {
     }
 
     func testConnectionSuccess() {
-        sut.onEvent(.init(connectionInfo: nil, event: .connectionSuccess))
+        sut.onEvent(.init(connectionInfo: nil, event: .connectionSuccess(timeTaken: 5)))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case .connectionSuccess:
-            XCTAssert(true)
+        case .connectionSuccess(let timeTaken):
+            XCTAssertEqual(timeTaken, 5)
         default:
             XCTAssert(false)
         }
     }
 
     func testOnConnectionFailure() {
-        sut.onEvent(.init(connectionInfo: nil, event: .connectionFailure(error: stubbedError)))
+        sut.onEvent(.init(connectionInfo: nil, event: .connectionFailure(timeTaken: 5, error: stubbedError)))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case let .connectionFailure(error):
+        case let .connectionFailure(timeTaken, error):
             let error = error! as NSError
             XCTAssertEqual(error.domain, stubbedError.domain)
             XCTAssertEqual(error.code, stubbedError.code)
+            XCTAssertEqual(timeTaken, 5)
         default:
             XCTAssert(false)
         }
     }
 
     func testOnConnectionLost() {
-        sut.onEvent(.init(connectionInfo: nil, event: .connectionLost(error: stubbedError, diffLastInbound: nil, diffLastOutbound: nil)))
+        sut.onEvent(.init(connectionInfo: nil, event: .connectionLost(timeTaken: 5, error: stubbedError, diffLastInbound: nil, diffLastOutbound: nil)))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case let .connectionLost(error, _, _):
+        case let .connectionLost(timeTaken, error, _, _):
             let error = error! as NSError
             XCTAssertEqual(error.domain, stubbedError.domain)
             XCTAssertEqual(error.code, stubbedError.code)
+            XCTAssertEqual(timeTaken, 5)
         default:
             XCTAssert(false)
         }
@@ -156,30 +151,33 @@ class MulticastCourierEventHandlerTests: XCTestCase {
     }
 
     func testOnSubscribeSuccess() {
-        sut.onEvent(.init(connectionInfo: nil, event: .subscribeSuccess(topic: stubbedTopic)))
+        sut.onEvent(.init(connectionInfo: nil, event: .subscribeSuccess(topics: [(stubbedTopic, .zero)], timeTaken: 5)))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case let .subscribeSuccess(topic):
-            XCTAssertEqual(stubbedTopic, topic)
+        case let .subscribeSuccess(topics, timeTaken):
+            XCTAssertEqual(stubbedTopic, topics[0].topic)
+            XCTAssertEqual(timeTaken, 5)
         default:
             XCTAssert(false)
         }
     }
 
     func testOnUnsubscribeSuccess() {
-        sut.onEvent(.init(connectionInfo: nil, event: .unsubscribeSuccess(topic: stubbedTopic)))
+        sut.onEvent(.init(connectionInfo: nil, event: .unsubscribeSuccess(topics: [stubbedTopic], timeTaken: 5)))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case let .unsubscribeSuccess(topic):
-            XCTAssertEqual(stubbedTopic, topic)
+        case let .unsubscribeSuccess(topics, timeTaken):
+            XCTAssertEqual(stubbedTopic, topics[0])
+            XCTAssertEqual(timeTaken, 5)
         default:
             XCTAssert(false)
         }
     }
 
     func testOnSubscribeFailure() {
-        sut.onEvent(.init(connectionInfo: nil, event: .subscribeFailure(topic: stubbedTopic, error: stubbedError)))
+        sut.onEvent(.init(connectionInfo: nil, event: .subscribeFailure(topics: [(stubbedTopic, .zero)], timeTaken: 5, error: stubbedError)))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case let .subscribeFailure(topic, error):
-            XCTAssertEqual(stubbedTopic, topic)
+        case let .subscribeFailure(topics, timeTaken, error):
+            XCTAssertEqual(stubbedTopic, topics[0].topic)
+            XCTAssertEqual(timeTaken, 5)
             let error = error! as NSError
             XCTAssertEqual(error.domain, stubbedError.domain)
             XCTAssertEqual(error.code, stubbedError.code)
@@ -189,10 +187,11 @@ class MulticastCourierEventHandlerTests: XCTestCase {
     }
 
     func testOnUnsubscribeFailure() {
-        sut.onEvent(.init(connectionInfo: nil, event: .unsubscribeFailure(topic: stubbedTopic, error: stubbedError)))
+        sut.onEvent(.init(connectionInfo: nil, event: .unsubscribeFailure(topics: [stubbedTopic], timeTaken: 5, error: stubbedError)))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case let .unsubscribeFailure(topic, error):
-            XCTAssertEqual(stubbedTopic, topic)
+        case let .unsubscribeFailure(topics, timeTaken, error):
+            XCTAssertEqual(stubbedTopic, topics[0])
+            XCTAssertEqual(timeTaken, 5)
             let error = error! as NSError
             XCTAssertEqual(error.domain, stubbedError.domain)
             XCTAssertEqual(error.code, stubbedError.code)
@@ -318,20 +317,20 @@ class MulticastCourierEventHandlerTests: XCTestCase {
     }
 
     func testOnMQTTSubscribeAttempt() {
-        sut.onEvent(.init(connectionInfo: nil, event: .subscribeAttempt(topic: stubbedTopic)))
+        sut.onEvent(.init(connectionInfo: nil, event: .subscribeAttempt(topics: [stubbedTopic])))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case let .subscribeAttempt(topic):
-            XCTAssertEqual(topic, stubbedTopic)
+        case let .subscribeAttempt(topics):
+            XCTAssertEqual(topics[0], stubbedTopic)
         default:
             XCTAssert(false)
         }
     }
 
     func testOnMQTTUnsubscribeAttempt() {
-        sut.onEvent(.init(connectionInfo: nil, event: .unsubscribeAttempt(topic: stubbedTopic)))
+        sut.onEvent(.init(connectionInfo: nil, event: .unsubscribeAttempt(topics: [stubbedTopic])))
         switch mockCourierEventHandler.invokedOnEventParameters?.event.type {
-        case let .unsubscribeAttempt(topic):
-            XCTAssertEqual(topic, stubbedTopic)
+        case let .unsubscribeAttempt(topics):
+            XCTAssertEqual(topics[0], stubbedTopic)
         default:
             XCTAssert(false)
         }

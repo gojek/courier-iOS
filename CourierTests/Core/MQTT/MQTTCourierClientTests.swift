@@ -94,9 +94,7 @@ class MQTTCourierClientTests: XCTestCase {
     func testConnectWithSuccessCredentials() {
         mockConnectionServiceProvider.stubbedGetConnectOptionsCompletionResult = (.success(stubConnectOptions), ())
         sut.connect()
-        if case let .connectionServiceAuthSuccess(host, port) = self.mockEventHandler.invokedOnEventParameters?.event.type {
-            XCTAssertEqual(host, stubConnectOptions.host)
-            XCTAssertEqual(port, Int(stubConnectOptions.port))
+        if case .connectionServiceAuthSuccess = self.mockEventHandler.invokedOnEventParameters?.event.type {
         } else {
             XCTAssert(false)
         }
@@ -223,20 +221,20 @@ class MQTTCourierClientTests: XCTestCase {
 
     func testOnConnectionSuccess() {
         testPublishConnectionState {
-            sut.onEvent(.init(connectionInfo: nil, event: .connectionSuccess))
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionSuccess(timeTaken: 1)))
             XCTAssertTrue(mockClient.invokedSubscribe)
         }
     }
 
     func testOnConnectionFailure() {
         testPublishConnectionState {
-            sut.onEvent(.init(connectionInfo: nil, event: .connectionFailure(error: nil)))
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionFailure(timeTaken: 1, error: nil)))
         }
     }
 
     func testOnConnectionLost() {
         testPublishConnectionState {
-            sut.onEvent(.init(connectionInfo: nil, event: .connectionLost(error: nil, diffLastInbound: nil, diffLastOutbound: nil)))
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionLost(timeTaken: 1, error: nil, diffLastInbound: nil, diffLastOutbound: nil)))
         }
     }
 

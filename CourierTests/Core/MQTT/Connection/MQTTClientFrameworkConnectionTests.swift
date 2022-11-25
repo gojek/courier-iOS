@@ -67,12 +67,6 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
         
         XCTAssertNotNil(sut.messageReceiveListener)
         XCTAssertNotNil(sut.connectOptions)
-        if case .connectionAttempt = self.mockEventHandler.invokedOnEventParameters?.event.type {
-            XCTAssert(true)
-        } else {
-            XCTAssert(false)
-        }
-        
         XCTAssertTrue(mockSessionManager.invokedConnect)
         XCTAssertEqual(mockSessionManager.invokedConnectParameters?.host, stubConnectOptions.host)
         XCTAssertEqual(mockSessionManager.invokedConnectParameters?.host, stubConnectOptions.host)
@@ -101,15 +95,6 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
             connectOptions: stubConnectOptions,
             messageReceiveListener: mockMessageReceiveListener
         )
-        
-        if case .connectionAttempt = self.mockEventHandler.invokedOnEventParameters?.event.type {
-            XCTAssert(true)
-        } else {
-            XCTAssert(false)
-        }
-        
-        
-        XCTAssertEqual(mockEventHandler.invokedOnEventCount, 1)
     }
     
     func testServerURI() {
@@ -162,19 +147,6 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
         XCTAssertTrue(mockSessionManager.invokedSubscribe)
         XCTAssertTrue(((mockSessionManager.invokedSubscribeParameters?.topics.contains(where: { $0.0 == "fbon" && $0.1 == .zero })) != nil))
         XCTAssertTrue(((mockSessionManager.invokedSubscribeParameters?.topics.contains(where: { $0.0 == "fbon2" && $0.1 == .two })) != nil))
-        
-        if case .subscribeAttempt(let topic) = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
-            XCTAssert(topic.contains("fbon"))
-        } else {
-            XCTAssert(false)
-        }
-        
-        
-        if case .subscribeAttempt(let topic) = self.mockEventHandler.invokedOnEventParametersList[2]?.event.type {
-            XCTAssert(topic.contains("fbon"))
-        } else {
-            XCTAssert(false)
-        }
     }
     
     func testSubscribeTopic() {
@@ -183,12 +155,6 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
         XCTAssertTrue(mockSessionManager.invokedSubscribe)
         XCTAssertEqual(mockSessionManager.invokedSubscribeParameters?.topics.first?.topic, "fbon")
         XCTAssertEqual(mockSessionManager.invokedSubscribeParameters?.topics.first?.qos, .one)
-        
-        if case .subscribeAttempt(let topic) = self.mockEventHandler.invokedOnEventParametersList.last??.event.type {
-            XCTAssert(topic.contains("fbon"))
-        } else {
-            XCTAssert(false)
-        }
     }
     
     func testSubscribeTopicWithoutConnected() {
@@ -207,19 +173,6 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
         XCTAssertTrue(mockSessionManager.invokedUnsubscribe)
         XCTAssertEqual(mockSessionManager.invokedUnsubscribeParameters?.topics[0], "test")
         XCTAssertEqual(mockSessionManager.invokedUnsubscribeParameters?.topics[1], "test2")
-        
-        if case .unsubscribeAttempt(let topic) = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
-            XCTAssert(topic.contains("test"))
-        } else {
-            XCTAssert(false)
-        }
-        
-        
-        if case .unsubscribeAttempt(let topic) = self.mockEventHandler.invokedOnEventParametersList[2]?.event.type {
-            XCTAssert(topic.contains("test2"))
-        } else {
-            XCTAssert(false)
-        }
     }
     
     
@@ -233,12 +186,6 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
         sut.unsubscribe(["test"])
         XCTAssertTrue(mockSessionManager.invokedUnsubscribe)
         XCTAssertEqual(mockSessionManager.invokedUnsubscribeParameters?.topics[0], "test")
-        
-        if case .unsubscribeAttempt(let topic) = self.mockEventHandler.invokedOnEventParameters?.event.type {
-            XCTAssert(topic.contains("test"))
-        } else {
-            XCTAssert(false)
-        }
     }
     
     func testPublishPacket() {
@@ -283,7 +230,7 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
         let error = NSError(domain: "", code: 5, userInfo: [:])
         mockSessionManager.stubbedLastError = error
         sut.sessionManager(mockSessionManager, didChangeState: .error)
-        if case let .connectionFailure(error) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
+        if case let .connectionFailure(timeTaken, error) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
             XCTAssertEqual((error! as NSError).code, 5)
         } else {
             XCTAssert(false)
@@ -337,73 +284,7 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
         }
         XCTAssertNil(sut.lastPing)
     }
-    
-    func testSessionManagerDidSubscribeTopics() {
-        sut.sessionManager(mockSessionManager, didSubscribeTopics: ["fbon1", "fbon2"])
-        
-        if case .subscribeSuccess(let topic) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
-            XCTAssert(topic.contains("fbon1"))
-        } else {
-            XCTAssert(false)
-        }
-        
-        
-        if case .subscribeSuccess(let topic) = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
-            XCTAssert(topic.contains("fbon2"))
-        } else {
-            XCTAssert(false)
-        }
-    }
-    
-    func testSessionManagerDidSubscribeFailureTopics() {
-        sut.sessionManager(mockSessionManager, didFailToSubscribeTopics: ["fbon1", "fbon2"], error: stubbedError)
-        
-        if case let .subscribeFailure(topic, error) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
-            XCTAssert(topic.contains("fbon1"))
-            XCTAssert((error! as NSError).code ==  stubbedError.code)
-            XCTAssert((error! as NSError).domain ==  stubbedError.domain)
-        } else {
-            XCTAssert(false)
-        }
-        
-        
-        if case .subscribeFailure(let topic, _) = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
-            XCTAssert(topic.contains("fbon2"))
-        } else {
-            XCTAssert(false)
-        }
-    }
-    
-    func testSessionManagerDidUnsubscribeFailureTopics() {
-        sut.sessionManager(mockSessionManager, didFailToUnsubscribeTopics: ["fbon1", "fbon2"], error: stubbedError)
-        
-        if case let .unsubscribeFailure(topic, error) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
-            XCTAssert(topic.contains("fbon1"))
-            XCTAssert((error! as NSError).code ==  stubbedError.code)
-            XCTAssert((error! as NSError).domain ==  stubbedError.domain)
-        } else {
-            XCTAssert(false)
-        }
-        
-        
-        if case .unsubscribeFailure(let topic, _) = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
-            XCTAssert(topic.contains("fbon2"))
-        } else {
-            XCTAssert(false)
-        }
-    }
-    
-    
-    func testSessionManagerDidUnsusbcribeTopics() {
-        sut.sessionManager(mockSessionManager, didUnsubscribeTopics: ["fbon"])
-        
-        if case .unsubscribeSuccess(let topic) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
-            XCTAssert(topic.contains("fbon"))
-        } else {
-            XCTAssert(false)
-        }
-    }
-    
+ 
     func testSessionManagerDidReceiveMessage() {
         connectWithDefaultOptions()
         sut.sessionManager(mockSessionManager, didReceiveMessageData: "Hello".data(using: .utf8)!, onTopic: "fbon", qos: .atMostOnce, retained: false, mid: 1)

@@ -18,10 +18,10 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
     private let connectionConfig: ConnectionConfig
     private(set) var messageReceiveListener: IMessageReceiveListener?
     
-    @Atomic<ConnectOptions?>(nil) private(set) var connectOptions
-    @Atomic<Date>(Date()) private(set) var connectionAttemptTimestamp
-    @Atomic<Date?>(nil) private(set) var lastPing
-    @Atomic<Date?>(nil) private(set) var lastPong
+    @Atomic<ConnectOptions?>(nil) var connectOptions
+    @Atomic<Date>(Date()) var connectionAttemptTimestamp
+    @Atomic<Date?>(nil) var lastPing
+    @Atomic<Date?>(nil) var lastPong
     
     var isConnected: Bool { sessionManager?.state == .connected }
     var isConnecting: Bool { sessionManager?.state == .connecting }

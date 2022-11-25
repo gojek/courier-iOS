@@ -8,6 +8,7 @@ class MQTTClientFrameworkSessionManagerTests: XCTestCase {
     var sut: MQTTClientFrameworkSessionManager!
     var mockSession: MockMQTTSession!
     var mockPersistence: MockMQTTPersistence!
+    var mockEventHandler: MockCourierEventHandler!
     var mockDelegate: MockMQTTClientFrameworkSessionManagerDelegate!
 
     override func setUp() {
@@ -19,6 +20,7 @@ class MQTTClientFrameworkSessionManagerTests: XCTestCase {
         let persistenceFactory = MockMQTTPersistenceFactory()
         persistenceFactory.stubbedMakePersistenceResult = mockPersistence
 
+        mockEventHandler = MockCourierEventHandler()
         mockDelegate = MockMQTTClientFrameworkSessionManagerDelegate()
 
         sut = MQTTClientFrameworkSessionManager(
@@ -29,7 +31,8 @@ class MQTTClientFrameworkSessionManagerTests: XCTestCase {
             mqttSessionFactory: sessionFactory,
             mqttPersistenceFactory: persistenceFactory,
             connectTimeoutPolicy: ConnectTimeoutPolicy(),
-            idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy()
+            idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
+            eventHandler: mockEventHandler
         )
 
         sut.delegate = mockDelegate
@@ -94,20 +97,95 @@ class MQTTClientFrameworkSessionManagerTests: XCTestCase {
         sut.connectToLast()
     }
 
-    func testSubscribeTopics() {
+    func testSubscribeTopicsSuccess() {
         setupSession()
+        self.mockSession.stubbedSubscribeSubscribeHandlerResult = (nil, [NSNumber(value: 1)])
         sut.subscribe([("fbon", .one)])
         XCTAssertTrue(mockSession.invokedSubscribe)
         XCTAssertEqual(mockSession.invokedSubscribeParameters?.topics, ["fbon": NSNumber(value: 1)])
         XCTAssertNotNil(mockSession.invokedSubscribeParameters?.subscribeHandler)
+        
+        
+        if case .subscribeAttempt(let topic) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
+            XCTAssert(topic.contains("fbon"))
+        } else {
+            XCTAssert(false)
+        }
+        
+        if case .subscribeSuccess(let topics, _) = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
+            XCTAssertEqual(topics[0].topic, "fbon")
+        } else {
+            XCTAssert(false)
+        }
+    }
+    
+    func testSubscribeTopicsFailure() {
+        setupSession()
+        self.mockSession.stubbedSubscribeSubscribeHandlerResult = (stubbedError, nil)
+        sut.subscribe([("fbon", .one)])
+        XCTAssertTrue(mockSession.invokedSubscribe)
+        XCTAssertEqual(mockSession.invokedSubscribeParameters?.topics, ["fbon": NSNumber(value: 1)])
+        XCTAssertNotNil(mockSession.invokedSubscribeParameters?.subscribeHandler)
+        
+        
+        if case .subscribeAttempt(let topic) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
+            XCTAssert(topic.contains("fbon"))
+        } else {
+            XCTAssert(false)
+        }
+        
+        if case .subscribeFailure(let topics, _, let error) = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
+            XCTAssertEqual(topics[0].topic, "fbon")
+            XCTAssertEqual(error!._domain, stubbedError.domain)
+        } else {
+            XCTAssert(false)
+        }
     }
 
-    func testUnsubscribeTopics() {
+    func testUnsubscribeTopicsSuccess() {
         setupSession()
+        mockSession.stubbedUnsubscribeHandlerResult = nil
         sut.unsubscribe(["fbon"])
         XCTAssertTrue(mockSession.invokedUnsubscribeTopics)
         XCTAssertEqual(mockSession.invokedUnsubscribeTopicsParameters?.topics?.first, "fbon")
         XCTAssertNotNil(mockSession.invokedUnsubscribeTopicsParameters?.unsubscribeHandler)
+        
+        if case .unsubscribeAttempt(let topic) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
+            XCTAssert(topic.contains("fbon"))
+        } else {
+            XCTAssert(false)
+        }
+        
+        if case .unsubscribeSuccess(let topics, _) = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
+            XCTAssertEqual(topics[0], "fbon")
+        } else {
+            XCTAssert(false)
+        }
+        
+    }
+    
+    func testUnsubscribeTopicsFailure() {
+        setupSession()
+        mockSession.stubbedUnsubscribeHandlerResult = stubbedError
+        sut.unsubscribe(["fbon"])
+        XCTAssertTrue(mockSession.invokedUnsubscribeTopics)
+        XCTAssertEqual(mockSession.invokedUnsubscribeTopicsParameters?.topics?.first, "fbon")
+        XCTAssertNotNil(mockSession.invokedUnsubscribeTopicsParameters?.unsubscribeHandler)
+        
+        if case .unsubscribeAttempt(let topic) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
+            XCTAssert(topic.contains("fbon"))
+        } else {
+            XCTAssert(false)
+        }
+        
+        if case let .unsubscribeFailure(topics, _, error) = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
+            XCTAssertEqual(topics[0], "fbon")
+            XCTAssert((error! as NSError).code ==  stubbedError.code)
+            XCTAssert((error! as NSError).domain ==  stubbedError.domain)
+        } else {
+            XCTAssert(false)
+        }
+        
     }
 
     func testPublishPacket() {
@@ -182,8 +260,15 @@ class MQTTClientFrameworkSessionManagerTests: XCTestCase {
 extension MQTTClientFrameworkSessionManagerTests {
 
     func setupSession(securityPolicy: MQTTSSLSecurityPolicy = .init()) {
-        sut.connect(to: "host", port: 443, keepAlive: 240, isCleanSession: true, isAuth: true, clientId: "clientid", username: "username", password: "password", lastWill: false, lastWillTopic: nil, lastWillMessage: nil, lastWillQoS: nil, lastWillRetainFlag: false, securityPolicy: securityPolicy, certificates: nil, protocolLevel: .version311, connectHandler: nil)
-
+        sut.connect(to: "host", port: 443, keepAlive: 240, isCleanSession: true, isAuth: true, clientId: "clientid", username: "username", password: "password", lastWill: false, lastWillTopic: nil, lastWillMessage: nil, lastWillQoS: nil, lastWillRetainFlag: false, securityPolicy: securityPolicy, certificates: nil, protocolLevel: .version311, connectOptions: stubConnectOptions, connectHandler: nil)
+    }
+    
+    var stubConnectOptions: ConnectOptions {
+        ConnectOptions(host: "host", port: 443, keepAlive: 240, clientId: "clientid", username: "username", password: "password", isCleanSession: true, userProperties: nil, alpn: nil)
+    }
+    
+    var stubbedError: NSError {
+        NSError(domain: "x", code: -1, userInfo: [:])
     }
 
 }

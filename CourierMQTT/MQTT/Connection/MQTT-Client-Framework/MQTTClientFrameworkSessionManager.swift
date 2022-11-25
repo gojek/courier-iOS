@@ -63,7 +63,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     @Atomic<MQTTSessionManagerState?>(nil) private(set) var state
 
     private(set) var lastError: NSError?
-    private(set) var connectOptions: ConnectOptions?
+    @Atomic<ConnectOptions?>(nil) var connectOptions
 
     private var reconnectTimer: ReconnectTimer?
     private var reconnectFlag = false
@@ -316,7 +316,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
                 self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeFailure(topics: topics, timeTaken: attemptTimestamp.timeTaken, error: error)))
                 self.delegate?.sessionManager(self, didFailToSubscribeTopics: topicsArray, error: error)
             } else {
-                self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeSuccess(topis: topics, timeTaken: attemptTimestamp.timeTaken)))
+                self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeSuccess(topics: topics, timeTaken: attemptTimestamp.timeTaken)))
                 self.delegate?.sessionManager(self, didSubscribeTopics: topicsArray)
             }
         })
@@ -325,7 +325,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     func unsubscribe(_ topics: [String]) {
         let connectOptions = self.connectOptions
         let attemptTimestamp = Date()
-        
+        eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeAttempt(topics: topics)))
         session?.unsubscribeTopics(topics, unsubscribeHandler: { [weak self] error in
             guard let self = self else { return }
             if let error = error {
