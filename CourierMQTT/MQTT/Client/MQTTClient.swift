@@ -1,6 +1,7 @@
 import CourierCore
 import Foundation
 import Reachability
+import UIKit
 
 class MQTTClient: IMQTTClient {
     let connection: IMQTTConnection
