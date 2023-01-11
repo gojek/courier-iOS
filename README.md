@@ -60,9 +60,11 @@ end
 ### Swift Package Manager (SPM)
 Simply add the package dependency to your Package.swift and depend on `CourierCore` and `CourierMQTT` in the necessary targets:
 
+```swift
 dependencies: [
     .package(url: "https://github.com/gojek/courier-iOS", from: "0.0.15")
 ]
+```
 
 ### Implement IConnectionServiceProvider to provide ConnectOptions for Authentication
 
