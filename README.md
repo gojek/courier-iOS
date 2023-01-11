@@ -62,7 +62,7 @@ Simply add the package dependency to your Package.swift and depend on `CourierCo
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/gojek/courier-iOS", from: "0.0.15")
+    .package(url: "https://github.com/gojek/courier-iOS", branch: "main")
 ]
 ```
 
