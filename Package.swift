@@ -8,11 +8,18 @@ let package = Package(
     ],
     products: [
         .library(
+            name: "CourierCore",
+            targets: ["CourierCore"]),
+        .library(
             name: "MQTTClientGJ",
             targets: ["MQTTClientGJ"]),
     ],
     dependencies: [],
     targets: [
+        .target(
+            name: "CourierCore",
+            dependencies: [],
+            path: "CourierCore"),
         .target(
             name: "MQTTClientGJ",
             dependencies: [],
