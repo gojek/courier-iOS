@@ -40,13 +40,13 @@ You can run the sample App to connect to any broker that you can configure. Sele
 
 ### Installation
 
-Courier uses Cocoapods for adding it as a dependency to a project in a `Podfile`. It is separated into 5 modules:
+Courier supports both Cocoapods and SPM for dependency manager. It is separated into 5 modules:
 - `CourierCore`: Contains public APIs such as protocols and data types for Courier. Other modules have basic dependency on this module. You can use this module if you want to implement the interface in your project without adding Courier implementation in your project.
 - `CourierMQTT`: Contains implementation of `CourierClient` and `CourierSession` using `MQTT`. This module has dependency to `MQTTClientGJ`.
 - `MQTTClientGJ`: A forked version of open source library [MQTT-Client-Framework](https://github.com/novastone-media/MQTT-Client-Framework). It add several features such as connect and inactivity timeout. It also fixes race condition crashes in `MQTTSocketEncoder` and `Connack` status 5 not completing the decode before `MQTTTransportDidClose` got invoked bugs.
 - `CourierProtobuf`: Contains implementation of `ProtobufMessageAdapter` using `Protofobuf`. It has dependency to `SwiftProtobuf` library, this is `optional` and can be used if you are using protobuf for data serialization.
 
-
+### Cocoapods
 ```ruby
 // Podfile
 target 'Example-App' do
@@ -56,6 +56,13 @@ target 'Example-App' do
   pod 'CourierProtobuf'
 end
 ```
+
+### Swift Package Manager (SPM)
+Simply add the package dependency to your Package.swift and depend on `CourierCore` and `CourierMQTT` in the necessary targets:
+
+dependencies: [
+    .package(url: "https://github.com/gojek/courier-iOS", from: "0.0.15")
+]
 
 ### Implement IConnectionServiceProvider to provide ConnectOptions for Authentication
 
