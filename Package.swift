@@ -11,15 +11,28 @@ let package = Package(
             name: "CourierCore",
             targets: ["CourierCore"]),
         .library(
+            name: "CourierMQTT",
+            targets: ["CourierMQTT"]),
+        .library(
             name: "MQTTClientGJ",
-            targets: ["MQTTClientGJ"]),
+            targets: ["MQTTClientGJ"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/ashleymills/Reachability.swift", from: "5.0.0")
+    ],
     targets: [
         .target(
             name: "CourierCore",
             dependencies: [],
             path: "CourierCore"),
+        .target(
+            name: "CourierMQTT",
+            dependencies: [
+                "CourierCore",
+                "MQTTClientGJ",
+                "Reachability"
+            ],
+            path: "CourierMQTT"),
         .target(
             name: "MQTTClientGJ",
             dependencies: [],
