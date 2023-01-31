@@ -114,12 +114,6 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.eventHandler = eventHandler
         
         super.init()
-        if let coreDataPersistence = persistence as? MQTTCoreDataPersistence,
-           let persistenceFactory = mqttPersistenceFactory as? MQTTPersistenceFactory,
-           persistenceFactory.shouldInitializeCoreDataPersistenceContext {
-            queue.async { coreDataPersistence.initializeManagedObjectContext() }
-        }
-
         self.updateState(to: .starting)
         self.reconnectTimer = ReconnectTimer(retryInterval: retryInterval, maxRetryInterval: maxRetryInterval, queue: queue, reconnect: { [weak self] in
             self?.reconnect()
