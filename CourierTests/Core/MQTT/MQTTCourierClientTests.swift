@@ -94,29 +94,44 @@ class MQTTCourierClientTests: XCTestCase {
     func testConnectWithSuccessCredentials() {
         mockConnectionServiceProvider.stubbedGetConnectOptionsCompletionResult = (.success(stubConnectOptions), ())
         sut.connect()
-        if case .connectionServiceAuthSuccess = self.mockEventHandler.invokedOnEventParameters?.event.type {
-        } else {
-            XCTAssert(false)
+        let expectation_ = expectation(description: "test")
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+            expectation_.fulfill()
         }
-        XCTAssertTrue(mockAuthRetryPolicy.invokedResetParams)
-        XCTAssertTrue(mockClient.invokedReset)
-        XCTAssertTrue(mockClient.invokedConnect)
-
-        XCTAssertEqual(mockClient.invokedConnectParameters?.connectOptions.host, stubConnectOptions.host)
-
-        XCTAssertEqual(mockClient.invokedConnectParameters?.connectOptions.port, UInt16(stubConnectOptions.port))
-        XCTAssertEqual(mockClient.invokedConnectParameters?.connectOptions.keepAlive, UInt16(pingInterval))
-        XCTAssertEqual(mockClient.invokedConnectParameters?.connectOptions.clientId, stubConnectOptions.clientId)
-        XCTAssertEqual(mockClient.invokedConnectParameters?.connectOptions.username, stubConnectOptions.username)
-        XCTAssertEqual(mockClient.invokedConnectParameters?.connectOptions.password, stubConnectOptions.password)
+        waitForExpectations(timeout: 0.1) { _ in
+            if case .connectionServiceAuthSuccess = self.mockEventHandler.invokedOnEventParameters?.event.type {
+            } else {
+                XCTAssert(false)
+            }
+            XCTAssertTrue(self.mockAuthRetryPolicy.invokedResetParams)
+            XCTAssertTrue(self.mockClient.invokedReset)
+            XCTAssertTrue(self.mockClient.invokedConnect)
+            
+            XCTAssertEqual(self.mockClient.invokedConnectParameters?.connectOptions.host, self.stubConnectOptions.host)
+            
+            XCTAssertEqual(self.mockClient.invokedConnectParameters?.connectOptions.port, UInt16(self.stubConnectOptions.port))
+            XCTAssertEqual(self.mockClient.invokedConnectParameters?.connectOptions.keepAlive, UInt16(self.pingInterval))
+            XCTAssertEqual(self.mockClient.invokedConnectParameters?.connectOptions.clientId, self.stubConnectOptions.clientId)
+            XCTAssertEqual(self.mockClient.invokedConnectParameters?.connectOptions.username, self.stubConnectOptions.username)
+            XCTAssertEqual(self.mockClient.invokedConnectParameters?.connectOptions.password, self.stubConnectOptions.password)
+            
+        }
     }
+        
+        
+     
 
     func testConnectWithFailureCredentials() {
         mockConnectionServiceProvider.stubbedGetConnectOptionsCompletionResult = (.failure(stubbedError), ())
         mockAuthRetryPolicy.stubbedGetRetryTimeResult = 0.1
 
         sut.connect()
-        if case .connectionServiceAuthFailure = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
+        let expectation_ = expectation(description: "test")
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+            expectation_.fulfill()
+        }
+        waitForExpectations(timeout: 0.1) { _ in
+            if case .connectionServiceAuthFailure = self.mockEventHandler.invokedOnEventParametersList[1]?.event.type {
             XCTAssert(true)
         } else {
             XCTAssert(false)
@@ -127,7 +142,9 @@ class MQTTCourierClientTests: XCTestCase {
         } else {
             XCTAssert(false)
         }
-        XCTAssertTrue(mockAuthRetryPolicy.invokedShouldRetry)
+            XCTAssertTrue(self.mockAuthRetryPolicy.invokedShouldRetry)
+        }
+      
     }
 
     func testSubscribeTopics() {

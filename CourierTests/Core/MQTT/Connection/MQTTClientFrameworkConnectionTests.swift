@@ -40,8 +40,7 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
                 authFailureHandler: mockAuthFailureHandler,
                 connectTimeoutPolicy: mockConnectTimeoutPolicy,
                 idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
-                isPersistent: true,
-                shouldInitializeCoreDataPersistenceContext: true
+                isPersistent: true
             ),
             clientFactory: mockClientFactory,
             persistenceFactory: mockPersistenceFactory
