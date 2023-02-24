@@ -293,27 +293,24 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     }
 
     func subscribe(_ topics: [(topic: String, qos: QoS)]) {
-        var topicsDict = [String: NSNumber]()
-        var eventTopics: [String] = []
-        topics.forEach { topicQoS in
-            eventTopics.append(topicQoS.topic)
-            topicsDict[topicQoS.topic] = NSNumber(value: topicQoS.qos.rawValue)
-        }
-
         let connectOptions = self.connectOptions
-        let attemptTimestamp = Date()
-        eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeAttempt(topics: eventTopics)))
-        session?.subscribe(toTopics: topicsDict, subscribeHandler: { [weak self] (error, _) in
-            guard let self = self else { return }
-            let topicsArray = topics.map { $0.topic }
-            if let error = error {
-                self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeFailure(topics: topics, timeTaken: attemptTimestamp.timeTaken, error: error)))
-                self.delegate?.sessionManager(self, didFailToSubscribeTopics: topicsArray, error: error)
-            } else {
-                self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeSuccess(topics: topics, timeTaken: attemptTimestamp.timeTaken)))
-                self.delegate?.sessionManager(self, didSubscribeTopics: topicsArray)
-            }
-        })
+        topics.forEach { topic, qos in
+            let attemptTimestamp = Date()
+            self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeAttempt(topics: [topic])))
+            session?.subscribe(toTopics: [topic: NSNumber(value: qos.rawValue)], subscribeHandler: { [weak self] (error, responseCodes) in
+                guard let self = self else { return }
+                if let error = error {
+                    self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeFailure(topics: [(topic, qos)], timeTaken: attemptTimestamp.timeTaken, error: error)))
+                    self.delegate?.sessionManager(self, didFailToSubscribeTopics: [topic], error: error)
+                } else if let responseCode = responseCodes?.first, responseCode == 128 {
+                    self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeFailure(topics: [(topic, qos)], timeTaken: attemptTimestamp.timeTaken, error: CourierError.subackFail128)))
+                    self.delegate?.sessionManager(self, didFailToSubscribeTopics: [topic], error: CourierError.subackFail128)
+                } else {
+                    self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeSuccess(topics: [(topic, qos)], timeTaken: attemptTimestamp.timeTaken)))
+                    self.delegate?.sessionManager(self, didSubscribeTopics: [topic])
+                }
+            })
+        }
     }
 
     func unsubscribe(_ topics: [String]) {
