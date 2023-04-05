@@ -228,7 +228,29 @@
 
     for (NSString *topic in topics.allKeys) {
         [data appendMQTTString:topic];
-        [data appendByte:[topics[topic] intValue]];
+        int qos = [topics[topic] intValue];
+        
+        bool bitOr0x4 = false;
+        bool bitOr0x8 = false;
+        if (qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndNoRetry) {
+            bitOr0x4 = false;
+            bitOr0x8 = false;
+        } else if (qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry) {
+            bitOr0x4 = false;
+            bitOr0x8 = true;
+        } else {
+            bitOr0x4 = true;
+            bitOr0x8 = true;
+        }
+        
+        UInt8 nextByte = 0 | qos;
+        if (bitOr0x4) {
+            nextByte |= 0x04;
+        }
+        
+        if (bitOr0x4) {
+            nextByte |= 0x08;
+        }
     }
     MQTTMessage* msg = [[MQTTMessage alloc] initWithType:MQTTSubscribe
                                                      qos:1

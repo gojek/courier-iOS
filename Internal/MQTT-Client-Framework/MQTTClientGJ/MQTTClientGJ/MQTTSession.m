@@ -251,10 +251,13 @@ NSString * const MQTTClientcourier = @"GJ";
         if (MQTTStrict.strict &&
             qos.intValue != MQTTQosLevelAtMostOnce &&
             qos.intValue != MQTTQosLevelAtLeastOnce &&
-            qos.intValue != MQTTQosLevelExactlyOnce) {
+            qos.intValue != MQTTQosLevelExactlyOnce &&
+            qos.intValue != MQTTQosLevelAtLeastOnceWithoutPersistenceAndNoRetry &&
+            qos.intValue != MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry
+        ) {
             NSException* myException = [NSException
                                         exceptionWithName:@"Illegal QoS level"
-                                        reason:[NSString stringWithFormat:@"%d is not 0, 1, or 2", qos.intValue]
+                                        reason:[NSString stringWithFormat:@"%d is not 0, 1, 2, 3, or 4", qos.intValue]
                                         userInfo:nil];
             @throw myException;
         }
@@ -397,8 +400,7 @@ NSString * const MQTTClientcourier = @"GJ";
         // Set these *special QoSes* as QoS One
         if (qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry || qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndNoRetry) {
             qos = MQTTQosLevelAtLeastOnce;
-            // TODO: Confirm MsgID
-//            msgId = [self nextMsgId];
+            msgId = [self nextMsgId];
         }
         MQTTMessage *msg = [MQTTMessage publishMessageWithData:data
                                                        onTopic:topic
@@ -1412,7 +1414,10 @@ NSString * const MQTTClientcourier = @"GJ";
     if (self.shouldEnableActivityCheckTimeout) {
         switch (message.type) {
             case MQTTPublish:
-                if (message.qos == MQTTQosLevelAtMostOnce) return;
+                if (message.qos == MQTTQosLevelAtMostOnce ||
+                    message.qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry ||
+                    message.qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry
+                ) return;
                 [self checkAndSetFastReconnectTimestamp];
                 return;
             
