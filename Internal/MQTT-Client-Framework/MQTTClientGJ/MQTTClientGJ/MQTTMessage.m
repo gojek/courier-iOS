@@ -230,8 +230,8 @@
         [data appendMQTTString:topic];
         int qos = [topics[topic] intValue];
         
-        bool bitOr0x4 = false;
-        bool bitOr0x8 = false;
+        bool bitOr0x4;
+        bool bitOr0x8;
         if (qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndNoRetry) {
             bitOr0x4 = false;
             bitOr0x8 = false;
