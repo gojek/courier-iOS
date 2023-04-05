@@ -13,11 +13,14 @@ public enum QoS: Int {
     
     /** Like QoS1, Message delivery is acknowledged with Puback, but unlike Qos1 messages are
        nor persisted and neither retied at send after one attempt.
-       The message arrives at the receiver either once or not at all **/
+       The message arrives at the receiver either once or not at all.
+        Your broker need to be configured to support this **/
     case oneWithoutPersistenceAndNoRetry = 3
     
     /** Like QoS1, Message delivery is acknowledged with Puback, but unlike Qos1 messages are
-         not persisted. The messages are retried within active connection if delivery is not acknowledged.**/
+       nor persisted and neither retied at send after one attempt.
+       The message arrives at the receiver either once or not at all.
+        Your broker need to be configured to support this **/
     case oneWithoutPersistenceAndRetry = 4
     
     // Used internally by the Courier for determinining publish persistence and subscribe payload behaviors

@@ -378,16 +378,28 @@ NSString * const MQTTClientcourier = @"GJ";
     if (MQTTStrict.strict &&
         qos != MQTTQosLevelAtMostOnce &&
         qos != MQTTQosLevelAtLeastOnce &&
-        qos != MQTTQosLevelExactlyOnce) {
+        qos != MQTTQosLevelExactlyOnce &&
+        qos != MQTTQosLevelAtLeastOnceWithoutPersistenceAndNoRetry &&
+        qos != MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry
+        ) {
         NSException* myException = [NSException
                                     exceptionWithName:@"Illegal QoS level"
-                                    reason:[NSString stringWithFormat:@"%d is not 0, 1, or 2", qos]
+                                    reason:[NSString stringWithFormat:@"%d is not 0, 1, 2, 3, or 4", qos]
                                     userInfo:nil];
         @throw myException;
     }
 
     UInt16 msgId = 0;
-    if (!qos) {
+    if (!qos ||
+        qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry ||
+        qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndNoRetry
+    ) {
+        // Set these *special QoSes* as QoS One
+        if (qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry || qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndNoRetry) {
+            qos = MQTTQosLevelAtLeastOnce;
+            // TODO: Confirm MsgID
+//            msgId = [self nextMsgId];
+        }
         MQTTMessage *msg = [MQTTMessage publishMessageWithData:data
                                                        onTopic:topic
                                                            qos:qos
