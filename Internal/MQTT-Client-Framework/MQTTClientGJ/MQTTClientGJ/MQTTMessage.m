@@ -228,7 +228,7 @@
 
     for (NSString *topic in topics.allKeys) {
         [data appendMQTTString:topic];
-        UInt8 qos = [topics[topic] intValue];
+        Byte qos = [topics[topic] intValue];
         
         bool bitOr0x4;
         bool bitOr0x8;
@@ -245,7 +245,7 @@
             bitOr0x8 = true;
         }
         
-        UInt8 nextByte = 0 | qos;
+        Byte nextByte = 0 | qos;
         if (!bitOr0x4) {
             nextByte |= 0x4;
         }
