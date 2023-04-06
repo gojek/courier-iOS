@@ -244,13 +244,13 @@
         }
         
         UInt8 nextByte = 0 | qos;
-        if (bitOr0x4) {
+        if (!bitOr0x4) {
             nextByte |= 0x04;
         }
-        
-        if (bitOr0x4) {
+        if (!bitOr0x8) {
             nextByte |= 0x08;
         }
+        [data appendByte:nextByte];
     }
     MQTTMessage* msg = [[MQTTMessage alloc] initWithType:MQTTSubscribe
                                                      qos:1
@@ -509,7 +509,6 @@
 - (NSData *)wireFormat {
     NSMutableData *buffer = [[NSMutableData alloc] init];
 
-      
     UInt8 header;
     header = (self.type & 0x0f) << 4;
     if (self.dupFlag) {
