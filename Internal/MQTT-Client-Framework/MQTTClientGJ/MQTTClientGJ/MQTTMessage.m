@@ -247,10 +247,10 @@
         
         UInt8 nextByte = 0 | qos;
         if (!bitOr0x4) {
-            nextByte |= 0x04;
+            nextByte |= 0x4;
         }
         if (!bitOr0x8) {
-            nextByte |= 0x08;
+            nextByte |= 0x8;
         }
         [data appendByte:nextByte];
     }
