@@ -228,14 +228,16 @@
 
     for (NSString *topic in topics.allKeys) {
         [data appendMQTTString:topic];
-        int qos = [topics[topic] intValue];
+        UInt8 qos = [topics[topic] intValue];
         
         bool bitOr0x4;
         bool bitOr0x8;
         if (qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndNoRetry) {
+            qos = MQTTQosLevelAtLeastOnce;
             bitOr0x4 = false;
             bitOr0x8 = false;
         } else if (qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry) {
+            qos = MQTTQosLevelAtLeastOnce;
             bitOr0x4 = false;
             bitOr0x8 = true;
         } else {

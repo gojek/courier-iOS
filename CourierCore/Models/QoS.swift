@@ -23,14 +23,29 @@ public enum QoS: Int {
         Your broker need to be configured to support this **/
     case oneWithoutPersistenceAndRetry = 4
     
-    // Used internally by the Courier for determinining publish persistence and subscribe payload behaviors
-    var internalRawValue: (value: Int, type: Int) {
+    public var rawValue: Int {
         switch self {
-        case .zero: return (QoS.zero.rawValue, self.rawValue)
-        case .one: return (QoS.one.rawValue, self.rawValue)
-        case .two: return (QoS.one.rawValue, self.rawValue)
-        case .oneWithoutPersistenceAndNoRetry: return (QoS.zero.rawValue, self.rawValue)
-        case .oneWithoutPersistenceAndRetry: return (QoS.zero.rawValue, self.rawValue)
+        case .zero:
+            return 0
+        case .one, .oneWithoutPersistenceAndNoRetry, .oneWithoutPersistenceAndRetry:
+            return 1
+        case .two:
+            return 2
+        }
+    }
+    
+    public var type: Int {
+        switch self {
+        case .zero:
+            return 0
+        case .one:
+            return 1
+        case .two:
+            return 2
+        case .oneWithoutPersistenceAndNoRetry:
+            return 3
+        case .oneWithoutPersistenceAndRetry:
+            return 4
         }
     }
 }
