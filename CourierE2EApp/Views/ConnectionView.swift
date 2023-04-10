@@ -11,6 +11,7 @@ struct ConnectionView: View {
     
     @StateObject var connectionVM: ConnectionObservableObject
     @Environment(\.presentationMode) var presentationMode
+    @State var showChuckView = false
 
     var body: some View {
         List {
@@ -28,7 +29,19 @@ struct ConnectionView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
+            
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Chuck") {
+                    self.showChuckView = true
+                }
+            }
         }
+        .sheet(isPresented: $showChuckView, content: {
+            NavigationView {
+                MQTTChuckView()
+            }
+            
+        })
         .onAppear { connectionVM.connect() }
         .onDisappear { connectionVM.disconnect() }
     }

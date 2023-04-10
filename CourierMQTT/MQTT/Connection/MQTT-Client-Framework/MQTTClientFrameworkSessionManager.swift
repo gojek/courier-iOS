@@ -392,6 +392,23 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
 
     func sending(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
         printDebug("MQTT - COURIER: Sending MQTT Command \(type.debugDescription)")
+        if enableMQTTChuck {
+            var userInfo: [String: Any] = [
+                "type": type.rawValue,
+                "qos": qos.rawValue,
+                "retained": retained,
+                "duped": duped,
+                "mid": mid,
+                "sending": true,
+                "received": false,
+            ]
+            
+            if let data = data {
+                userInfo["data"] = data
+            }
+            NotificationCenter.default.post(name: mqttChuckNotification, object: nil, userInfo: userInfo)
+        }
+                
         switch type {
         case .connect:
             delegate?.sessionManagerDidSendConnectPacket(self)
@@ -404,6 +421,23 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
 
     func received(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
         printDebug("MQTT - COURIER: Received MQTT Command \(type.debugDescription)")
+        if enableMQTTChuck {
+            var userInfo: [String: Any] = [
+                "type": type.rawValue,
+                "qos": qos.rawValue,
+                "retained": retained,
+                "duped": duped,
+                "mid": mid,
+                "sending": false,
+                "received": true,
+            ]
+            
+            if let data = data {
+                userInfo["data"] = data
+            }
+            NotificationCenter.default.post(name: mqttChuckNotification, object: nil, userInfo: userInfo)
+        }
+        
         switch type {
         case .pingresp:
             delegate?.sessionManagerDidReceivePong(self)
@@ -412,3 +446,6 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
         }
     }
 }
+
+var enableMQTTChuck = true
+public let mqttChuckNotification = NSNotification.Name("GojekCourierMQTTChuckNotification")

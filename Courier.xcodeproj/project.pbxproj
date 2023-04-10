@@ -267,6 +267,9 @@
 		B0DA90E9285739A000F6512D /* libCourierProtobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE0DFEA270BE85B00630D60 /* libCourierProtobuf.a */; };
 		B0DA90EC285739A000F6512D /* libMQTTClientGJ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B9A803927DAFB9500732992 /* libMQTTClientGJ.a */; };
 		B0DC1BD6292F39EB000BB593 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DC1BD5292F39EB000BB593 /* Date+Extension.swift */; };
+		B0EF8E1E29E3D488001DF51B /* MQTTChuckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EF8E1D29E3D488001DF51B /* MQTTChuckView.swift */; };
+		B0EF8E2029E3D496001DF51B /* MQTTChuckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EF8E1F29E3D496001DF51B /* MQTTChuckViewModel.swift */; };
+		B0EF8E2229E3D590001DF51B /* MQTTChuckLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EF8E2129E3D590001DF51B /* MQTTChuckLogger.swift */; };
 		BD64D90B9161917798603676 /* Pods_CourierTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01E4C0FB47EC974550D736E3 /* Pods_CourierTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -636,6 +639,9 @@
 		B0DA90BC2856F5E400F6512D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B0DA90BF2856F5E400F6512D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B0DC1BD5292F39EB000BB593 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		B0EF8E1D29E3D488001DF51B /* MQTTChuckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTChuckView.swift; sourceTree = "<group>"; };
+		B0EF8E1F29E3D496001DF51B /* MQTTChuckViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTChuckViewModel.swift; sourceTree = "<group>"; };
+		B0EF8E2129E3D590001DF51B /* MQTTChuckLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTChuckLogger.swift; sourceTree = "<group>"; };
 		B2A539B4CC71894E7F9786CB /* Pods-ProtobufMessageAdapter.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProtobufMessageAdapter.production.xcconfig"; path = "Target Support Files/Pods-ProtobufMessageAdapter/Pods-ProtobufMessageAdapter.production.xcconfig"; sourceTree = "<group>"; };
 		B34A10F81E34FB8483FD5528 /* Pods-CourierMQTT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.release.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.release.xcconfig"; sourceTree = "<group>"; };
 		BCF0DEB7D3AF7421867F8965 /* Pods_CourierE2EApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CourierE2EApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1553,6 +1559,7 @@
 		B0DA90B72856F5E300F6512D /* CourierE2EApp */ = {
 			isa = PBXGroup;
 			children = (
+				B0EF8E1C29E3D47E001DF51B /* MQTT Chuck */,
 				B0DA90B82856F5E300F6512D /* CourierE2EApp.swift */,
 				B00C823F285B152000B2BDBA /* Courier */,
 				B00C8245285B152000B2BDBA /* Models */,
@@ -1569,6 +1576,16 @@
 				B0DA90BF2856F5E400F6512D /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B0EF8E1C29E3D47E001DF51B /* MQTT Chuck */ = {
+			isa = PBXGroup;
+			children = (
+				B0EF8E1D29E3D488001DF51B /* MQTTChuckView.swift */,
+				B0EF8E1F29E3D496001DF51B /* MQTTChuckViewModel.swift */,
+				B0EF8E2129E3D590001DF51B /* MQTTChuckLogger.swift */,
+			);
+			path = "MQTT Chuck";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2171,11 +2188,14 @@
 				B00C824F285B152000B2BDBA /* SubscribeData.swift in Sources */,
 				B00C8249285B152000B2BDBA /* ConnectionObservableObject.swift in Sources */,
 				B00C824A285B152000B2BDBA /* ConnectionServiceProvider.swift in Sources */,
+				B0EF8E2229E3D590001DF51B /* MQTTChuckLogger.swift in Sources */,
 				B0DA90B92856F5E300F6512D /* CourierE2EApp.swift in Sources */,
+				B0EF8E2029E3D496001DF51B /* MQTTChuckViewModel.swift in Sources */,
 				B00C824C285B152000B2BDBA /* ConnectionView.swift in Sources */,
 				B00C824B285B152000B2BDBA /* ConnectionFormView.swift in Sources */,
 				B00C824D285B152000B2BDBA /* ConnectionE2EView.swift in Sources */,
 				B00C824E285B152000B2BDBA /* MesssageData.swift in Sources */,
+				B0EF8E1E29E3D488001DF51B /* MQTTChuckView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

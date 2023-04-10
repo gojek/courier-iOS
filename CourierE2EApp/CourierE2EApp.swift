@@ -9,6 +9,9 @@ import SwiftUI
 
 @main
 struct CourierE2EApp: App {
+    
+    let logger = MQTTChuckLogger.shared
+    
     var body: some Scene {
         WindowGroup {
             NavigationView {
