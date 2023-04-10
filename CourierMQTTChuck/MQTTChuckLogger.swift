@@ -10,41 +10,20 @@ import CourierCore
 import CourierMQTT
 import MQTTClientGJ
 
-struct MQTTChuckLog: Identifiable {
-    let id = UUID()
-    
-    let commandType: String
-    let qos: String
-    let messageId: Int
-    let sending: Bool
-    let received: Bool
-    
-    let dup: Bool
-    let retained: Bool
-    let dataLength: Int?
-    let dataString: String?
-    
-    let timestamp = Date()
-}
-
-protocol MQTTChuckLoggerDelegate {
-    
+public protocol MQTTChuckLoggerDelegate {
     func mqttChuckLoggerDidUpdateLogs(_ logs: [MQTTChuckLog])
 }
 
-class MQTTChuckLogger {
+public class MQTTChuckLogger {
     
-    static let shared = MQTTChuckLogger()
-    private(set) var logs = [MQTTChuckLog]()
-    var logsMaxSize = 200
-    var delegate: MQTTChuckLoggerDelegate?
+    public private(set) var logs = [MQTTChuckLog]()
+    public var delegate: MQTTChuckLoggerDelegate?
+    public var dataStringParser: ((Data) -> String?)?
+    public var logsMaxSize = 250
     
-    init() {
+    public init() {
         NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMQTTChuckNotification), name: mqttChuckNotification, object: nil)
-    }
-    
-    func setLogsMaxSize(_ size: Int) {
-        self.logsMaxSize = size
+        CourierMQTTChuck.isEnabled = true
     }
         
     @objc func didReceiveMQTTChuckNotification(_ notification: Notification) {
@@ -62,7 +41,20 @@ class MQTTChuckLogger {
             return
         }
         
-        let data = userInfo["data"] as? Data        
+        let data = userInfo["data"] as? Data
+        var dataString: String?
+        
+        if let data = data {
+            if let dataStringParser = dataStringParser,
+               let string = dataStringParser(data) {
+                dataString = string
+            } else if let string = String(data: data, encoding: .utf8) {
+                dataString = string
+            } else {
+                dataString = (data as NSData).description
+            }
+        }
+        
         let log = MQTTChuckLog(
             commandType: type.debugDescription,
             qos: "\(qos)",
@@ -70,14 +62,17 @@ class MQTTChuckLogger {
             sending: sending, received: received,
             dup: dup, retained: retained,
             dataLength: data?.count,
-            dataString: (data != nil) ? String(data: data!, encoding: .utf8) : nil)
-        print("MQTT Chuck Logger: \(log)")
+            dataString: dataString)
         
         logs.append(log)
         if logs.count >= logsMaxSize {
             logs.removeFirst(10)
         }
         delegate?.mqttChuckLoggerDidUpdateLogs(logs)
+    }
+    
+    deinit {
+        CourierMQTTChuck.isEnabled = false
     }
     
 }

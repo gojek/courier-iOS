@@ -9,6 +9,7 @@ import SwiftUI
 import CourierCore
 import CourierMQTT
 import CourierProtobuf
+import CourierMQTTChuck
 
 struct MessagePayload: Codable {
     let from: String
@@ -22,6 +23,7 @@ final class ConnectionE2EObservableObject: ObservableObject {
     let connectionServiceProvider: ConnectionServiceProvider
     let username: String
     let roomCode: String
+    let logger = MQTTChuckLogger()
     
     @Published var connectionColor = Color.red
     

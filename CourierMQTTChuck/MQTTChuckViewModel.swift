@@ -6,10 +6,12 @@
 //
 
 import Foundation
-import CourierMQTT
-import MQTTClientGJ
+#if canImport(SwiftUI)
+import SwiftUI
+#endif
 
 
+@available(iOS 15.0, *)
 class MQTTChuckViewModel: ObservableObject, MQTTChuckLoggerDelegate {
     
     let logger: MQTTChuckLogger
@@ -21,7 +23,7 @@ class MQTTChuckViewModel: ObservableObject, MQTTChuckLoggerDelegate {
         return df
     }()
     
-    init(logger: MQTTChuckLogger = .shared) {
+    init(logger: MQTTChuckLogger) {
         self.logger = logger
         self.logs = logger.logs.reversed()
         self.logger.delegate = self

@@ -392,7 +392,7 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
 
     func sending(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
         printDebug("MQTT - COURIER: Sending MQTT Command \(type.debugDescription)")
-        if enableMQTTChuck {
+        if CourierMQTTChuck.isEnabled {
             var userInfo: [String: Any] = [
                 "type": type.rawValue,
                 "qos": qos.rawValue,
@@ -421,7 +421,7 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
 
     func received(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
         printDebug("MQTT - COURIER: Received MQTT Command \(type.debugDescription)")
-        if enableMQTTChuck {
+        if CourierMQTTChuck.isEnabled {
             var userInfo: [String: Any] = [
                 "type": type.rawValue,
                 "qos": qos.rawValue,
@@ -446,6 +446,3 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
         }
     }
 }
-
-var enableMQTTChuck = true
-public let mqttChuckNotification = NSNotification.Name("GojekCourierMQTTChuckNotification")

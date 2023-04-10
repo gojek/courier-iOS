@@ -5,14 +5,20 @@
 //  Created by Alfian Losari on 10/04/23.
 //
 
+#if canImport(SwiftUI)
 import SwiftUI
+#endif
 
-struct MQTTChuckView: View {
+@available(iOS 15.0, *)
+public struct MQTTChuckView: View {
     
-    @StateObject var vm = MQTTChuckViewModel()
+    @StateObject var vm: MQTTChuckViewModel
     
+    public init(logger: MQTTChuckLogger) {
+        _vm = .init(wrappedValue: MQTTChuckViewModel(logger: logger))
+    }
     
-    var body: some View {
+    public var body: some View {
         List {
             ForEach(vm.logs) { log in
                 HStack(alignment: .top) {
@@ -36,8 +42,6 @@ struct MQTTChuckView: View {
                         }
                         .font(.headline)
                         
-                         
-                        
                         HStack(alignment: .top) {
                             Text(vm.dateFormatter.string(from: log.timestamp))
                             Spacer()
@@ -47,10 +51,6 @@ struct MQTTChuckView: View {
                             } else {
                                 Text("-")
                             }
-                            
-                            
-                           
-                            
                         }
                         
                         DisclosureGroup("Details") {
@@ -58,28 +58,25 @@ struct MQTTChuckView: View {
                             
                             Text("Dup: \(String(log.dup)) - retained: \(String(log.retained))")
                             
-                            
-                            if let dataString = log.dataString, !dataString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            if let dataString = log.dataString {
                                 Text("data: \(dataString.debugDescription)")
                             } else {
                                 Text("data: N/A")
                             }
                         }
                         .font(.caption)
-                        
-                        
                     }
-                    
                 }
-                
+                .textSelection(.enabled)
             }
         }
         .navigationTitle("Courier MQTT Chuck")
     }
 }
 
+@available(iOS 15.0, *)
 struct MQTTChuckView_Previews: PreviewProvider {
     static var previews: some View {
-        MQTTChuckView()
+        MQTTChuckView(logger: MQTTChuckLogger())
     }
 }

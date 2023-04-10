@@ -19,6 +19,7 @@ end
 target 'CourierE2EApp' do
   use_frameworks!
   courier_pods
+  pod 'CourierMQTTChuck'
   pod 'SwiftProtobuf'
 end
 

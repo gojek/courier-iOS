@@ -8,12 +8,15 @@
 import SwiftUI
 import CourierCore
 import CourierMQTT
+import CourierMQTTChuck
 import CourierProtobuf
 
 final class ConnectionObservableObject: ObservableObject {
     
     private let courierClient: CourierClient
     let connectionServiceProvider: ConnectionServiceProvider
+    let logger = MQTTChuckLogger()
+
     @Published var connectionColor = Color.red
     
     @Published var isConnected = false

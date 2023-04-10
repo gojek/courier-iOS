@@ -5,6 +5,7 @@
 //  Created by Alfian Losari on 13/06/22.
 //
 
+import CourierMQTTChuck
 import SwiftUI
 
 struct ConnectionView: View {
@@ -38,9 +39,8 @@ struct ConnectionView: View {
         }
         .sheet(isPresented: $showChuckView, content: {
             NavigationView {
-                MQTTChuckView()
+                MQTTChuckView(logger: connectionVM.logger)
             }
-            
         })
         .onAppear { connectionVM.connect() }
         .onDisappear { connectionVM.disconnect() }
