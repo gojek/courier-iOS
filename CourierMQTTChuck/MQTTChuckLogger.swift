@@ -71,6 +71,11 @@ public class MQTTChuckLogger {
         delegate?.mqttChuckLoggerDidUpdateLogs(logs)
     }
     
+    public func clearLogs() {
+        self.logs = []
+        delegate?.mqttChuckLoggerDidUpdateLogs(logs)
+    }
+    
     deinit {
         CourierMQTTChuck.isEnabled = false
     }
