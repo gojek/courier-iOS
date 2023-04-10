@@ -29,7 +29,15 @@ struct MQTTChuckView: View {
                     }
                     
                     VStack(alignment: .leading) {
-                        Text(log.commandType.uppercased()).font(.headline)
+                        HStack {
+                            Text(log.commandType.uppercased())
+                            Spacer()
+                            Text("QOS: \(log.qos)")
+                        }
+                        .font(.headline)
+                        
+                         
+                        
                         HStack(alignment: .top) {
                             Text(vm.dateFormatter.string(from: log.timestamp))
                             Spacer()
@@ -57,6 +65,7 @@ struct MQTTChuckView: View {
                                 Text("data: N/A")
                             }
                         }
+                        .font(.caption)
                         
                         
                     }
