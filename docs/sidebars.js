@@ -37,7 +37,8 @@
         "Message QoS",
         "Subscribe & Receive Message",
         "Publish Message",
-        "Event Handling"
+        "Event Handling",
+        "Monitoring MQTT Packet"
         ],
     },
     {
