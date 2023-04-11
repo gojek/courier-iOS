@@ -3,6 +3,7 @@ Courier supports both Cocoapods and SPM for dependency manager. It is separated 
 - `CourierMQTT`: Contains implementation of `CourierClient` and `CourierSession` using `MQTT`. This module has dependency to `MQTTClientGJ`.
 - `MQTTClientGJ`: A forked version of open source library [MQTT-Client-Framework](https://github.com/novastone-media/MQTT-Client-Framework). It add several features such as connect and inactivity timeout. It also fixes race condition crashes in `MQTTSocketEncoder` and `Connack` status 5 not completing the decode before `MQTTTransportDidClose` got invoked bugs.
 - `CourierProtobuf`: Contains implementation of `ProtobufMessageAdapter` using `Protofobuf`. It has dependency to `SwiftProtobuf` library, this is `optional` and can be used if you are using protobuf for data serialization.
+- `CourierMQTTChuck`: Can be ussed to inspects all the outgoing or incoming packets for an underlying MQTT connection. It intercepts all the packets, persisting them and providing a UI for accessing all the MQTT packets sent or received. It also provides multiple other features like search, share, and clear data. Uses `SwiftUI` under the hood.
 
 ### Cocoapods
 ```ruby
@@ -11,7 +12,8 @@ target 'Example-App' do
   use_frameworks!
   pod 'CourierCore'
   pod 'CourierMQTT'
-  pod 'CourierProtobuf'
+  pod 'CourierProtobuf' #optional
+  pod 'CourierMQTTChuck' #optional
 end
 ```
 
