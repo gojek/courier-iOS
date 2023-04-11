@@ -1,6 +1,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,fastlane,xcode,cocoapods,carthage,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,fastlane,xcode,cocoapods,carthage,visualstudiocode
 
+### SwiftPM ###
+
+.build/
+.swiftpm/
+Package.resolved
+
 ### Carthage ###
 # Carthage
 #

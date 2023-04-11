@@ -5,12 +5,14 @@
 //  Created by Alfian Losari on 13/06/22.
 //
 
+import CourierMQTTChuck
 import SwiftUI
 
 struct ConnectionView: View {
     
     @StateObject var connectionVM: ConnectionObservableObject
     @Environment(\.presentationMode) var presentationMode
+    @State var showChuckView = false
 
     var body: some View {
         List {
@@ -28,7 +30,18 @@ struct ConnectionView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
+            
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Chuck") {
+                    self.showChuckView = true
+                }
+            }
         }
+        .sheet(isPresented: $showChuckView, content: {
+            NavigationView {
+                MQTTChuckView(logger: connectionVM.logger)
+            }
+        })
         .onAppear { connectionVM.connect() }
         .onDisappear { connectionVM.disconnect() }
     }

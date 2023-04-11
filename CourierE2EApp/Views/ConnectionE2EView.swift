@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import CourierMQTTChuck
 
 struct ConnectionE2EView: View {
     
     @StateObject var connectionVM: ConnectionE2EObservableObject
     @Environment(\.presentationMode) var presentationMode
+    @State var showChuckView = false
+
 
     var body: some View {
         List {
@@ -28,7 +31,18 @@ struct ConnectionE2EView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
+            
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Chuck") {
+                    self.showChuckView = true
+                }
+            }
         }
+        .sheet(isPresented: $showChuckView, content: {
+            NavigationView {
+                MQTTChuckView(logger: connectionVM.logger)
+            }
+        })
         .onAppear { connectionVM.connect() }
         .onDisappear { connectionVM.disconnect() }
     }

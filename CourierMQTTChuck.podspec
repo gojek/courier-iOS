@@ -1,5 +1,5 @@
 Pod::Spec.new do |c|
-    c.name            = 'CourierMQTT'
+    c.name            = 'CourierMQTTChuck'
     c.version         = '0.0.17'
     c.summary         = "Gojek iOS Long Run Connection Open Source SDK"
     c.description     = "Publish and Subscribe data with bidirectional communication between client and server"
@@ -14,11 +14,11 @@ Pod::Spec.new do |c|
 		:tag => "#{c.version}"
 	}
     c.swift_version   = '5.3'
-    c.source_files = "CourierMQTT/**/*.{h,m,swift}"
+
+    c.source_files = "CourierMQTTChuck/**/*.{h,m,swift}"
 
     c.dependency 'CourierCore', "#{c.version}"
-    # Make sure to use the forked version from private podspec "ios-ca-podspecs" as it contains critical fix on MQTTSession for transportDidClose
+    c.dependency 'CourierMQTT', "#{c.version}"
     c.dependency 'MQTTClientGJ', "#{c.version}"
-    c.dependency 'ReachabilitySwift', '5.0.0'   
 end
   

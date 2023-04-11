@@ -267,6 +267,11 @@
 		B0DA90E9285739A000F6512D /* libCourierProtobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE0DFEA270BE85B00630D60 /* libCourierProtobuf.a */; };
 		B0DA90EC285739A000F6512D /* libMQTTClientGJ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B9A803927DAFB9500732992 /* libMQTTClientGJ.a */; };
 		B0DC1BD6292F39EB000BB593 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DC1BD5292F39EB000BB593 /* Date+Extension.swift */; };
+		B0EF8E3329E40871001DF51B /* MQTTChuckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EF8E1D29E3D488001DF51B /* MQTTChuckView.swift */; };
+		B0EF8E3429E40871001DF51B /* MQTTChuckLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EF8E2129E3D590001DF51B /* MQTTChuckLogger.swift */; };
+		B0EF8E3529E40871001DF51B /* MQTTChuckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EF8E1F29E3D496001DF51B /* MQTTChuckViewModel.swift */; };
+		B0EF8E3629E40871001DF51B /* MQTTChuckLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EF8E2329E4081B001DF51B /* MQTTChuckLog.swift */; };
+		B0EF8E3829E408B5001DF51B /* MQTTChuck.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EF8E3729E408B5001DF51B /* MQTTChuck.swift */; };
 		BD64D90B9161917798603676 /* Pods_CourierTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01E4C0FB47EC974550D736E3 /* Pods_CourierTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -332,6 +337,15 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8BE0DFE8270BE85B00630D60 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0EF8E2729E40861001DF51B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -636,6 +650,12 @@
 		B0DA90BC2856F5E400F6512D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B0DA90BF2856F5E400F6512D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B0DC1BD5292F39EB000BB593 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		B0EF8E1D29E3D488001DF51B /* MQTTChuckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTChuckView.swift; sourceTree = "<group>"; };
+		B0EF8E1F29E3D496001DF51B /* MQTTChuckViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTChuckViewModel.swift; sourceTree = "<group>"; };
+		B0EF8E2129E3D590001DF51B /* MQTTChuckLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTChuckLogger.swift; sourceTree = "<group>"; };
+		B0EF8E2329E4081B001DF51B /* MQTTChuckLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTChuckLog.swift; sourceTree = "<group>"; };
+		B0EF8E2929E40861001DF51B /* libCourierMQTTChuck.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCourierMQTTChuck.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0EF8E3729E408B5001DF51B /* MQTTChuck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTChuck.swift; sourceTree = "<group>"; };
 		B2A539B4CC71894E7F9786CB /* Pods-ProtobufMessageAdapter.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProtobufMessageAdapter.production.xcconfig"; path = "Target Support Files/Pods-ProtobufMessageAdapter/Pods-ProtobufMessageAdapter.production.xcconfig"; sourceTree = "<group>"; };
 		B34A10F81E34FB8483FD5528 /* Pods-CourierMQTT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.release.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.release.xcconfig"; sourceTree = "<group>"; };
 		BCF0DEB7D3AF7421867F8965 /* Pods_CourierE2EApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CourierE2EApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -712,6 +732,13 @@
 				B0DA90E6285739A000F6512D /* libCourierMQTT.a in Frameworks */,
 				B0DA90EC285739A000F6512D /* libMQTTClientGJ.a in Frameworks */,
 				2F2A9AD27BFADBC670DC91E7 /* Pods_CourierE2EApp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0EF8E2629E40861001DF51B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,6 +848,7 @@
 				8B9A803A27DAFB9500732992 /* MQTTClientGJ */,
 				B0DA90B72856F5E300F6512D /* CourierE2EApp */,
 				B0DA90BC2856F5E400F6512D /* Assets.xcassets */,
+				B0EF8E2A29E40861001DF51B /* CourierMQTTChuck */,
 				8B06696D2623E4D800129BAB /* Products */,
 				593C02C794F2A7420198E292 /* Pods */,
 				405D3D3E9DF0145D8328CF87 /* Frameworks */,
@@ -836,6 +864,7 @@
 				8BE0DFEA270BE85B00630D60 /* libCourierProtobuf.a */,
 				8B9A803927DAFB9500732992 /* libMQTTClientGJ.a */,
 				B0DA90B62856F5E300F6512D /* CourierE2EApp.app */,
+				B0EF8E2929E40861001DF51B /* libCourierMQTTChuck.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1113,6 +1142,7 @@
 				8BE0DEF0270BE50700630D60 /* Event */,
 				8BE0DEF4270BE50700630D60 /* Client */,
 				B0DC1BD5292F39EB000BB593 /* Date+Extension.swift */,
+				B0EF8E3729E408B5001DF51B /* MQTTChuck.swift */,
 			);
 			path = MQTT;
 			sourceTree = "<group>";
@@ -1571,6 +1601,17 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		B0EF8E2A29E40861001DF51B /* CourierMQTTChuck */ = {
+			isa = PBXGroup;
+			children = (
+				B0EF8E1D29E3D488001DF51B /* MQTTChuckView.swift */,
+				B0EF8E1F29E3D496001DF51B /* MQTTChuckViewModel.swift */,
+				B0EF8E2129E3D590001DF51B /* MQTTChuckLogger.swift */,
+				B0EF8E2329E4081B001DF51B /* MQTTChuckLog.swift */,
+			);
+			path = CourierMQTTChuck;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1719,13 +1760,30 @@
 			productReference = B0DA90B62856F5E300F6512D /* CourierE2EApp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B0EF8E2829E40861001DF51B /* CourierMQTTChuck */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B0EF8E2D29E40861001DF51B /* Build configuration list for PBXNativeTarget "CourierMQTTChuck" */;
+			buildPhases = (
+				B0EF8E2529E40861001DF51B /* Sources */,
+				B0EF8E2629E40861001DF51B /* Frameworks */,
+				B0EF8E2729E40861001DF51B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CourierMQTTChuck;
+			productName = CourierMQTTChuck;
+			productReference = B0EF8E2929E40861001DF51B /* libCourierMQTTChuck.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		8B0669632623E4D800129BAB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1340;
+				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					8B0669902623E55400129BAB = {
@@ -1748,6 +1806,9 @@
 					B0DA90B52856F5E300F6512D = {
 						CreatedOnToolsVersion = 13.4;
 					};
+					B0EF8E2829E40861001DF51B = {
+						CreatedOnToolsVersion = 14.1;
+					};
 				};
 			};
 			buildConfigurationList = 8B0669662623E4D800129BAB /* Build configuration list for PBXProject "Courier" */;
@@ -1769,6 +1830,7 @@
 				8B0669902623E55400129BAB /* CourierTests */,
 				8B9A803827DAFB9500732992 /* MQTTClientGJ */,
 				B0DA90B52856F5E300F6512D /* CourierE2EApp */,
+				B0EF8E2829E40861001DF51B /* CourierMQTTChuck */,
 			);
 		};
 /* End PBXProject section */
@@ -2025,6 +2087,7 @@
 			files = (
 				8BE0DFA2270BE50A00630D60 /* SubscriptionDisposable.swift in Sources */,
 				8BE0DFB9270BE50A00630D60 /* Disposable.swift in Sources */,
+				B0EF8E3829E408B5001DF51B /* MQTTChuck.swift in Sources */,
 				8BE0DFCD270BE50A00630D60 /* Rx.swift in Sources */,
 				8BE0DF60270BE50900630D60 /* MQTTConfiguration.swift in Sources */,
 				8BE0DFDD270BE50B00630D60 /* ImmediateSchedulerType.swift in Sources */,
@@ -2176,6 +2239,17 @@
 				B00C824B285B152000B2BDBA /* ConnectionFormView.swift in Sources */,
 				B00C824D285B152000B2BDBA /* ConnectionE2EView.swift in Sources */,
 				B00C824E285B152000B2BDBA /* MesssageData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0EF8E2529E40861001DF51B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0EF8E3429E40871001DF51B /* MQTTChuckLogger.swift in Sources */,
+				B0EF8E3329E40871001DF51B /* MQTTChuckView.swift in Sources */,
+				B0EF8E3629E40871001DF51B /* MQTTChuckLog.swift in Sources */,
+				B0EF8E3529E40871001DF51B /* MQTTChuckViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3188,6 +3262,81 @@
 			};
 			name = Release;
 		};
+		B0EF8E2E29E40861001DF51B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T4954J9MK5;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B0EF8E2F29E40861001DF51B /* Production */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T4954J9MK5;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Production;
+		};
+		B0EF8E3029E40861001DF51B /* Alpha */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T4954J9MK5;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Alpha;
+		};
+		B0EF8E3129E40861001DF51B /* Integration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T4954J9MK5;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Integration;
+		};
+		B0EF8E3229E40861001DF51B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T4954J9MK5;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3271,6 +3420,18 @@
 				B0DA90C32856F5E400F6512D /* Alpha */,
 				B0DA90C42856F5E400F6512D /* Integration */,
 				B0DA90C52856F5E400F6512D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B0EF8E2D29E40861001DF51B /* Build configuration list for PBXNativeTarget "CourierMQTTChuck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0EF8E2E29E40861001DF51B /* Debug */,
+				B0EF8E2F29E40861001DF51B /* Production */,
+				B0EF8E3029E40861001DF51B /* Alpha */,
+				B0EF8E3129E40861001DF51B /* Integration */,
+				B0EF8E3229E40861001DF51B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

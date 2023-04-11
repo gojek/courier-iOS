@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct CourierE2EApp: App {
+    
     var body: some Scene {
         WindowGroup {
             NavigationView {

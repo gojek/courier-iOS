@@ -15,10 +15,17 @@ let package = Package(
             targets: ["CourierMQTT"]),
         .library(
             name: "MQTTClientGJ",
-            targets: ["MQTTClientGJ"])
+            targets: ["MQTTClientGJ"]),
+        .library(
+            name: "CourierProtobuf",
+            targets: ["CourierProtobuf"]),
+        .library(
+            name: "CourierMQTTChuck",
+            targets: ["CourierMQTTChuck"])
     ],
     dependencies: [
-        .package(url: "https://github.com/ashleymills/Reachability.swift", from: "5.0.0")
+        .package(url: "https://github.com/ashleymills/Reachability.swift", from: "5.0.0"),
+        .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.6.0")
     ],
     targets: [
         .target(
@@ -37,6 +44,22 @@ let package = Package(
             name: "MQTTClientGJ",
             dependencies: [],
             path: "Internal/MQTT-Client-Framework/MQTTClientGJ/MQTTClientGJ",
-            publicHeadersPath: "")
+            publicHeadersPath: ""),
+        .target(
+            name: "CourierProtobuf",
+            dependencies: [
+                "CourierCore",
+                "CourierMQTT",
+                .product(name: "SwiftProtobuf", package: "swift-protobuf")
+            ],
+            path: "CourierProtobuf"),
+        .target(
+            name: "CourierMQTTChuck",
+            dependencies: [
+                "CourierCore",
+                "CourierMQTT",
+                "MQTTClientGJ"
+            ],
+            path: "CourierMQTTChuck")
     ]
 )
