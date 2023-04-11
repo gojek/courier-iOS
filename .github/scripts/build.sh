@@ -22,4 +22,10 @@ xcodebuild -workspace Courier.xcworkspace \
     -scheme CourierProtobuf \
     -destination "generic/platform=iOS Simulator" \
     -configuration Release
-    
+
+echo "Building CourierMQTTChuck"
+
+xcodebuild -workspace Courier.xcworkspace \
+    -scheme CourierMQTTChuck \
+    -destination "generic/platform=iOS Simulator" \
+    -configuration Release
