@@ -11,8 +11,8 @@ Pod::Spec.new do |mqttc|
 	}
 
 	mqttc.requires_arc = true
-	mqttc.platform = :ios, "6.1"
-	mqttc.ios.deployment_target = "6.1"
+	mqttc.platform = :ios, "11.0"
+	mqttc.ios.deployment_target = "11.0"
 
 	mqttc.source_files = "Internal/MQTT-Client-Framework/MQTTClientGJ/MQTTClientGJ/MQTTCFSocketDecoder.{h,m}",
 					"Internal/MQTT-Client-Framework/MQTTClientGJ/MQTTClientGJ/MQTTCFSocketEncoder.{h,m}",
