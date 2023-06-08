@@ -72,10 +72,20 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
         self.connectOptions = connectOptions
 
         let port = Int(connectOptions.port)
+        let isTls = false
         var securityPolicy: MQTTSSLSecurityPolicy?
-        if port == 443 {
-            securityPolicy = MQTTSSLSecurityPolicy()
-            securityPolicy?.allowInvalidCertificates = true
+        
+        switch connectOptions.scheme {
+            case "tls":
+                securityPolicy = MQTTSSLSecurityPolicy()
+                securityPolicy?.allowInvalidCertificates = true
+                isTls = true
+            case "ssl":
+                securityPolicy = MQTTSSLSecurityPolicy()
+                securityPolicy?.allowInvalidCertificates = true
+            isTls = true
+            default:
+                break
         }
 
         sessionManager.connect(
@@ -98,7 +108,8 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
             userProperties: connectOptions.userProperties,
             alpn: connectOptions.alpn,
             connectOptions: connectOptions,
-            connectHandler: nil
+            connectHandler: nil,
+            isTls: isTls
         )
     }
 
