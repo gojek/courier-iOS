@@ -346,7 +346,8 @@ extension MQTTClientFrameworkConnectionTests {
             clientId: "1234",
             username: "hello",
             password: "word",
-            isCleanSession: true
+            isCleanSession: true,
+            scheme: "tls",
         )
     }
     
