@@ -144,7 +144,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         printDebug("MQTT - COURIER: Client Session Manager connect to: \(host)")
         self.connectOptions = connectOptions
         let shouldReconnect = self.session != nil
-        let isTls = port == 443
+        let isTls = connectOptions.scheme == "ssl" || connectOptions.scheme == "tls"
 
         if (self.session == nil || host != self.host) ||
             port != self.port ?? 0 ||

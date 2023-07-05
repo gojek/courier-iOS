@@ -264,7 +264,7 @@ extension MQTTClientFrameworkSessionManagerTests {
     }
     
     var stubConnectOptions: ConnectOptions {
-        ConnectOptions(host: "host", port: 443, keepAlive: 240, clientId: "clientid", username: "username", password: "password", isCleanSession: true, userProperties: nil, alpn: nil)
+        ConnectOptions(host: "host", port: 443, keepAlive: 240, clientId: "clientid", username: "username", password: "password", isCleanSession: true, userProperties: nil, alpn: nil, scheme: "tls")
     }
     
     var stubbedError: NSError {
