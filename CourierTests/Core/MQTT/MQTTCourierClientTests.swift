@@ -358,7 +358,7 @@ extension MQTTCourierClientTests {
             clientId: "xyz",
             username: "abc",
             password: "token",
-            isCleanSession: true,
+            isCleanSession: true
         )
     }
     
