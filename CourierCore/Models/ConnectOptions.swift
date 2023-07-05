@@ -46,7 +46,7 @@ public struct ConnectOptions: Equatable {
         self.isCleanSession = isCleanSession
         self.userProperties = userProperties
         self.alpn = alpn
-        self.scheme = scheme,
-        self.useSSLWithTLS: Bool = false
+        self.scheme = scheme
+        self.useSSLWithTLS = useSSLWithTLS
     }
 }
