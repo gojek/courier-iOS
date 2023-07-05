@@ -22,8 +22,6 @@ public struct ConnectOptions: Equatable {
     
     public let scheme: String?
 
-    public let useSSLWithTLS: Bool
-
     public init(
         host: String,
         port: UInt16,
@@ -34,8 +32,7 @@ public struct ConnectOptions: Equatable {
         isCleanSession: Bool = false,
         userProperties: [String: String]? = nil,
         alpn: [String]? = nil,
-        scheme: String? = nil,
-        useSSLWithTLS: Bool = false
+        scheme: String? = nil
     ) {
         self.host = host
         self.port = port
@@ -47,6 +44,5 @@ public struct ConnectOptions: Equatable {
         self.userProperties = userProperties
         self.alpn = alpn
         self.scheme = scheme
-        self.useSSLWithTLS = useSSLWithTLS
     }
 }

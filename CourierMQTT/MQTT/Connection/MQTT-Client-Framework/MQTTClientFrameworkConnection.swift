@@ -74,7 +74,7 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
         let port = Int(connectOptions.port)
         var securityPolicy: MQTTSSLSecurityPolicy?
         
-        if scheme == "ssl" || scheme == "tls" || useSSLWithTLS {
+        if connectOptions.scheme == "ssl" || connectOptions.scheme == "tls" {
             securityPolicy = MQTTSSLSecurityPolicy()
             securityPolicy?.allowInvalidCertificates = true
         }
