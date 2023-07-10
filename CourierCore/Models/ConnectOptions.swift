@@ -45,4 +45,8 @@ public struct ConnectOptions: Equatable {
         self.alpn = alpn
         self.scheme = scheme
     }
+    
+    public var shouldUseSecureTransportLayer: Bool {
+        scheme == "ssl" || scheme == "tls" || port == 443
+    }
 }
