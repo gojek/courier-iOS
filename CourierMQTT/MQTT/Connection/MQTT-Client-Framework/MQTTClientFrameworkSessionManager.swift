@@ -392,21 +392,9 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
 
     func sending(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
         printDebug("MQTT - COURIER: Sending MQTT Command \(type.debugDescription)")
+        
         if CourierMQTTChuck.isEnabled {
-            var userInfo: [String: Any] = [
-                "type": type.rawValue,
-                "qos": qos.rawValue,
-                "retained": retained,
-                "duped": duped,
-                "mid": mid,
-                "sending": true,
-                "received": false,
-            ]
-            
-            if let data = data {
-                userInfo["data"] = data
-            }
-            NotificationCenter.default.post(name: mqttChuckNotification, object: nil, userInfo: userInfo)
+            logToMQTTChuck(sending: true, received: false, type: type, qos: qos, retained: retained, duped: duped, mid: mid, data: data)
         }
                 
         switch type {
@@ -421,21 +409,9 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
 
     func received(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
         printDebug("MQTT - COURIER: Received MQTT Command \(type.debugDescription)")
+        
         if CourierMQTTChuck.isEnabled {
-            var userInfo: [String: Any] = [
-                "type": type.rawValue,
-                "qos": qos.rawValue,
-                "retained": retained,
-                "duped": duped,
-                "mid": mid,
-                "sending": false,
-                "received": true,
-            ]
-            
-            if let data = data {
-                userInfo["data"] = data
-            }
-            NotificationCenter.default.post(name: mqttChuckNotification, object: nil, userInfo: userInfo)
+            logToMQTTChuck(sending: false, received: true, type: type, qos: qos, retained: retained, duped: duped, mid: mid, data: data)
         }
         
         switch type {
@@ -444,5 +420,49 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
         default:
             break
         }
+    }
+}
+
+extension MQTTClientFrameworkSessionManager {
+    
+    func logToMQTTChuck(sending: Bool, received: Bool, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data?) {
+        var userInfo: [String: Any] = [
+            "type": type.rawValue,
+            "qos": qos.rawValue,
+            "retained": retained,
+            "duped": duped,
+            "mid": mid,
+            "sending": sending,
+            "received": received,
+        ]
+        
+        if let data = data {
+            userInfo["data"] = data
+        }
+        if let connectOptions = self.connectOptions {
+            var connectOptionsInfo: [String: Any] = [
+                "host": connectOptions.host,
+                "port": Int(connectOptions.port),
+                "keepAlive": Int(connectOptions.keepAlive),
+                "clientId": connectOptions.clientId,
+                "isCleanSession": connectOptions.isCleanSession
+            ]
+            
+            if let userProperties = connectOptions.userProperties {
+                connectOptionsInfo["userProperties"] = userProperties
+            }
+            
+            if let alpn = connectOptions.alpn {
+                connectOptionsInfo["alpn"] = alpn
+            }
+            
+            if let scheme = connectOptions.scheme {
+                connectOptionsInfo["scheme"] = scheme
+            }
+            
+            userInfo["connectOptions"] = connectOptionsInfo
+        }
+        
+        NotificationCenter.default.post(name: mqttChuckNotification, object: nil, userInfo: userInfo)
     }
 }

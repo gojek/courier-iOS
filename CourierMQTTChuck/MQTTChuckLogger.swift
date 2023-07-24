@@ -55,7 +55,7 @@ public class MQTTChuckLogger {
             }
         }
         
-        let log = MQTTChuckLog(
+        var log = MQTTChuckLog(
             commandType: type.debugDescription,
             qos: "\(qos)",
             messageId: Int(mid),
@@ -63,6 +63,17 @@ public class MQTTChuckLogger {
             dup: dup, retained: retained,
             dataLength: data?.count,
             dataString: dataString)
+        
+        if let connectOptions = userInfo["connectOptions"] as? [String: Any] {
+            log.host = connectOptions["host"] as? String
+            log.port = connectOptions["port"] as? Int
+            log.keepAlive = connectOptions["keepAlive"] as? Int
+            log.clientId = connectOptions["clientId"] as? String
+            log.isCleanSession = connectOptions["isCleanSession"] as? Bool
+            log.userProperties = connectOptions["userProperties"] as? [String: String]
+            log.alpn = connectOptions["alpn"] as? [String]
+            log.scheme = connectOptions["scheme"] as? String
+        }
         
         logs.append(log)
         if logs.count >= logsMaxSize {

@@ -1,19 +1,8 @@
 PODS:
-  - CourierCore (0.0.17)
-  - CourierMQTT (0.0.17):
-    - CourierCore (= 0.0.17)
-    - MQTTClientGJ (= 0.0.17)
-    - ReachabilitySwift (= 5.0.0)
-  - CourierMQTTChuck (0.0.17):
-    - CourierCore (= 0.0.17)
-    - CourierMQTT (= 0.0.17)
-    - MQTTClientGJ (= 0.0.17)
-  - MQTTClientGJ (0.0.17)
   - ReachabilitySwift (5.0.0)
   - SwiftProtobuf (1.17.0)
 
 DEPENDENCIES:
-  - CourierMQTTChuck
   - ReachabilitySwift (= 5.0.0)
   - SwiftProtobuf
 
@@ -21,20 +10,11 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - ReachabilitySwift
     - SwiftProtobuf
-  trunk:
-    - CourierCore
-    - CourierMQTT
-    - CourierMQTTChuck
-    - MQTTClientGJ
 
 SPEC CHECKSUMS:
-  CourierCore: 5561c7ff8fdd9b722bedf06a290be2f7e9242f80
-  CourierMQTT: 40ca2bde67a0a5c9c222c3e972861b34611907b8
-  CourierMQTTChuck: 970cd9893626cea84b0ebbd2db55533d356c7258
-  MQTTClientGJ: 2da01c1669f12cab46e2ddb0eb26e8b4cf54fe9c
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   SwiftProtobuf: 9c85136c6ba74b0a1b84279dbf0f6db8efb714e0
 
-PODFILE CHECKSUM: 16cfd27c7166c9df2c4b15d142da9e4f5dd066d9
+PODFILE CHECKSUM: a4337e4674909ba3194470b783f5e8fa68363376
 
 COCOAPODS: 1.12.1
