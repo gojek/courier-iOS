@@ -259,6 +259,7 @@
 		B00C824E285B152000B2BDBA /* MesssageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C8246285B152000B2BDBA /* MesssageData.swift */; };
 		B00C824F285B152000B2BDBA /* SubscribeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C8247285B152000B2BDBA /* SubscribeData.swift */; };
 		B00C842C285C3CA000B2BDBA /* PrintDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C842B285C3CA000B2BDBA /* PrintDebug.swift */; };
+		B0C3CDB92A6E21DA00A87579 /* libCourierMQTTChuck.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0EF8E2929E40861001DF51B /* libCourierMQTTChuck.a */; };
 		B0DA90B92856F5E300F6512D /* CourierE2EApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DA90B82856F5E300F6512D /* CourierE2EApp.swift */; };
 		B0DA90BD2856F5E400F6512D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0DA90BC2856F5E400F6512D /* Assets.xcassets */; };
 		B0DA90C02856F5E400F6512D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0DA90BF2856F5E400F6512D /* Preview Assets.xcassets */; };
@@ -276,6 +277,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B0C3CDBA2A6E21DA00A87579 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8B0669632623E4D800129BAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B0EF8E2829E40861001DF51B;
+			remoteInfo = CourierMQTTChuck;
+		};
 		B0DA90E4285739A000F6512D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8B0669632623E4D800129BAB /* Project object */;
@@ -731,6 +739,7 @@
 				B0DA90E3285739A000F6512D /* libCourierCore.a in Frameworks */,
 				B0DA90E6285739A000F6512D /* libCourierMQTT.a in Frameworks */,
 				B0DA90EC285739A000F6512D /* libMQTTClientGJ.a in Frameworks */,
+				B0C3CDB92A6E21DA00A87579 /* libCourierMQTTChuck.a in Frameworks */,
 				2F2A9AD27BFADBC670DC91E7 /* Pods_CourierE2EApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1754,6 +1763,7 @@
 				B0DA90E8285739A000F6512D /* PBXTargetDependency */,
 				B0DA90EB285739A000F6512D /* PBXTargetDependency */,
 				B0DA90EE285739A000F6512D /* PBXTargetDependency */,
+				B0C3CDBB2A6E21DA00A87579 /* PBXTargetDependency */,
 			);
 			name = CourierE2EApp;
 			productName = CourierE2EApp;
@@ -2256,6 +2266,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B0C3CDBB2A6E21DA00A87579 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B0EF8E2829E40861001DF51B /* CourierMQTTChuck */;
+			targetProxy = B0C3CDBA2A6E21DA00A87579 /* PBXContainerItemProxy */;
+		};
 		B0DA90E5285739A000F6512D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8BE0DD40270BE3B000630D60 /* CourierCore */;
