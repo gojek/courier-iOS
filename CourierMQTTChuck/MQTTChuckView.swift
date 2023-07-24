@@ -80,7 +80,6 @@ public struct MQTTChuckView: View {
             .containerShape(Rectangle())
             .contentShape(Rectangle())
             .onTapGesture { selectedLog = log }
-            
         }
     }
 }
@@ -148,7 +147,7 @@ struct MQTTChuckLogView: View {
                         if let clientId = log.clientId { TitleDetailHView(title: "ClientID", detail: clientId) }
                         if let keepAlive = log.keepAlive { TitleDetailHView(title: "Keep Alive", detail: String(keepAlive)) }
                         if let isCleanSession = log.isCleanSession { TitleDetailHView(title: "Clean Session", detail: String(isCleanSession)) }
-                                                                 
+                        
                         if let alpn = log.alpn {
                             VStack(alignment: .leading) {
                                 Text("ALPN")
@@ -156,7 +155,6 @@ struct MQTTChuckLogView: View {
                                     Text($0)
                                 }
                             }
-                           
                         }
                         
                         if let userProperties = log.userProperties {
@@ -167,13 +165,11 @@ struct MQTTChuckLogView: View {
                                 }
                             }
                         }
-                                                                  
+                        
                     }
                 }
-                
             }
             
-       
             Section {
                 DisclosureGroup("Payload", isExpanded: $isPayloadExpanded) {
                     Text("Message ID: \(log.messageId)")
@@ -191,7 +187,6 @@ struct MQTTChuckLogView: View {
         .textSelection(.enabled)
         .navigationTitle("Log Detail")
     }
-    
 }
 
 @available(iOS 15.0, *)
@@ -209,7 +204,6 @@ struct TitleDetailHView: View {
                 .multilineTextAlignment(.trailing)
         }
     }
-    
 }
 
 @available(iOS 15.0, *)
@@ -218,54 +212,3 @@ struct MQTTChuckView_Previews: PreviewProvider {
         MQTTChuckView(logger: MQTTChuckLogger())
     }
 }
-
-
-/*
- 
- HStack(alignment: .top) {
-     if log.sending {
-         Image(systemName: "arrow.up.message.fill")
-             .imageScale(.large)
-             .symbolRenderingMode(.multicolor)
-             .foregroundColor(.accentColor)
-     } else {
-         Image(systemName: "arrow.down.message.fill")
-             .imageScale(.large)
-             .symbolRenderingMode(.multicolor)
-             .foregroundColor(Color(uiColor: .systemGreen))
-     }
-     
-     VStack(alignment: .leading) {
-         HStack {
-             Text(log.commandType.uppercased())
-             Spacer()
-             Text("QOS: \(log.qos)")
-         }
-         .font(.headline)
-         
-         HStack(alignment: .top) {
-             Text(vm.dateFormatter.string(from: log.timestamp))
-             Spacer()
-
-             if let dataLength = log.dataLength {
-                 Text("\(dataLength) B")
-             } else {
-                 Text("-")
-             }
-         }
-         
-         DisclosureGroup("Details") {
-             Text("Message ID: \(log.messageId)")
-             
-             Text("Dup: \(String(log.dup)) - retained: \(String(log.retained))")
-             
-             if let dataString = log.dataString {
-                 Text("data: \(dataString.debugDescription)")
-             } else {
-                 Text("data: N/A")
-             }
-         }
-         .font(.caption)
-     }
- }
- */
