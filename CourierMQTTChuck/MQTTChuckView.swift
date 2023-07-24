@@ -172,12 +172,11 @@ struct MQTTChuckLogView: View {
             
             Section {
                 DisclosureGroup("Payload", isExpanded: $isPayloadExpanded) {
-                    Text("Message ID: \(log.messageId)")
-                    
-                    Text("Dup: \(String(log.dup)) - retained: \(String(log.retained))")
-                    
+                    TitleDetailHView(title: "MessageID", detail: String(log.messageId))
+                    TitleDetailHView(title: "Dup", detail: String(log.dup))
+                    TitleDetailHView(title: "Retained", detail: String(log.retained))
                     if let dataString = log.dataString {
-                        Text("data: \(dataString.debugDescription)")
+                        TitleDetailHView(title: "Bytes", detail: dataString.debugDescription)
                     } else {
                         Text("data: N/A")
                     }
