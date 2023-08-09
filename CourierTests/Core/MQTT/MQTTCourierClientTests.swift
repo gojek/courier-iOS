@@ -221,7 +221,7 @@ class MQTTCourierClientTests: XCTestCase {
 
     func testHandleAuthFailure() {
         sut.handleAuthFailure()
-//        XCTAssertTrue(mockEventHandler.invokedReset)
+        XCTAssertTrue(mockClient.invokedDisconnectParameters!.isInternal)
         if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event.type {
             XCTAssert(true)
         } else {

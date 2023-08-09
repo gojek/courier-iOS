@@ -68,6 +68,7 @@ class MQTTClientTests: XCTestCase {
         } else {
             XCTAssert(false)
         }
+        XCTAssertEqual(self.mockEventHandler.invokedOnEventParametersList.count, 1)
         XCTAssertTrue(mockConnection.invokedConnect)
     }
 
@@ -114,10 +115,19 @@ class MQTTClientTests: XCTestCase {
         XCTAssertTrue(mockConnection.invokedUnsubscribe)
         XCTAssertEqual(mockConnection.invokedUnsubscribeParameters?.topics.first, "fbon")
     }
-
-    func testDisconnect() {
+    
+    func testDisconnectIsInternalTrue() {
         mockConnection.stubbedIsConnected = true
-        sut.disconnect()
+        sut.disconnect(isInternal: true)
+        
+        XCTAssertTrue(self.mockEventHandler.invokedOnEventParametersList.isEmpty)
+        XCTAssertFalse(sut.isInitialized)
+        XCTAssertTrue(mockConnection.invokedDisconnect)
+    }
+
+    func testDisconnectIsNotInternalFalse() {
+        mockConnection.stubbedIsConnected = true
+        sut.disconnect(isInternal: false)
 
         if case .connectionDisconnect = self.mockEventHandler.invokedOnEventParametersList.first!!.event.type {
             XCTAssert(true)
@@ -145,6 +155,12 @@ class MQTTClientTests: XCTestCase {
 
         XCTAssertFalse(sut.isInitialized)
         XCTAssertTrue(mockConnection.invokedDisconnect)
+        
+        if case .connectionDisconnect = self.mockEventHandler.invokedOnEventParametersList.first!!.event.type {
+            XCTAssert(true)
+        } else {
+            XCTAssert(false)
+        }
 
         XCTAssertNil(sut.connectOptions)
         XCTAssertEqual(mockNotificationCenter.invokedRemoveObserverWithNameParametersList[0].name, UIApplication.willResignActiveNotification)
@@ -168,6 +184,12 @@ class MQTTClientTests: XCTestCase {
 
         XCTAssertFalse(sut.isInitialized)
         XCTAssertTrue(mockConnection.invokedDisconnect)
+        
+        if case .connectionDisconnect = self.mockEventHandler.invokedOnEventParametersList.first!!.event.type {
+            XCTAssert(true)
+        } else {
+            XCTAssert(false)
+        }
 
         XCTAssertNil(sut.connectOptions)
         XCTAssertEqual(mockNotificationCenter.invokedRemoveObserverWithNameParametersList[0].name, UIApplication.didEnterBackgroundNotification)
@@ -186,6 +208,7 @@ class MQTTClientTests: XCTestCase {
         sut.handleKeepAliveFailure()
         XCTAssertTrue(mockConnection.invokedDisconnect)
         XCTAssertTrue(mockConnection.invokedConnect)
+        XCTAssertEqual(self.mockEventHandler.invokedOnEventParametersList.count, 1)
     }
 
     func testResetWithActiveNotifications() {
