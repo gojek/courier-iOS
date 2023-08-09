@@ -299,7 +299,7 @@ class MQTTCourierClient: CourierClient {
 
 extension MQTTCourierClient: IAuthFailureHandler {
     func handleAuthFailure() {
-        client.disconnect()
+        client.disconnect(isInternal: true)
         connectionServiceProvider.clearCachedAuthResponse()
         connect()
     }

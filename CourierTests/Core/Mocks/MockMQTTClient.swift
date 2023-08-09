@@ -86,10 +86,14 @@ class MockMQTTClient: IMQTTClient {
 
     var invokedDisconnect = false
     var invokedDisconnectCount = 0
+    var invokedDisconnectParameters: (isInternal: Bool, Void)?
+    var invokedDisconnectParametersList = [(isInternal: Bool, Void)]()
 
-    func disconnect() {
+    func disconnect(isInternal: Bool) {
         invokedDisconnect = true
         invokedDisconnectCount += 1
+        invokedDisconnectParameters = (isInternal, ())
+        invokedDisconnectParametersList.append((isInternal, ()))
     }
 
     var invokedSubscribe = false
