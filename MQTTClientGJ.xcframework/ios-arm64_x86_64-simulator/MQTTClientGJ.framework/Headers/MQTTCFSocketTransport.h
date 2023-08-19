@@ -3,9 +3,11 @@
 // Copyright © 2013-2017, Christoph Krey. All rights reserved.
 //
 
-#import "MQTTTransport.h"
-#import "MQTTCFSocketDecoder.h"
-#import "MQTTCFSocketEncoder.h"
+#import <Foundation/Foundation.h>
+
+#import <MQTTClientGJ/MQTTTransport.h>
+#import <MQTTClientGJ/MQTTCFSocketDecoder.h>
+#import <MQTTClientGJ/MQTTCFSocketEncoder.h>
 
 /** MQTTCFSocketTransport
  * implements an MQTTTransport on top of CFNetwork

@@ -4,7 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MQTTMessage.h"
+#import <MQTTClientGJ/MQTTMessage.h>
 
 static BOOL const MQTT_PERSISTENT = NO;
 static NSInteger const MQTT_MAX_SIZE = 64 * 1024 * 1024;

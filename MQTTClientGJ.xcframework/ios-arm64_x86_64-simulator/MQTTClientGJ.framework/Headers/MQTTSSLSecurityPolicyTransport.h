@@ -3,9 +3,9 @@
 // Copyright © 2013-2017, Christoph Krey. All rights reserved.
 //
 
-#import "MQTTTransport.h"
-#import "MQTTSSLSecurityPolicy.h"
-#import "MQTTCFSocketTransport.h"
+#import <MQTTClientGJ/MQTTTransport.h>
+#import <MQTTClientGJ/MQTTSSLSecurityPolicy.h>
+#import <MQTTClientGJ/MQTTCFSocketTransport.h>
 
 /** MQTTSSLSecurityPolicyTransport
  * implements an extension of the MQTTCFSocketTransport by replacing the OS's certificate chain evaluation

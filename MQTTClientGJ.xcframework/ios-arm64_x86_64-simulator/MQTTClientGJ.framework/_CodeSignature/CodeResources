@@ -22,27 +22,23 @@
 		</data>
 		<key>Headers/MQTTCFSocketTransport.h</key>
 		<data>
-		yGnrQqQUOVJWJjBz7bctw8aaDU0=
+		hsiGXdAEwj4YxKSicCKaRDY+cfA=
 		</data>
 		<key>Headers/MQTTClientGJ-umbrella.h</key>
 		<data>
-		V6reOQ/Lc+V7iiRoGOEp1bljBvo=
+		t7W3vjwIie//fmny/YCJzzBYHYw=
 		</data>
 		<key>Headers/MQTTCoreDataPersistence.h</key>
 		<data>
-		3uTHawxj9JlFiMzwWcQuhomtQII=
+		gbuuUxjlaT5IMWSXRH2GDF4qM6o=
 		</data>
 		<key>Headers/MQTTDecoder.h</key>
 		<data>
-		GqEXifsOrBjtRNSKQV00OCvwaew=
-		</data>
-		<key>Headers/MQTTInMemoryPersistence.h</key>
-		<data>
-		3mzeMNxaodaK6cGwefBDqan6EUI=
+		nGD6YvQT+63D9SHMZE0Xk3D96DU=
 		</data>
 		<key>Headers/MQTTLog.h</key>
 		<data>
-		WCyjDBXmsqZVB5t9O2i3EeWXEKw=
+		FSK59LWDqhkPqBenm8OwGo+cLFU=
 		</data>
 		<key>Headers/MQTTMessage.h</key>
 		<data>
@@ -50,7 +46,7 @@
 		</data>
 		<key>Headers/MQTTPersistence.h</key>
 		<data>
-		kpbh3BDQ3eGPerhqwbs6wtm/aN0=
+		z1esh6XYzf7eZnIyUPK3SRSBeEg=
 		</data>
 		<key>Headers/MQTTProperties.h</key>
 		<data>
@@ -60,33 +56,21 @@
 		<data>
 		AdMaHaehUVX18ixY1X0vOtHMLks=
 		</data>
-		<key>Headers/MQTTSSLSecurityPolicyDecoder.h</key>
-		<data>
-		nagiM6OOykTMGr8ui2ZCxnD9IUA=
-		</data>
-		<key>Headers/MQTTSSLSecurityPolicyEncoder.h</key>
-		<data>
-		NVzOIHbdXgvig2QhOb0HXDUfqlQ=
-		</data>
 		<key>Headers/MQTTSSLSecurityPolicyTransport.h</key>
 		<data>
-		AtdqPt9eVGtjMkXyW1FSNZP59Kw=
+		YxKT4Sk6FXBXx0X6v1qABeeb/w4=
 		</data>
 		<key>Headers/MQTTSession.h</key>
 		<data>
-		Uj1qcJBJMYtKUANIrGqj01PHUNI=
+		UgKgBPfdl91DS1A5TLyVC9/VYi4=
 		</data>
 		<key>Headers/MQTTSessionLegacy.h</key>
 		<data>
-		50qrrEL85RiQbPJ0UZGwPnWvoIM=
+		xQ8/AcCpsyE7X8SciTlf88U6/V0=
 		</data>
 		<key>Headers/MQTTSessionManager.h</key>
 		<data>
 		gKjahdA5BWyYWbxPLAn/kBP7ixQ=
-		</data>
-		<key>Headers/MQTTStrict.h</key>
-		<data>
-		S4+OZ3n0py+NbBCdv3AoxgmaUk4=
 		</data>
 		<key>Headers/MQTTTransport.h</key>
 		<data>
@@ -104,13 +88,17 @@
 		<data>
 		VJ6wsgRFT2kzYaQFPWU33+M2EnY=
 		</data>
+		<key>Modules/module.modulemap</key>
+		<data>
+		DAslqVCd3bfI72yyeNj+AOCI3QA=
+		</data>
 		<key>README.md</key>
 		<data>
 		4569RVtPdiRqSSEpda/YaId76gY=
 		</data>
 		<key>module.modulemap</key>
 		<data>
-		XdY8lvrExePsuuYeISz7eM88JHA=
+		DAslqVCd3bfI72yyeNj+AOCI3QA=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -147,42 +135,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			L9a1Qobhao2e67y6a8x/M0iYknAXJtYcFMdv01xc39k=
+			qWF8SAUWhPOznZD/9DEkvduKxLDLWWBkZjIxzIkrQZg=
 			</data>
 		</dict>
 		<key>Headers/MQTTClientGJ-umbrella.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			JmZW2b9XRNfMBU10M4W9zZcQBKsmNvM4vtsfxit6ig0=
+			b5/xseQvXVKhNKb+XoU48sb0NYtpQPH8i1IRUejVDMg=
 			</data>
 		</dict>
 		<key>Headers/MQTTCoreDataPersistence.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			qigpZK7gPuC7WFjBadlYkaL121ykFxsbm4eIfqhK8BQ=
+			V6FVdUd23YF3nQKtcbX2UTqfIAfg/X5OzKqmSa06LoA=
 			</data>
 		</dict>
 		<key>Headers/MQTTDecoder.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			P8XYExpU+wE++bswPmrDOk9qkt6KFPVOSptcnWsbfGs=
-			</data>
-		</dict>
-		<key>Headers/MQTTInMemoryPersistence.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			jnRRNNnk1rMoMhhcsPmU/zIb/Rc7VmtEl4VaFfwOGe4=
+			AilSZlvLerZ3NxjeA5+M8k79lUhVDdCMin2Si3Jamhs=
 			</data>
 		</dict>
 		<key>Headers/MQTTLog.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			r3qE/Q8HDSMMzX8Pk+nl8NJ+wQStbm/95VQHs9+NDRY=
+			o1SrNFWI+WSTrS2KBSk759GT3Ns6dCkiMePidDde8+o=
 			</data>
 		</dict>
 		<key>Headers/MQTTMessage.h</key>
@@ -196,7 +177,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			6PXeCi/uXUY3QjIdJieD8YLuOijpqqRQ4TtpLFhmwt4=
+			tlDGssN5C85zeRr1iLbgfTLm/zN3BoDB5JvdNsL0mJ8=
 			</data>
 		</dict>
 		<key>Headers/MQTTProperties.h</key>
@@ -213,39 +194,25 @@
 			gUpIqaaFmkS9bF6GV9BYnvmLODNKHHGzRYV+n87cbkc=
 			</data>
 		</dict>
-		<key>Headers/MQTTSSLSecurityPolicyDecoder.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			t6nsY/jOZA+q6LIBf3WOYqfx3aLWuzE+h+CIo/LdIio=
-			</data>
-		</dict>
-		<key>Headers/MQTTSSLSecurityPolicyEncoder.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			pp5jPrsnzoMlJge/wofzwnpL10BFRZTppxUw6ndPkYY=
-			</data>
-		</dict>
 		<key>Headers/MQTTSSLSecurityPolicyTransport.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			AvmOAGY4A7rbTpIxnrOw/6I6+teFptTqlGMoFfCaOCo=
+			vI9lO7zqKbZQ6qE9q4I+erah1cCrotJJZ/4kPJUqjkI=
 			</data>
 		</dict>
 		<key>Headers/MQTTSession.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dpGGF6Wt09YKQvqc73p0c9j0cLdEX857yiTkeOel+yU=
+			i+UwO58EV3TuO/EXNE6JqVBW7+1bAVuWl1bQqWRDUDs=
 			</data>
 		</dict>
 		<key>Headers/MQTTSessionLegacy.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			KJW1qmEIut6mMlinVtT0DncvfTcXjblyUoD+F200V/4=
+			+61gS0Bn9pS9mxNlGGwKseSe4P1AKtBso17mwAZFd6I=
 			</data>
 		</dict>
 		<key>Headers/MQTTSessionManager.h</key>
@@ -253,13 +220,6 @@
 			<key>hash2</key>
 			<data>
 			1qsroSRYc2mdL43+lEaV8rkfB0tXAd4nDAlPDLLezhU=
-			</data>
-		</dict>
-		<key>Headers/MQTTStrict.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			YTdngZOlepdbDEcmPakopdgvmuNBkzrRCpZZbocPyWU=
 			</data>
 		</dict>
 		<key>Headers/MQTTTransport.h</key>
@@ -283,6 +243,13 @@
 			aWQ2BxiUx3TTFt24oXOOx8docvgyuAVX7GN1K2fI93Q=
 			</data>
 		</dict>
+		<key>Modules/module.modulemap</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+IoLyXfO6vuipH94JKG+un7xyIeSraHam+AjrePZr5s=
+			</data>
+		</dict>
 		<key>README.md</key>
 		<dict>
 			<key>hash2</key>
@@ -294,7 +261,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Exee9Uu71S2d0QcPjsrKYsIKrcmiRDDwsEqYYado16E=
+			+IoLyXfO6vuipH94JKG+un7xyIeSraHam+AjrePZr5s=
 			</data>
 		</dict>
 	</dict>

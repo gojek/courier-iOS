@@ -1,4 +1,6 @@
-module MQTTClientGJ {
+framework module MQTTClientGJ {
     umbrella header "MQTTClientGJ-umbrella.h"
+
     export *
+    module * { export * }
 }

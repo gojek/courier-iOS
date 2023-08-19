@@ -21,7 +21,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import "MQTTSession.h"
+#import <MQTTClientGJ/MQTTSession.h>
 
 @interface MQTTSession(Create)
 

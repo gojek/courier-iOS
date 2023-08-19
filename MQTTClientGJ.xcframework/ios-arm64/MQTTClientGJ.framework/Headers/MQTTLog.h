@@ -3,11 +3,13 @@
 // Copyright © 2013-2017, Christoph Krey. All rights reserved.
 //
 
-#if __has_feature(modules)
-    @import Foundation;
-#else
-    #import <Foundation/Foundation.h>
-#endif
+//#if __has_feature(modules)
+//    @import Foundation;
+//#else
+//    #import <Foundation/Foundation.h>
+//#endif
+
+#import <Foundation/Foundation.h>
 
 #ifdef LUMBERJACK
 
