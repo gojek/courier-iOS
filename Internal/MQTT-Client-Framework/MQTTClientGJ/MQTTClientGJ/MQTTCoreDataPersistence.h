@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "MQTTPersistence.h"
+#import <MQTTClientGJ/MQTTPersistence.h>
 
 @interface MQTTCoreDataPersistence : NSObject <MQTTPersistence>
 - (void)initializeManagedObjectContext;
