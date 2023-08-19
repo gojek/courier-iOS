@@ -1,0 +1,74 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :distribute_pod do |options|
+
+    library_name = options[:library_name]
+    compress_pod_folder(options)
+    username = ENV['gojekMobileArtifactoryUser']
+    password = ENV['gojekMobileArtifactoryPassword']
+
+    artifactory_endpoint = "http://artifactory-gojek.golabs.io/artifactory/"
+    artifactory_repo = "gojek-ios-pods"
+    zip_pod_file_name = compressed_pod_filename(options)
+    artifactory_upload_path = "#{library_name}/#{zip_pod_file_name}"
+
+    begin
+      artifactory_upload_path = "#{artifactory_upload_path}"
+      artifactory(
+        username: username,
+        password: password,
+        endpoint: artifactory_endpoint,
+        file: zip_pod_file_name,      # File to upload
+        repo: artifactory_repo,             # Artifactory repo
+        repo_path: artifactory_upload_path  # Path to place the artifact including its filename
+      )
+    rescue
+      puts "\n --- ---  --- ---  --- ---  RESCUED; UPLOAD VIA CURL --- ---  --- ---  --- ---  --- --- \n"
+      artifactory_url = "#{artifactory_endpoint}/#{artifactory_repo}/#{library_name}/"  
+      sh "cd .. ; curl -u #{username}:#{password} -XPUT #{artifactory_url} -T #{zip_pod_file_name} --create-dirs"
+    end
+
+    puts "\n --- ---  --- ---  --- --- PUSH POD SPECS  --- ---  --- ---  --- ---  --- --- \n"
+
+    pod_push(path: podspec_path(options), repo: "gojek-specs", sources: ["https://cdn.cocoapods.org/,gojek-specs"], allow_warnings: true, skip_tests: true, verbose:true)
+
+  end
+end
+
+def compress_pod_folder(options)
+  puts "\n --- ---  --- ---  --- --- COMPRESS POD FOLDER --- ---  --- ---  --- ---  --- --- \n"
+  sh "cd .. ; git archive -o #{compressed_pod_filename(options)} --format tar.gz HEAD"    
+end
+
+def compressed_pod_filename(options)
+  "#{options[:library_name]}_#{pod_version(options)}.tar.gz"
+end
+
+def pod_version(options)
+  version_get_podspec(path: podspec_path(options))
+end
+
+def podspec_path(options)
+  "#{root_path}/#{options[:library_name]}.podspec"
+end
+
+def root_path
+  Pathname.new(File.expand_path(Dir.pwd)).parent
+end
