@@ -13,6 +13,7 @@
  @see http:  
  */
 
+#import "GCDTimer.h"
 #import "MQTTSession.h"
 #import "MQTTDecoder.h"
 #import "MQTTSessionLegacy.h"
