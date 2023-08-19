@@ -232,7 +232,7 @@
 		E34B42672A91010F00E5BC6A /* MQTTClientGJ_iOS.docc in Sources */ = {isa = PBXBuildFile; fileRef = E34B42662A91010F00E5BC6A /* MQTTClientGJ_iOS.docc */; };
 		E34B426D2A91011000E5BC6A /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
 		E34B42742A91011100E5BC6A /* MQTTClientGJ_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34B42732A91011100E5BC6A /* MQTTClientGJ_iOSTests.swift */; };
-		E34B42752A91011100E5BC6A /* MQTTClientGJ_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = E34B42652A91010F00E5BC6A /* MQTTClientGJ_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E34B42752A91011100E5BC6A /* MQTTClientGJ.h in Headers */ = {isa = PBXBuildFile; fileRef = E34B42652A91010F00E5BC6A /* MQTTClientGJ.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E34B42782A91011100E5BC6A /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
 		E34B42792A91011100E5BC6A /* MQTTClientGJ.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E34B42AE2A91025C00E5BC6A /* MQTTSession.h in Headers */ = {isa = PBXBuildFile; fileRef = E34B42862A91025B00E5BC6A /* MQTTSession.h */; };
@@ -711,7 +711,7 @@
 		E34B41B22A9100AC00E5BC6A /* CourierMQTT-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CourierMQTT-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E34B41B92A9100AD00E5BC6A /* CourierMQTT_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourierMQTT_iOSTests.swift; sourceTree = "<group>"; };
 		E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MQTTClientGJ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E34B42652A91010F00E5BC6A /* MQTTClientGJ_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MQTTClientGJ_iOS.h; sourceTree = "<group>"; };
+		E34B42652A91010F00E5BC6A /* MQTTClientGJ.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MQTTClientGJ.h; sourceTree = "<group>"; };
 		E34B42662A91010F00E5BC6A /* MQTTClientGJ_iOS.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = MQTTClientGJ_iOS.docc; sourceTree = "<group>"; };
 		E34B426C2A91011000E5BC6A /* MQTTClientGJ-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MQTTClientGJ-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E34B42732A91011100E5BC6A /* MQTTClientGJ_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTClientGJ_iOSTests.swift; sourceTree = "<group>"; };
@@ -1789,7 +1789,7 @@
 				E34B428D2A91025B00E5BC6A /* MQTTTransport.m */,
 				E34B42AD2A91025C00E5BC6A /* ReconnectTimer.h */,
 				E34B42972A91025B00E5BC6A /* ReconnectTimer.m */,
-				E34B42652A91010F00E5BC6A /* MQTTClientGJ_iOS.h */,
+				E34B42652A91010F00E5BC6A /* MQTTClientGJ.h */,
 				E34B42662A91010F00E5BC6A /* MQTTClientGJ_iOS.docc */,
 			);
 			path = "MQTTClientGJ-iOS";
@@ -1836,7 +1836,7 @@
 				E34B42D22A91025D00E5BC6A /* MQTTCoreDataPersistence.h in Headers */,
 				E34B42CD2A91025D00E5BC6A /* MQTTSSLSecurityPolicyTransport.h in Headers */,
 				E34B42C22A91025D00E5BC6A /* MQTTCFSocketDecoder.h in Headers */,
-				E34B42752A91011100E5BC6A /* MQTTClientGJ_iOS.h in Headers */,
+				E34B42752A91011100E5BC6A /* MQTTClientGJ.h in Headers */,
 				E34B42CF2A91025D00E5BC6A /* MQTTCFSocketEncoder.h in Headers */,
 				E34B42AE2A91025C00E5BC6A /* MQTTSession.h in Headers */,
 				E34B42CE2A91025D00E5BC6A /* MQTTSessionManager.h in Headers */,
