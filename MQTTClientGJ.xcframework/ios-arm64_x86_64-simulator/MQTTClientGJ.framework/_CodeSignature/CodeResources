@@ -105,6 +105,10 @@
 	<dict>
 		<key>CHANGELOG.md</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			3TN7fuOu+/sk5vGkmya9jXtoUig=
+			</data>
 			<key>hash2</key>
 			<data>
 			+MpXqupq2LrGbvHBFkOX9wv74q//2Hwv82Hd95SyAME=
@@ -112,6 +116,10 @@
 		</dict>
 		<key>Headers/GCDTimer.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			gF+hxHD3yY1qp61E0lB8tI3sgIg=
+			</data>
 			<key>hash2</key>
 			<data>
 			siZGEtomeW4XKdkywvierFIkvPkJwDkzLHXrku2gNMs=
@@ -119,6 +127,10 @@
 		</dict>
 		<key>Headers/MQTTCFSocketDecoder.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			x6hcJMZjFb7EHew1HIDpR2tH2k8=
+			</data>
 			<key>hash2</key>
 			<data>
 			cQZfRxMefdFP4fRZUk1VFzrPJnyNTI5zNVA/Ks86BcM=
@@ -126,6 +138,10 @@
 		</dict>
 		<key>Headers/MQTTCFSocketEncoder.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			k7bXUNpkZoqy/zb1ICH6/cBnlkU=
+			</data>
 			<key>hash2</key>
 			<data>
 			zdhgwA+0tcMMMgwsJ9lyqDVJsYFDMhm3eTf5q/fZl+g=
@@ -133,6 +149,10 @@
 		</dict>
 		<key>Headers/MQTTCFSocketTransport.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			hsiGXdAEwj4YxKSicCKaRDY+cfA=
+			</data>
 			<key>hash2</key>
 			<data>
 			qWF8SAUWhPOznZD/9DEkvduKxLDLWWBkZjIxzIkrQZg=
@@ -140,6 +160,10 @@
 		</dict>
 		<key>Headers/MQTTClientGJ-umbrella.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			t7W3vjwIie//fmny/YCJzzBYHYw=
+			</data>
 			<key>hash2</key>
 			<data>
 			b5/xseQvXVKhNKb+XoU48sb0NYtpQPH8i1IRUejVDMg=
@@ -147,6 +171,10 @@
 		</dict>
 		<key>Headers/MQTTCoreDataPersistence.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			gbuuUxjlaT5IMWSXRH2GDF4qM6o=
+			</data>
 			<key>hash2</key>
 			<data>
 			V6FVdUd23YF3nQKtcbX2UTqfIAfg/X5OzKqmSa06LoA=
@@ -154,6 +182,10 @@
 		</dict>
 		<key>Headers/MQTTDecoder.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			nGD6YvQT+63D9SHMZE0Xk3D96DU=
+			</data>
 			<key>hash2</key>
 			<data>
 			AilSZlvLerZ3NxjeA5+M8k79lUhVDdCMin2Si3Jamhs=
@@ -161,6 +193,10 @@
 		</dict>
 		<key>Headers/MQTTLog.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			FSK59LWDqhkPqBenm8OwGo+cLFU=
+			</data>
 			<key>hash2</key>
 			<data>
 			o1SrNFWI+WSTrS2KBSk759GT3Ns6dCkiMePidDde8+o=
@@ -168,6 +204,10 @@
 		</dict>
 		<key>Headers/MQTTMessage.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			FbL8QFatRCURwjgLusNNAHED8X4=
+			</data>
 			<key>hash2</key>
 			<data>
 			Ulu/dx/nbEHY7w7XsrMpUOCsoOlT8xRywcDbngNhFPM=
@@ -175,6 +215,10 @@
 		</dict>
 		<key>Headers/MQTTPersistence.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			z1esh6XYzf7eZnIyUPK3SRSBeEg=
+			</data>
 			<key>hash2</key>
 			<data>
 			tlDGssN5C85zeRr1iLbgfTLm/zN3BoDB5JvdNsL0mJ8=
@@ -182,6 +226,10 @@
 		</dict>
 		<key>Headers/MQTTProperties.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			MFt3ytcfp7/UfC4QLG87NhyPlac=
+			</data>
 			<key>hash2</key>
 			<data>
 			rvIAhn36TFgkPKuxplly10k7bub5UP308JstC0IU3kY=
@@ -189,6 +237,10 @@
 		</dict>
 		<key>Headers/MQTTSSLSecurityPolicy.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			AdMaHaehUVX18ixY1X0vOtHMLks=
+			</data>
 			<key>hash2</key>
 			<data>
 			gUpIqaaFmkS9bF6GV9BYnvmLODNKHHGzRYV+n87cbkc=
@@ -196,6 +248,10 @@
 		</dict>
 		<key>Headers/MQTTSSLSecurityPolicyTransport.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			YxKT4Sk6FXBXx0X6v1qABeeb/w4=
+			</data>
 			<key>hash2</key>
 			<data>
 			vI9lO7zqKbZQ6qE9q4I+erah1cCrotJJZ/4kPJUqjkI=
@@ -203,6 +259,10 @@
 		</dict>
 		<key>Headers/MQTTSession.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			UgKgBPfdl91DS1A5TLyVC9/VYi4=
+			</data>
 			<key>hash2</key>
 			<data>
 			i+UwO58EV3TuO/EXNE6JqVBW7+1bAVuWl1bQqWRDUDs=
@@ -210,6 +270,10 @@
 		</dict>
 		<key>Headers/MQTTSessionLegacy.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			xQ8/AcCpsyE7X8SciTlf88U6/V0=
+			</data>
 			<key>hash2</key>
 			<data>
 			+61gS0Bn9pS9mxNlGGwKseSe4P1AKtBso17mwAZFd6I=
@@ -217,6 +281,10 @@
 		</dict>
 		<key>Headers/MQTTSessionManager.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			gKjahdA5BWyYWbxPLAn/kBP7ixQ=
+			</data>
 			<key>hash2</key>
 			<data>
 			1qsroSRYc2mdL43+lEaV8rkfB0tXAd4nDAlPDLLezhU=
@@ -224,6 +292,10 @@
 		</dict>
 		<key>Headers/MQTTTransport.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			GkTPvzi0IzIb00Q5VoGMBgwkLRg=
+			</data>
 			<key>hash2</key>
 			<data>
 			tsJyfafn2zTYYnORmD0sinQtR+w0+vefIkiT4wzjHq8=
@@ -231,6 +303,10 @@
 		</dict>
 		<key>Headers/ReconnectTimer.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			Jv3NMLaMUwZabin9+VT2DaUlEu0=
+			</data>
 			<key>hash2</key>
 			<data>
 			bgoO4Te4sZWC7NXioZVhfubyl1VEf9tRVrL+Y8P4YoU=
@@ -238,6 +314,10 @@
 		</dict>
 		<key>LICENSE</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			VJ6wsgRFT2kzYaQFPWU33+M2EnY=
+			</data>
 			<key>hash2</key>
 			<data>
 			aWQ2BxiUx3TTFt24oXOOx8docvgyuAVX7GN1K2fI93Q=
@@ -245,6 +325,10 @@
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			DAslqVCd3bfI72yyeNj+AOCI3QA=
+			</data>
 			<key>hash2</key>
 			<data>
 			+IoLyXfO6vuipH94JKG+un7xyIeSraHam+AjrePZr5s=
@@ -252,6 +336,10 @@
 		</dict>
 		<key>README.md</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			4569RVtPdiRqSSEpda/YaId76gY=
+			</data>
 			<key>hash2</key>
 			<data>
 			MYDbPIbEwpRhse8pA+jBK9YMaMi362HOS7pOfaKm1aM=
@@ -259,6 +347,10 @@
 		</dict>
 		<key>module.modulemap</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			DAslqVCd3bfI72yyeNj+AOCI3QA=
+			</data>
 			<key>hash2</key>
 			<data>
 			+IoLyXfO6vuipH94JKG+un7xyIeSraHam+AjrePZr5s=
