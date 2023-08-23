@@ -1,10 +1,14 @@
 Pod::Spec.new do |mqttc|
 	mqttc.name         = "MQTTClientGJ"
-	mqttc.version      = "0.0.22"
+	mqttc.version      = "0.0.23"
 	mqttc.summary      = "iOS, macOS and tvOS native ObjectiveC MQTT Client Framework"
 	mqttc.homepage     = "https://github.com/gojek/courier-iOS"
 	mqttc.license      = "EPLv1"
 	mqttc.author       = { "Alfian Losari" => "alfian.losari@gojek.com" }
+	mqttc.source       = {
+		:git => "https://github.com/gojek/courier-iOS.git",
+		:tag => "#{mqttc.version}"
+	}
 	mqttc.source          = { :git => "https://github.com/gojek/courier-iOS.git", }
 	mqttc.platform        = :ios, '12.0'
 
