@@ -5,7 +5,7 @@ Pod::Spec.new do |mqttc|
 	mqttc.homepage     = "https://github.com/gojek/courier-iOS"
 	mqttc.license      = "EPLv1"
 	mqttc.author       = { "Alfian Losari" => "alfian.losari@gojek.com" }
-	mqttc.source          = { http: "http://artifactory-gojek.golabs.io/artifactory/gojek-ios-pods/MQTTClientGJ/MQTTClientGJ_#{mqttc.version}.tar.gz" }
+	mqttc.source          = { :git => "https://github.com/gojek/courier-iOS.git", }
 	mqttc.platform        = :ios, '12.0'
 
 	mqttc.requires_arc = true
