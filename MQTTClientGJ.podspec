@@ -9,7 +9,6 @@ Pod::Spec.new do |mqttc|
 		:git => "https://github.com/gojek/courier-iOS.git",
 		:tag => "#{mqttc.version}"
 	}
-	mqttc.source          = { :git => "https://github.com/gojek/courier-iOS.git", }
 	mqttc.platform        = :ios, '12.0'
 
 	mqttc.requires_arc = true
