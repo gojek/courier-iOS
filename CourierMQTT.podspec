@@ -18,7 +18,7 @@ Pod::Spec.new do |c|
 
     c.dependency 'CourierCore', "#{c.version}"
     # Make sure to use the forked version from private podspec "ios-ca-podspecs" as it contains critical fix on MQTTSession for transportDidClose
-    c.dependency 'MQTTClientGJ', "#{c.version}"
+    c.dependency 'MQTTClientGJ', '0.0.23'
     c.dependency 'ReachabilitySwift', '5.0.0'   
 end
   

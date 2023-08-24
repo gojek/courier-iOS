@@ -19,6 +19,6 @@ Pod::Spec.new do |c|
 
     c.dependency 'CourierCore', "#{c.version}"
     c.dependency 'CourierMQTT', "#{c.version}"
-    c.dependency 'MQTTClientGJ', "#{c.version}"
+    c.dependency 'MQTTClientGJ', '0.0.23'
 end
   
