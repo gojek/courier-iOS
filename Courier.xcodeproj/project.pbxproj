@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2F2A9AD27BFADBC670DC91E7 /* Pods_CourierE2EApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCF0DEB7D3AF7421867F8965 /* Pods_CourierE2EApp.framework */; };
-		4AFD409956BCC0D12EA19CAA /* Pods_CourierMQTT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A74AD361A8D0FCF4C3DD031 /* Pods_CourierMQTT.framework */; };
 		8B06BE4226B790BB00934879 /* TextMessageAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B06BE4126B790BB00934879 /* TextMessageAdapterTests.swift */; };
 		8B2B1DA226B14E25003E647C /* MessageAdaptersCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B1DA126B14E25003E647C /* MessageAdaptersCoordinatorTests.swift */; };
 		8B2B1DA426B14F5C003E647C /* PlistMessageAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B1DA326B14F5C003E647C /* PlistMessageAdapterTests.swift */; };
@@ -228,6 +227,8 @@
 		B0EF8E3629E40871001DF51B /* MQTTChuckLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EF8E2329E4081B001DF51B /* MQTTChuckLog.swift */; };
 		B0EF8E3829E408B5001DF51B /* MQTTChuck.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EF8E3729E408B5001DF51B /* MQTTChuck.swift */; };
 		BD64D90B9161917798603676 /* Pods_CourierTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01E4C0FB47EC974550D736E3 /* Pods_CourierTests.framework */; };
+		E31EAEFA2A9728670007ABF7 /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
+		E31EAEFB2A9728BE0007ABF7 /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
 		E34B426D2A91011000E5BC6A /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
 		E34B42742A91011100E5BC6A /* MQTTClientGJ_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34B42732A91011100E5BC6A /* MQTTClientGJ_iOSTests.swift */; };
 		E34B42782A91011100E5BC6A /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
@@ -279,6 +280,7 @@
 		E34B430B2A91384D00E5BC6A /* module.modulemap in Resources */ = {isa = PBXBuildFile; fileRef = E34B430A2A91383E00E5BC6A /* module.modulemap */; };
 		E3EF64D32A71536500C38984 /* DemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EF64D22A71536500C38984 /* DemoTests.swift */; };
 		E3EF64D42A71536500C38984 /* libCourierCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE0DD41270BE3B000630D60 /* libCourierCore.a */; };
+		F99EB780F5AC9107394FD9A5 /* Pods_CourierMQTT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A74AD361A8D0FCF4C3DD031 /* Pods_CourierMQTT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -744,8 +746,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E31EAEFA2A9728670007ABF7 /* MQTTClientGJ.framework in Frameworks */,
 				8BE0DFE5270BE5D600630D60 /* libCourierCore.a in Frameworks */,
-				4AFD409956BCC0D12EA19CAA /* Pods_CourierMQTT.framework in Frameworks */,
+				F99EB780F5AC9107394FD9A5 /* Pods_CourierMQTT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,6 +779,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E31EAEFB2A9728BE0007ABF7 /* MQTTClientGJ.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
