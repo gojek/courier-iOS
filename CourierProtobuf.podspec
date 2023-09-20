@@ -14,7 +14,7 @@ Pod::Spec.new do |c|
 		:tag => "#{c.version}"
 	}
     c.swift_version   = '5.3'
-
+    c.static_framework = true
     c.source_files = "CourierProtobuf/**/*.swift"
 
     c.dependency 'CourierCore', "#{c.version}"
