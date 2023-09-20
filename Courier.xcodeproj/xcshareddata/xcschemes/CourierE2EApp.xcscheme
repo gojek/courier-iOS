@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E34B42622A91010F00E5BC6A"
-               BuildableName = "MQTTClientGJ.framework"
-               BlueprintName = "MQTTClientGJ"
+               BlueprintIdentifier = "B0DA90B52856F5E300F6512D"
+               BuildableName = "CourierE2EApp.app"
+               BlueprintName = "CourierE2EApp"
                ReferencedContainer = "container:Courier.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,6 +28,30 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E34B41B12A9100AC00E5BC6A"
+               BuildableName = "CourierMQTT-iOSTests.xctest"
+               BlueprintName = "CourierMQTT-iOSTests"
+               ReferencedContainer = "container:Courier.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E34B426B2A91010F00E5BC6A"
+               BuildableName = "MQTTClientGJ-iOSTests.xctest"
+               BlueprintName = "MQTTClientGJ-iOSTests"
+               ReferencedContainer = "container:Courier.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -39,6 +63,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B0DA90B52856F5E300F6512D"
+            BuildableName = "CourierE2EApp.app"
+            BlueprintName = "CourierE2EApp"
+            ReferencedContainer = "container:Courier.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -46,15 +80,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E34B42622A91010F00E5BC6A"
-            BuildableName = "MQTTClientGJ.framework"
-            BlueprintName = "MQTTClientGJ"
+            BlueprintIdentifier = "B0DA90B52856F5E300F6512D"
+            BuildableName = "CourierE2EApp.app"
+            BlueprintName = "CourierE2EApp"
             ReferencedContainer = "container:Courier.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
