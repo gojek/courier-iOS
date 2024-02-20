@@ -233,7 +233,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
                 printDebug("COURIER: Puback Handler for Special QoSes")
                 if error == nil {
                     let mid = midProvider?() ?? 0
-                    delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
+                    self.delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
                 }
             }
         }
