@@ -401,6 +401,11 @@ NSString * const MQTTClientcourier = @"GJ";
         if (qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry || qos == MQTTQosLevelAtLeastOnceWithoutPersistenceAndNoRetry) {
             qos = MQTTQosLevelAtLeastOnce;
             msgId = [self nextMsgId];
+            if (publishHandler) {
+                (self.publishHandlers)[@(msgId)] = [publishHandler copy];
+            } else {
+                [self.publishHandlers removeObjectForKey:@(msgId)];
+            }
         }
         MQTTMessage *msg = [MQTTMessage publishMessageWithData:data
                                                        onTopic:topic
@@ -422,7 +427,7 @@ NSString * const MQTTClientcourier = @"GJ";
                                         code:MQTTSessionErrorEncoderNotReady
                                     userInfo:@{NSLocalizedDescriptionKey : @"Encoder not ready"}];
         }
-        if (publishHandler) {
+        if (!qos && publishHandler) {
             [self onPublish:publishHandler error:error];
         }
     } else {
@@ -1160,6 +1165,12 @@ NSString * const MQTTClientcourier = @"GJ";
             [self.persistence deleteFlow:flow];
             [self.persistence sync];
             [self tell];
+        }
+    } else {
+        MQTTPublishHandler publishHandler = (self.publishHandlers)[@(msg.mid)];
+        if (publishHandler) {
+            [self.publishHandlers removeObjectForKey:@(msg.mid)];
+            [self onPublish:publishHandler error:nil];
         }
     }
 }

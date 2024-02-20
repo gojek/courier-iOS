@@ -163,7 +163,7 @@ final class ConnectionObservableObject: ObservableObject {
 extension ConnectionObservableObject: ICourierEventHandler {
     
     func onEvent(_ event: CourierEvent) {
-//        print("EVENT: \(event.type)")
+        print("EVENT: \(event.type)")
         switch event.type {
         case .connectionSuccess:
             if connectionServiceProvider.isCleanSession {
