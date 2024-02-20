@@ -85,7 +85,7 @@ struct ConnectionView: View {
                 HStack {
                     Text("QoS")
                     Picker(selection: $connectionVM.publishQoS) {
-                        ForEach(0..<3) { index in
+                        ForEach(0..<5) { index in
                             Text(String(index)).tag(index)
                         }
                     } label: {
