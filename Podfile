@@ -3,7 +3,7 @@ source 'https://cdn.cocoapods.org/'
 # use_modular_headers!
 
 def courier_pods
-  pod 'ReachabilitySwift', '5.0.0'
+  pod 'ReachabilitySwift', '>= 5.0.0'
 end
 
 target 'CourierMQTT' do
