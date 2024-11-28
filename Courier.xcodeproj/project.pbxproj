@@ -230,8 +230,6 @@
 		D83579592CF80D9F005BB302 /* libCourierMQTT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE0DD6D270BE47300630D60 /* libCourierMQTT.a */; };
 		E31EAEFA2A9728670007ABF7 /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
 		E31EAEFB2A9728BE0007ABF7 /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
-		E34B426D2A91011000E5BC6A /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
-		E34B42742A91011100E5BC6A /* MQTTClientGJ_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34B42732A91011100E5BC6A /* MQTTClientGJ_iOSTests.swift */; };
 		E34B42782A91011100E5BC6A /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
 		E34B42792A91011100E5BC6A /* MQTTClientGJ.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E34B42D62A91297700E5BC6A /* GCDTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9A805427DAFC7C00732992 /* GCDTimer.m */; };
@@ -279,8 +277,6 @@
 		E34B43002A9129B000E5BC6A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8B9A80B627DB06F600732992 /* README.md */; };
 		E34B43012A9129B600E5BC6A /* MQTTClientGJ-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9A808527DB042D00732992 /* MQTTClientGJ-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E34B430B2A91384D00E5BC6A /* module.modulemap in Resources */ = {isa = PBXBuildFile; fileRef = E34B430A2A91383E00E5BC6A /* module.modulemap */; };
-		E3EF64D32A71536500C38984 /* DemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EF64D22A71536500C38984 /* DemoTests.swift */; };
-		E3EF64D42A71536500C38984 /* libCourierCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE0DD41270BE3B000630D60 /* libCourierCore.a */; };
 		F99EB780F5AC9107394FD9A5 /* Pods_CourierMQTT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A74AD361A8D0FCF4C3DD031 /* Pods_CourierMQTT.framework */; };
 /* End PBXBuildFile section */
 
@@ -327,33 +323,12 @@
 			remoteGlobalIDString = B0DA90B52856F5E300F6512D;
 			remoteInfo = CourierE2EApp;
 		};
-		E34B426E2A91011000E5BC6A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8B0669632623E4D800129BAB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E34B42622A91010F00E5BC6A;
-			remoteInfo = "MQTTClientGJ-iOS";
-		};
-		E34B42702A91011100E5BC6A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8B0669632623E4D800129BAB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B0DA90B52856F5E300F6512D;
-			remoteInfo = CourierE2EApp;
-		};
 		E34B42762A91011100E5BC6A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8B0669632623E4D800129BAB /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = E34B42622A91010F00E5BC6A;
 			remoteInfo = "MQTTClientGJ-iOS";
-		};
-		E3EF64D52A71536500C38984 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8B0669632623E4D800129BAB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8BE0DD40270BE3B000630D60;
-			remoteInfo = CourierCore;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -719,11 +694,7 @@
 		DE28B04140B436E8BED802BC /* Pods-CourierTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.production.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.production.xcconfig"; sourceTree = "<group>"; };
 		E34B41B22A9100AC00E5BC6A /* CourierMQTT-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CourierMQTT-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MQTTClientGJ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E34B426C2A91011000E5BC6A /* MQTTClientGJ-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MQTTClientGJ-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E34B42732A91011100E5BC6A /* MQTTClientGJ_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTClientGJ_iOSTests.swift; sourceTree = "<group>"; };
 		E34B430A2A91383E00E5BC6A /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		E3EF64D02A71536400C38984 /* DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E3EF64D22A71536500C38984 /* DemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTests.swift; sourceTree = "<group>"; };
 		E7158977B88BBB8E01A4ED50 /* Pods-CourierE2EApp.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.production.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.production.xcconfig"; sourceTree = "<group>"; };
 		EB34B2F9BDCE0F2BAF55DA67 /* Pods-CourierProtobuf.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierProtobuf.production.xcconfig"; path = "Target Support Files/Pods-CourierProtobuf/Pods-CourierProtobuf.production.xcconfig"; sourceTree = "<group>"; };
 		F6C967A48A6C1144C431FF89 /* Pods-Courier-Protobuf-Adapter.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courier-Protobuf-Adapter.production.xcconfig"; path = "Target Support Files/Pods-Courier-Protobuf-Adapter/Pods-Courier-Protobuf-Adapter.production.xcconfig"; sourceTree = "<group>"; };
@@ -803,22 +774,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E34B42692A91010F00E5BC6A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E34B426D2A91011000E5BC6A /* MQTTClientGJ.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E3EF64CD2A71536400C38984 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E3EF64D42A71536500C38984 /* libCourierCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -929,8 +884,6 @@
 				B0DA90B72856F5E300F6512D /* CourierE2EApp */,
 				B0DA90BC2856F5E400F6512D /* Assets.xcassets */,
 				B0EF8E2A29E40861001DF51B /* CourierMQTTChuck */,
-				E3EF64D12A71536500C38984 /* DemoTests */,
-				E34B42722A91011100E5BC6A /* MQTTClientGJ-iOSTests */,
 				8B06696D2623E4D800129BAB /* Products */,
 				593C02C794F2A7420198E292 /* Pods */,
 				405D3D3E9DF0145D8328CF87 /* Frameworks */,
@@ -946,10 +899,8 @@
 				8BE0DFEA270BE85B00630D60 /* libCourierProtobuf.a */,
 				B0DA90B62856F5E300F6512D /* CourierE2EApp.app */,
 				B0EF8E2929E40861001DF51B /* libCourierMQTTChuck.a */,
-				E3EF64D02A71536400C38984 /* DemoTests.xctest */,
 				E34B41B22A9100AC00E5BC6A /* CourierMQTT-iOSTests.xctest */,
 				E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */,
-				E34B426C2A91011000E5BC6A /* MQTTClientGJ-iOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1696,28 +1647,12 @@
 			path = CourierMQTTChuck;
 			sourceTree = "<group>";
 		};
-		E34B42722A91011100E5BC6A /* MQTTClientGJ-iOSTests */ = {
-			isa = PBXGroup;
-			children = (
-				E34B42732A91011100E5BC6A /* MQTTClientGJ_iOSTests.swift */,
-			);
-			path = "MQTTClientGJ-iOSTests";
-			sourceTree = "<group>";
-		};
 		E34B43092A91383E00E5BC6A /* Modules */ = {
 			isa = PBXGroup;
 			children = (
 				E34B430A2A91383E00E5BC6A /* module.modulemap */,
 			);
 			path = Modules;
-			sourceTree = "<group>";
-		};
-		E3EF64D12A71536500C38984 /* DemoTests */ = {
-			isa = PBXGroup;
-			children = (
-				E3EF64D22A71536500C38984 /* DemoTests.swift */,
-			);
-			path = DemoTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1906,43 +1841,6 @@
 			productReference = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		E34B426B2A91010F00E5BC6A /* MQTTClientGJ-iOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E34B42802A91011200E5BC6A /* Build configuration list for PBXNativeTarget "MQTTClientGJ-iOSTests" */;
-			buildPhases = (
-				E34B42682A91010F00E5BC6A /* Sources */,
-				E34B42692A91010F00E5BC6A /* Frameworks */,
-				E34B426A2A91010F00E5BC6A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E34B426F2A91011000E5BC6A /* PBXTargetDependency */,
-				E34B42712A91011100E5BC6A /* PBXTargetDependency */,
-			);
-			name = "MQTTClientGJ-iOSTests";
-			productName = "MQTTClientGJ-iOSTests";
-			productReference = E34B426C2A91011000E5BC6A /* MQTTClientGJ-iOSTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		E3EF64CF2A71536400C38984 /* DemoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E3EF64D72A71536500C38984 /* Build configuration list for PBXNativeTarget "DemoTests" */;
-			buildPhases = (
-				E3EF64CC2A71536400C38984 /* Sources */,
-				E3EF64CD2A71536400C38984 /* Frameworks */,
-				E3EF64CE2A71536400C38984 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E3EF64D62A71536500C38984 /* PBXTargetDependency */,
-			);
-			name = DemoTests;
-			productName = DemoTests;
-			productReference = E3EF64D02A71536400C38984 /* DemoTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1979,13 +1877,6 @@
 					E34B42622A91010F00E5BC6A = {
 						CreatedOnToolsVersion = 14.3;
 					};
-					E34B426B2A91010F00E5BC6A = {
-						CreatedOnToolsVersion = 14.3;
-						TestTargetID = B0DA90B52856F5E300F6512D;
-					};
-					E3EF64CF2A71536400C38984 = {
-						CreatedOnToolsVersion = 14.3;
-					};
 				};
 			};
 			buildConfigurationList = 8B0669662623E4D800129BAB /* Build configuration list for PBXProject "Courier" */;
@@ -2007,10 +1898,8 @@
 				8B0669902623E55400129BAB /* CourierTests */,
 				B0DA90B52856F5E300F6512D /* CourierE2EApp */,
 				B0EF8E2829E40861001DF51B /* CourierMQTTChuck */,
-				E3EF64CF2A71536400C38984 /* DemoTests */,
 				E34B41B12A9100AC00E5BC6A /* CourierMQTT-iOSTests */,
 				E34B42622A91010F00E5BC6A /* MQTTClientGJ */,
-				E34B426B2A91010F00E5BC6A /* MQTTClientGJ-iOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2047,20 +1936,6 @@
 				E34B43002A9129B000E5BC6A /* README.md in Resources */,
 				E34B42FF2A9129AD00E5BC6A /* LICENSE in Resources */,
 				E34B42FE2A9129AB00E5BC6A /* CHANGELOG.md in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E34B426A2A91010F00E5BC6A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E3EF64CE2A71536400C38984 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2472,22 +2347,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E34B42682A91010F00E5BC6A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E34B42742A91011100E5BC6A /* MQTTClientGJ_iOSTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E3EF64CC2A71536400C38984 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E3EF64D32A71536500C38984 /* DemoTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2521,25 +2380,10 @@
 			target = B0DA90B52856F5E300F6512D /* CourierE2EApp */;
 			targetProxy = E34B41B62A9100AD00E5BC6A /* PBXContainerItemProxy */;
 		};
-		E34B426F2A91011000E5BC6A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E34B42622A91010F00E5BC6A /* MQTTClientGJ */;
-			targetProxy = E34B426E2A91011000E5BC6A /* PBXContainerItemProxy */;
-		};
-		E34B42712A91011100E5BC6A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B0DA90B52856F5E300F6512D /* CourierE2EApp */;
-			targetProxy = E34B42702A91011100E5BC6A /* PBXContainerItemProxy */;
-		};
 		E34B42772A91011100E5BC6A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E34B42622A91010F00E5BC6A /* MQTTClientGJ */;
 			targetProxy = E34B42762A91011100E5BC6A /* PBXContainerItemProxy */;
-		};
-		E3EF64D62A71536500C38984 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8BE0DD40270BE3B000630D60 /* CourierCore */;
-			targetProxy = E3EF64D52A71536500C38984 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3826,196 +3670,6 @@
 			};
 			name = Release;
 		};
-		E34B42812A91011200E5BC6A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63PA84HA3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sanju.MQTTClientGJ-iOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CourierE2EApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CourierE2EApp";
-			};
-			name = Debug;
-		};
-		E34B42822A91011200E5BC6A /* Production */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63PA84HA3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sanju.MQTTClientGJ-iOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CourierE2EApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CourierE2EApp";
-			};
-			name = Production;
-		};
-		E34B42832A91011200E5BC6A /* Alpha */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63PA84HA3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sanju.MQTTClientGJ-iOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CourierE2EApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CourierE2EApp";
-			};
-			name = Alpha;
-		};
-		E34B42842A91011200E5BC6A /* Integration */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63PA84HA3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sanju.MQTTClientGJ-iOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CourierE2EApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CourierE2EApp";
-			};
-			name = Integration;
-		};
-		E34B42852A91011200E5BC6A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63PA84HA3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sanju.MQTTClientGJ-iOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CourierE2EApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CourierE2EApp";
-			};
-			name = Release;
-		};
-		E3EF64D82A71536500C38984 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63PA84HA3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sanju.DemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		E3EF64D92A71536500C38984 /* Production */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63PA84HA3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sanju.DemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Production;
-		};
-		E3EF64DA2A71536500C38984 /* Alpha */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63PA84HA3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sanju.DemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Alpha;
-		};
-		E3EF64DB2A71536500C38984 /* Integration */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63PA84HA3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sanju.DemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Integration;
-		};
-		E3EF64DC2A71536500C38984 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63PA84HA3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sanju.DemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4123,30 +3777,6 @@
 				E34B427D2A91011200E5BC6A /* Alpha */,
 				E34B427E2A91011200E5BC6A /* Integration */,
 				E34B427F2A91011200E5BC6A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E34B42802A91011200E5BC6A /* Build configuration list for PBXNativeTarget "MQTTClientGJ-iOSTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E34B42812A91011200E5BC6A /* Debug */,
-				E34B42822A91011200E5BC6A /* Production */,
-				E34B42832A91011200E5BC6A /* Alpha */,
-				E34B42842A91011200E5BC6A /* Integration */,
-				E34B42852A91011200E5BC6A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E3EF64D72A71536500C38984 /* Build configuration list for PBXNativeTarget "DemoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E3EF64D82A71536500C38984 /* Debug */,
-				E3EF64D92A71536500C38984 /* Production */,
-				E3EF64DA2A71536500C38984 /* Alpha */,
-				E3EF64DB2A71536500C38984 /* Integration */,
-				E3EF64DC2A71536500C38984 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
