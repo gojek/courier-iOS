@@ -7,7 +7,7 @@ Pod::Spec.new do |c|
     c.homepage        = 'https://github.com/gojek/courier-iOS'
     c.license         = 'MIT'
     c.author          = { "Alfian Losari" => "alfian.losari@gojek.com" }
-    c.platform        = :ios, '11.0'
+    c.platform        = :ios, '14.0'
   
     c.source          = {
 		:git => "https://github.com/gojek/courier-iOS.git",

@@ -9,7 +9,7 @@ Pod::Spec.new do |mqttc|
 		:git => "https://github.com/gojek/courier-iOS.git",
 		:tag => "#{mqttc.version}"
 	}
-	mqttc.platform        = :ios, '11.0'
+	mqttc.platform        = :ios, '14.0'
 
 	mqttc.requires_arc = true
 	mqttc.vendored_frameworks = 'MQTTClientGJ.xcframework'
