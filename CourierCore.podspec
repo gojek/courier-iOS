@@ -5,8 +5,8 @@ Pod::Spec.new do |c|
     c.description     = "Publish and Subscribe data with bidirectional communication between client and server"
 
     c.homepage        = 'https://github.com/gojek/courier-iOS'
-    c.license         = 'MIT'
-    c.author          = { "Alfian Losari" => "alfian.losari@gojek.com" }
+    c.license 	      = { :type => 'MIT', :file => './LICENSES/LICENSE' }
+    c.author          = "Gojek"
     c.platform        = :ios, '13.0'
 
     c.source          = {
