@@ -229,7 +229,7 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
         let error = NSError(domain: "", code: 5, userInfo: [:])
         mockSessionManager.stubbedLastError = error
         sut.sessionManager(mockSessionManager, didChangeState: .error)
-        if case let .connectionFailure(timeTaken, error) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
+        if case let .connectionFailure(_, error) = self.mockEventHandler.invokedOnEventParametersList[0]?.event.type {
             XCTAssertEqual((error! as NSError).code, 5)
         } else {
             XCTAssert(false)
@@ -317,14 +317,13 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
     
     func testDeleteAllPersistedMessage() {
         sut.deleteAllPersistedMessages()
-    
+        
         let expectation_ = expectation(description: "test")
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
             expectation_.fulfill()
         }
-        waitForExpectations(timeout: 0.1) { _ in
-            XCTAssertTrue(self.mockSessionManager.invokedDeleteAllPersistedMessages)
-        }
+        wait(for: [expectation_], timeout: 0.1)
+        XCTAssertTrue(self.mockSessionManager.invokedDeleteAllPersistedMessages)
     }
 }
 

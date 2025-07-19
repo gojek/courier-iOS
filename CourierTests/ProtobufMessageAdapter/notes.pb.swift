@@ -1,10 +1,11 @@
 import Foundation
-import SwiftProtobuf
+@preconcurrency import SwiftProtobuf
 
 private struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAPIVersionCheck {
     struct _2: SwiftProtobuf.ProtobufAPIVersion_2 {}
     typealias Version = _2
 }
+
 
 struct Empty {
 
