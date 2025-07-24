@@ -4,9 +4,20 @@ enum TailRecursiveSinkCommand {
 }
 
 #if DEBUG || TRACE_RESOURCES
-var maxTailRecursiveSinkStackSize = 0
-#endif
+actor TraceResources {
+    private var maxTailRecursiveSinkStackSize = 0
 
+    func getStackSize() -> Int {
+        maxTailRecursiveSinkStackSize
+    }
+
+    func updateStackSize(to newSize: Int) {
+        maxTailRecursiveSinkStackSize = newSize
+    }
+}
+let traceResources = TraceResources()
+#endif
+ 
 class TailRecursiveSink<Sequence: Swift.Sequence, Observer: ObserverType>: Sink<Observer>,
                                                                            InvocableWithValueType where Sequence.Element: ObservableConvertibleType, Sequence.Element.Element == Observer.Element {
     typealias Value = TailRecursiveSinkCommand
@@ -87,8 +98,11 @@ class TailRecursiveSink<Sequence: Swift.Sequence, Observer: ObserverType>: Sink<
             if let nextGenerator = nextGenerator {
                 generators.append(nextGenerator)
                 #if DEBUG || TRACE_RESOURCES
-                if maxTailRecursiveSinkStackSize < generators.count {
-                    maxTailRecursiveSinkStackSize = generators.count
+                let generatorCount = generators.count
+                Task {
+                    if await traceResources.getStackSize() < generatorCount {
+                        await traceResources.updateStackSize(to: generatorCount)
+                    }
                 }
                 #endif
             } else {

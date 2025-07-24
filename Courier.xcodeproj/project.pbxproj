@@ -1947,11 +1947,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				B0DA90B52856F5E300F6512D /* CourierE2EApp */,
+				8B0669902623E55400129BAB /* CourierTests */,
 				8BE0DD40270BE3B000630D60 /* CourierCore */,
 				8BE0DD6C270BE47300630D60 /* CourierMQTT */,
 				8BE0DFE9270BE85B00630D60 /* CourierProtobuf */,
-				8B0669902623E55400129BAB /* CourierTests */,
-				B0DA90B52856F5E300F6512D /* CourierE2EApp */,
 				B0EF8E2829E40861001DF51B /* CourierMQTTChuck */,
 				E3EF64CF2A71536400C38984 /* DemoTests */,
 				E34B41B12A9100AC00E5BC6A /* CourierMQTT-iOSTests */,
@@ -2781,7 +2781,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2804,7 +2804,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Production;
@@ -2827,7 +2827,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Alpha;
@@ -2850,7 +2850,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Integration;
@@ -2872,7 +2872,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
