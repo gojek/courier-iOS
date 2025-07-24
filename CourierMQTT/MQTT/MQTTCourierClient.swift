@@ -1,9 +1,10 @@
-import CourierCore
+@preconcurrency import CourierCore
 import Reachability
 import UIKit
 import MQTTClientGJ
+import RxSwift
 
-class MQTTCourierClient: CourierClient {
+class MQTTCourierClient: CourierClient, @unchecked Sendable {
     var client: IMQTTClient!
     private let connectionSubject = PublishSubject<ConnectionState>()
     let subscriptionStore: ISubscriptionStore
@@ -97,19 +98,28 @@ class MQTTCourierClient: CourierClient {
 
         if config.enableAuthenticationTimeout {
             authenticationTimeoutTimer?.stop()
-            var isGettingConnectOptionsCompleted = false
+            let isGettingConnectOptionsCompleted = BoolActor(false)
 
             authenticationTimeoutTimer = ReconnectTimer(retryInterval: config.authenticationTimeoutInterval, maxRetryInterval: config.authenticationTimeoutInterval, queue: dispatchQueue) { [weak self] in
-                guard let self = self, !isGettingConnectOptionsCompleted else { return }
-                self.isAuthenticating = false
-                self.connect()
+                Task { [weak self] in
+                      guard let self = self else { return }
+
+                      let completed = await isGettingConnectOptionsCompleted.get()
+                      guard !completed else { return }
+
+                      self.isAuthenticating = false
+                      self.connect()
+                  }
             }
             authenticationTimeoutTimer?.schedule()
 
             self.connectionServiceProvider.getConnectOptions { [weak self] result in
-                self?.dispatchQueue.async {
+                self?.dispatchQueue.async { [weak self] in
                     guard let self = self else { return }
-                    isGettingConnectOptionsCompleted = true
+                    Task { [weak self] in
+                        guard let self = self else { return }
+                        await isGettingConnectOptionsCompleted.set(true)
+                    }
                     self.authenticationTimeoutTimer?.stop()
                     self.authenticationTimeoutTimer = nil
                     self.isAuthenticating = false
@@ -122,7 +132,7 @@ class MQTTCourierClient: CourierClient {
             }
         } else {
             connectionServiceProvider.getConnectOptions { [weak self] result in
-                self?.dispatchQueue.async {
+                self?.dispatchQueue.async {[weak self] in
                     self?.isAuthenticating = false
                     self?.handleAuthenticationResult(result)
                 }
@@ -339,4 +349,19 @@ extension ConnectionState {
         }
     }
 
+}
+
+actor BoolActor {
+    private var value: Bool
+    init(_ initial: Bool) {
+        self.value = initial
+    }
+
+    func get() -> Bool {
+        return value
+    }
+
+    func set(_ newValue: Bool) {
+        self.value = newValue
+    }
 }
