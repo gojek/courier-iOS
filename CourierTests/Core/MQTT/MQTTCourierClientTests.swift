@@ -233,34 +233,34 @@ class MQTTCourierClientTests: XCTestCase {
     }
 
     @MainActor func testOnConnectAttempt() {
-             testPublishConnectionState {
-                sut.onEvent(.init(connectionInfo: nil, event: .connectionAttempt))
-            }
+        testPublishConnectionState {
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionAttempt))
+        }
     }
 
     @MainActor func testOnConnectionSuccess()  {
-             testPublishConnectionState {
-                sut.onEvent(.init(connectionInfo: nil, event: .connectionSuccess(timeTaken: 1)))
-                XCTAssertTrue(mockClient.invokedSubscribe)
-            }
+        testPublishConnectionState {
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionSuccess(timeTaken: 1)))
+            XCTAssertTrue(mockClient.invokedSubscribe)
+        }
     }
 
     @MainActor func testOnConnectionFailure() {
-            testPublishConnectionState {
-                sut.onEvent(.init(connectionInfo: nil, event: .connectionFailure(timeTaken: 1, error: nil)))
-            }
+        testPublishConnectionState {
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionFailure(timeTaken: 1, error: nil)))
+        }
     }
 
     @MainActor func testOnConnectionLost() {
-            testPublishConnectionState {
-                sut.onEvent(.init(connectionInfo: nil, event: .connectionLost(timeTaken: 1, error: nil, diffLastInbound: nil, diffLastOutbound: nil)))
-            }
+        testPublishConnectionState {
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionLost(timeTaken: 1, error: nil, diffLastInbound: nil, diffLastOutbound: nil)))
+        }
     }
 
     @MainActor func testOnConnectionDisconnect() {
-             testPublishConnectionState {
-                sut.onEvent(.init(connectionInfo: nil, event: .connectionDisconnect))
-            }
+        testPublishConnectionState {
+            sut.onEvent(.init(connectionInfo: nil, event: .connectionDisconnect))
+        }
     }
 
     @MainActor
@@ -288,12 +288,12 @@ class MQTTCourierClientTests: XCTestCase {
             expectation_.fulfill()
         }
         await fulfillment(of: [expectation_], timeout: 1.0)
-            if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event.type {
-                XCTAssert(true)
-            } else {
-                XCTAssert(false)
-            }
-            XCTAssertTrue(self.mockConnectionServiceProvider.invokedGetConnectOptions)
+        if case .connectionServiceAuthStart = self.mockEventHandler.invokedOnEventParameters?.event.type {
+            XCTAssert(true)
+        } else {
+            XCTAssert(false)
+        }
+        XCTAssertTrue(self.mockConnectionServiceProvider.invokedGetConnectOptions)
     }
 
     func testMessageReceiveStream() {
