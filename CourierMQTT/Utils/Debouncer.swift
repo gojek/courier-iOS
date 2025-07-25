@@ -1,6 +1,6 @@
 import Foundation
 
-final class Debouncer {
+final class Debouncer: @unchecked Sendable {
     
     private let timeInterval: TimeInterval
     private var timer: Timer?
