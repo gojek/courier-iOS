@@ -1,7 +1,9 @@
 import CourierCore
 import Foundation
+import RxSwift
 
-final class MqttMessageReceiverListener: IMessageReceiveListener {
+
+final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sendable {
     private var publishSubject: PublishSubject<MQTTPacket>
     private let publishSubjectDispatchQueue: DispatchQueue
     
@@ -53,21 +55,21 @@ final class MqttMessageReceiverListener: IMessageReceiveListener {
     }
 
     func messageArrived(data: Data, topic: String, qos: QoS) {
-        let message = MQTTPacket(data: data, topic: topic, qos: qos)
-        
         if IsIncomingMessagePersistenceEnabled, qos != .zero {
             publishSubjectDispatchQueue.async { [weak self] in
                 guard let self = self else { return }
+                let safeMessage = MQTTPacket(data: data, topic: topic, qos: qos)
                 do {
-                    try self.messagePersistence.saveMessage(message)
+                    try self.messagePersistence.saveMessage(safeMessage)
                 } catch {
-                    self.publishSubject.onNext(message)
+                    self.publishSubject.onNext(safeMessage)
                 }
                 self.handlePersistedMessages()
             }
         } else {
             publishSubjectDispatchQueue.async { [weak self] in
-                self?.publishSubject.onNext(message)
+                let safeMessage = MQTTPacket(data: data, topic: topic, qos: qos)
+                self?.publishSubject.onNext(safeMessage)
             }
         }
     }
@@ -83,9 +85,10 @@ final class MqttMessageReceiverListener: IMessageReceiveListener {
     func scheduleCleanupExpiredMessages() {
         DispatchQueue.main.async { [weak self] in
             self?.debouncer.renewInterval()
-            self?.debouncer.handler = {
-                self?.publishSubjectDispatchQueue.async {
-                    self?.cleanupExpiredMessages()
+            self?.debouncer.handler = { [weak self] in
+                guard let self = self else { return }
+                self.publishSubjectDispatchQueue.async {
+                    self.cleanupExpiredMessages()
                 }
             }
         }

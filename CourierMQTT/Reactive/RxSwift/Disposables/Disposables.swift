@@ -1,3 +1,0 @@
-struct Disposables {
-    private init() {}
-}

@@ -1,4 +1,0 @@
-protocol Disposable {
-
-    func dispose()
-}
