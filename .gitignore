@@ -127,3 +127,6 @@ AutoMockable.generated.swift
 /fastlane/xcov_report
 # Public will be added when Swift 5.6 with static hosting docc support has arrived so it can be generated on CI/CD
 # /public
+
+/derived_data
+/archives
