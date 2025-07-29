@@ -8,6 +8,8 @@ Pod::Spec.new do |c|
     c.license 	      = { :type => 'MIT', :file => './LICENSES/LICENSE' }
     c.author          = "Gojek"
     c.platform        = :ios, '13.0'
+    c.swift_version   = '6'
+
 
     c.source          = {
 		:git => "https://github.com/gojek/courier-iOS.git",
