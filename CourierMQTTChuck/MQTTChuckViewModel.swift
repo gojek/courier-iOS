@@ -12,7 +12,7 @@ import Combine
 #endif
 
 @available(iOS 15.0, *)
-class MQTTChuckViewModel: ObservableObject, MQTTChuckLoggerDelegate {
+class MQTTChuckViewModel: ObservableObject, @preconcurrency MQTTChuckLoggerDelegate {
     
     let logger: MQTTChuckLogger
     @Published var logs = [MQTTChuckLog]()
@@ -54,10 +54,9 @@ class MQTTChuckViewModel: ObservableObject, MQTTChuckLoggerDelegate {
             }.store(in: &cancellables)
     }
     
+    @preconcurrency @MainActor
     func mqttChuckLoggerDidUpdateLogs(_ logs: [MQTTChuckLog]) {
-        DispatchQueue.main.async { [weak self] in
-            self?.logs = logs.reversed()
-        }
+        self.logs = logs.reversed()
     }
     
     func clearLogs() {
