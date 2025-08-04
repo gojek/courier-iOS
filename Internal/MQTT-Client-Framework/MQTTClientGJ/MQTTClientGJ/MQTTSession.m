@@ -788,7 +788,8 @@ NSString * const MQTTClientcourier = @"GJ";
         DDLogError(@"[MQTTSession] MQTT illegal message received");
         NSError * error = [NSError errorWithDomain:MQTTSessionErrorDomain
                                               code:MQTTSessionErrorIllegalMessageReceived
-                                          userInfo:@{NSLocalizedDescriptionKey : @"MQTT illegal message received"}];
+                                          userInfo:@{NSLocalizedDescriptionKey : @"MQTT illegal message received",
+                                                     @"MQTTData": data}];
         [self protocolError:error];
 
         return;
