@@ -785,11 +785,19 @@ NSString * const MQTTClientcourier = @"GJ";
 - (void)decoder:(MQTTDecoder *)sender didReceiveMessage:(NSData *)data {
     MQTTMessage *message = [MQTTMessage messageFromData:data protocolLevel:self.protocolLevel];
     if (!message) {
+
+        NSString *newVal = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+       
+        if (!newVal) {
+            newVal = @"Not able to decode";
+        }
+        
+        NSString *description = [NSString stringWithFormat:@"MQTT illegal message received - %@", newVal];
+        
         DDLogError(@"[MQTTSession] MQTT illegal message received");
         NSError * error = [NSError errorWithDomain:MQTTSessionErrorDomain
                                               code:MQTTSessionErrorIllegalMessageReceived
-                                          userInfo:@{NSLocalizedDescriptionKey : @"MQTT illegal message received",
-                                                     @"MQTTData": data}];
+                                          userInfo:@{NSLocalizedDescriptionKey : description}];
         [self protocolError:error];
 
         return;
