@@ -4,16 +4,22 @@ source 'https://cdn.cocoapods.org/'
 
 def courier_pods
   pod 'ReachabilitySwift', '>= 5.0.0'
+  pod 'RxSwift', '6.9.0'
 end
 
 target 'CourierMQTT' do
   use_frameworks!
   courier_pods
-  pod 'RxSwift', '6.9.0'
+end
+
+target 'CourierMQTTChuck' do
+  use_frameworks!
+  courier_pods
 end
 
 target 'CourierProtobuf' do
   use_frameworks!
+  courier_pods
   pod 'SwiftProtobuf'
 end
 

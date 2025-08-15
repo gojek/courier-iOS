@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		32900050EEA331F5685537B6 /* Pods_CourierTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C18D3E5B4AC26D50951448A /* Pods_CourierTests.framework */; };
-		603E631E991EB65F3CF55218 /* Pods_CourierMQTT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B0323DCEC0FB8521DB187C /* Pods_CourierMQTT.framework */; };
-		7A741F3FD5255D1AA20F422A /* Pods_CourierProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC136C02B82572CF9BE97749 /* Pods_CourierProtobuf.framework */; };
+		2AB331D16E25FE8C6060BD2E /* Pods_CourierTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA20DC77F9F52E28E9E7A60B /* Pods_CourierTests.framework */; };
+		59443306B299F8561EC96DEF /* Pods_CourierProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D87790201409208BC86727 /* Pods_CourierProtobuf.framework */; };
 		8B06BE4226B790BB00934879 /* TextMessageAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B06BE4126B790BB00934879 /* TextMessageAdapterTests.swift */; };
 		8B2B1DA226B14E25003E647C /* MessageAdaptersCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B1DA126B14E25003E647C /* MessageAdaptersCoordinatorTests.swift */; };
 		8B2B1DA426B14F5C003E647C /* PlistMessageAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B1DA326B14F5C003E647C /* PlistMessageAdapterTests.swift */; };
@@ -128,7 +127,8 @@
 		8BE7468B26956DE2003A2844 /* CourierClientFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE7468A26956DE2003A2844 /* CourierClientFactoryTests.swift */; };
 		8BE871C527A013FC00C51CD8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE871C427A013FC00C51CD8 /* Message.swift */; };
 		8BEFF539265780BB00C23C06 /* DiskSubscriptionStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEFF538265780BB00C23C06 /* DiskSubscriptionStoreTests.swift */; };
-		ACE41DD644D6EB8B3B2FE408 /* Pods_CourierE2EApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610CE3008BFAD3845A057E77 /* Pods_CourierE2EApp.framework */; };
+		9D4F46E05783A387AE926323 /* Pods_CourierMQTTChuck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3957D84EDE6E7758D46E927 /* Pods_CourierMQTTChuck.framework */; };
+		9E9E04C2E9AAF3F7254859CA /* Pods_CourierE2EApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB849E713D531D26B0C3370 /* Pods_CourierE2EApp.framework */; };
 		B00C8248285B152000B2BDBA /* ConnectionE2EObservableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C823D285B152000B2BDBA /* ConnectionE2EObservableObject.swift */; };
 		B00C8249285B152000B2BDBA /* ConnectionObservableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C823E285B152000B2BDBA /* ConnectionObservableObject.swift */; };
 		B00C824A285B152000B2BDBA /* ConnectionServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C8240285B152000B2BDBA /* ConnectionServiceProvider.swift */; };
@@ -153,7 +153,7 @@
 		B0EF8E3829E408B5001DF51B /* MQTTChuck.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EF8E3729E408B5001DF51B /* MQTTChuck.swift */; };
 		B8748B172E20E6530046E779 /* libCourierCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE0DD41270BE3B000630D60 /* libCourierCore.a */; };
 		B8748B1A2E20E6530046E779 /* libCourierMQTT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE0DD6D270BE47300630D60 /* libCourierMQTT.a */; };
-		B8FBEF832E5436B1007D2D75 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8FBEF822E5436B1007D2D75 /* CoreData.framework */; };
+		D3C1068B67AB7B79D1FC9CD4 /* Pods_CourierMQTT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B693D66701B94B3D56F364E /* Pods_CourierMQTT.framework */; };
 		E31EAEFA2A9728670007ABF7 /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
 		E31EAEFB2A9728BE0007ABF7 /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
 		E34B426D2A91011000E5BC6A /* MQTTClientGJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */; };
@@ -338,24 +338,24 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0105854A144BB5A39C1BAB1F /* Pods-CourierMQTT.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.production.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.production.xcconfig"; sourceTree = "<group>"; };
-		1CE0AED07CDD52917DE81838 /* Pods-CourierProtobuf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierProtobuf.debug.xcconfig"; path = "Target Support Files/Pods-CourierProtobuf/Pods-CourierProtobuf.debug.xcconfig"; sourceTree = "<group>"; };
-		2157B7A4207B85A7DE5A2382 /* Pods-CourierMQTT.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.alpha.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.alpha.xcconfig"; sourceTree = "<group>"; };
-		248CE8CA861D084659E50F52 /* Pods-CourierE2EApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.release.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.release.xcconfig"; sourceTree = "<group>"; };
-		27436CE94887D350106FEC0E /* Pods-CourierE2EApp.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.alpha.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.alpha.xcconfig"; sourceTree = "<group>"; };
-		307561C846D7BE9DAEB2AB27 /* Pods-CourierMQTT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.release.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.release.xcconfig"; sourceTree = "<group>"; };
-		3493C3F3C30294FC4EE22027 /* Pods-CourierTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.debug.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.debug.xcconfig"; sourceTree = "<group>"; };
-		34B0323DCEC0FB8521DB187C /* Pods_CourierMQTT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CourierMQTT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		459B540C022D2B2F876557FD /* Pods-CourierMQTT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.debug.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.debug.xcconfig"; sourceTree = "<group>"; };
-		4AD9DA1FF987DDEEBD8AA87A /* Pods-CourierE2EApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.debug.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.debug.xcconfig"; sourceTree = "<group>"; };
-		4B3F7BE5258173082BC0EBED /* Pods-CourierProtobuf.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierProtobuf.integration.xcconfig"; path = "Target Support Files/Pods-CourierProtobuf/Pods-CourierProtobuf.integration.xcconfig"; sourceTree = "<group>"; };
-		51AF018F9F578C432D7E2204 /* Pods-CourierE2EApp.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.integration.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.integration.xcconfig"; sourceTree = "<group>"; };
-		610CE3008BFAD3845A057E77 /* Pods_CourierE2EApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CourierE2EApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		626790349492D3AB91AB5121 /* Pods-CourierE2EApp.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.production.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.production.xcconfig"; sourceTree = "<group>"; };
-		735D0A51D9C84309197C62BC /* Pods-CourierProtobuf.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierProtobuf.production.xcconfig"; path = "Target Support Files/Pods-CourierProtobuf/Pods-CourierProtobuf.production.xcconfig"; sourceTree = "<group>"; };
-		774E6970572B53C26CBEADFD /* Pods-CourierTests.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.integration.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.integration.xcconfig"; sourceTree = "<group>"; };
-		7A9234ACB1D976EE417918C8 /* Pods-CourierProtobuf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierProtobuf.release.xcconfig"; path = "Target Support Files/Pods-CourierProtobuf/Pods-CourierProtobuf.release.xcconfig"; sourceTree = "<group>"; };
-		8ADCA9703537145784F8C5B3 /* Pods-CourierTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.release.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.release.xcconfig"; sourceTree = "<group>"; };
+		033895F360932B7D2621EDA5 /* Pods-CourierTests.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.alpha.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.alpha.xcconfig"; sourceTree = "<group>"; };
+		0B693D66701B94B3D56F364E /* Pods_CourierMQTT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CourierMQTT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F947D1B92793D4E15F1A3FA /* Pods-CourierE2EApp.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.integration.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.integration.xcconfig"; sourceTree = "<group>"; };
+		1DB849E713D531D26B0C3370 /* Pods_CourierE2EApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CourierE2EApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B23ED3C6BEE8721560D2581 /* Pods-CourierMQTT.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.integration.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.integration.xcconfig"; sourceTree = "<group>"; };
+		46A24C185AD4665EABA98086 /* Pods-CourierProtobuf.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierProtobuf.alpha.xcconfig"; path = "Target Support Files/Pods-CourierProtobuf/Pods-CourierProtobuf.alpha.xcconfig"; sourceTree = "<group>"; };
+		4E9E2CABD1735C09900B1069 /* Pods-CourierMQTTChuck.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTTChuck.release.xcconfig"; path = "Target Support Files/Pods-CourierMQTTChuck/Pods-CourierMQTTChuck.release.xcconfig"; sourceTree = "<group>"; };
+		551B652DCF19E61D438C1FDD /* Pods-CourierTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.production.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.production.xcconfig"; sourceTree = "<group>"; };
+		58D1E6360F603A8D54DE7FC5 /* Pods-CourierMQTTChuck.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTTChuck.debug.xcconfig"; path = "Target Support Files/Pods-CourierMQTTChuck/Pods-CourierMQTTChuck.debug.xcconfig"; sourceTree = "<group>"; };
+		5D41310D55C8E7E8E89EFD58 /* Pods-CourierMQTT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.release.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.release.xcconfig"; sourceTree = "<group>"; };
+		5E5904F90C0A488271790977 /* Pods-CourierE2EApp.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.production.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.production.xcconfig"; sourceTree = "<group>"; };
+		660787C8855F10CBF41F8B72 /* Pods-CourierE2EApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.release.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.release.xcconfig"; sourceTree = "<group>"; };
+		6BF4C12F0081F4A24975E072 /* Pods-CourierMQTTChuck.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTTChuck.production.xcconfig"; path = "Target Support Files/Pods-CourierMQTTChuck/Pods-CourierMQTTChuck.production.xcconfig"; sourceTree = "<group>"; };
+		7DE3BACEB30AC2E2A453EA99 /* Pods-CourierTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.release.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.release.xcconfig"; sourceTree = "<group>"; };
+		84A75085A973F2C7F2BEB94B /* Pods-CourierTests.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.integration.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.integration.xcconfig"; sourceTree = "<group>"; };
+		87B0A3AD2F4667AB81EAA6A4 /* Pods-CourierProtobuf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierProtobuf.debug.xcconfig"; path = "Target Support Files/Pods-CourierProtobuf/Pods-CourierProtobuf.debug.xcconfig"; sourceTree = "<group>"; };
+		88F65807BB624CE4979BFB86 /* Pods-CourierMQTTChuck.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTTChuck.alpha.xcconfig"; path = "Target Support Files/Pods-CourierMQTTChuck/Pods-CourierMQTTChuck.alpha.xcconfig"; sourceTree = "<group>"; };
+		8A41C0617C716220EC4DE8A6 /* Pods-CourierTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.debug.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B013989270ABA6600AEEA42 /* ConnectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionState.swift; sourceTree = "<group>"; };
 		8B01398D270ABCDB00AEEA42 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		8B0139B4270ACFDB00AEEA42 /* CourierError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourierError.swift; sourceTree = "<group>"; };
@@ -517,8 +517,6 @@
 		8BE7468A26956DE2003A2844 /* CourierClientFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourierClientFactoryTests.swift; sourceTree = "<group>"; };
 		8BE871C427A013FC00C51CD8 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8BEFF538265780BB00C23C06 /* DiskSubscriptionStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSubscriptionStoreTests.swift; sourceTree = "<group>"; };
-		8C18D3E5B4AC26D50951448A /* Pods_CourierTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CourierTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AD9E2EBE590BA26EEC81368F /* Pods-CourierTests.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.alpha.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.alpha.xcconfig"; sourceTree = "<group>"; };
 		B00C823D285B152000B2BDBA /* ConnectionE2EObservableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionE2EObservableObject.swift; sourceTree = "<group>"; };
 		B00C823E285B152000B2BDBA /* ConnectionObservableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionObservableObject.swift; sourceTree = "<group>"; };
 		B00C8240285B152000B2BDBA /* ConnectionServiceProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionServiceProvider.swift; sourceTree = "<group>"; };
@@ -539,16 +537,23 @@
 		B0EF8E2329E4081B001DF51B /* MQTTChuckLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTChuckLog.swift; sourceTree = "<group>"; };
 		B0EF8E2929E40861001DF51B /* libCourierMQTTChuck.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCourierMQTTChuck.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0EF8E3729E408B5001DF51B /* MQTTChuck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTChuck.swift; sourceTree = "<group>"; };
-		B8FBEF822E5436B1007D2D75 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
-		C63CC9EE375F0642F31A6534 /* Pods-CourierProtobuf.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierProtobuf.alpha.xcconfig"; path = "Target Support Files/Pods-CourierProtobuf/Pods-CourierProtobuf.alpha.xcconfig"; sourceTree = "<group>"; };
-		C929DEF14B34E5D3FDB57F75 /* Pods-CourierMQTT.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.integration.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.integration.xcconfig"; sourceTree = "<group>"; };
-		D700220EC24170CF8572D4B1 /* Pods-CourierTests.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.production.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.production.xcconfig"; sourceTree = "<group>"; };
+		BA0FE0273B217CD2861B3647 /* Pods-CourierE2EApp.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.alpha.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.alpha.xcconfig"; sourceTree = "<group>"; };
+		BA20DC77F9F52E28E9E7A60B /* Pods_CourierTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CourierTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBC150D7D0DCFA23B2776551 /* Pods-CourierProtobuf.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierProtobuf.production.xcconfig"; path = "Target Support Files/Pods-CourierProtobuf/Pods-CourierProtobuf.production.xcconfig"; sourceTree = "<group>"; };
+		BC81C4A74578BEC463BF5309 /* Pods-CourierMQTT.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.production.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.production.xcconfig"; sourceTree = "<group>"; };
+		CE08DB4B1C2CBA78FFD8AF28 /* Pods-CourierProtobuf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierProtobuf.release.xcconfig"; path = "Target Support Files/Pods-CourierProtobuf/Pods-CourierProtobuf.release.xcconfig"; sourceTree = "<group>"; };
+		D3957D84EDE6E7758D46E927 /* Pods_CourierMQTTChuck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CourierMQTTChuck.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4DE021FBC75A3E6B743CB89 /* Pods-CourierMQTTChuck.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTTChuck.integration.xcconfig"; path = "Target Support Files/Pods-CourierMQTTChuck/Pods-CourierMQTTChuck.integration.xcconfig"; sourceTree = "<group>"; };
 		E34B41B22A9100AC00E5BC6A /* CourierMQTT-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CourierMQTT-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E34B42632A91010F00E5BC6A /* MQTTClientGJ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MQTTClientGJ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E34B426C2A91011000E5BC6A /* MQTTClientGJ-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MQTTClientGJ-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E34B430A2A91383E00E5BC6A /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		E3EF64D02A71536400C38984 /* DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC136C02B82572CF9BE97749 /* Pods_CourierProtobuf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CourierProtobuf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6D87790201409208BC86727 /* Pods_CourierProtobuf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CourierProtobuf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDF4F406B50722324429499C /* Pods-CourierProtobuf.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierProtobuf.integration.xcconfig"; path = "Target Support Files/Pods-CourierProtobuf/Pods-CourierProtobuf.integration.xcconfig"; sourceTree = "<group>"; };
+		F8C8A44C61091F312E6D69BF /* Pods-CourierMQTT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.debug.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.debug.xcconfig"; sourceTree = "<group>"; };
+		FC6A688BE1DD6F70B6DC856B /* Pods-CourierMQTT.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.alpha.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.alpha.xcconfig"; sourceTree = "<group>"; };
+		FCC1A5CBC6FA685ACF851C61 /* Pods-CourierE2EApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.debug.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -558,9 +563,8 @@
 			files = (
 				8BC15921270C03F00016A433 /* libCourierCore.a in Frameworks */,
 				8BC15922270C03F00016A433 /* libCourierMQTT.a in Frameworks */,
-				B8FBEF832E5436B1007D2D75 /* CoreData.framework in Frameworks */,
 				8BC15923270C03F00016A433 /* libCourierProtobuf.a in Frameworks */,
-				32900050EEA331F5685537B6 /* Pods_CourierTests.framework in Frameworks */,
+				2AB331D16E25FE8C6060BD2E /* Pods_CourierTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,7 +581,7 @@
 			files = (
 				E31EAEFA2A9728670007ABF7 /* MQTTClientGJ.framework in Frameworks */,
 				8BE0DFE5270BE5D600630D60 /* libCourierCore.a in Frameworks */,
-				603E631E991EB65F3CF55218 /* Pods_CourierMQTT.framework in Frameworks */,
+				D3C1068B67AB7B79D1FC9CD4 /* Pods_CourierMQTT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,7 +591,7 @@
 			files = (
 				8BE0DFF4270BE86E00630D60 /* libCourierCore.a in Frameworks */,
 				8BE0DFF5270BE86E00630D60 /* libCourierMQTT.a in Frameworks */,
-				7A741F3FD5255D1AA20F422A /* Pods_CourierProtobuf.framework in Frameworks */,
+				59443306B299F8561EC96DEF /* Pods_CourierProtobuf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,7 +604,7 @@
 				B0DA90E6285739A000F6512D /* libCourierMQTT.a in Frameworks */,
 				B0C3CDB92A6E21DA00A87579 /* libCourierMQTTChuck.a in Frameworks */,
 				E34B42782A91011100E5BC6A /* MQTTClientGJ.framework in Frameworks */,
-				ACE41DD644D6EB8B3B2FE408 /* Pods_CourierE2EApp.framework in Frameworks */,
+				9E9E04C2E9AAF3F7254859CA /* Pods_CourierE2EApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,6 +615,7 @@
 				B8748B172E20E6530046E779 /* libCourierCore.a in Frameworks */,
 				B8748B1A2E20E6530046E779 /* libCourierMQTT.a in Frameworks */,
 				E31EAEFB2A9728BE0007ABF7 /* MQTTClientGJ.framework in Frameworks */,
+				9D4F46E05783A387AE926323 /* Pods_CourierMQTTChuck.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,26 +655,31 @@
 		593C02C794F2A7420198E292 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4AD9DA1FF987DDEEBD8AA87A /* Pods-CourierE2EApp.debug.xcconfig */,
-				626790349492D3AB91AB5121 /* Pods-CourierE2EApp.production.xcconfig */,
-				27436CE94887D350106FEC0E /* Pods-CourierE2EApp.alpha.xcconfig */,
-				51AF018F9F578C432D7E2204 /* Pods-CourierE2EApp.integration.xcconfig */,
-				248CE8CA861D084659E50F52 /* Pods-CourierE2EApp.release.xcconfig */,
-				459B540C022D2B2F876557FD /* Pods-CourierMQTT.debug.xcconfig */,
-				0105854A144BB5A39C1BAB1F /* Pods-CourierMQTT.production.xcconfig */,
-				2157B7A4207B85A7DE5A2382 /* Pods-CourierMQTT.alpha.xcconfig */,
-				C929DEF14B34E5D3FDB57F75 /* Pods-CourierMQTT.integration.xcconfig */,
-				307561C846D7BE9DAEB2AB27 /* Pods-CourierMQTT.release.xcconfig */,
-				1CE0AED07CDD52917DE81838 /* Pods-CourierProtobuf.debug.xcconfig */,
-				735D0A51D9C84309197C62BC /* Pods-CourierProtobuf.production.xcconfig */,
-				C63CC9EE375F0642F31A6534 /* Pods-CourierProtobuf.alpha.xcconfig */,
-				4B3F7BE5258173082BC0EBED /* Pods-CourierProtobuf.integration.xcconfig */,
-				7A9234ACB1D976EE417918C8 /* Pods-CourierProtobuf.release.xcconfig */,
-				3493C3F3C30294FC4EE22027 /* Pods-CourierTests.debug.xcconfig */,
-				D700220EC24170CF8572D4B1 /* Pods-CourierTests.production.xcconfig */,
-				AD9E2EBE590BA26EEC81368F /* Pods-CourierTests.alpha.xcconfig */,
-				774E6970572B53C26CBEADFD /* Pods-CourierTests.integration.xcconfig */,
-				8ADCA9703537145784F8C5B3 /* Pods-CourierTests.release.xcconfig */,
+				FCC1A5CBC6FA685ACF851C61 /* Pods-CourierE2EApp.debug.xcconfig */,
+				5E5904F90C0A488271790977 /* Pods-CourierE2EApp.production.xcconfig */,
+				BA0FE0273B217CD2861B3647 /* Pods-CourierE2EApp.alpha.xcconfig */,
+				0F947D1B92793D4E15F1A3FA /* Pods-CourierE2EApp.integration.xcconfig */,
+				660787C8855F10CBF41F8B72 /* Pods-CourierE2EApp.release.xcconfig */,
+				F8C8A44C61091F312E6D69BF /* Pods-CourierMQTT.debug.xcconfig */,
+				BC81C4A74578BEC463BF5309 /* Pods-CourierMQTT.production.xcconfig */,
+				FC6A688BE1DD6F70B6DC856B /* Pods-CourierMQTT.alpha.xcconfig */,
+				2B23ED3C6BEE8721560D2581 /* Pods-CourierMQTT.integration.xcconfig */,
+				5D41310D55C8E7E8E89EFD58 /* Pods-CourierMQTT.release.xcconfig */,
+				87B0A3AD2F4667AB81EAA6A4 /* Pods-CourierProtobuf.debug.xcconfig */,
+				BBC150D7D0DCFA23B2776551 /* Pods-CourierProtobuf.production.xcconfig */,
+				46A24C185AD4665EABA98086 /* Pods-CourierProtobuf.alpha.xcconfig */,
+				EDF4F406B50722324429499C /* Pods-CourierProtobuf.integration.xcconfig */,
+				CE08DB4B1C2CBA78FFD8AF28 /* Pods-CourierProtobuf.release.xcconfig */,
+				8A41C0617C716220EC4DE8A6 /* Pods-CourierTests.debug.xcconfig */,
+				551B652DCF19E61D438C1FDD /* Pods-CourierTests.production.xcconfig */,
+				033895F360932B7D2621EDA5 /* Pods-CourierTests.alpha.xcconfig */,
+				84A75085A973F2C7F2BEB94B /* Pods-CourierTests.integration.xcconfig */,
+				7DE3BACEB30AC2E2A453EA99 /* Pods-CourierTests.release.xcconfig */,
+				58D1E6360F603A8D54DE7FC5 /* Pods-CourierMQTTChuck.debug.xcconfig */,
+				6BF4C12F0081F4A24975E072 /* Pods-CourierMQTTChuck.production.xcconfig */,
+				88F65807BB624CE4979BFB86 /* Pods-CourierMQTTChuck.alpha.xcconfig */,
+				D4DE021FBC75A3E6B743CB89 /* Pods-CourierMQTTChuck.integration.xcconfig */,
+				4E9E2CABD1735C09900B1069 /* Pods-CourierMQTTChuck.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -710,7 +720,7 @@
 				B0EF8E2A29E40861001DF51B /* CourierMQTTChuck */,
 				8B06696D2623E4D800129BAB /* Products */,
 				593C02C794F2A7420198E292 /* Pods */,
-				C9A57ACBD90C91F49277492E /* Frameworks */,
+				EACED890CF220E2A947C82D4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1268,24 +1278,24 @@
 			path = CourierMQTTChuck;
 			sourceTree = "<group>";
 		};
-		C9A57ACBD90C91F49277492E /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B8FBEF822E5436B1007D2D75 /* CoreData.framework */,
-				610CE3008BFAD3845A057E77 /* Pods_CourierE2EApp.framework */,
-				34B0323DCEC0FB8521DB187C /* Pods_CourierMQTT.framework */,
-				EC136C02B82572CF9BE97749 /* Pods_CourierProtobuf.framework */,
-				8C18D3E5B4AC26D50951448A /* Pods_CourierTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		E34B43092A91383E00E5BC6A /* Modules */ = {
 			isa = PBXGroup;
 			children = (
 				E34B430A2A91383E00E5BC6A /* module.modulemap */,
 			);
 			path = Modules;
+			sourceTree = "<group>";
+		};
+		EACED890CF220E2A947C82D4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1DB849E713D531D26B0C3370 /* Pods_CourierE2EApp.framework */,
+				0B693D66701B94B3D56F364E /* Pods_CourierMQTT.framework */,
+				E6D87790201409208BC86727 /* Pods_CourierProtobuf.framework */,
+				BA20DC77F9F52E28E9E7A60B /* Pods_CourierTests.framework */,
+				D3957D84EDE6E7758D46E927 /* Pods_CourierMQTTChuck.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1327,11 +1337,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8B0669992623E55400129BAB /* Build configuration list for PBXNativeTarget "CourierTests" */;
 			buildPhases = (
-				3320F7F970C68875FF933DF8 /* [CP] Check Pods Manifest.lock */,
+				51FD3FBB13E4E24E3134578D /* [CP] Check Pods Manifest.lock */,
 				8B06698D2623E55400129BAB /* Sources */,
 				8B06698E2623E55400129BAB /* Frameworks */,
 				8B06698F2623E55400129BAB /* Resources */,
-				D6DAA04FF3BDC7AE8137570A /* [CP] Embed Pods Frameworks */,
+				F64076E634594FE9A29891D5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1363,7 +1373,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8BE0DD71270BE47300630D60 /* Build configuration list for PBXNativeTarget "CourierMQTT" */;
 			buildPhases = (
-				284421C95E5B0682B95DA33C /* [CP] Check Pods Manifest.lock */,
+				4894F047A12127E4777D69FC /* [CP] Check Pods Manifest.lock */,
 				8BE0DD69270BE47300630D60 /* Sources */,
 				8BE0DD6A270BE47300630D60 /* Frameworks */,
 				8BE0DD6B270BE47300630D60 /* CopyFiles */,
@@ -1381,7 +1391,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8BE0DFEE270BE85B00630D60 /* Build configuration list for PBXNativeTarget "CourierProtobuf" */;
 			buildPhases = (
-				3C681465D4A7C739B5D6EB91 /* [CP] Check Pods Manifest.lock */,
+				D69FFDB0F1A08D8B91426CAA /* [CP] Check Pods Manifest.lock */,
 				8BE0DFE6270BE85B00630D60 /* Sources */,
 				8BE0DFE7270BE85B00630D60 /* Frameworks */,
 				8BE0DFE8270BE85B00630D60 /* CopyFiles */,
@@ -1399,12 +1409,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0DA90C62856F5E400F6512D /* Build configuration list for PBXNativeTarget "CourierE2EApp" */;
 			buildPhases = (
-				3ABA50949333649A42E7B543 /* [CP] Check Pods Manifest.lock */,
+				A7234C5A77D0F49F1F6F1F67 /* [CP] Check Pods Manifest.lock */,
 				B0DA90B22856F5E300F6512D /* Sources */,
 				B0DA90B32856F5E300F6512D /* Frameworks */,
 				B0DA90B42856F5E300F6512D /* Resources */,
 				E34B41C62A9100AD00E5BC6A /* Embed Frameworks */,
-				1CD1638F887D7D93BFD21A9D /* [CP] Embed Pods Frameworks */,
+				4C7A42946377744DB9EDC7BA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1424,6 +1434,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0EF8E2D29E40861001DF51B /* Build configuration list for PBXNativeTarget "CourierMQTTChuck" */;
 			buildPhases = (
+				81A52704446ACA9A1889C6CF /* [CP] Check Pods Manifest.lock */,
 				B0EF8E2529E40861001DF51B /* Sources */,
 				B0EF8E2629E40861001DF51B /* Frameworks */,
 				B0EF8E2729E40861001DF51B /* CopyFiles */,
@@ -1636,24 +1647,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1CD1638F887D7D93BFD21A9D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		284421C95E5B0682B95DA33C /* [CP] Check Pods Manifest.lock */ = {
+		4894F047A12127E4777D69FC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1675,7 +1669,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3320F7F970C68875FF933DF8 /* [CP] Check Pods Manifest.lock */ = {
+		4C7A42946377744DB9EDC7BA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		51FD3FBB13E4E24E3134578D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1697,7 +1708,29 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3ABA50949333649A42E7B543 /* [CP] Check Pods Manifest.lock */ = {
+		81A52704446ACA9A1889C6CF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CourierMQTTChuck-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A7234C5A77D0F49F1F6F1F67 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1719,7 +1752,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3C681465D4A7C739B5D6EB91 /* [CP] Check Pods Manifest.lock */ = {
+		D69FFDB0F1A08D8B91426CAA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1741,7 +1774,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D6DAA04FF3BDC7AE8137570A /* [CP] Embed Pods Frameworks */ = {
+		F64076E634594FE9A29891D5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2168,7 +2201,7 @@
 		};
 		8B06699A2623E55400129BAB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3493C3F3C30294FC4EE22027 /* Pods-CourierTests.debug.xcconfig */;
+			baseConfigurationReference = 8A41C0617C716220EC4DE8A6 /* Pods-CourierTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -2203,7 +2236,7 @@
 		};
 		8B06699B2623E55400129BAB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8ADCA9703537145784F8C5B3 /* Pods-CourierTests.release.xcconfig */;
+			baseConfigurationReference = 7DE3BACEB30AC2E2A453EA99 /* Pods-CourierTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -2244,7 +2277,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2258,7 +2291,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Production;
@@ -2272,7 +2305,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Alpha;
@@ -2286,7 +2319,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Integration;
@@ -2300,14 +2333,14 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		8BE0DD72270BE47300630D60 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 459B540C022D2B2F876557FD /* Pods-CourierMQTT.debug.xcconfig */;
+			baseConfigurationReference = F8C8A44C61091F312E6D69BF /* Pods-CourierMQTT.debug.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
@@ -2330,7 +2363,7 @@
 		};
 		8BE0DD73270BE47300630D60 /* Production */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0105854A144BB5A39C1BAB1F /* Pods-CourierMQTT.production.xcconfig */;
+			baseConfigurationReference = BC81C4A74578BEC463BF5309 /* Pods-CourierMQTT.production.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
@@ -2353,7 +2386,7 @@
 		};
 		8BE0DD74270BE47300630D60 /* Alpha */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2157B7A4207B85A7DE5A2382 /* Pods-CourierMQTT.alpha.xcconfig */;
+			baseConfigurationReference = FC6A688BE1DD6F70B6DC856B /* Pods-CourierMQTT.alpha.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
@@ -2376,7 +2409,7 @@
 		};
 		8BE0DD75270BE47300630D60 /* Integration */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C929DEF14B34E5D3FDB57F75 /* Pods-CourierMQTT.integration.xcconfig */;
+			baseConfigurationReference = 2B23ED3C6BEE8721560D2581 /* Pods-CourierMQTT.integration.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
@@ -2399,7 +2432,7 @@
 		};
 		8BE0DD76270BE47300630D60 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 307561C846D7BE9DAEB2AB27 /* Pods-CourierMQTT.release.xcconfig */;
+			baseConfigurationReference = 5D41310D55C8E7E8E89EFD58 /* Pods-CourierMQTT.release.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
@@ -2421,7 +2454,7 @@
 		};
 		8BE0DFEF270BE85B00630D60 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1CE0AED07CDD52917DE81838 /* Pods-CourierProtobuf.debug.xcconfig */;
+			baseConfigurationReference = 87B0A3AD2F4667AB81EAA6A4 /* Pods-CourierProtobuf.debug.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
@@ -2429,14 +2462,14 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		8BE0DFF0270BE85B00630D60 /* Production */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 735D0A51D9C84309197C62BC /* Pods-CourierProtobuf.production.xcconfig */;
+			baseConfigurationReference = BBC150D7D0DCFA23B2776551 /* Pods-CourierProtobuf.production.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
@@ -2444,14 +2477,14 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Production;
 		};
 		8BE0DFF1270BE85B00630D60 /* Alpha */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C63CC9EE375F0642F31A6534 /* Pods-CourierProtobuf.alpha.xcconfig */;
+			baseConfigurationReference = 46A24C185AD4665EABA98086 /* Pods-CourierProtobuf.alpha.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
@@ -2459,14 +2492,14 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Alpha;
 		};
 		8BE0DFF2270BE85B00630D60 /* Integration */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4B3F7BE5258173082BC0EBED /* Pods-CourierProtobuf.integration.xcconfig */;
+			baseConfigurationReference = EDF4F406B50722324429499C /* Pods-CourierProtobuf.integration.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
@@ -2474,14 +2507,14 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Integration;
 		};
 		8BE0DFF3270BE85B00630D60 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7A9234ACB1D976EE417918C8 /* Pods-CourierProtobuf.release.xcconfig */;
+			baseConfigurationReference = CE08DB4B1C2CBA78FFD8AF28 /* Pods-CourierProtobuf.release.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
@@ -2489,7 +2522,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -2562,7 +2595,7 @@
 		};
 		8BED7564262D69F6003AB58B /* Integration */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 774E6970572B53C26CBEADFD /* Pods-CourierTests.integration.xcconfig */;
+			baseConfigurationReference = 84A75085A973F2C7F2BEB94B /* Pods-CourierTests.integration.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -2663,7 +2696,7 @@
 		};
 		8BED7567262D69FF003AB58B /* Alpha */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AD9E2EBE590BA26EEC81368F /* Pods-CourierTests.alpha.xcconfig */;
+			baseConfigurationReference = 033895F360932B7D2621EDA5 /* Pods-CourierTests.alpha.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -2764,7 +2797,7 @@
 		};
 		8BED756A262D6A08003AB58B /* Production */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D700220EC24170CF8572D4B1 /* Pods-CourierTests.production.xcconfig */;
+			baseConfigurationReference = 551B652DCF19E61D438C1FDD /* Pods-CourierTests.production.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -2799,7 +2832,7 @@
 		};
 		B0DA90C12856F5E400F6512D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4AD9DA1FF987DDEEBD8AA87A /* Pods-CourierE2EApp.debug.xcconfig */;
+			baseConfigurationReference = FCC1A5CBC6FA685ACF851C61 /* Pods-CourierE2EApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2832,7 +2865,7 @@
 		};
 		B0DA90C22856F5E400F6512D /* Production */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 626790349492D3AB91AB5121 /* Pods-CourierE2EApp.production.xcconfig */;
+			baseConfigurationReference = 5E5904F90C0A488271790977 /* Pods-CourierE2EApp.production.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2865,7 +2898,7 @@
 		};
 		B0DA90C32856F5E400F6512D /* Alpha */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 27436CE94887D350106FEC0E /* Pods-CourierE2EApp.alpha.xcconfig */;
+			baseConfigurationReference = BA0FE0273B217CD2861B3647 /* Pods-CourierE2EApp.alpha.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2898,7 +2931,7 @@
 		};
 		B0DA90C42856F5E400F6512D /* Integration */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 51AF018F9F578C432D7E2204 /* Pods-CourierE2EApp.integration.xcconfig */;
+			baseConfigurationReference = 0F947D1B92793D4E15F1A3FA /* Pods-CourierE2EApp.integration.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2931,7 +2964,7 @@
 		};
 		B0DA90C52856F5E400F6512D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 248CE8CA861D084659E50F52 /* Pods-CourierE2EApp.release.xcconfig */;
+			baseConfigurationReference = 660787C8855F10CBF41F8B72 /* Pods-CourierE2EApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2964,6 +2997,7 @@
 		};
 		B0EF8E2E29E40861001DF51B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 58D1E6360F603A8D54DE7FC5 /* Pods-CourierMQTTChuck.debug.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
@@ -2972,13 +3006,14 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		B0EF8E2F29E40861001DF51B /* Production */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6BF4C12F0081F4A24975E072 /* Pods-CourierMQTTChuck.production.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
@@ -2987,13 +3022,14 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Production;
 		};
 		B0EF8E3029E40861001DF51B /* Alpha */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 88F65807BB624CE4979BFB86 /* Pods-CourierMQTTChuck.alpha.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
@@ -3002,13 +3038,14 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Alpha;
 		};
 		B0EF8E3129E40861001DF51B /* Integration */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4DE021FBC75A3E6B743CB89 /* Pods-CourierMQTTChuck.integration.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
@@ -3017,13 +3054,14 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Integration;
 		};
 		B0EF8E3229E40861001DF51B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E9E2CABD1735C09900B1069 /* Pods-CourierMQTTChuck.release.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
@@ -3032,7 +3070,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
