@@ -1,6 +1,6 @@
 Pod::Spec.new do |c|
     c.name            = 'CourierMQTT'
-    c.version         = '0.0.27'
+    c.version         = '0.0.28'
     c.summary         = "Gojek iOS Long Run Connection Open Source SDK"
     c.description     = "Publish and Subscribe data with bidirectional communication between client and server"
   
