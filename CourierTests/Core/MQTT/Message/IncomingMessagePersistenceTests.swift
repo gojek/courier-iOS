@@ -1,4 +1,5 @@
 import XCTest
+import CoreData
 @testable import CourierMQTT
 
 class IncomingMessagePersistenceTests: XCTestCase {
