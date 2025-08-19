@@ -1,5 +1,9 @@
 import Foundation
 
+/// Marked `Atomic` as `@unchecked Sendable` because although it internally uses `DispatchQueue`,
+/// which is not `Sendable`, all access to the wrapped value is synchronized using a concurrent queue
+/// with barrier flags, ensuring thread safety. The `Box` container is also only accessed within these
+/// controlled critical sections, making the wrapper safe for concurrent use despite the underlying non-Sendable components.
 @preconcurrency
 @propertyWrapper
 final class Atomic<T>: @unchecked Sendable {
@@ -38,7 +42,9 @@ final class Atomic<T>: @unchecked Sendable {
     }
 }
 
-
+/// Marked `Box` as `@unchecked Sendable` because `T` may not be `Sendable`, and `Box` itself is a
+/// simple container used only within synchronized contexts (like `Atomic`). All access to its
+/// `value` is properly guarded by thread-safe mechanisms, ensuring safe concurrent usage.
 private final class Box<T>: @unchecked Sendable {
     var value: T
     init(_ value: T) {

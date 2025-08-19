@@ -2,6 +2,10 @@ import CourierCore
 import Foundation
 import RxSwift
 
+/// Marked this class as `@unchecked Sendable` because it holds non-Sendable properties like `DispatchQueue`,
+/// `Debouncer`, and `IncomingMessagePersistenceProtocol`. However, all shared mutable state is managed safely
+/// using `@Atomic`, and interactions with shared resources (e.g. message persistence and dispatching) are confined to
+/// controlled dispatch queues. Given this controlled access pattern, it's safe to treat this type as Sendable in our use case.
 
 final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sendable {
     private var publishSubject: PublishSubject<MQTTPacket>

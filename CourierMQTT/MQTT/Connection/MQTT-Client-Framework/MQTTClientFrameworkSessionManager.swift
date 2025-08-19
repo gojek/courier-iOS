@@ -51,6 +51,10 @@ protocol IMQTTClientFrameworkSessionManager {
     func deleteAllPersistedMessages()
 }
 
+/// Marked this class as `@unchecked Sendable` because it contains several properties that are not `Sendable` by default,
+/// such as `DispatchQueue`, `ReconnectTimer`, and reference types like `IMQTTSession`, `MQTTPersistence`, and `MQTTSSLSecurityPolicy`.
+/// However, all mutable shared state is accessed in a controlled and thread-safe manner—using `@Atomic`, dispatch queues,
+/// and proper synchronization—making this manual conformance safe in our context.
 class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionManager, @unchecked Sendable {
     private(set) var session: IMQTTSession?
     private(set) var host: String?
