@@ -51,7 +51,7 @@ protocol IMQTTClientFrameworkSessionManager {
     func deleteAllPersistedMessages()
 }
 
-class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionManager {
+class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionManager, @unchecked Sendable {
     private(set) var session: IMQTTSession?
     private(set) var host: String?
     private(set) var port: UInt32?
@@ -353,15 +353,18 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
     }
     
+    @preconcurrency
     func deleteAllPersistedMessages() {
-        let _persistence: MQTTCoreDataPersistence
-        if self.persistence.persistent, let coreDataPeristence = self.persistence as? MQTTCoreDataPersistence {
-            _persistence = coreDataPeristence
-        } else {
-            _persistence = MQTTCoreDataPersistence()
-            _persistence.persistent = true
-        }
-        queue.async {
+        queue.async { [weak self] in
+            guard let self else { return }
+
+            let _persistence: MQTTCoreDataPersistence
+            if self.persistence.persistent, let coreDataPeristence = self.persistence as? MQTTCoreDataPersistence {
+                _persistence = coreDataPeristence
+            } else {
+                _persistence = MQTTCoreDataPersistence()
+                _persistence.persistent = true
+            }
             _persistence.deleteAllFlows()
         }
     }
@@ -413,8 +416,11 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
     func sending(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
         printDebug("MQTT - COURIER: Sending MQTT Command \(type.debugDescription)")
         
-        if CourierMQTTChuck.isEnabled {
-            logToMQTTChuck(sending: true, received: false, type: type, qos: qos, retained: retained, duped: duped, mid: mid, data: data)
+        Task {
+            let isEnabled = await CourierMQTTChuck.shared.isEnabled()
+            if isEnabled {
+                logToMQTTChuck(sending: true, received: false, type: type, qos: qos, retained: retained, duped: duped, mid: mid, data: data)
+            }
         }
                 
         switch type {
@@ -430,8 +436,11 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
     func received(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
         printDebug("MQTT - COURIER: Received MQTT Command \(type.debugDescription)")
         
-        if CourierMQTTChuck.isEnabled {
-            logToMQTTChuck(sending: false, received: true, type: type, qos: qos, retained: retained, duped: duped, mid: mid, data: data)
+        Task {
+            let isEnabled = await CourierMQTTChuck.shared.isEnabled()
+            if isEnabled {
+                logToMQTTChuck(sending: false, received: true, type: type, qos: qos, retained: retained, duped: duped, mid: mid, data: data)
+            }
         }
         
         switch type {

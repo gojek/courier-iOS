@@ -10,8 +10,12 @@ jobs:
     name: Build
     runs-on: macOS-latest
     steps:
+      - name: Load Xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - uses: actions/cache@v3
         id: pod-cache
         with:
@@ -29,8 +33,12 @@ jobs:
     needs: Build
     runs-on: macOS-latest
     steps:
+      - name: Load Xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - uses: actions/cache@v3
         id: pod-cache
         with:
@@ -48,8 +56,12 @@ jobs:
     needs: Test
     runs-on: macOS-latest
     steps:
+      - name: Load Xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - uses: actions/cache@v3
         id: pod-cache
         with:
@@ -67,7 +79,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v1
         with:
           node-version: '18.x'

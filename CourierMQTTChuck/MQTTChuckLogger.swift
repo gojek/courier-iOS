@@ -7,8 +7,8 @@
 
 import Foundation
 import CourierCore
-import CourierMQTT
 import MQTTClientGJ
+import CourierMQTT
 
 public protocol MQTTChuckLoggerDelegate {
     func mqttChuckLoggerDidUpdateLogs(_ logs: [MQTTChuckLog])
@@ -23,7 +23,9 @@ public class MQTTChuckLogger {
     
     public init() {
         NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMQTTChuckNotification), name: mqttChuckNotification, object: nil)
-        CourierMQTTChuck.isEnabled = true
+        Task {
+            await  CourierMQTTChuck.shared.setEnabled(false)
+        }
     }
         
     @objc func didReceiveMQTTChuckNotification(_ notification: Notification) {
@@ -88,7 +90,9 @@ public class MQTTChuckLogger {
     }
     
     deinit {
-        CourierMQTTChuck.isEnabled = false
+        Task {
+            await  CourierMQTTChuck.shared.setEnabled(false)
+        }
     }
     
 }

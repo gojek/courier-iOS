@@ -9,6 +9,7 @@ end
 target 'CourierMQTT' do
   use_frameworks!
   courier_pods
+  pod 'RxSwift', '6.9.0'
 end
 
 target 'CourierProtobuf' do
@@ -26,6 +27,7 @@ target 'CourierTests' do
   use_frameworks!
   courier_pods
   pod 'SwiftProtobuf'
+  pod 'RxSwift', '6.9.0'
 end
 
 post_install do |installer|

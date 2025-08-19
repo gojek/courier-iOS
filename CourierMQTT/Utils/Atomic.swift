@@ -1,31 +1,47 @@
 import Foundation
 
+@preconcurrency
 @propertyWrapper
-final class Atomic<T> {
+final class Atomic<T>: @unchecked Sendable {
     private let dispatchQueue: DispatchQueue
-    private var _value: T
+    private var _box: Box<T>
 
     init(_ value: T, dispatchQueueLabel: String = "courier.courier.atomic") {
-        dispatchQueue = DispatchQueue(label: dispatchQueueLabel, attributes: .concurrent)
-        self._value = value
+        self.dispatchQueue = DispatchQueue(label: dispatchQueueLabel, attributes: .concurrent)
+        self._box = Box(value)
     }
-    
+
     var wrappedValue: T {
-        get { dispatchQueue.sync { _value } }
+        get {
+            dispatchQueue.sync {
+                _box.value
+            }
+        }
         set {
+            let newBox = Box(newValue)
             dispatchQueue.async(flags: .barrier) {
-                self._value = newValue
+                self._box = newBox
             }
         }
     }
-    
+
     func mutate(execute task: (inout T) -> Void) {
-        dispatchQueue.sync(flags: .barrier) { task(&_value) }
-    }
-    
-    
-    func mapValue<U>(handler: ((T) -> U)) -> U {
-        dispatchQueue.sync { handler(_value) }
+        dispatchQueue.sync(flags: .barrier) {
+            task(&_box.value)
+        }
     }
 
+    func mapValue<U>(handler: (T) -> U) -> U {
+        dispatchQueue.sync {
+            handler(_box.value)
+        }
+    }
+}
+
+
+private final class Box<T>: @unchecked Sendable {
+    var value: T
+    init(_ value: T) {
+        self.value = value
+    }
 }
