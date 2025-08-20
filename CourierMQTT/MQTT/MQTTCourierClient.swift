@@ -93,6 +93,8 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
                 courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .connectDiscarded(reason: "Client is authenticating")))
                 return
             }
+        @unknown default:
+            break
         }
         
         authStartTimestamp = Date()
@@ -105,7 +107,7 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
             let isGettingConnectOptionsCompleted = BoolActor(false)
 
             authenticationTimeoutTimer = ReconnectTimer(retryInterval: config.authenticationTimeoutInterval, maxRetryInterval: config.authenticationTimeoutInterval, queue: dispatchQueue) { [weak self] in
-                Task { [weak self] in
+                Task(priority: .background) { [weak self] in
                       guard let self = self else { return }
 
                       let completed = await isGettingConnectOptionsCompleted.get()
@@ -120,7 +122,7 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
             self.connectionServiceProvider.getConnectOptions { [weak self] result in
                 self?.dispatchQueue.async { [weak self] in
                     guard let self = self else { return }
-                    Task { [weak self] in
+                    Task(priority: .background) { [weak self] in
                         guard let self = self else { return }
                         await isGettingConnectOptionsCompleted.set(true)
                     }
@@ -349,6 +351,8 @@ extension ConnectionState {
         case .connected:
             return "Client already connected"
         case .disconnected:
+            return nil
+        @unknown default:
             return nil
         }
     }

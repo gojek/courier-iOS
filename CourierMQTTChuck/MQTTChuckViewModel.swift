@@ -54,7 +54,7 @@ class MQTTChuckViewModel: ObservableObject, @preconcurrency MQTTChuckLoggerDeleg
             }.store(in: &cancellables)
     }
     
-    @MainActor
+    @preconcurrency @MainActor
     func mqttChuckLoggerDidUpdateLogs(_ logs: [MQTTChuckLog]) {
         DispatchQueue.main.async { [weak self] in
             self?.logs = logs.reversed()

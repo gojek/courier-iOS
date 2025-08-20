@@ -19,7 +19,7 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
         sut = MqttMessageReceiverListener(publishSubject: publishSubject, publishSubjectDispatchQueue: dispatchQueue)
     }
     
-    @MainActor
+    @preconcurrency @MainActor
     func testOnMessageArrived() async throws {
         let exp = expectation(description: "messageArrived")
         let data = "hello".data(using: .utf8)!
@@ -39,7 +39,7 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
         await fulfillment(of: [exp], timeout: 0.1)
     }
     
-    @MainActor
+    @preconcurrency @MainActor
     func testAddPublisherDict() async throws {
         let exp = expectation(description: "messageArrivedIncomingMessagePersistence")
         let data = "hello".data(using: .utf8)!
@@ -81,7 +81,7 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
         XCTAssertTrue(mockMessagePersistence.invokedDeleteAllMessages)
     }
     
-    @MainActor
+    @preconcurrency @MainActor
     func testOnMessageArrivedWithIncomingMessagePersistenceEnabled() async throws {
         let exp = expectation(description: "messageArrivedIncomingMessagePersistence")
         let exp2 = expectation(description: "messageArrivedIncomingMessagePersistence2")

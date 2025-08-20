@@ -420,7 +420,7 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
     func sending(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
         printDebug("MQTT - COURIER: Sending MQTT Command \(type.debugDescription)")
         
-        Task {
+        Task(priority: .background) {
             let isEnabled = await CourierMQTTChuck.shared.isEnabled()
             if isEnabled {
                 logToMQTTChuck(sending: true, received: false, type: type, qos: qos, retained: retained, duped: duped, mid: mid, data: data)
@@ -440,7 +440,7 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
     func received(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
         printDebug("MQTT - COURIER: Received MQTT Command \(type.debugDescription)")
         
-        Task {
+        Task(priority: .background) {
             let isEnabled = await CourierMQTTChuck.shared.isEnabled()
             if isEnabled {
                 logToMQTTChuck(sending: false, received: true, type: type, qos: qos, retained: retained, duped: duped, mid: mid, data: data)
