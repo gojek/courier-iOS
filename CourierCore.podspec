@@ -13,6 +13,6 @@ Pod::Spec.new do |c|
 		:git => "https://github.com/gojek/courier-iOS.git",
 		:tag => "#{c.version}"
 	}
-    c.swift_version   = '6.0'
+    c.swift_version   = ['6.0', '5.3']
     c.source_files    = 'CourierCore/**/*.swift'
 end
