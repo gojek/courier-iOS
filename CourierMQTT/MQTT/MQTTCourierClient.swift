@@ -1,4 +1,4 @@
-@preconcurrency import CourierCore
+import CourierCore
 import Reachability
 import UIKit
 import MQTTClientGJ

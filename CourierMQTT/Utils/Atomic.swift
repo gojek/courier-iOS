@@ -4,7 +4,7 @@ import Foundation
 /// which is not `Sendable`, all access to the wrapped value is synchronized using a concurrent queue
 /// with barrier flags, ensuring thread safety. The `Box` container is also only accessed within these
 /// controlled critical sections, making the wrapper safe for concurrent use despite the underlying non-Sendable components.
-@preconcurrency
+
 @propertyWrapper
 final class Atomic<T>: @unchecked Sendable {
     private let dispatchQueue: DispatchQueue

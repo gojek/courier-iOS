@@ -92,7 +92,7 @@ class MQTTCourierClientTests: XCTestCase {
         XCTAssertFalse(mockConnectionServiceProvider.invokedGetConnectOptions)
     }
 
-    @preconcurrency @MainActor
+    @MainActor
     func testConnectWithSuccessCredentials() async throws {
         mockConnectionServiceProvider.stubbedGetConnectOptionsCompletionResult = (.success(stubConnectOptions), ())
         sut.connect()
@@ -233,14 +233,14 @@ class MQTTCourierClientTests: XCTestCase {
         XCTAssertTrue(mockConnectionServiceProvider.invokedGetConnectOptions)
     }
 
-    @preconcurrency @MainActor
+    @MainActor
     func testOnConnectAttempt() {
         testPublishConnectionState {
             sut.onEvent(.init(connectionInfo: nil, event: .connectionAttempt))
         }
     }
 
-    @preconcurrency @MainActor
+    @MainActor
     func testOnConnectionSuccess()  {
         testPublishConnectionState {
             sut.onEvent(.init(connectionInfo: nil, event: .connectionSuccess(timeTaken: 1)))
@@ -248,28 +248,28 @@ class MQTTCourierClientTests: XCTestCase {
         }
     }
 
-    @preconcurrency @MainActor
+    @MainActor
     func testOnConnectionFailure() {
         testPublishConnectionState {
             sut.onEvent(.init(connectionInfo: nil, event: .connectionFailure(timeTaken: 1, error: nil)))
         }
     }
     
-    @preconcurrency @MainActor
+    @MainActor
     func testOnConnectionLost() {
         testPublishConnectionState {
             sut.onEvent(.init(connectionInfo: nil, event: .connectionLost(timeTaken: 1, error: nil, diffLastInbound: nil, diffLastOutbound: nil)))
         }
     }
 
-    @preconcurrency @MainActor
+    @MainActor
     func testOnConnectionDisconnect() {
         testPublishConnectionState {
             sut.onEvent(.init(connectionInfo: nil, event: .connectionDisconnect))
         }
     }
 
-    @preconcurrency @MainActor
+    @MainActor
     func testOnAppForegroundConnect() async throws {
         sut.onEvent(.init(connectionInfo: nil, event: .appForeground))
         let expectation_ = expectation(description: "test")
@@ -285,7 +285,7 @@ class MQTTCourierClientTests: XCTestCase {
         XCTAssertTrue(self.mockConnectionServiceProvider.invokedGetConnectOptions)
     }
 
-    @preconcurrency @MainActor
+    @MainActor
     func testOnConnectionAvailableConnect() async throws {
         mockSubscriptionStore.stubbedSubscriptions = stubbedTopicsDict
         sut.onEvent(.init(connectionInfo: nil, event: .connectionAvailable))
@@ -330,7 +330,7 @@ class MQTTCourierClientTests: XCTestCase {
 
 extension MQTTCourierClientTests {
     
-    @preconcurrency @MainActor
+    @MainActor
     func testPublishConnectionState(invocation: () -> Void)  {
         mockClient.stubbedIsConnected = true
         let expectation = expectation(description: "connect")

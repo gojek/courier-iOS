@@ -357,7 +357,6 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
     }
     
-    @preconcurrency
     func deleteAllPersistedMessages() {
         queue.async { [weak self] in
             guard let self else { return }
