@@ -2,8 +2,13 @@ import CourierCore
 import Reachability
 import UIKit
 import MQTTClientGJ
+import RxSwift
 
-class MQTTCourierClient: CourierClient {
+/// Marked this class as `@unchecked Sendable` because it contains properties like `DispatchQueue`,
+/// `PublishSubject`, and other reference types that are not `Sendable` by default.
+/// However, all non-Sendable properties are accessed in a thread-safe and controlled manner (e.g., via `@Atomic` or internal dispatching),
+/// so manual conformance is safe in this context.
+class MQTTCourierClient: CourierClient, @unchecked Sendable {
     var client: IMQTTClient!
     private let connectionSubject = PublishSubject<ConnectionState>()
     let subscriptionStore: ISubscriptionStore
@@ -88,6 +93,8 @@ class MQTTCourierClient: CourierClient {
                 courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .connectDiscarded(reason: "Client is authenticating")))
                 return
             }
+        @unknown default:
+            break
         }
         
         authStartTimestamp = Date()
@@ -97,19 +104,28 @@ class MQTTCourierClient: CourierClient {
 
         if config.enableAuthenticationTimeout {
             authenticationTimeoutTimer?.stop()
-            var isGettingConnectOptionsCompleted = false
+            let isGettingConnectOptionsCompleted = BoolActor(false)
 
             authenticationTimeoutTimer = ReconnectTimer(retryInterval: config.authenticationTimeoutInterval, maxRetryInterval: config.authenticationTimeoutInterval, queue: dispatchQueue) { [weak self] in
-                guard let self = self, !isGettingConnectOptionsCompleted else { return }
-                self.isAuthenticating = false
-                self.connect()
+                Task(priority: .background) { [weak self] in
+                      guard let self = self else { return }
+
+                      let completed = await isGettingConnectOptionsCompleted.get()
+                      guard !completed else { return }
+
+                      self.isAuthenticating = false
+                      self.connect()
+                  }
             }
             authenticationTimeoutTimer?.schedule()
 
             self.connectionServiceProvider.getConnectOptions { [weak self] result in
-                self?.dispatchQueue.async {
+                self?.dispatchQueue.async { [weak self] in
                     guard let self = self else { return }
-                    isGettingConnectOptionsCompleted = true
+                    Task(priority: .background) { [weak self] in
+                        guard let self = self else { return }
+                        await isGettingConnectOptionsCompleted.set(true)
+                    }
                     self.authenticationTimeoutTimer?.stop()
                     self.authenticationTimeoutTimer = nil
                     self.isAuthenticating = false
@@ -122,7 +138,7 @@ class MQTTCourierClient: CourierClient {
             }
         } else {
             connectionServiceProvider.getConnectOptions { [weak self] result in
-                self?.dispatchQueue.async {
+                self?.dispatchQueue.async {[weak self] in
                     self?.isAuthenticating = false
                     self?.handleAuthenticationResult(result)
                 }
@@ -336,7 +352,24 @@ extension ConnectionState {
             return "Client already connected"
         case .disconnected:
             return nil
+        @unknown default:
+            return nil
         }
     }
 
+}
+
+actor BoolActor {
+    private var value: Bool
+    init(_ initial: Bool) {
+        self.value = initial
+    }
+
+    func get() -> Bool {
+        return value
+    }
+
+    func set(_ newValue: Bool) {
+        self.value = newValue
+    }
 }

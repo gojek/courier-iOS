@@ -13,7 +13,7 @@ Pod::Spec.new do |c|
 		:git => "https://github.com/gojek/courier-iOS.git",
 		:tag => "#{c.version}"
 	}
-    c.swift_version   = '5.3'
+    c.swift_version = ['6.0', '5.3']
     c.static_framework = true
     c.source_files = "CourierMQTTChuck/**/*.swift"
 

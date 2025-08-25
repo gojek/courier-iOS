@@ -1,6 +1,7 @@
 import Foundation
 @testable import CourierCore
 @testable import CourierMQTT
+import RxSwift
 
 class MockMessageReceiveListenerFactory: IMessageReceiveListenerFactory {
 

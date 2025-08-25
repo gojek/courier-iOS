@@ -1,6 +1,8 @@
 import XCTest
 @testable import CourierCore
 @testable import CourierMQTT
+import RxSwift
+
 class MQTTMessageReceiveListenerTests: XCTestCase {
 
     var sut: MqttMessageReceiverListener!
@@ -17,7 +19,8 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
         sut = MqttMessageReceiverListener(publishSubject: publishSubject, publishSubjectDispatchQueue: dispatchQueue)
     }
     
-    func testOnMessageArrived() {
+    @MainActor
+    func testOnMessageArrived() async throws {
         let exp = expectation(description: "messageArrived")
         let data = "hello".data(using: .utf8)!
         
@@ -33,10 +36,11 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
             .disposed(by: disposeBag)
         
         sut.messageArrived(data: data, topic: "fbon", qos: .two)
-        waitForExpectations(timeout: 0.1, handler: nil)
+        await fulfillment(of: [exp], timeout: 0.1)
     }
     
-    func testAddPublisherDict() {
+    @MainActor
+    func testAddPublisherDict() async throws {
         let exp = expectation(description: "messageArrivedIncomingMessagePersistence")
         let data = "hello".data(using: .utf8)!
 
@@ -57,8 +61,7 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
             }
             .disposed(by: disposeBag)
         
-        waitForExpectations(timeout: 3, handler: nil)
-
+        await fulfillment(of: [exp], timeout: 3)
     }
     
     func testRemovePublisherDict() {
@@ -78,7 +81,8 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
         XCTAssertTrue(mockMessagePersistence.invokedDeleteAllMessages)
     }
     
-    func testOnMessageArrivedWithIncomingMessagePersistenceEnabled() {
+    @MainActor
+    func testOnMessageArrivedWithIncomingMessagePersistenceEnabled() async throws {
         let exp = expectation(description: "messageArrivedIncomingMessagePersistence")
         let exp2 = expectation(description: "messageArrivedIncomingMessagePersistence2")
 
@@ -108,7 +112,7 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
         }
         
         sut.messageArrived(data: data, topic: "fbon", qos: .two)
-        waitForExpectations(timeout: 3, handler: nil)
+        await fulfillment(of: [exp, exp2], timeout: 3)
     }
     
 }
