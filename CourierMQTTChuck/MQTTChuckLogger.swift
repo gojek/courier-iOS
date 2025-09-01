@@ -86,17 +86,12 @@ public class MQTTChuckLogger: @unchecked Sendable {
         }
         
         let currentLogs = logs
-        DispatchQueue.main.async { [weak self] in
-            self?.delegate?.mqttChuckLoggerDidUpdateLogs(currentLogs)
-        }
+        self.delegate?.mqttChuckLoggerDidUpdateLogs(currentLogs)
     }
     
     public func clearLogs() {
         self.logs = []
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.delegate?.mqttChuckLoggerDidUpdateLogs(self.logs)
-        }
+        self.delegate?.mqttChuckLoggerDidUpdateLogs(self.logs)
     }
     
     deinit {
