@@ -242,39 +242,42 @@ NSString * const MQTTClientcourier = @"GJ";
     }
 }
 
+// Thread-safe subscribeToTopics:subscribeHandler:
 - (UInt16)subscribeToTopics:(NSDictionary<NSString *, NSNumber *> *)topics subscribeHandler:(MQTTSubscribeHandler)subscribeHandler {
-    DDLogVerbose(@"[MQTTSession] subscribeToTopics:%@]", topics);
+    @synchronized(self) {
+        DDLogVerbose(@"[MQTTSession] subscribeToTopics:%@]", topics);
 
-    [self checkTopicFilters:topics.allKeys];
+        [self checkTopicFilters:topics.allKeys];
 
-    for (NSNumber *qos in topics.allValues) {
-        if (MQTTStrict.strict &&
-            qos.intValue != MQTTQosLevelAtMostOnce &&
-            qos.intValue != MQTTQosLevelAtLeastOnce &&
-            qos.intValue != MQTTQosLevelExactlyOnce &&
-            qos.intValue != MQTTQosLevelAtLeastOnceWithoutPersistenceAndNoRetry &&
-            qos.intValue != MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry
-        ) {
-            NSException* myException = [NSException
-                                        exceptionWithName:@"Illegal QoS level"
-                                        reason:[NSString stringWithFormat:@"%d is not 0, 1, 2, 3, or 4", qos.intValue]
-                                        userInfo:nil];
-            @throw myException;
+        for (NSNumber *qos in topics.allValues) {
+            if (MQTTStrict.strict &&
+                qos.intValue != MQTTQosLevelAtMostOnce &&
+                qos.intValue != MQTTQosLevelAtLeastOnce &&
+                qos.intValue != MQTTQosLevelExactlyOnce &&
+                qos.intValue != MQTTQosLevelAtLeastOnceWithoutPersistenceAndNoRetry &&
+                qos.intValue != MQTTQosLevelAtLeastOnceWithoutPersistenceAndRetry
+            ) {
+                NSException* myException = [NSException
+                                            exceptionWithName:@"Illegal QoS level"
+                                            reason:[NSString stringWithFormat:@"%d is not 0, 1, 2, 3, or 4", qos.intValue]
+                                            userInfo:nil];
+                @throw myException;
+            }
         }
-    }
 
-    UInt16 mid = [self nextMsgId];
-    if (subscribeHandler) {
-        (self.subscribeHandlers)[@(mid)] = [subscribeHandler copy];
-    } else {
-        [self.subscribeHandlers removeObjectForKey:@(mid)];
-    }
-    (void)[self encode:[MQTTMessage subscribeMessageWithMessageId:mid
-                                                           topics:topics
-                                                    protocolLevel:self.protocolLevel
-                                           subscriptionIdentifier:nil]];
+        UInt16 mid = [self nextMsgId];
+        if (subscribeHandler) {
+            (self.subscribeHandlers)[@(mid)] = [subscribeHandler copy];
+        } else {
+            [self.subscribeHandlers removeObjectForKey:@(mid)];
+        }
+        (void)[self encode:[MQTTMessage subscribeMessageWithMessageId:mid
+                                                               topics:topics
+                                                        protocolLevel:self.protocolLevel
+                                               subscriptionIdentifier:nil]];
 
-    return mid;
+        return mid;
+    }
 }
 
 - (UInt16)unsubscribeTopic:(NSString*)topic {
@@ -567,93 +570,101 @@ NSString * const MQTTClientcourier = @"GJ";
     [self closeInternal];
 }
 
+
+// Thread-safe closeInternal to prevent double-close and race conditions
 - (void)closeInternal {
     DDLogVerbose(@"[MQTTSession] closeInternal");
 
-    if (self.checkDupTimer) {
-        [self.checkDupTimer invalidate];
-        self.checkDupTimer = nil;
-    }
-
-    if (self.keepAliveTimer) {
-        [self.keepAliveTimer invalidate];
-        self.keepAliveTimer = nil;
-    }
-    
-    if (self.connectCheckTimer) {
-        [self.connectCheckTimer invalidate];
-        self.connectCheckTimer = nil;
-    }
-    
-    if (self.activityCheckTimer) {
-        [self.activityCheckTimer invalidate];
-        self.activityCheckTimer = nil;
-    }
-
-    if (self.transport) {
-        [self.transport close];
-        self.transport.delegate = nil;
-    }
-
-    if (self.decoder) {
-        [self.decoder close];
-        self.decoder.delegate = nil;
-    }
-
-    NSArray *flows = [self.persistence allFlowsforClientId:self.clientId
-                                              incomingFlag:NO];
-    for (id<MQTTFlow> flow in flows) {
-        switch ((flow.commandType).intValue) {
-            case MQTTPublish:
-            case MQTTPubrel:
-                flow.deadline = [flow.deadline dateByAddingTimeInterval:-self.dupTimeout];
-                [self.persistence sync];
-                break;
+    @synchronized(self) {
+        if (self.status == MQTTSessionStatusClosed || self.status == MQTTSessionStatusDisconnecting) {
+            return;
         }
-    }
 
-    self.status = MQTTSessionStatusClosed;
-    if ([self.delegate respondsToSelector:@selector(handleEvent:event:error:)]) {
-        [self.delegate handleEvent:self event:MQTTSessionEventConnectionClosed error:nil];
-    }
-    if ([self.delegate respondsToSelector:@selector(connectionClosed:)]) {
-        [self.delegate connectionClosed:self];
-    }
+        if (self.checkDupTimer) {
+            [self.checkDupTimer invalidate];
+            self.checkDupTimer = nil;
+        }
 
-    NSError *error = [NSError errorWithDomain:MQTTSessionErrorDomain
-                                         code:MQTTSessionErrorNoResponse
-                                     userInfo:@{NSLocalizedDescriptionKey : @"No response"}];
+        if (self.keepAliveTimer) {
+            [self.keepAliveTimer invalidate];
+            self.keepAliveTimer = nil;
+        }
+        
+        if (self.connectCheckTimer) {
+            [self.connectCheckTimer invalidate];
+            self.connectCheckTimer = nil;
+        }
+        
+        if (self.activityCheckTimer) {
+            [self.activityCheckTimer invalidate];
+            self.activityCheckTimer = nil;
+        }
 
-    NSArray *allSubscribeHandlers = self.subscribeHandlers.allValues;
-    [self.subscribeHandlers removeAllObjects];
-    for (MQTTSubscribeHandler subscribeHandler in allSubscribeHandlers) {
-        subscribeHandler(error, nil);
+        if (self.transport) {
+            [self.transport close];
+            self.transport.delegate = nil;
+        }
+
+        if (self.decoder) {
+            [self.decoder close];
+            self.decoder.delegate = nil;
+        }
+
+        NSArray *flows = [self.persistence allFlowsforClientId:self.clientId
+                                                  incomingFlag:NO];
+        for (id<MQTTFlow> flow in flows) {
+            switch ((flow.commandType).intValue) {
+                case MQTTPublish:
+                case MQTTPubrel:
+                    flow.deadline = [flow.deadline dateByAddingTimeInterval:-self.dupTimeout];
+                    [self.persistence sync];
+                    break;
+            }
+        }
+
+        self.status = MQTTSessionStatusClosed;
+        if ([self.delegate respondsToSelector:@selector(handleEvent:event:error:)]) {
+            [self.delegate handleEvent:self event:MQTTSessionEventConnectionClosed error:nil];
+        }
+        if ([self.delegate respondsToSelector:@selector(connectionClosed:)]) {
+            [self.delegate connectionClosed:self];
+        }
+
+        NSError *error = [NSError errorWithDomain:MQTTSessionErrorDomain
+                                             code:MQTTSessionErrorNoResponse
+                                         userInfo:@{NSLocalizedDescriptionKey : @"No response"}];
+
+        NSArray *allSubscribeHandlers = self.subscribeHandlers.allValues;
+        [self.subscribeHandlers removeAllObjects];
+        for (MQTTSubscribeHandler subscribeHandler in allSubscribeHandlers) {
+            subscribeHandler(error, nil);
+        }
+
+        NSArray *allUnsubscribeHandlers = self.unsubscribeHandlers.allValues;
+        [self.unsubscribeHandlers removeAllObjects];
+        for (MQTTUnsubscribeHandler unsubscribeHandler in allUnsubscribeHandlers) {
+            unsubscribeHandler(error);
+        }
+
+        MQTTDisconnectHandler disconnectHandler = self.disconnectHandler;
+        if (disconnectHandler) {
+            self.disconnectHandler = nil;
+            disconnectHandler(nil);
+        }
+
+        [self tell];
+        self.synchronPub = FALSE;
+        self.synchronPubMid = 0;
+        self.synchronSub = FALSE;
+        self.synchronSubMid = 0;
+        self.synchronUnsub = FALSE;
+        self.synchronUnsubMid = 0;
+        
+        self.connectTimestamp = 0;
+        self.fastReconnectTimestamp = 0;
+        self.lastInboundActivityTimestamp = 0;
+        self.lastOutboundActivityTimestamp = 0;
     }
-
-    NSArray *allUnsubscribeHandlers = self.unsubscribeHandlers.allValues;
-    [self.unsubscribeHandlers removeAllObjects];
-    for (MQTTUnsubscribeHandler unsubscribeHandler in allUnsubscribeHandlers) {
-        unsubscribeHandler(error);
-    }
-
-    MQTTDisconnectHandler disconnectHandler = self.disconnectHandler;
-    if (disconnectHandler) {
-        self.disconnectHandler = nil;
-        disconnectHandler(nil);
-    }
-
-    [self tell];
-    self.synchronPub = FALSE;
-    self.synchronPubMid = 0;
-    self.synchronSub = FALSE;
-    self.synchronSubMid = 0;
-    self.synchronUnsub = FALSE;
-    self.synchronUnsubMid = 0;
-    
-    self.connectTimestamp = 0;
-    self.fastReconnectTimestamp = 0;
-    self.lastInboundActivityTimestamp = 0;
-    self.lastOutboundActivityTimestamp = 0;
 }
 
 
