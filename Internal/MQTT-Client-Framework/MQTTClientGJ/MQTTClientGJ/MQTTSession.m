@@ -569,6 +569,12 @@ NSString * const MQTTClientcourier = @"GJ";
 
 - (void)closeInternal {
     DDLogVerbose(@"[MQTTSession] closeInternal");
+    
+    // Prevent multiple calls to closeInternal
+    if (self.status == MQTTSessionStatusClosed) {
+        DDLogVerbose(@"[MQTTSession] closeInternal already called, ignoring.");
+        return;
+    }
 
     if (self.checkDupTimer) {
         [self.checkDupTimer invalidate];
@@ -867,7 +873,10 @@ NSString * const MQTTClientcourier = @"GJ";
                                     self.activityCheckTimer = [GCDTimer scheduledTimerWithTimeInterval:self.activityCheckTimerInterval
                                                                                                repeats:YES
                                                                                                  queue:self.queue
-                                                                                                 block:^{ [weakSelf checkActivity];
+                                                                                                 block:^{ 
+                                                                                                     if (weakSelf) {
+                                                                                                         [weakSelf checkActivity];
+                                                                                                     }
                                                                                                  }];
                                 }
                                 
@@ -1322,6 +1331,13 @@ NSString * const MQTTClientcourier = @"GJ";
 }
 
 - (void)connectionError:(NSError *)error {
+    // Prevent recursive calls during cleanup
+    if (self.status == MQTTSessionStatusError || 
+        self.status == MQTTSessionStatusClosed) {
+        DDLogVerbose(@"[MQTTSession] connectionError called during cleanup, ignoring. Status: %ld", (long)self.status);
+        return;
+    }
+    
     [self error:MQTTSessionEventConnectionError error:error];
     if ([self.delegate respondsToSelector:@selector(connectionError:error:)]) {
         [self.delegate connectionError:self error:error];
@@ -1341,6 +1357,13 @@ NSString * const MQTTClientcourier = @"GJ";
 }
 
 - (void)error:(MQTTSessionEvent)eventCode error:(NSError *)error {
+    // Prevent multiple error handling calls
+    if (self.status == MQTTSessionStatusError || 
+        self.status == MQTTSessionStatusClosed) {
+        DDLogVerbose(@"[MQTTSession] error:error: called during cleanup, ignoring. Status: %ld", (long)self.status);
+        return;
+    }
+    
     self.status = MQTTSessionStatusError;
     if ([self.delegate respondsToSelector:@selector(handleEvent:event:error:)]) {
         [self.delegate handleEvent:self event:eventCode error:error];
@@ -1483,6 +1506,18 @@ NSString * const MQTTClientcourier = @"GJ";
 - (void)checkActivity {
     DDLogVerbose(@"[RR] Check Activity Fast Reconnect Outbound timestamp: %@, last inbound activity: %@", [NSDate dateWithTimeIntervalSince1970:self.fastReconnectTimestamp], [NSDate dateWithTimeIntervalSince1970:self.lastInboundActivityTimestamp]);
     
+    // Prevent calling connectionError if session is already being closed or in error state
+    if (self.status == MQTTSessionStatusError || 
+        self.status == MQTTSessionStatusClosed || 
+        self.status == MQTTSessionStatusDisconnecting) {
+        DDLogVerbose(@"[RR] Check Activity - Session is not in connected state, skipping activity check. Status: %ld", (long)self.status);
+        if (self.activityCheckTimer) {
+            [self.activityCheckTimer invalidate];
+            self.activityCheckTimer = nil;
+        }
+        return;
+    }
+    
     if (self.status == MQTTSessionStatusConnected) {
         if (self.fastReconnectTimestamp > self.lastInboundActivityTimestamp) {
             DDLogVerbose(@"[RR] Check Activity Inactivity timeout diff current time and fast reconnect: %f, inactivity timeout: %f", [NSDate date].timeIntervalSince1970 - self.fastReconnectTimestamp, self.inactivityTimeout);
@@ -1505,6 +1540,7 @@ NSString * const MQTTClientcourier = @"GJ";
     } else {
         if (self.activityCheckTimer) {
             [self.activityCheckTimer invalidate];
+            self.activityCheckTimer = nil;
         }
     }
 }
