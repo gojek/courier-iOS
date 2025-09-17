@@ -16,7 +16,15 @@ public protocol MQTTChuckLoggerDelegate {
 
 public class MQTTChuckLogger {
     
-    public private(set) var logs = [MQTTChuckLog]()
+    private var _logs = [MQTTChuckLog]()
+    private let logsQueue = DispatchQueue(label: "com.courier.mqtt.chuck.logs", attributes: .concurrent)
+    
+    public var logs: [MQTTChuckLog] {
+        return logsQueue.sync {
+            return _logs
+        }
+    }
+    
     public var delegate: MQTTChuckLoggerDelegate?
     public var dataStringParser: ((Data) -> String?)?
     public var logsMaxSize = 250
@@ -75,16 +83,30 @@ public class MQTTChuckLogger {
             log.scheme = connectOptions["scheme"] as? String
         }
         
-        logs.append(log)
-        if logs.count >= logsMaxSize {
-            logs.removeFirst(10)
+        logsQueue.async(flags: .barrier) { [weak self] in
+            guard let self else { return }
+            
+            self._logs.append(log)
+            if self._logs.count >= self.logsMaxSize {
+                self._logs.removeFirst(10)
+            }
+            
+            let currentLogs = self._logs
+            DispatchQueue.main.async {
+                self.delegate?.mqttChuckLoggerDidUpdateLogs(currentLogs)
+            }
         }
-        delegate?.mqttChuckLoggerDidUpdateLogs(logs)
     }
     
     public func clearLogs() {
-        self.logs = []
-        delegate?.mqttChuckLoggerDidUpdateLogs(logs)
+        logsQueue.async(flags: .barrier) { [weak self] in
+            guard let self else { return }
+            self._logs = []
+            let currentLogs = self._logs
+            DispatchQueue.main.async {
+                self.delegate?.mqttChuckLoggerDidUpdateLogs(currentLogs)
+            }
+        }
     }
     
     deinit {

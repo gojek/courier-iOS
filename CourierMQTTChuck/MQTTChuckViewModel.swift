@@ -55,9 +55,7 @@ class MQTTChuckViewModel: ObservableObject, MQTTChuckLoggerDelegate {
     }
     
     func mqttChuckLoggerDidUpdateLogs(_ logs: [MQTTChuckLog]) {
-        DispatchQueue.main.async { [weak self] in
-            self?.logs = logs.reversed()
-        }
+        self.logs = logs.reversed()
     }
     
     func clearLogs() {
