@@ -1,10 +1,10 @@
 import Foundation
-import RxSwift
+import Combine
 
 
 protocol IMessageReceiveListenerFactory {
 
-    func makeListener(publishSubject: PublishSubject<MQTTPacket>,
+    func makeListener(publishSubject: PassthroughSubject<MQTTPacket, Never>,
                       publishSubjectDispatchQueue: DispatchQueue,
                       messagePersistenceTTLSeconds: TimeInterval,
                       messageCleanupInterval: TimeInterval) -> IMessageReceiveListener
@@ -13,7 +13,7 @@ protocol IMessageReceiveListenerFactory {
 
 struct MessageReceiveListenerFactory: IMessageReceiveListenerFactory {
 
-    func makeListener(publishSubject: PublishSubject<MQTTPacket>,
+    func makeListener(publishSubject: PassthroughSubject<MQTTPacket, Never>,
                       publishSubjectDispatchQueue: DispatchQueue,
                       messagePersistenceTTLSeconds: TimeInterval,
                       messageCleanupInterval: TimeInterval) -> IMessageReceiveListener {

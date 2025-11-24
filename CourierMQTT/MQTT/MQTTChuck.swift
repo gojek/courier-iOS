@@ -7,18 +7,21 @@
 
 import Foundation
 
-public actor CourierMQTTChuck {
-    
-      public static let shared = CourierMQTTChuck()
+public final actor CourierMQTTChuck {
 
-       private var _isEnabled = false
+    public static let shared = CourierMQTTChuck()
 
-       public func setEnabled(_ value: Bool) {
-           _isEnabled = value
-       }
+    private var _isEnabled = false
 
-       public func isEnabled() -> Bool {
-           _isEnabled
-       }
+    private init() { }
+
+    public func setEnabled(_ value: Bool) {
+       _isEnabled = value
+    }
+
+    public func isEnabled() -> Bool {
+       _isEnabled
+    }
 }
+
 public let mqttChuckNotification = NSNotification.Name("GojekCourierMQTTChuckNotification")

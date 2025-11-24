@@ -5,13 +5,15 @@
 //  Created by Alfian Losari on 10/04/23.
 //
 
+import Combine
 import Foundation
 import CourierCore
 import MQTTClientGJ
 import CourierMQTT
-import RxSwift
 
 public protocol MQTTChuckLoggerDelegate {
+
+    @MainActor
     func mqttChuckLoggerDidUpdateLogs(_ logs: [MQTTChuckLog])
 }
 
@@ -26,6 +28,7 @@ public class MQTTChuckLogger: @unchecked Sendable {
     
     public init() {
         NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMQTTChuckNotification), name: mqttChuckNotification, object: nil)
+
         Task {
             await CourierMQTTChuck.shared.setEnabled(true)
         }
@@ -79,30 +82,29 @@ public class MQTTChuckLogger: @unchecked Sendable {
             log.alpn = connectOptions["alpn"] as? [String]
             log.scheme = connectOptions["scheme"] as? String
         }
-        
-        logs.append(log)
-        if logs.count >= logsMaxSize {
-            logs.removeFirst(10)
-        }
-        
-        let currentLogs = logs
-        DispatchQueue.main.async { [weak self] in
-            self?.delegate?.mqttChuckLoggerDidUpdateLogs(currentLogs)
+
+        Task.detached {
+            self.logs.append(log)
+            if self.logs.count >= self.logsMaxSize {
+                self.logs.removeFirst(10)
+            }
+
+            await self.delegate?.mqttChuckLoggerDidUpdateLogs(self.logs)
         }
     }
     
     public func clearLogs() {
-        self.logs = []
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.delegate?.mqttChuckLoggerDidUpdateLogs(self.logs)
+        Task.detached {
+            self.logs.removeAll()
+            await self.delegate?.mqttChuckLoggerDidUpdateLogs(self.logs)
         }
     }
-    
+
     deinit {
+        NotificationCenter.default.removeObserver(self)
+
         Task {
             await CourierMQTTChuck.shared.setEnabled(false)
         }
     }
-    
 }

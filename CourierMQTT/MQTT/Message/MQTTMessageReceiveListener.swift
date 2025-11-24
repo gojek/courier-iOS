@@ -1,6 +1,6 @@
 import CourierCore
 import Foundation
-import RxSwift
+import Combine
 
 /// Marked this class as `@unchecked Sendable` because it holds non-Sendable properties like `DispatchQueue`,
 /// `Debouncer`, and `IncomingMessagePersistenceProtocol`. However, all shared mutable state is managed safely
@@ -8,7 +8,7 @@ import RxSwift
 /// controlled dispatch queues. Given this controlled access pattern, it's safe to treat this type as Sendable in our use case.
 
 final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sendable {
-    private var publishSubject: PublishSubject<MQTTPacket>
+    private var publishSubject: PassthroughSubject<MQTTPacket, Never>
     private let publishSubjectDispatchQueue: DispatchQueue
     
     @Atomic<[String: Int]>([:]) var messagePublisherDict
@@ -25,7 +25,7 @@ final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sen
         messagePersistenceTTLSeconds > 0
     }
 
-    init(publishSubject: PublishSubject<MQTTPacket>,
+    init(publishSubject: PassthroughSubject<MQTTPacket, Never>,
          publishSubjectDispatchQueue: DispatchQueue,
          enableIncomingMessagePersistence: Bool = false,
          incomingMessagePersistence: IncomingMessagePersistenceProtocol = IncomingMessagePersistence(),
@@ -66,14 +66,14 @@ final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sen
                 do {
                     try self.messagePersistence.saveMessage(safeMessage)
                 } catch {
-                    self.publishSubject.onNext(safeMessage)
+                    self.publishSubject.send(safeMessage)
                 }
                 self.handlePersistedMessages()
             }
         } else {
             publishSubjectDispatchQueue.async { [weak self] in
                 let safeMessage = MQTTPacket(data: data, topic: topic, qos: qos)
-                self?.publishSubject.onNext(safeMessage)
+                self?.publishSubject.send(safeMessage)
             }
         }
     }
@@ -109,7 +109,7 @@ final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sen
         var messageIDsToDelete = [String]()
         for message in messages {
             if messagePublisherDict[message.topic, default: 0] > 0 {
-                self.publishSubject.onNext(message)
+                self.publishSubject.send(message)
                 messageIDsToDelete.append(message.id)
                 printDebug("COURIER Incoming Message - Message published to subscribers, deleting message. id:\(message.id) topic: \(message.topic)")
             }
