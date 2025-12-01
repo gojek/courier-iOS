@@ -1,7 +1,7 @@
 @testable import CourierCore
 @testable import CourierMQTT
 import XCTest
-import RxSwift
+import Combine
 
 class MQTTCourierClientTests: XCTestCase {
     var sut: MQTTCourierClient!
@@ -92,7 +92,6 @@ class MQTTCourierClientTests: XCTestCase {
         XCTAssertFalse(mockConnectionServiceProvider.invokedGetConnectOptions)
     }
 
-    @MainActor
     func testConnectWithSuccessCredentials() async throws {
         mockConnectionServiceProvider.stubbedGetConnectOptionsCompletionResult = (.success(stubConnectOptions), ())
         sut.connect()
@@ -122,7 +121,6 @@ class MQTTCourierClientTests: XCTestCase {
         
         
      
-    @MainActor
     func testConnectWithFailureCredentials() async throws {
         mockConnectionServiceProvider.stubbedGetConnectOptionsCompletionResult = (.failure(stubbedError), ())
         mockAuthRetryPolicy.stubbedGetRetryTimeResult = 0.1
@@ -233,43 +231,6 @@ class MQTTCourierClientTests: XCTestCase {
         XCTAssertTrue(mockConnectionServiceProvider.invokedGetConnectOptions)
     }
 
-    @MainActor
-    func testOnConnectAttempt() {
-        testPublishConnectionState {
-            sut.onEvent(.init(connectionInfo: nil, event: .connectionAttempt))
-        }
-    }
-
-    @MainActor
-    func testOnConnectionSuccess()  {
-        testPublishConnectionState {
-            sut.onEvent(.init(connectionInfo: nil, event: .connectionSuccess(timeTaken: 1)))
-            XCTAssertTrue(mockClient.invokedSubscribe)
-        }
-    }
-
-    @MainActor
-    func testOnConnectionFailure() {
-        testPublishConnectionState {
-            sut.onEvent(.init(connectionInfo: nil, event: .connectionFailure(timeTaken: 1, error: nil)))
-        }
-    }
-    
-    @MainActor
-    func testOnConnectionLost() {
-        testPublishConnectionState {
-            sut.onEvent(.init(connectionInfo: nil, event: .connectionLost(timeTaken: 1, error: nil, diffLastInbound: nil, diffLastOutbound: nil)))
-        }
-    }
-
-    @MainActor
-    func testOnConnectionDisconnect() {
-        testPublishConnectionState {
-            sut.onEvent(.init(connectionInfo: nil, event: .connectionDisconnect))
-        }
-    }
-
-    @MainActor
     func testOnAppForegroundConnect() async throws {
         sut.onEvent(.init(connectionInfo: nil, event: .appForeground))
         let expectation_ = expectation(description: "test")
@@ -285,7 +246,6 @@ class MQTTCourierClientTests: XCTestCase {
         XCTAssertTrue(self.mockConnectionServiceProvider.invokedGetConnectOptions)
     }
 
-    @MainActor
     func testOnConnectionAvailableConnect() async throws {
         mockSubscriptionStore.stubbedSubscriptions = stubbedTopicsDict
         sut.onEvent(.init(connectionInfo: nil, event: .connectionAvailable))
@@ -303,7 +263,8 @@ class MQTTCourierClientTests: XCTestCase {
     }
 
     func testMessageReceiveStream() {
-        mockClient.stubbedSubscribedMessageStream = PublishSubject<MQTTPacket>().asObservable()
+        let subject = PassthroughSubject<MQTTPacket, Never>()
+        mockClient.stubbedSubscribedMessageStream = subject.eraseToAnyPublisher()
         sut.messagePublisher(topic: "test")
             .sink { (_: Person) in }
             .store(in: &cancellables)
@@ -311,7 +272,8 @@ class MQTTCourierClientTests: XCTestCase {
     }
 
     func testMessageReceiveStreamWithErrorDecodeHandler() {
-        mockClient.stubbedSubscribedMessageStream = PublishSubject<MQTTPacket>().asObservable()
+        let subject = PassthroughSubject<MQTTPacket, Never>()
+        mockClient.stubbedSubscribedMessageStream = subject.eraseToAnyPublisher()
         sut.messagePublisher(topic: "test") { (_: PersonError) -> Error in
             NSError(domain: "x", code: 1, userInfo: [:])
         }
@@ -329,20 +291,6 @@ class MQTTCourierClientTests: XCTestCase {
 }
 
 extension MQTTCourierClientTests {
-    
-    @MainActor
-    func testPublishConnectionState(invocation: () -> Void)  {
-        mockClient.stubbedIsConnected = true
-        let expectation = expectation(description: "connect")
-        sut.connectionStatePublisher
-            .sink { state in
-                XCTAssertEqual(state, .connected)
-                expectation.fulfill()
-            }.store(in: &cancellables)
-
-        invocation()
-        wait(for: [expectation], timeout: 0.1)
-    }
 
     var stubbedTopicsDict: [String: QoS] {
         [

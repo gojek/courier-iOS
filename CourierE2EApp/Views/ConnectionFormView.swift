@@ -23,9 +23,9 @@ struct ConnectionFormView: View {
     @State var port: String = "1883"
     
     @State var clientID = UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString
-    @State var username = ""
+    @State var username = "user_1"
     @State var password = ""
-    @State var roomCode = ""
+    @State var roomCode = "chat_room"
     
     @State var isCleanSession = true
     @State var pingInterval = "60"

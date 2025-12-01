@@ -2,15 +2,15 @@ import CourierCore
 import Reachability
 import UIKit
 import MQTTClientGJ
-import RxSwift
+import Combine
 
 /// Marked this class as `@unchecked Sendable` because it contains properties like `DispatchQueue`,
-/// `PublishSubject`, and other reference types that are not `Sendable` by default.
+/// `PassthroughSubject`, and other reference types that are not `Sendable` by default.
 /// However, all non-Sendable properties are accessed in a thread-safe and controlled manner (e.g., via `@Atomic` or internal dispatching),
 /// so manual conformance is safe in this context.
 class MQTTCourierClient: CourierClient, @unchecked Sendable {
     var client: IMQTTClient!
-    private let connectionSubject = PublishSubject<ConnectionState>()
+    private let connectionSubject = PassthroughSubject<ConnectionState, Never>()
     let subscriptionStore: ISubscriptionStore
     let messageAdaptersCoordinator: MessageAdaptersCoordinator
     let courierEventHandler: IMulticastCourierEventHandler
@@ -32,7 +32,9 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
     }
     
     var connectionStatePublisher: AnyPublisher<ConnectionState, Never> {
-        PassthroughSubject(observable: connectionSubject.asObservable())
+        connectionSubject
+            .receive(on: RunLoop.main)
+            .eraseToAnyPublisher()
     }
     
     var hasExistingSession: Bool {
@@ -182,29 +184,33 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
     func messagePublisher<D>(topic: String) -> AnyPublisher<D, Never> {
         printSubscribeDebug(topic: topic)
 
-        let observable: Observable<D> = client.subscribedMessageStream
-            .filter { $0.topic == topic }
-            .compactMap { [weak self] packet in
-                guard let self = self else { return nil }
+        return client.subscribedMessageStream
+            .compactMap { [weak self] packet -> D? in
+                guard let self = self, packet.topic == topic else { return nil }
                 if let message: D = self.messageAdaptersCoordinator.decodeMessage(packet.data, topic: topic) {
                     return message
                 }
                 self.courierEventHandler.onEvent(.init(connectionInfo: self.client.connectOptions, event: .messageReceiveFailure(topic: topic, error: CourierError.decodingError.asNSError, sizeBytes: packet.data.count)))
                 return nil
             }
-        return PassthroughSubject(observable: observable,
-                                  sinkInitiated: self.generateSinkInitiatedClosure(topic: topic),
-                                  sinkCancelled: self.generateSinkCancelledClosure(topic: topic))
+            .handleEvents(
+                receiveSubscription: { [weak self] _ in
+                    self?.generateSinkInitiatedClosure(topic: topic)?()
+                },
+                receiveCancel: { [weak self] in
+                    self?.generateSinkCancelledClosure(topic: topic)?()
+                }
+            )
+            .eraseToAnyPublisher()
     }
 
     func messagePublisher<D, E>(topic: String, errorDecodeHandler: @escaping ((E) -> Error)) -> AnyPublisher<Result<D, NSError>, Never> {
         printSubscribeDebug(topic: topic)
 
-        let observable: Observable<Result<D, NSError>> = client
+        return client
             .subscribedMessageStream
-            .filter { $0.topic == topic }
-            .compactMap { [weak self] (packet) -> Result<D, NSError>? in
-                guard let self = self else { return nil }
+            .compactMap { [weak self] packet -> Result<D, NSError>? in
+                guard let self = self, packet.topic == topic else { return nil }
                 if let model: D = self.messageAdaptersCoordinator.decodeMessage(packet.data, topic: topic) {
                     return .success(model)
                 } else if let decodedError: E = self.messageAdaptersCoordinator.decodeMessage(packet.data, topic: topic) {
@@ -214,17 +220,26 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
                     return nil
                 }
             }
-        return PassthroughSubject(observable: observable,
-                                  sinkInitiated: self.generateSinkInitiatedClosure(topic: topic),
-                                  sinkCancelled: self.generateSinkCancelledClosure(topic: topic))
+            .handleEvents(
+                receiveSubscription: { [weak self] _ in
+                    self?.generateSinkInitiatedClosure(topic: topic)?()
+                },
+                receiveCancel: { [weak self] in
+                    self?.generateSinkCancelledClosure(topic: topic)?()
+                }
+            )
+            .eraseToAnyPublisher()
     }
 
     func messagePublisher() -> AnyPublisher<Message, Never> {
-        let observable: Observable<Message> = client.subscribedMessageStream
+        return client.subscribedMessageStream
             .map { Message(data: $0.data, topic: $0.topic, qos: $0.qos) }
-        return PassthroughSubject(observable: observable,
-                                  sinkInitiated: { [weak self] in self?.client.messageReceiverListener.handlePersistedMessages() }
-        )
+            .handleEvents(
+                receiveSubscription: { [weak self] _ in
+                    self?.client.messageReceiverListener.handlePersistedMessages()
+                }
+            )
+            .eraseToAnyPublisher()
     }
 
     func publishMessage<E>(_ data: E, topic: String, qos: QoS) throws {
@@ -275,9 +290,7 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
     }
 
     func publishConnectionState(_ connectionState: ConnectionState) {
-        dispatchQueue.async { [weak self] in
-            self?.connectionSubject.onNext(connectionState)
-        }
+        connectionSubject.send(connectionState)
     }
 
     func destroy() {
@@ -301,7 +314,7 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
 
     deinit {
         client.destroy()
-        connectionSubject.onCompleted()
+        connectionSubject.send(completion: .finished)
     }
 
     private func printSubscribeDebug(topic: String) {

@@ -1,7 +1,7 @@
 import Foundation
 @testable import CourierCore
 @testable import CourierMQTT
-import RxSwift
+import Combine
 
 class MockMQTTClient: IMQTTClient {
 
@@ -47,9 +47,9 @@ class MockMQTTClient: IMQTTClient {
 
     var invokedSubscribedMessageStreamGetter = false
     var invokedSubscribedMessageStreamGetterCount = 0
-    var stubbedSubscribedMessageStream: Observable<MQTTPacket>!
+    var stubbedSubscribedMessageStream: AnyPublisher<MQTTPacket, Never>!
 
-    var subscribedMessageStream: Observable<MQTTPacket> {
+    var subscribedMessageStream: AnyPublisher<MQTTPacket, Never> {
         invokedSubscribedMessageStreamGetter = true
         invokedSubscribedMessageStreamGetterCount += 1
         return stubbedSubscribedMessageStream
