@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MQTTChuckLog: Identifiable, Sendable {
+public struct MQTTChuckLog: Identifiable {
     
     public let id = UUID()
     

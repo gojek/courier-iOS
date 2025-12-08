@@ -1,17 +1,17 @@
 import Foundation
 @testable import CourierCore
 @testable import CourierMQTT
-import Combine
+import RxSwift
 
 class MockMessageReceiveListenerFactory: IMessageReceiveListenerFactory {
 
     var invokedMakeListener = false
     var invokedMakeListenerCount = 0
-    var invokedMakeListenerParameters: (publishSubject: PassthroughSubject<MQTTPacket, Never>, publishSubjectDispatchQueue: DispatchQueue, messagePersistenceTTLSeconds: TimeInterval, messageCleanupInterval: TimeInterval)?
-    var invokedMakeListenerParametersList = [(publishSubject: PassthroughSubject<MQTTPacket, Never>, publishSubjectDispatchQueue: DispatchQueue, messagePersistenceTTLSeconds: TimeInterval, messageCleanupInterval: TimeInterval)]()
+    var invokedMakeListenerParameters: (publishSubject: PublishSubject<MQTTPacket>, publishSubjectDispatchQueue: DispatchQueue, messagePersistenceTTLSeconds: TimeInterval, messageCleanupInterval: TimeInterval)?
+    var invokedMakeListenerParametersList = [(publishSubject: PublishSubject<MQTTPacket>, publishSubjectDispatchQueue: DispatchQueue, messagePersistenceTTLSeconds: TimeInterval, messageCleanupInterval: TimeInterval)]()
     var stubbedMakeListenerResult: IMessageReceiveListener!
 
-    func makeListener(publishSubject: PassthroughSubject<MQTTPacket, Never>,
+    func makeListener(publishSubject: PublishSubject<MQTTPacket>,
         publishSubjectDispatchQueue: DispatchQueue,
         messagePersistenceTTLSeconds: TimeInterval,
         messageCleanupInterval: TimeInterval) -> IMessageReceiveListener {

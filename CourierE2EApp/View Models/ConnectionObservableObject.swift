@@ -5,12 +5,11 @@
 //  Created by Alfian Losari on 13/06/22.
 //
 
-import Combine
+import SwiftUI
 import CourierCore
 import CourierMQTT
 import CourierMQTTChuck
 import CourierProtobuf
-import SwiftUI
 
 final class ConnectionObservableObject: ObservableObject {
     
