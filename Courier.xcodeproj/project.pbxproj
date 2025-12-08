@@ -65,11 +65,14 @@
 		8BE0DD5F270BE41000630D60 /* IConnectionServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79756B262801CD00FD704B /* IConnectionServiceProvider.swift */; };
 		8BE0DD60270BE41000630D60 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B01398D270ABCDB00AEEA42 /* AuthError.swift */; };
 		8BE0DD61270BE41000630D60 /* ICourierEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B797562262801CD00FD704B /* ICourierEventHandler.swift */; };
+		8BE0DD62270BE41000630D60 /* Reactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7975A9262801D600FD704B /* Reactive.swift */; };
 		8BE0DD63270BE41000630D60 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF94EB2626D5CD00FFC013 /* Constants.swift */; };
 		8BE0DD64270BE41000630D60 /* ConnectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B013989270ABA6600AEEA42 /* ConnectionState.swift */; };
 		8BE0DD65270BE41000630D60 /* CourierEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0139B6270AD03700AEEA42 /* CourierEventManager.swift */; };
 		8BE0DD66270BE41000630D60 /* CourierError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0139B4270ACFDB00AEEA42 /* CourierError.swift */; };
 		8BE0DD67270BE41000630D60 /* QoS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79754C262801CC00FD704B /* QoS.swift */; };
+		8BE0DF5D270BE50900630D60 /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEB0270BE50600630D60 /* Publisher.swift */; };
+		8BE0DF5E270BE50900630D60 /* AnyCancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEB1270BE50600630D60 /* AnyCancellable.swift */; };
 		8BE0DF5F270BE50900630D60 /* IAuthFailureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEB4270BE50700630D60 /* IAuthFailureHandler.swift */; };
 		8BE0DF60270BE50900630D60 /* MQTTConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEB6270BE50700630D60 /* MQTTConfiguration.swift */; };
 		8BE0DF61270BE50900630D60 /* IMQTTConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE0DEB7270BE50700630D60 /* IMQTTConfiguration.swift */; };
@@ -381,6 +384,7 @@
 		8B79754C262801CC00FD704B /* QoS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QoS.swift; sourceTree = "<group>"; };
 		8B797562262801CD00FD704B /* ICourierEventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICourierEventHandler.swift; sourceTree = "<group>"; };
 		8B79756B262801CD00FD704B /* IConnectionServiceProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IConnectionServiceProvider.swift; sourceTree = "<group>"; };
+		8B7975A9262801D600FD704B /* Reactive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reactive.swift; sourceTree = "<group>"; };
 		8B797608262801D700FD704B /* CourierClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourierClient.swift; sourceTree = "<group>"; };
 		8B7976C42628023000FD704B /* MQTTMessageReceiveListenerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MQTTMessageReceiveListenerTests.swift; sourceTree = "<group>"; };
 		8B7976C52628023000FD704B /* JSONMessageAdapterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONMessageAdapterTests.swift; sourceTree = "<group>"; };
@@ -462,6 +466,8 @@
 		8BC4E3162803D54F0079DADE /* MockIncomingMessagePersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIncomingMessagePersistence.swift; sourceTree = "<group>"; };
 		8BE0DD41270BE3B000630D60 /* libCourierCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCourierCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BE0DD6D270BE47300630D60 /* libCourierMQTT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCourierMQTT.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BE0DEB0270BE50600630D60 /* Publisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
+		8BE0DEB1270BE50600630D60 /* AnyCancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCancellable.swift; sourceTree = "<group>"; };
 		8BE0DEB4270BE50700630D60 /* IAuthFailureHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAuthFailureHandler.swift; sourceTree = "<group>"; };
 		8BE0DEB6270BE50700630D60 /* MQTTConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MQTTConfiguration.swift; sourceTree = "<group>"; };
 		8BE0DEB7270BE50700630D60 /* IMQTTConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMQTTConfiguration.swift; sourceTree = "<group>"; };
@@ -914,6 +920,7 @@
 		8BBF94E72626D5B600FFC013 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				8B7975A9262801D600FD704B /* Reactive.swift */,
 				8BBF94EA2626D5C200FFC013 /* Helpers */,
 			);
 			path = Internal;
@@ -971,9 +978,19 @@
 			isa = PBXGroup;
 			children = (
 				8BE0DEB2270BE50700630D60 /* MQTT */,
+				8BE0DEAF270BE50600630D60 /* Publishers */,
 				8BE0DF57270BE50900630D60 /* Utils */,
 			);
 			path = CourierMQTT;
+			sourceTree = "<group>";
+		};
+		8BE0DEAF270BE50600630D60 /* Publishers */ = {
+			isa = PBXGroup;
+			children = (
+				8BE0DEB0270BE50600630D60 /* Publisher.swift */,
+				8BE0DEB1270BE50600630D60 /* AnyCancellable.swift */,
+			);
+			path = Publishers;
 			sourceTree = "<group>";
 		};
 		8BE0DEB2270BE50700630D60 /* MQTT */ = {
@@ -1841,6 +1858,7 @@
 				8BE0DD61270BE41000630D60 /* ICourierEventHandler.swift in Sources */,
 				8BE0DD66270BE41000630D60 /* CourierError.swift in Sources */,
 				8BE0DD5D270BE41000630D60 /* CourierEvent.swift in Sources */,
+				8BE0DD62270BE41000630D60 /* Reactive.swift in Sources */,
 				8BE0DD5F270BE41000630D60 /* IConnectionServiceProvider.swift in Sources */,
 				8BE0DD5E270BE41000630D60 /* CourierClient.swift in Sources */,
 				8BE0DD65270BE41000630D60 /* CourierEventManager.swift in Sources */,
@@ -1876,10 +1894,12 @@
 				8BE0DF6D270BE50900630D60 /* IMQTTSession.swift in Sources */,
 				8BE0DF5F270BE50900630D60 /* IAuthFailureHandler.swift in Sources */,
 				8BE0DF79270BE50900630D60 /* IAuthRetryPolicy.swift in Sources */,
+				8BE0DF5D270BE50900630D60 /* Publisher.swift in Sources */,
 				8BE0DF76270BE50900630D60 /* IMessageReceiverListenerFactory.swift in Sources */,
 				8BE0DF7F270BE50900630D60 /* ISubscriptionStore.swift in Sources */,
 				8BE0DF69270BE50900630D60 /* MQTTCommandType+Extension.swift in Sources */,
 				8BE0DF67270BE50900630D60 /* MQTTClientFrameworkSessionManager.swift in Sources */,
+				8BE0DF5E270BE50900630D60 /* AnyCancellable.swift in Sources */,
 				8BE0DF8B270BE50900630D60 /* KeepAliveFailureHandler.swift in Sources */,
 				8BE0DF8E270BE50900630D60 /* MulticastCourierEventHandler.swift in Sources */,
 				8BE0DF75270BE50900630D60 /* TextMessageAdapter.swift in Sources */,

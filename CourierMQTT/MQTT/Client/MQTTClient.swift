@@ -2,7 +2,7 @@ import CourierCore
 import Foundation
 import Reachability
 import UIKit
-import Combine
+import RxSwift
 
 class MQTTClient: IMQTTClient {
     let connection: IMQTTConnection
@@ -12,7 +12,7 @@ class MQTTClient: IMQTTClient {
     private(set) var isInitialized = false
     private let eventHandler: ICourierEventHandler
 
-    private var messagePublishSubject = PassthroughSubject<MQTTPacket, Never>()
+    private var messagePublishSubject = PublishSubject<MQTTPacket>()
     private(set) var messageReceiverListener: IMessageReceiveListener
 
     private let reachability: Reachability?
@@ -25,8 +25,8 @@ class MQTTClient: IMQTTClient {
 
     private let dispatchQueue: DispatchQueue
 
-    var subscribedMessageStream: AnyPublisher<MQTTPacket, Never> {
-        messagePublishSubject.eraseToAnyPublisher()
+    var subscribedMessageStream: Observable<MQTTPacket> {
+        messagePublishSubject.asObservable()
     }
 
     init(configuration: IMQTTConfiguration,
@@ -196,7 +196,7 @@ class MQTTClient: IMQTTClient {
 
     deinit {
         destroy()
-        messagePublishSubject.send(completion: .finished)
+        messagePublishSubject.onCompleted()
     }
 }
 

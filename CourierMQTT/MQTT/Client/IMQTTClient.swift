@@ -1,6 +1,6 @@
 import CourierCore
 import Foundation
-import Combine
+import RxSwift
 
 protocol IMQTTClient {
     var isConnected: Bool { get }
@@ -8,7 +8,7 @@ protocol IMQTTClient {
     var hasExistingSession: Bool { get }
 
     var connectOptions: ConnectOptions? { get }
-    var subscribedMessageStream: AnyPublisher<MQTTPacket, Never> { get }
+    var subscribedMessageStream: Observable<MQTTPacket> { get }
     var messageReceiverListener: IMessageReceiveListener { get }
 
     func connect(connectOptions: ConnectOptions)

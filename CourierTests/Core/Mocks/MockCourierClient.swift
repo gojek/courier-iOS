@@ -1,7 +1,6 @@
 @testable import CourierCore
 @testable import CourierMQTT
 import Foundation
-import Combine
 
 class MockCourierClient: CourierClient {
 
