@@ -2,7 +2,6 @@ import CourierCore
 import CourierMQTT
 import SwiftProtobuf
 import Reachability
-import RxSwift
 
 public class ProtobufMessageAdapter: MessageAdapter {
     

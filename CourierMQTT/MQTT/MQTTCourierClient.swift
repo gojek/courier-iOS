@@ -2,7 +2,6 @@ import CourierCore
 import Reachability
 import UIKit
 import MQTTClientGJ
-import RxSwift
 
 /// Marked this class as `@unchecked Sendable` because it contains properties like `DispatchQueue`,
 /// `PublishSubject`, and other reference types that are not `Sendable` by default.

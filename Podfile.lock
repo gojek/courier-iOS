@@ -1,24 +1,20 @@
 PODS:
-  - ReachabilitySwift (5.0.0)
-  - RxSwift (6.9.0)
-  - SwiftProtobuf (1.17.0)
+  - ReachabilitySwift (5.2.4)
+  - SwiftProtobuf (1.33.3)
 
 DEPENDENCIES:
   - ReachabilitySwift (>= 5.0.0)
-  - RxSwift (= 6.9.0)
   - SwiftProtobuf
 
 SPEC REPOS:
   trunk:
     - ReachabilitySwift
-    - RxSwift
     - SwiftProtobuf
 
 SPEC CHECKSUMS:
-  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  RxSwift: 31649ace6aceeb422e16ff71c60804f9c3281ed9
-  SwiftProtobuf: 9c85136c6ba74b0a1b84279dbf0f6db8efb714e0
+  ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
+  SwiftProtobuf: e1b437c8e31a4c5577b643249a0bb62ed4f02153
 
-PODFILE CHECKSUM: 3138694639be707e9a139c94fce80223d8f30140
+PODFILE CHECKSUM: 1b81838a9e6f3b25fa3d24b9efdf11c300fe91e9
 
 COCOAPODS: 1.16.2

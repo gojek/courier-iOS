@@ -1,7 +1,6 @@
 @testable import CourierCore
 @testable import CourierMQTT
 import XCTest
-import RxSwift
 
 class MQTTCourierClientTests: XCTestCase {
     var sut: MQTTCourierClient!
