@@ -9,7 +9,6 @@ import Foundation
 import CourierCore
 import MQTTClientGJ
 import CourierMQTT
-import RxSwift
 
 public protocol MQTTChuckLoggerDelegate {
     func mqttChuckLoggerDidUpdateLogs(_ logs: [MQTTChuckLog])

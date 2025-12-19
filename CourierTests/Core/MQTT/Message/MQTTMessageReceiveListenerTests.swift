@@ -1,7 +1,6 @@
 import XCTest
 @testable import CourierCore
 @testable import CourierMQTT
-import RxSwift
 
 class MQTTMessageReceiveListenerTests: XCTestCase {
 

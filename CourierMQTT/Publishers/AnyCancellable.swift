@@ -1,6 +1,5 @@
 import CourierCore
 import Foundation
-import RxSwift
 
 /// A type indicating that an activity or action supports cancellation.
 final class DisposeCancellable: AnyCancellable {

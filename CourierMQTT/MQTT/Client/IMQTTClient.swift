@@ -1,6 +1,5 @@
 import CourierCore
 import Foundation
-import RxSwift
 
 protocol IMQTTClient {
     var isConnected: Bool { get }
