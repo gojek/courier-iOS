@@ -4,7 +4,7 @@ source 'https://cdn.cocoapods.org/'
 
 def courier_pods
   pod 'ReachabilitySwift', '>= 5.0.0'
-  pod 'RxSwift', '6.9.0'
+  pod 'RxSwift'
 end
 
 target 'CourierMQTT' do
@@ -33,7 +33,7 @@ target 'CourierTests' do
   use_frameworks!
   courier_pods
   pod 'SwiftProtobuf'
-  pod 'RxSwift', '6.9.0'
+  pod 'RxSwift'
 end
 
 post_install do |installer|
