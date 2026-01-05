@@ -1,6 +1,6 @@
 PODS:
   - ReachabilitySwift (5.0.0)
-  - RxSwift (6.5.0)
+  - RxSwift (6.2.0)
   - SwiftProtobuf (1.17.0)
 
 DEPENDENCIES:
@@ -16,7 +16,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
   SwiftProtobuf: 9c85136c6ba74b0a1b84279dbf0f6db8efb714e0
 
 PODFILE CHECKSUM: a3f789a87cb259e4690b8170d3780b307035ce04
