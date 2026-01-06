@@ -1,5 +1,6 @@
 import CourierCore
 import CourierMQTT
+import Foundation
 import SwiftProtobuf
 
 public class ProtobufMessageAdapter: MessageAdapter {
