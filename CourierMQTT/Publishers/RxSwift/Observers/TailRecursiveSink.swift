@@ -3,10 +3,6 @@ enum TailRecursiveSinkCommand {
     case dispose
 }
 
-#if DEBUG || TRACE_RESOURCES
-var maxTailRecursiveSinkStackSize = 0
-#endif
-
 class TailRecursiveSink<Sequence: Swift.Sequence, Observer: ObserverType>: Sink<Observer>,
                                                                            InvocableWithValueType where Sequence.Element: ObservableConvertibleType, Sequence.Element.Element == Observer.Element {
     typealias Value = TailRecursiveSinkCommand
@@ -18,6 +14,10 @@ class TailRecursiveSink<Sequence: Swift.Sequence, Observer: ObserverType>: Sink<
     var subscription = SerialDisposable()
 
     var gate = AsyncLock<InvocableScheduledItem<TailRecursiveSink<Sequence, Observer>>>()
+
+    #if DEBUG || TRACE_RESOURCES
+    var maxTailRecursiveSinkStackSize = 0
+    #endif
 
     override init(observer: Observer, cancel: Cancelable) {
         super.init(observer: observer, cancel: cancel)

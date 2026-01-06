@@ -120,7 +120,7 @@ extension Hooks {
     typealias CustomCaptureSubscriptionCallstack = () -> [String]
 
     private static let lock = RecursiveLock()
-    private static var _defaultErrorHandler: DefaultErrorHandler = { subscriptionCallStack, error in
+    nonisolated(unsafe) private static var _defaultErrorHandler: DefaultErrorHandler = { subscriptionCallStack, error in
         #if DEBUG
         let serializedCallStack = subscriptionCallStack.joined(separator: "\n")
         print("Unhandled error happened: \(error)")
@@ -130,7 +130,7 @@ extension Hooks {
         #endif
     }
 
-    private static var _customCaptureSubscriptionCallstack: CustomCaptureSubscriptionCallstack = {
+    nonisolated(unsafe) private static var _customCaptureSubscriptionCallstack: CustomCaptureSubscriptionCallstack = {
         #if DEBUG
         return Thread.callStackSymbols
         #else
