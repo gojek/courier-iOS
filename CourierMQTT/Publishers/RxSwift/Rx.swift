@@ -120,5 +120,5 @@ final class SynchronizationTracker {
 
 enum Hooks {
 
-    static var recordCallStackOnError: Bool = false
+    nonisolated(unsafe) static var recordCallStackOnError: Bool = false
 }

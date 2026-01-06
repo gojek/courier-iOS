@@ -23,9 +23,9 @@ final class MainScheduler: SerialDispatchQueueScheduler {
         super.init(serialQueue: mainQueue)
     }
 
-    static let instance = MainScheduler()
+    nonisolated(unsafe) static let instance = MainScheduler()
 
-    static let asyncInstance = SerialDispatchQueueScheduler(serialQueue: DispatchQueue.main)
+    nonisolated(unsafe) static let asyncInstance = SerialDispatchQueueScheduler(serialQueue: DispatchQueue.main)
 
     class func ensureExecutingOnScheduler(errorMessage: String? = nil) {
         if !DispatchQueue.isMain {
