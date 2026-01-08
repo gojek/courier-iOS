@@ -1,6 +1,5 @@
 import CourierCore
 import Foundation
-import RxSwift
 
 /// Marked this class as `@unchecked Sendable` because it holds non-Sendable properties like `DispatchQueue`,
 /// `Debouncer`, and `IncomingMessagePersistenceProtocol`. However, all shared mutable state is managed safely
