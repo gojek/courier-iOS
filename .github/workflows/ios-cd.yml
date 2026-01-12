@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: macOS-15
+    runs-on: macOS-latest
     steps:
       - name: Load Xcode version
         uses: maxim-lobanov/setup-xcode@v1
@@ -31,7 +31,7 @@ jobs:
   test:
     name: Test
     needs: Build
-    runs-on: macOS-15
+    runs-on: macOS-latest
     steps:
       - name: Load Xcode version
         uses: maxim-lobanov/setup-xcode@v1
@@ -54,7 +54,7 @@ jobs:
   publish:
     name: Publish
     needs: Test
-    runs-on: macOS-15
+    runs-on: macOS-latest
     steps:
       - name: Load Xcode version
         uses: maxim-lobanov/setup-xcode@v1
