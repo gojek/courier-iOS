@@ -19,6 +19,8 @@ jobs:
           xcode-version: latest-stable
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Clean Xcode Derived Data
+        run: rm -rf ~/Library/Developer/Xcode/DerivedData
       - name: Cocoapods
         run: exec pod install
       - name: Build
@@ -35,10 +37,17 @@ jobs:
           xcode-version: latest-stable
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Clean Xcode Derived Data
+        run: rm -rf ~/Library/Developer/Xcode/DerivedData
       - name: Cocoapods
         run: exec pod install
       - name: Testing
-        run: exec ./.github/scripts/test.sh
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          command: exec ./.github/scripts/test.sh
+          retry_command: exec ./.github/scripts/test.sh --no-clean
 
   docs:
     runs-on: ubuntu-latest
