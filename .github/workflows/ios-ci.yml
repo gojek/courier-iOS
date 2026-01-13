@@ -47,7 +47,7 @@ jobs:
           timeout_minutes: 15
           max_attempts: 3
           command: exec ./.github/scripts/test.sh
-          retry_command: exec ./.github/scripts/test.sh --no-clean
+          on_retry_command: exec ./.github/scripts/test.sh --no-clean
 
   docs:
     runs-on: ubuntu-latest
