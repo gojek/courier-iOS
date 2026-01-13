@@ -79,22 +79,20 @@ public class MQTTChuckLogger: @unchecked Sendable {
             log.scheme = connectOptions["scheme"] as? String
         }
         
-        logs.append(log)
-        if logs.count >= logsMaxSize {
-            logs.removeFirst(10)
-        }
-        
-        let currentLogs = logs
-        DispatchQueue.main.async { [weak self] in
-            self?.delegate?.mqttChuckLoggerDidUpdateLogs(currentLogs)
+        Task { @MainActor in
+            self.logs.append(log)
+            if self.logs.count >= self.logsMaxSize {
+                self.logs.removeFirst(10)
+            }
+
+            self.delegate?.mqttChuckLoggerDidUpdateLogs(logs)
         }
     }
     
     public func clearLogs() {
-        self.logs = []
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.delegate?.mqttChuckLoggerDidUpdateLogs(self.logs)
+        Task { @MainActor in
+            self.logs = []
+            self.delegate?.mqttChuckLoggerDidUpdateLogs([])
         }
     }
     
