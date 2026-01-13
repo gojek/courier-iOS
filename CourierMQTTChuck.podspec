@@ -1,6 +1,6 @@
 Pod::Spec.new do |c|
     c.name            = 'CourierMQTTChuck'
-    c.version         = '1.0.5'
+    c.version         = '1.0.6'
     c.summary         = "Gojek iOS Long Run Connection Open Source SDK"
     c.description     = "Publish and Subscribe data with bidirectional communication between client and server"
   
