@@ -1,0 +1,15 @@
+workspace(ENV['WORKSPACE'])
+scheme(ENV['FRAMEWORK_SCHEME'])
+
+derived_data_path(ENV['DERIVED_DATA_PATH'])
+output_directory("#{ENV['REPORT_OUTPUT_PATH']}/scan")
+output_types("junit")
+
+clean(true)
+code_coverage(true)
+ensure_devices_found(true)
+prelaunch_simulator(true)
+
+sdk("iphonesimulator")
+devices(["iPhone 17 Pro"])
+xcargs("CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO")

@@ -11,7 +11,7 @@ public class ProtobufMessageAdapter: MessageAdapter {
     public init() {}
     public func fromMessage<T>(_ message: Data, topic: String) throws -> T {
         if let decodableType = T.self as? SwiftProtobuf.Message.Type,
-           let value = try decodableType.init(serializedData: message) as? T {
+           let value = try decodableType.init(serializedBytes: message) as? T {
             return value
         }
         throw CourierError.decodingError.asNSError

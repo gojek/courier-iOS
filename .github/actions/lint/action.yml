@@ -1,0 +1,18 @@
+# .github/actions/lint/action.yml
+name: lint_action
+description: Run SwiftLint and upload results
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run SwiftLint
+      run: bundle exec fastlane lint
+      shell: bash
+
+    - name: Upload lint results
+      uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: lint-results
+        path: fastlane/reports/
+        retention-days: 30

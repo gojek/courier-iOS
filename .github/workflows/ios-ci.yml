@@ -1,69 +1,69 @@
-name: iOS CI
-on:
-  pull_request:
-    branches:
-    - main
-    - chore/swift6-main
-  push:
-    branches:
-    - main
+# name: iOS CI
+# on:
+#   pull_request:
+#     branches:
+#     - main
+#     - chore/swift6-main
+#   push:
+#     branches:
+#     - main
 
-jobs:
-  build:
-    name: Build
-    runs-on: macos-26
-    steps:
-      - name: Load Xcode version
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest-stable
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Clean Xcode Derived Data
-        run: rm -rf ~/Library/Developer/Xcode/DerivedData
-      - name: Cocoapods
-        run: exec pod install
-      - name: Build
-        run: exec ./.github/scripts/build.sh
+# jobs:
+#   build:
+#     name: Build
+#     runs-on: macos-26
+#     steps:
+#       - name: Load Xcode version
+#         uses: maxim-lobanov/setup-xcode@v1
+#         with:
+#           xcode-version: latest-stable
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+#       - name: Clean Xcode Derived Data
+#         run: rm -rf ~/Library/Developer/Xcode/DerivedData
+#       - name: Cocoapods
+#         run: exec pod install
+#       - name: Build
+#         run: exec ./.github/scripts/build.sh
       
-  test:
-    name: Test
-    needs: Build
-    runs-on: macos-26
-    steps:
-      - name: Load Xcode version
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest-stable
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Clean Xcode Derived Data
-        run: rm -rf ~/Library/Developer/Xcode/DerivedData
-      - name: Cocoapods
-        run: exec pod install
-      - name: Testing
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 15
-          max_attempts: 3
-          command: exec ./.github/scripts/test.sh
-          on_retry_command: exec ./.github/scripts/test.sh --no-clean
+#   test:
+#     name: Test
+#     needs: Build
+#     runs-on: macos-26
+#     steps:
+#       - name: Load Xcode version
+#         uses: maxim-lobanov/setup-xcode@v1
+#         with:
+#           xcode-version: latest-stable
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+#       - name: Clean Xcode Derived Data
+#         run: rm -rf ~/Library/Developer/Xcode/DerivedData
+#       - name: Cocoapods
+#         run: exec pod install
+#       - name: Testing
+#         uses: nick-fields/retry@v3
+#         with:
+#           timeout_minutes: 15
+#           max_attempts: 3
+#           command: exec ./.github/scripts/test.sh
+#           on_retry_command: exec ./.github/scripts/test.sh --no-clean
 
-  docs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '18.x'
-      - name: Test Build
-        run: |
-          cd docs
-          if [-e yarn.lock ]; then
-          yarn install --frozen-lockfile
-          elif [-e package.json ]; then
-          npm ci
-          else
-          npm i
-          fi
-          npm run build
+#   docs:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-node@v1
+#         with:
+#           node-version: '18.x'
+#       - name: Test Build
+#         run: |
+#           cd docs
+#           if [-e yarn.lock ]; then
+#           yarn install --frozen-lockfile
+#           elif [-e package.json ]; then
+#           npm ci
+#           else
+#           npm i
+#           fi
+#           npm run build

@@ -1,0 +1,157 @@
+default_platform(:ios)
+
+platform :ios do
+
+  desc "Install CocoaPods dependencies"
+  lane :pod_install do
+    cocoapods(
+      clean_install: true,
+      repo_update: true,
+      silent: false
+    )
+  end
+
+  desc "Resolve Swift Package Manager dependencies"
+  lane :spm_resolve do
+    spm(
+      command: "resolve",
+      scratch_path: "./.build/spm",
+      verbose: "true"
+    )
+  end
+
+  desc "Run SwiftLint"
+  lane :lint do
+    swiftlint(
+      mode: :lint,
+      config_file: ".swiftlint.yml",
+      output_file: "#{ENV['REPORT_OUTPUT_PATH']}/swiftlint.result.json",
+      raise_if_swiftlint_error: true
+    )
+  end
+
+  desc "Run unit tests"
+  lane :test do
+    scan
+  end
+
+  desc "Build framework schemes"
+  lane :build_all_targets do
+    schemes = ENV['PACKAGES']
+
+    schemes.each do |scheme|
+      UI.message("Building #{scheme}...")
+
+      xcodebuild(
+        workspace: ENV['WORKSPACE'],
+        scheme: scheme,
+        destination: "generic/platform=iOS Simulator",
+        configuration: "Release",
+        clean: true,
+        build: true,
+        archive: true,
+        archive_path: "./archives/#{scheme}.xcarchive",
+      )
+    end
+  end
+
+  desc "Generate MQTTClientGJ.xcframework"
+  lane :generate_mqttclientgj_xcf do
+    sh(".././generate_xcframework.sh")
+  end
+
+  desc "Bump version in .xcodeproj and .podspec"
+  lane :bump_version_files do
+    ensure_git_status_clean(show_diff: true, ignore_files: ["Gemfile.lock", "Podfile.lock", "fastlane/README.md", "fastlane/report.xml"])
+
+    # Get version from git tag
+    git_tag = sh("git describe --tags --exact-match 2>/dev/null || echo ''").strip
+    
+    if git_tag.empty?
+      UI.user_error!("❌ No git tag found. Make sure you're on a tagged commit.")
+    end
+    
+    # Extract version from tag (supports formats like "1.2.3" or "ios-1.2.3")
+    version = git_tag.match(/(\d+\.\d+\.\d+)/)
+    
+    unless version
+      UI.user_error!("❌ Invalid tag format: #{git_tag}. Expected x.y.z format.")
+    end
+    
+    version = version[1]
+    UI.message("📌 Setting version to: #{version} (from tag: #{git_tag})")
+
+    packages = ENV['PACKAGES']
+
+    packages.each do |package|
+      version_bump_podspec(path: "#{package}.podspec", version_number: version)
+    end
+  end
+
+  desc "Commit and tag the new version in repository"
+  lane :bump_version_commit do
+    UI.message("Creating Git tag and commit...")
+
+    version = version_get_podspec(path: ENV['PODSPEC_PATH'])
+    token = ENV['GITHUB_TOKEN']
+    
+    unless token
+      UI.user_error!("❌ CI_PUSH_TOKEN not found. Make sure you're running in GitLab CI.")
+    end
+
+    # Use GitHub Actions variables for more reliable URL construction
+    server_host = ENV['CI_SERVER_HOST'] || 'https://github.com'
+    repo_path = ENV['CI_REPO_PATH'] || 'gojek/courier-iOS'
+    remote_url = "https://github-actions:#{token}@#{server_host}/#{repo_path}.git"
+
+    # Get current branch name (fallback to main if detached HEAD)
+    current_branch = `git branch --show-current`.strip
+    if current_branch.empty?
+      current_branch = ENV['GITHUB_REF_NAME'] || 'main'
+      UI.message("⚠️ Detached HEAD detected. Using branch: #{current_branch}")
+    else
+      UI.message("📍 Using current branch: #{current_branch}")
+    end
+
+    git_commit(
+      path: [
+        "courier-iOS/*.podspec", 
+        "courier-iOS/CHANGELOG.md", 
+        "courier-iOS/Courier.xcodeproj/project.pbxproj",
+        "courier-iOS/MQTTClientGJ.xcframework"
+      ],
+      message: "[CI][iOS] Bump version - #{version}"
+    )
+
+    changelog_entry = generate_changelog_entry(
+      repo_url: "https://#{server_host}/#{repo_path}",
+      version: version
+    )
+
+    # Push to current branch
+    sh("git push #{remote_url} HEAD:#{current_branch}")
+
+    UI.success("✅ Successfully committed version #{version} on branch #{current_branch}")
+  end
+
+  lane :update_changelog do
+    server_host = ENV['CI_SERVER_HOST'] || 'https://github.com'
+    repo_path = ENV['CI_REPO_PATH'] || 'gojek/courier-iOS'
+    repo_url = "#{server_host}/#{repo_path}.git"
+    changelog_path = File.expand_path("../CHANGELOG.md", __dir__)
+    version = version_get_podspec(path: ENV['PODSPEC_PATH'])
+
+    entry = generate_changelog_entry(repo_url: repo_url, version: version)
+
+    changelog = File.read(changelog_path)
+    insert_index = changelog.index(/^## \[/) || changelog.length
+    updated_changelog = changelog.insert(insert_index, "#{entry}")
+
+    File.write(changelog_path, updated_changelog)
+
+    # Output the changelog entry for GitHub Actions to capture
+    puts entry
+
+    UI.success("✅ CHANGELOG.md updated successfully with new entry.")
+  end
+end

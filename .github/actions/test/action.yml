@@ -1,0 +1,10 @@
+# .github/actions/test/action.yml
+name: test_action
+description: Run tests and upload results
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run tests
+      run: bundle exec fastlane test
+      shell: bash
