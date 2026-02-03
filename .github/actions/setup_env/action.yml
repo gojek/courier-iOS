@@ -1,0 +1,66 @@
+# .github/actions/setup_env/action.yml
+name: setup_environment
+description: Setup iOS development environment with Ruby, Bundler, and scripts
+
+runs:
+  using: "composite"
+  steps:
+    - name: Load Xcode version
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '16.4'
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2.4'
+        bundler-cache: true
+        working-directory: courier-iOS
+
+    - name: Install Homebrew dependencies
+      run: |
+        if [ -f "Brewfile" ]; then
+          brew bundle install
+        else
+          echo "No Brewfile found, installing SwiftLint directly"
+          brew install swiftlint
+        fi
+      shell: bash
+      working-directory: courier-iOS
+
+    - name: Verify Ruby setup
+      run: |
+        echo "Ruby version: $(ruby --version)"
+        echo "Bundler version: $(bundle --version)"
+        if command -v swiftlint >/dev/null 2>&1; then
+          echo "SwiftLint version: $(swiftlint --version)"
+        else
+          echo "SwiftLint not found"
+        fi
+        echo "Current directory: $(pwd)"
+        ls -la
+      shell: bash
+      working-directory: courier-iOS
+
+    - name: Install Ruby dependencies
+      run: bundle install --jobs 4 --retry 3
+      shell: bash
+      working-directory: courier-iOS
+
+    - name: Create derived data directory
+      run: mkdir -p ./.build/derived_data
+      shell: bash
+      working-directory: courier-iOS
+
+    - name: Verify environment
+      run: |
+        echo "Ruby version: $(ruby --version)"
+        echo "Bundler version: $(bundle --version)"
+        echo "Working directory: $(pwd)"
+        echo "Xcode version: $(xcodebuild -version)"
+        echo "Xcode path: $(xcode-select -p)"
+        echo "Available Xcode versions:"
+        ls /Applications/ | grep -i xcode
+        bundle list
+      shell: bash
+      working-directory: courier-ios
