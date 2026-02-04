@@ -48,7 +48,6 @@ jobs:
           pod trunk push --allow-warnings MQTTClientGJ.podspec
           pod trunk push --allow-warnings CourierCore.podspec
           pod trunk push --allow-warnings --synchronous CourierMQTT.podspec
-          pod trunk push --allow-warnings --synchronous CourierMQTTChuck.podspec
           pod trunk push --allow-warnings --synchronous CourierProtobuf.podspec
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
