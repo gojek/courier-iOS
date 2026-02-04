@@ -63,42 +63,74 @@ platform :ios do
   end
 
   desc "Bump version in .xcodeproj and .podspec"
-  lane :bump_version_files do
-    ensure_git_status_clean(show_diff: true, ignore_files: ["Gemfile.lock", "Podfile.lock", "fastlane/README.md", "fastlane/report.xml"])
+  lane :bump_version_files do |options| 
+    ensure_git_status_clean(
+      show_uncommitted_changes: true, 
+      ignore_files: ["Gemfile.lock", "Podfile.lock"]
+    )
 
-    # Get version from git tag
+    # Get version from git tag if available, otherwise use bump_type
     git_tag = sh("git describe --tags --exact-match 2>/dev/null || echo ''").strip
     
-    if git_tag.empty?
-      UI.user_error!("❌ No git tag found. Make sure you're on a tagged commit.")
+    if !git_tag.empty? && git_tag.match?(/^\d+\.\d+\.\d+$/)
+      version = git_tag
+      UI.message("📌 Using version from tag: #{version}")
+    else
+      bump_type = options[:bump_type] || 'patch'
+      UI.message("📌 Bumping version using bump_type: #{bump_type}")
     end
-    
-    # Extract version from tag (supports formats like "1.2.3" or "ios-1.2.3")
-    version = git_tag.match(/(\d+\.\d+\.\d+)/)
-    
-    unless version
-      UI.user_error!("❌ Invalid tag format: #{git_tag}. Expected x.y.z format.")
-    end
-    
-    version = version[1]
-    UI.message("📌 Setting version to: #{version} (from tag: #{git_tag})")
 
     packages = ENV['PACKAGES'].split(',')
 
     packages.each do |package|
-      version_bump_podspec(path: "#{package}.podspec", version_number: version)
+      if version
+        version_bump_podspec(path: "#{package}.podspec", version_number: version)
+      else
+        version_bump_podspec(path: "#{package}.podspec", bump_type: bump_type)
+      end
+      UI.message("#{package}.podspec version to #{version_get_podspec(path: "#{package}.podspec")}")
     end
   end
 
-  desc "Commit and tag the new version in repository"
-  lane :bump_version_commit do
+  lane :update_changelog do
+    last_tag = last_git_tag(pattern: "*.*.*")
+    version = version_get_podspec(path: ENV['PODSPEC_PATH'])
+
+    changelog_content = changelog_from_git_commits(
+      between: [last_tag, "HEAD"],
+      pretty: "[%h] %s (by @%an)",
+      date_format: "short",
+    )
+
+    changelog_path = File.expand_path("../CHANGELOG.md", __dir__)
+    existing_changelog = File.exist?(changelog_path) ? File.read(changelog_path) : "# CHANGELOG\n\n"
+
+    # Find insertion point after the header (skip "# CHANGELOG" and any intro text)
+    header_end = existing_changelog.index(/^## \[/)
+    if header_end
+      # Insert before first version entry
+      new_entry = "## [#{version}] - #{Time.now.strftime('%Y-%m-%d')}\n\n#{changelog_content}\n\n"
+      updated_changelog = existing_changelog.insert(header_end, new_entry)
+    else
+      # No existing versions, append after header
+      new_entry = "\n## [#{version}] - #{Time.now.strftime('%Y-%m-%d')}\n\n#{changelog_content}\n"
+      updated_changelog = existing_changelog + new_entry
+    end
+
+    File.write(changelog_path, updated_changelog)
+
+    UI.success("✅ CHANGELOG.md updated successfully with version #{version}")
+  end
+
+  desc "Commit and push version bump and changelog.md changes"
+  lane :commit_push do
     UI.message("Creating Git tag and commit...")
 
     version = version_get_podspec(path: ENV['PODSPEC_PATH'])
-    token = ENV['GITHUB_TOKEN']
+    token = ENV['COURIER_IOS_TOKEN']
     
     unless token
-      UI.user_error!("❌ CI_PUSH_TOKEN not found. Make sure you're running in GitLab CI.")
+      UI.user_error!("❌ COURIER_IOS_TOKEN not found")
     end
 
     # Use GitHub Actions variables for more reliable URL construction
@@ -117,43 +149,17 @@ platform :ios do
 
     git_commit(
       path: [
-        "courier-iOS/*.podspec", 
-        "courier-iOS/CHANGELOG.md", 
-        "courier-iOS/Courier.xcodeproj/project.pbxproj",
-        "courier-iOS/MQTTClientGJ.xcframework"
+        "./*.podspec", 
+        "./CHANGELOG.md", 
+        "./Courier.xcodeproj/project.pbxproj",
+        "./MQTTClientGJ.xcframework"
       ],
-      message: "[CI][iOS] Bump version - #{version}"
-    )
-
-    changelog_entry = generate_changelog_entry(
-      repo_url: "https://#{server_host}/#{repo_path}",
-      version: version
+      message: "[CI] Bump version - #{version}"
     )
 
     # Push to current branch
     sh("git push #{remote_url} HEAD:#{current_branch}")
 
     UI.success("✅ Successfully committed version #{version} on branch #{current_branch}")
-  end
-
-  lane :update_changelog do
-    server_host = ENV['CI_SERVER_HOST'] || 'https://github.com'
-    repo_path = ENV['CI_REPO_PATH'] || 'gojek/courier-iOS'
-    repo_url = "#{server_host}/#{repo_path}.git"
-    changelog_path = File.expand_path("../CHANGELOG.md", __dir__)
-    version = version_get_podspec(path: ENV['PODSPEC_PATH'])
-
-    entry = generate_changelog_entry(repo_url: repo_url, version: version)
-
-    changelog = File.read(changelog_path)
-    insert_index = changelog.index(/^## \[/) || changelog.length
-    updated_changelog = changelog.insert(insert_index, "#{entry}")
-
-    File.write(changelog_path, updated_changelog)
-
-    # Output the changelog entry for GitHub Actions to capture
-    puts entry
-
-    UI.success("✅ CHANGELOG.md updated successfully with new entry.")
   end
 end

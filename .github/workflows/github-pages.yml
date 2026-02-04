@@ -1,5 +1,5 @@
-name: Release
-
+# .github/workflows/github-pages.yml
+name: github-pages
 on:
   push:
     branches:
