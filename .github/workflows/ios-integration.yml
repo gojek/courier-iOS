@@ -10,7 +10,6 @@ env:
   FASTLANE_SKIP_UPDATE_CHECK: true
   FASTLANE_HIDE_GITHUB_ISSUES: true
   FASTLANE_DISABLE_COLORS: false
-  WORKING_DIRECTORY: courier-iOS
 
 defaults:
   run:
