@@ -39,7 +39,7 @@ platform :ios do
 
   desc "Build framework schemes"
   lane :build_all_targets do
-    schemes = ENV['PACKAGES']
+    schemes = ENV['PACKAGES'].split(',')
 
     schemes.each do |scheme|
       UI.message("Building #{scheme}...")
@@ -83,7 +83,7 @@ platform :ios do
     version = version[1]
     UI.message("📌 Setting version to: #{version} (from tag: #{git_tag})")
 
-    packages = ENV['PACKAGES']
+    packages = ENV['PACKAGES'].split(',')
 
     packages.each do |package|
       version_bump_podspec(path: "#{package}.podspec", version_number: version)
