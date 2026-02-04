@@ -11,10 +11,6 @@ env:
   FASTLANE_HIDE_GITHUB_ISSUES: true
   FASTLANE_DISABLE_COLORS: false
 
-defaults:
-  run:
-    working-directory: courier-iOS
-
 jobs:
   integration:
     runs-on: macos-latest
