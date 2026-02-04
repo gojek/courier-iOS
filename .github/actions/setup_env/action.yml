@@ -15,7 +15,6 @@ runs:
       with:
         ruby-version: '3.2.4'
         bundler-cache: true
-        working-directory: courier-iOS
 
     - name: Install Homebrew dependencies
       run: |
@@ -26,7 +25,6 @@ runs:
           brew install swiftlint
         fi
       shell: bash
-      working-directory: courier-iOS
 
     - name: Verify Ruby setup
       run: |
@@ -40,17 +38,14 @@ runs:
         echo "Current directory: $(pwd)"
         ls -la
       shell: bash
-      working-directory: courier-iOS
 
     - name: Install Ruby dependencies
       run: bundle install --jobs 4 --retry 3
       shell: bash
-      working-directory: courier-iOS
 
     - name: Create derived data directory
       run: mkdir -p ./.build/derived_data
       shell: bash
-      working-directory: courier-iOS
 
     - name: Verify environment
       run: |
@@ -63,4 +58,3 @@ runs:
         ls /Applications/ | grep -i xcode
         bundle list
       shell: bash
-      working-directory: courier-ios
