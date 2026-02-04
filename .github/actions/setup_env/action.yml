@@ -14,7 +14,18 @@ runs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.2.4'
-        bundler-cache: true
+        bundler-cache: trueew-
+
+    - name: Cache Homebrew packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/Library/Caches/Homebrew
+          /usr/local/Cellar
+          /opt/homebrew
+        key: ${{ runner.os }}-homebrew-${{ hashFiles('Brewfile') }}
+        restore-keys: |
+          ${{ runner.os }}-homebrew-
 
     - name: Install Homebrew dependencies
       run: |
