@@ -39,8 +39,13 @@ fastlane/Preview.html
 # snapshot generated screenshots
 fastlane/screenshots/**/*.png
 fastlane/screenshots/screenshots.html
-fastlane/reports/
-
+fastlane/reports/scan/**/*
+!fastlane/reports/scan/.gitkeep
+fastlane/reports/swiftlint/**/*
+!fastlane/reports/swiftlint/.gitkeep
+fastlane/reports/xcov/**/*
+!fastlane/reports/xcov/.gitkeep
+ 
 # scan temporary files
 fastlane/test_output
 

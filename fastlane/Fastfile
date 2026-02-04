@@ -22,10 +22,12 @@ platform :ios do
 
   desc "Run SwiftLint"
   lane :lint do
+    output_file = "#{ENV['REPORT_OUTPUT_PATH']}/swiftlint/lint_result.json"
+  
     swiftlint(
       mode: :lint,
       config_file: ".swiftlint.yml",
-      output_file: "#{ENV['REPORT_OUTPUT_PATH']}/swiftlint.result.json",
+      output_file: output_file,
       raise_if_swiftlint_error: true
     )
   end
