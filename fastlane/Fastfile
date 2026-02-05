@@ -34,7 +34,27 @@ platform :ios do
 
   desc "Run unit tests"
   lane :test do
+    output_dir = "#{ENV['REPORT_OUTPUT_PATH']}/scan/result.xcresult"
+    remove_files(path: output_dir)
+
     scan
+  end
+
+  lane :test_coverage do
+    output_dir = "#{ENV['REPORT_OUTPUT_PATH']}/xcov"
+    
+    remove_files(path: output_dir)
+    
+    xcov(
+      workspace: ENV['WORKSPACE'],
+      scheme: ENV['FRAMEWORK_SCHEME'],
+      derived_data_path: ENV['DERIVED_DATA_PATH'],
+      xccov_file_direct_path: "#{ENV['REPORT_OUTPUT_PATH']}/scan/result.xcresult",
+      output_directory: output_dir,
+      html_report: true,
+      json_report: true,
+      minimum_coverage_percentage: 44.0,
+    )
   end
 
   desc "Build framework schemes"

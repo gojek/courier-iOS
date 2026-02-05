@@ -1,5 +1,5 @@
-# .github/workflows/ios-deployment.yml
-name: ios-deployment
+# .github/workflows/deployment.yml
+name: deployment
 
 on:
   push:
@@ -12,6 +12,10 @@ env:
   FASTLANE_SKIP_UPDATE_CHECK: true
   FASTLANE_HIDE_GITHUB_ISSUES: true
   FASTLANE_DISABLE_COLORS: false
+  GIT_AUTHOR_NAME: "github-actions[bot]"
+  GIT_AUTHOR_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
+  GIT_COMMITTER_NAME: "github-actions[bot]"
+  GIT_COMMITTER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
 
 jobs:
   release:
@@ -28,8 +32,10 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "${{ env.GIT_AUTHOR_NAME }}"
+          git config user.email "${{ env.GIT_AUTHOR_EMAIL }}"
+          git config user.name "${{ env.GIT_COMMITTER_NAME }}"
+          git config user.email "${{ env.GIT_COMMITTER_EMAIL }}"
 
       - name: Setup Environment
         uses: ./.github/actions/setup_env
@@ -81,8 +87,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/build
-          user_name: github-actions[bot]
-          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          user_name: "${{ env.GIT_COMMITTER_NAME }}"
+          user_email: "${{ env.GIT_COMMITTER_EMAIL }}"
 
       - name: Extract changelog for current version
         id: changelog
