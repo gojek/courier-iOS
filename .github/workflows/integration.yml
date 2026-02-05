@@ -1,5 +1,5 @@
-# .github/workflows/ios-integration.yml
-name: ios-integration
+# .github/workflows/integration.yml
+name: integration
 
 on:
   pull_request:

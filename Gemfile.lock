@@ -180,6 +180,7 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.4.1)
       xcpretty-travis-formatter (>= 0.0.3, < 2.0.0)
+    fastlane-plugin-file_manager (0.2.0)
     fastlane-sirp (1.0.0)
       sysrandom (~> 1.0)
     ffi (1.17.3)
@@ -284,6 +285,7 @@ GEM
     simctl (1.6.10)
       CFPropertyList
       naturally
+    slack-notifier (2.4.0)
     sysrandom (1.0.5)
     terminal-notifier (2.0.0)
     terminal-table (3.0.2)
@@ -307,10 +309,20 @@ GEM
       colored2 (~> 3.1)
       nanaimo (~> 0.4.0)
       rexml (>= 3.3.6, < 4.0)
+    xcov (1.9.0)
+      abbrev
+      fastlane (>= 2.141.0, < 3.0.0)
+      multipart-post
+      nkf
+      slack-notifier
+      terminal-table
+      xcodeproj
+      xcresult (~> 0.2.0)
     xcpretty (0.4.1)
       rouge (~> 3.28.0)
     xcpretty-travis-formatter (1.0.1)
       xcpretty (~> 0.2, >= 0.0.7)
+    xcresult (0.2.5)
 
 PLATFORMS
   aarch64-linux-gnu
@@ -328,6 +340,8 @@ PLATFORMS
 DEPENDENCIES
   cocoapods (= 1.16.2)
   fastlane (= 2.231.1)
+  fastlane-plugin-file_manager
+  xcov (= 1.9.0)
 
 BUNDLED WITH
    2.5.11

@@ -4,6 +4,8 @@ scheme(ENV['FRAMEWORK_SCHEME'])
 derived_data_path(ENV['DERIVED_DATA_PATH'])
 output_directory("#{ENV['REPORT_OUTPUT_PATH']}/scan")
 output_types("junit")
+result_bundle(true)
+result_bundle_path("#{ENV['REPORT_OUTPUT_PATH']}/scan/result.xcresult")
 
 clean(true)
 code_coverage(true)
