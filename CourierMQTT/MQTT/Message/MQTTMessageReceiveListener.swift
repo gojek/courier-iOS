@@ -100,7 +100,7 @@ final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sen
     private func processMessages() {
         let topics = Array<String>(self.messagePublisherDict.keys)
         let messages = self.messagePersistence.getAllMessages(topics)
-        guard messages.count > 0 else {
+        guard !messages.isEmpty else {
             printDebug("COURIER Incoming Message - No persisted incoming messages for topics: \(topics)")
             return
         }
@@ -115,7 +115,7 @@ final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sen
             printDebug("COURIER Incoming Message - Successfully processed message id:\(message.id) topic:\(message.topic)")
         }
         
-        if messageIDsToDelete.count > 0 {
+        if !messageIDsToDelete.isEmpty {
             self.messagePersistence.deleteMessages(messageIDsToDelete)
         }
         scheduleCleanupExpiredMessages()

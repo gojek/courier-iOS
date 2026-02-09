@@ -1,0 +1,14 @@
+# .github/actions/dependencies/action.yml
+name: dependencies_action
+description: Install pod and SPM package dependencies
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run pod install
+      run: bundle exec fastlane pod_install
+      shell: bash
+
+    - name: Run SPM resolve
+      run: bundle exec fastlane spm_resolve
+      shell: bash

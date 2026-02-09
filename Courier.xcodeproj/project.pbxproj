@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -696,6 +696,8 @@
 		D8C17FC62F0CA89100C8DFF9 /* Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rx.swift; sourceTree = "<group>"; };
 		D8C17FC72F0CA89100C8DFF9 /* RxMutableBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxMutableBox.swift; sourceTree = "<group>"; };
 		D8C17FC82F0CA89100C8DFF9 /* SchedulerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerType.swift; sourceTree = "<group>"; };
+		D8EC88A42F318AB500A475FD /* Package.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Package.resolved; sourceTree = "<group>"; };
+		D8EC88A52F318AB500A475FD /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		D9BBF139C93EAD906A8518EC /* Pods-CourierMQTT.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTT.integration.xcconfig"; path = "Target Support Files/Pods-CourierMQTT/Pods-CourierMQTT.integration.xcconfig"; sourceTree = "<group>"; };
 		DE70D262CD75054543A2FCC4 /* Pods-CourierMQTTChuck.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTTChuck.release.xcconfig"; path = "Target Support Files/Pods-CourierMQTTChuck/Pods-CourierMQTTChuck.release.xcconfig"; sourceTree = "<group>"; };
 		DE876681FC64438C2D3917A8 /* Pods-CourierMQTTChuck.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierMQTTChuck.alpha.xcconfig"; path = "Target Support Files/Pods-CourierMQTTChuck/Pods-CourierMQTTChuck.alpha.xcconfig"; sourceTree = "<group>"; };
@@ -874,6 +876,8 @@
 		8B0669622623E4D800129BAB = {
 			isa = PBXGroup;
 			children = (
+				D8EC88A42F318AB500A475FD /* Package.resolved */,
+				D8EC88A52F318AB500A475FD /* Package.swift */,
 				8BE0DD42270BE3B000630D60 /* CourierCore */,
 				8BE0DD6E270BE47300630D60 /* CourierMQTT */,
 				8BE0DFEB270BE85B00630D60 /* CourierProtobuf */,
@@ -2003,13 +2007,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CourierTests/Pods-CourierTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CourierTests/Pods-CourierTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2068,13 +2068,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
