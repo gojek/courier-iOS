@@ -1,4 +1,4 @@
-private let disposeScheduledDisposable: (ScheduledDisposable) -> Disposable = { sd in
+nonisolated(unsafe) private let disposeScheduledDisposable: (ScheduledDisposable) -> Disposable = { sd in
     sd.disposeInner()
     return Disposables.create()
 }

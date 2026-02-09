@@ -74,6 +74,11 @@
             label: 'Guides',
           },
           {
+            label: 'Discord',
+            href: 'https://discord.gg/C823qK4AK7',
+            position: 'right',
+          },
+          {
              href: 'https://github.com/gojek/courier-iOS',
              label: 'GitHub',
              position: 'right',
@@ -103,7 +108,7 @@
             items: [
               { label: 'Courier', href: 'https://gojek.github.io/courier/', },
               { label: 'E2E example', href: 'https://gojek.github.io/courier/docs/Introduction', },
-              { label: 'Blogs', href: 'https://gojek.github.io/courier/blog', },
+              { label: 'Blogs', href: 'https://gojek.github.io/courier/blogs', },
               { label: 'Github', href: 'https://github.com/gojek/courier-iOS', },
             ],
           },

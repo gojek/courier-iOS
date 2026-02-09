@@ -1,5 +1,5 @@
 private struct NopDisposable: Disposable {
-    fileprivate static let noOp: Disposable = NopDisposable()
+    nonisolated(unsafe) fileprivate static let noOp: Disposable = NopDisposable()
 
     private init() {}
 

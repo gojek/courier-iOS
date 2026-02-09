@@ -7,14 +7,16 @@
 
 import Foundation
 import CourierCore
-import CourierMQTT
 import MQTTClientGJ
+import CourierMQTT
 
 public protocol MQTTChuckLoggerDelegate {
     func mqttChuckLoggerDidUpdateLogs(_ logs: [MQTTChuckLog])
 }
 
-public class MQTTChuckLogger {
+// Marked as @unchecked Sendable because access to mutable state (`logs` and `delegate`)
+// is always synchronized by dispatching updates to the main queue, ensuring thread safety.
+public class MQTTChuckLogger: @unchecked Sendable {
     
     public private(set) var logs = [MQTTChuckLog]()
     public var delegate: MQTTChuckLoggerDelegate?
@@ -23,7 +25,9 @@ public class MQTTChuckLogger {
     
     public init() {
         NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMQTTChuckNotification), name: mqttChuckNotification, object: nil)
-        CourierMQTTChuck.isEnabled = true
+        Task {
+            await CourierMQTTChuck.shared.setEnabled(true)
+        }
     }
         
     @objc func didReceiveMQTTChuckNotification(_ notification: Notification) {
@@ -75,20 +79,27 @@ public class MQTTChuckLogger {
             log.scheme = connectOptions["scheme"] as? String
         }
         
-        logs.append(log)
-        if logs.count >= logsMaxSize {
-            logs.removeFirst(10)
+        Task { @MainActor in
+            self.logs.append(log)
+            if self.logs.count >= self.logsMaxSize {
+                self.logs.removeFirst(10)
+            }
+
+            self.delegate?.mqttChuckLoggerDidUpdateLogs(logs)
         }
-        delegate?.mqttChuckLoggerDidUpdateLogs(logs)
     }
     
     public func clearLogs() {
-        self.logs = []
-        delegate?.mqttChuckLoggerDidUpdateLogs(logs)
+        Task { @MainActor in
+            self.logs = []
+            self.delegate?.mqttChuckLoggerDidUpdateLogs([])
+        }
     }
     
     deinit {
-        CourierMQTTChuck.isEnabled = false
+        Task {
+            await CourierMQTTChuck.shared.setEnabled(false)
+        }
     }
     
 }

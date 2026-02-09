@@ -7,7 +7,7 @@ private enum CurrentThreadSchedulerQueueKey {
 }
 #else
 private class CurrentThreadSchedulerQueueKey: NSObject, NSCopying {
-    static let instance = CurrentThreadSchedulerQueueKey()
+    nonisolated(unsafe) static let instance = CurrentThreadSchedulerQueueKey()
     override private init() {
         super.init()
     }
@@ -25,9 +25,9 @@ private class CurrentThreadSchedulerQueueKey: NSObject, NSCopying {
 class CurrentThreadScheduler: ImmediateSchedulerType {
     typealias ScheduleQueue = RxMutableBox<Queue<ScheduledItemType>>
 
-    static let instance = CurrentThreadScheduler()
+    nonisolated(unsafe) static let instance = CurrentThreadScheduler()
 
-    private static var isScheduleRequiredKey: pthread_key_t = { () -> pthread_key_t in
+    nonisolated(unsafe) private static var isScheduleRequiredKey: pthread_key_t = { () -> pthread_key_t in
         let key = UnsafeMutablePointer<pthread_key_t>.allocate(capacity: 1)
         defer { key.deallocate() }
 
@@ -38,7 +38,7 @@ class CurrentThreadScheduler: ImmediateSchedulerType {
         return key.pointee
     }()
 
-    private static var scheduleInProgressSentinel: UnsafeRawPointer = { () -> UnsafeRawPointer in
+    nonisolated(unsafe) private static var scheduleInProgressSentinel: UnsafeRawPointer = { () -> UnsafeRawPointer in
         UnsafeRawPointer(UnsafeMutablePointer<Int>.allocate(capacity: 1))
     }()
 

@@ -1,4 +1,4 @@
-platform :ios, '13.0'
+platform :ios, '15.0'
 source 'https://cdn.cocoapods.org/'
 # use_modular_headers!
 
@@ -11,8 +11,14 @@ target 'CourierMQTT' do
   courier_pods
 end
 
+target 'CourierMQTTChuck' do
+  use_frameworks!
+  courier_pods
+end
+
 target 'CourierProtobuf' do
   use_frameworks!
+  courier_pods
   pod 'SwiftProtobuf'
 end
 

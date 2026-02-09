@@ -2,6 +2,7 @@ import CourierCore
 import CourierMQTT
 import Foundation
 import SwiftProtobuf
+import Reachability
 
 public class ProtobufMessageAdapter: MessageAdapter {
     
