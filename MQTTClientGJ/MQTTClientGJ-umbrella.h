@@ -23,6 +23,7 @@
 #import <MQTTClientGJ/MQTTTransport.h>
 #import <MQTTClientGJ/MQTTCFSocketTransport.h>
 #import <MQTTClientGJ/MQTTCoreDataPersistence.h>
+#import <MQTTClientGJ/MQTTInMemoryPersistence.h>
 #import <MQTTClientGJ/MQTTSSLSecurityPolicyTransport.h>
 #import <MQTTClientGJ/MQTTLog.h>
 #import <MQTTClientGJ/MQTTSessionManager.h>

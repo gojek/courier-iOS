@@ -244,7 +244,7 @@
 		E34B42DE2A91299800E5BC6A /* MQTTCFSocketEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9A805B27DAFC7C00732992 /* MQTTCFSocketEncoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E34B42DF2A91299800E5BC6A /* MQTTDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9A806B27DAFC7D00732992 /* MQTTDecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E34B42E02A91299800E5BC6A /* MQTTDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9A804827DAFC7B00732992 /* MQTTDecoder.m */; };
-		E34B42E12A91299800E5BC6A /* MQTTInMemoryPersistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9A806127DAFC7D00732992 /* MQTTInMemoryPersistence.h */; };
+		E34B42E12A91299800E5BC6A /* MQTTInMemoryPersistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9A806127DAFC7D00732992 /* MQTTInMemoryPersistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E34B42E22A91299800E5BC6A /* MQTTInMemoryPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9A805627DAFC7C00732992 /* MQTTInMemoryPersistence.m */; };
 		E34B42E32A91299800E5BC6A /* MQTTCFSocketTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9A805027DAFC7C00732992 /* MQTTCFSocketTransport.m */; };
 		E34B42E42A91299800E5BC6A /* MQTTLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9A805927DAFC7C00732992 /* MQTTLog.m */; };
