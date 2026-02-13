@@ -26,7 +26,7 @@
 		</data>
 		<key>Headers/MQTTClientGJ-umbrella.h</key>
 		<data>
-		t7W3vjwIie//fmny/YCJzzBYHYw=
+		sZpeObrhQmTpkGqwJlOG8N+zyhk=
 		</data>
 		<key>Headers/MQTTCoreDataPersistence.h</key>
 		<data>
@@ -35,6 +35,10 @@
 		<key>Headers/MQTTDecoder.h</key>
 		<data>
 		nGD6YvQT+63D9SHMZE0Xk3D96DU=
+		</data>
+		<key>Headers/MQTTInMemoryPersistence.h</key>
+		<data>
+		e4feVaVnrj4rwgbmPyi5Uzh6ESU=
 		</data>
 		<key>Headers/MQTTLog.h</key>
 		<data>
@@ -162,11 +166,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			t7W3vjwIie//fmny/YCJzzBYHYw=
+			sZpeObrhQmTpkGqwJlOG8N+zyhk=
 			</data>
 			<key>hash2</key>
 			<data>
-			b5/xseQvXVKhNKb+XoU48sb0NYtpQPH8i1IRUejVDMg=
+			tj8Vc+Lz1QAsFqkj+7IOFpGWdq7p5m7tBYRiHxohqbg=
 			</data>
 		</dict>
 		<key>Headers/MQTTCoreDataPersistence.h</key>
@@ -189,6 +193,17 @@
 			<key>hash2</key>
 			<data>
 			AilSZlvLerZ3NxjeA5+M8k79lUhVDdCMin2Si3Jamhs=
+			</data>
+		</dict>
+		<key>Headers/MQTTInMemoryPersistence.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			e4feVaVnrj4rwgbmPyi5Uzh6ESU=
+			</data>
+			<key>hash2</key>
+			<data>
+			OSE28ZcJvOlRJxH9BHtGcUCVrbHlkWKeg/vvOG85TGw=
 			</data>
 		</dict>
 		<key>Headers/MQTTLog.h</key>

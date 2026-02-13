@@ -40,7 +40,8 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
                 authFailureHandler: mockAuthFailureHandler,
                 connectTimeoutPolicy: mockConnectTimeoutPolicy,
                 idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
-                isPersistent: true
+                isDatabasePersistent: true,
+                inMemoryPersistent: false
             ),
             clientFactory: mockClientFactory,
             persistenceFactory: mockPersistenceFactory
@@ -354,4 +355,3 @@ extension MQTTClientFrameworkConnectionTests {
         NSError(domain: "x", code: -1, userInfo: [:])
     }
 }
-
