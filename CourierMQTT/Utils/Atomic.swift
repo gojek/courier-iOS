@@ -22,9 +22,8 @@ final class Atomic<T>: @unchecked Sendable {
             }
         }
         set {
-            let newBox = Box(newValue)
-            dispatchQueue.async(flags: .barrier) {
-                self._box = newBox
+            dispatchQueue.sync(flags: .barrier) {
+                self._box.value = newValue
             }
         }
     }
