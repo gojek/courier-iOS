@@ -1,6 +1,10 @@
 #!/bin/bash -e
 # frameworks=("GRDB")
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+cd "$SCRIPT_DIR"
+
 rm -rf derived_data/
 rm -rf archives/
 

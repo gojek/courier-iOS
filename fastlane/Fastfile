@@ -172,7 +172,7 @@ platform :ios do
     end
 
     # Use GitHub Actions variables for more reliable URL construction
-    server_host = ENV['CI_SERVER_HOST'] || 'https://github.com'
+    server_host = ENV['CI_SERVER_HOST'] || 'github.com'
     repo_path = ENV['CI_REPO_PATH'] || 'gojek/courier-iOS'
     remote_url = "https://github-actions:#{token}@#{server_host}/#{repo_path}.git"
 
@@ -195,15 +195,9 @@ platform :ios do
       message: "[CI] Bump version - #{version}"
     )
 
-    add_git_tag(
-      tag: version,
-      message: "Release #{version}"
-    )
-
     # Push to current branch and tag
     sh("git push #{remote_url} HEAD:#{current_branch}")
-    sh("git push #{remote_url} refs/tags/#{version}")
 
-    UI.success("✅ Successfully committed and tagged version #{version} on branch #{current_branch}")
+    UI.success("✅ Successfully committed version #{version} on branch #{current_branch}")
   end
 end
