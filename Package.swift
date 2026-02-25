@@ -1,10 +1,10 @@
-// swift-tools-version:5.1
+// swift-tools-version:6.2
 import PackageDescription
 
 let package = Package(
     name: "Courier",
     platforms: [
-        .iOS(.v11)
+        .iOS(.v15)
     ],
     products: [
         .library(
@@ -13,9 +13,6 @@ let package = Package(
         .library(
             name: "CourierMQTT",
             targets: ["CourierMQTT"]),
-        .library(
-            name: "MQTTClientGJ",
-            targets: ["MQTTClientGJ"]),
         .library(
             name: "CourierProtobuf",
             targets: ["CourierProtobuf"]),
@@ -37,14 +34,13 @@ let package = Package(
             dependencies: [
                 "CourierCore",
                 "MQTTClientGJ",
-                "Reachability"
+                .product(name: "Reachability", package: "Reachability.swift")
             ],
             path: "CourierMQTT"),
-        .target(
+        .binaryTarget(
             name: "MQTTClientGJ",
-            dependencies: [],
-            path: "Internal/MQTT-Client-Framework/MQTTClientGJ/MQTTClientGJ",
-            publicHeadersPath: ""),
+            path: "MQTTClientGJ.xcframework"
+        ),
         .target(
             name: "CourierProtobuf",
             dependencies: [

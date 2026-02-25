@@ -1,0 +1,36 @@
+# .github/workflows/integration.yml
+name: integration
+
+on:
+  pull_request:
+    branches:
+    - main
+
+env:
+  FASTLANE_SKIP_UPDATE_CHECK: true
+  FASTLANE_HIDE_GITHUB_ISSUES: true
+  FASTLANE_DISABLE_COLORS: false
+
+jobs:
+  integration:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup_env
+
+      - name: Install Dependencies
+        uses: ./.github/actions/dependencies
+
+      - name: Run SwiftLint
+        uses: ./.github/actions/lint
+
+      - name: Build targets
+        uses: ./.github/actions/build
+
+      - name: Run tests
+        uses: ./.github/actions/test

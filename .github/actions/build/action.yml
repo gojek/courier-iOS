@@ -1,0 +1,14 @@
+# .github/actions/build/action.yml
+name: build_action
+description: Build all targets
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run build SPM targets
+      run: bundle exec fastlane spm_build
+      shell: bash
+
+    - name: Run build
+      run: bundle exec fastlane build_all_targets
+      shell: bash

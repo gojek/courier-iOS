@@ -1,0 +1,74 @@
+disabled_rules: # rule identifiers to exclude from running
+  - colon
+  - trailing_comma
+  - comma
+  - opening_brace
+  - trailing_semicolon
+  - nesting
+  - identifier_name
+  - operator_whitespace
+  - control_statement
+  - legacy_constant
+  - return_arrow_whitespace
+  - trailing_whitespace
+  - statement_position
+  - legacy_constructor
+  - leading_whitespace
+  - vertical_whitespace
+  - function_parameter_count
+  - unused_optional_binding
+  - implicit_getter
+  - void_return
+  - redundant_string_enum_value
+
+
+
+opt_in_rules: # some rules are only opt-in
+  - empty_count
+  # Find all the available rules by running:
+  # swiftlint rules
+
+included: # paths to include during linting. `--path` is ignored if present.
+  - CourierCore
+  - CourierMQTT
+  - CourierMQTTChuck
+  - CourierProtobuf
+
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - CourierMQTT/Publishers/RxSwift/
+
+# configurable rules can be customized from this configuration file
+# binary rules can set their severity level
+force_cast: warning # implicitly
+force_try:
+  severity: warning # explicitly
+
+# rules that have both warning and error levels, can set just the warning level
+# implicitly
+line_length: 140
+
+function_body_length:
+  warning: 300
+  error: 600
+
+# they can set both implicitly with an array
+type_body_length:
+  - 300 # warning
+  - 400 # error
+
+# or they can set both explicitly
+file_length:
+  warning: 800
+  error: 1600
+
+# naming rules can set warnings/errors for min_length and max_length
+# additionally they can set excluded names
+type_name:
+  min_length: 3 # only warning
+  max_length: # warning and error
+    warning: 40
+    error: 50
+  excluded: iPhone # excluded via string
+
+reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji)
+

@@ -1,0 +1,22 @@
+# .github/actions/test/action.yml
+name: test_action
+description: Run tests and upload results
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run tests
+      run: bundle exec fastlane test
+      shell: bash
+
+    - name: Generate Coverage Report
+      run: bundle exec fastlane test_coverage
+      shell: bash
+
+    - name: Upload xcov results
+      uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: xcov
+        path: fastlane/reports/
+        retention-days: 30

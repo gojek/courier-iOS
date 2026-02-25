@@ -1,0 +1,209 @@
+default_platform(:ios)
+
+platform :ios do
+
+  desc "Install CocoaPods dependencies"
+  lane :pod_install do
+    cocoapods(
+      clean_install: true,
+      repo_update: true,
+      silent: false
+    )
+  end
+
+  desc "Resolve Swift Package Manager dependencies"
+  lane :spm_resolve do
+    spm(
+      command: "resolve",
+      scratch_path: "./.build/spm",
+      verbose: "true"
+    )
+  end
+
+  desc "Run SwiftLint"
+  lane :lint do
+    output_file = "#{ENV['REPORT_OUTPUT_PATH']}/swiftlint/lint_result.json"
+  
+    swiftlint(
+      mode: :lint,
+      config_file: ".swiftlint.yml",
+      output_file: output_file,
+      raise_if_swiftlint_error: true
+    )
+  end
+
+  desc "Run unit tests"
+  lane :test do
+    output_dir = "#{ENV['REPORT_OUTPUT_PATH']}/scan/result.xcresult"
+    remove_files(path: output_dir)
+
+    scan
+  end
+
+  lane :test_coverage do
+    output_dir = "#{ENV['REPORT_OUTPUT_PATH']}/xcov"
+    
+    remove_files(path: output_dir)
+    
+    xcov(
+      workspace: ENV['WORKSPACE'],
+      scheme: ENV['FRAMEWORK_SCHEME'],
+      derived_data_path: ENV['DERIVED_DATA_PATH'],
+      xccov_file_direct_path: "#{ENV['REPORT_OUTPUT_PATH']}/scan/result.xcresult",
+      output_directory: output_dir,
+      html_report: true,
+      json_report: true,
+      minimum_coverage_percentage: 44.0,
+    )
+  end
+
+  desc "Build Swift Package Manager package"
+  lane :spm_build do
+    schemes = ENV['PACKAGES'].split(',')
+
+    schemes.each do |scheme|
+      UI.message("Building SPM scheme #{scheme}...")
+
+      xcodebuild(
+        workspace: ENV['WORKSPACE'],
+        scheme: scheme,
+        destination: "generic/platform=iOS Simulator",
+        configuration: "Debug",
+        clean: true,
+        build: true
+      )
+    end
+  end
+
+  desc "Build framework schemes"
+  lane :build_all_targets do
+    schemes = ENV['PACKAGES'].split(',')
+
+    schemes.each do |scheme|
+      UI.message("Building #{scheme}...")
+
+      xcodebuild(
+        workspace: ENV['WORKSPACE'],
+        scheme: scheme,
+        destination: "generic/platform=iOS Simulator",
+        configuration: "Release",
+        clean: true,
+        build: true,
+        archive: true,
+        archive_path: "./archives/#{scheme}.xcarchive",
+      )
+    end
+  end
+
+  desc "Generate MQTTClientGJ.xcframework"
+  lane :generate_mqttclientgj_xcf do
+    sh(".././generate_xcframework.sh")
+  end
+
+  desc "Bump version in .xcodeproj and .podspec"
+  lane :bump_version_files do |options| 
+    ensure_git_status_clean(
+      show_uncommitted_changes: true, 
+      ignore_files: ["Gemfile.lock", "Podfile.lock"]
+    )
+
+    # Get version from git tag if available, otherwise use bump_type
+    git_tag = sh("git describe --tags --exact-match 2>/dev/null || echo ''").strip
+    
+    if !git_tag.empty? && git_tag.match?(/^\d+\.\d+\.\d+$/)
+      version = git_tag
+      UI.message("📌 Using version from tag: #{version}")
+    else
+      bump_type = options[:bump_type] || 'patch'
+      UI.message("📌 Bumping version using bump_type: #{bump_type}")
+    end
+
+    packages = ENV['PACKAGES'].split(',')
+
+    packages.each do |package|
+      if version
+        version_bump_podspec(path: "#{package}.podspec", version_number: version)
+      else
+        version_bump_podspec(path: "#{package}.podspec", bump_type: bump_type)
+      end
+      UI.message("#{package}.podspec version to #{version_get_podspec(path: "#{package}.podspec")}")
+    end
+  end
+
+  lane :update_changelog do
+    last_tag = last_git_tag(pattern: "*.*.*")
+    version = version_get_podspec(path: ENV['PODSPEC_PATH'])
+
+    changelog_content = changelog_from_git_commits(
+      between: [last_tag, "HEAD"],
+      pretty: "[%h] %s (by @%an)",
+      date_format: "short",
+    )
+
+    changelog_path = File.expand_path("../CHANGELOG.md", __dir__)
+    existing_changelog = File.exist?(changelog_path) ? File.read(changelog_path) : "# CHANGELOG\n\n"
+
+    # Find insertion point after the header (skip "# CHANGELOG" and any intro text)
+    header_end = existing_changelog.index(/^## \[/)
+    if header_end
+      # Insert before first version entry
+      new_entry = "## [#{version}] - #{Time.now.strftime('%Y-%m-%d')}\n\n#{changelog_content}\n\n"
+      updated_changelog = existing_changelog.insert(header_end, new_entry)
+    else
+      # No existing versions, append after header
+      new_entry = "\n## [#{version}] - #{Time.now.strftime('%Y-%m-%d')}\n\n#{changelog_content}\n"
+      updated_changelog = existing_changelog + new_entry
+    end
+
+    File.write(changelog_path, updated_changelog)
+
+    UI.success("✅ CHANGELOG.md updated successfully with version #{version}")
+  end
+
+  desc "Commit and push version bump and changelog.md changes"
+  lane :commit_push do
+    UI.message("Creating Git tag and commit...")
+
+    version = version_get_podspec(path: ENV['PODSPEC_PATH'])
+    token = ENV['COURIER_IOS_TOKEN']
+    
+    unless token
+      UI.user_error!("❌ COURIER_IOS_TOKEN not found")
+    end
+
+    # Use GitHub Actions variables for more reliable URL construction
+    server_host = ENV['CI_SERVER_HOST'] || 'https://github.com'
+    repo_path = ENV['CI_REPO_PATH'] || 'gojek/courier-iOS'
+    remote_url = "https://github-actions:#{token}@#{server_host}/#{repo_path}.git"
+
+    # Get current branch name (fallback to main if detached HEAD)
+    current_branch = `git branch --show-current`.strip
+    if current_branch.empty?
+      current_branch = ENV['GITHUB_REF_NAME'] || 'main'
+      UI.message("⚠️ Detached HEAD detected. Using branch: #{current_branch}")
+    else
+      UI.message("📍 Using current branch: #{current_branch}")
+    end
+
+    git_commit(
+      path: [
+        "./*.podspec", 
+        "./CHANGELOG.md", 
+        "./Courier.xcodeproj/project.pbxproj",
+        "./MQTTClientGJ.xcframework"
+      ],
+      message: "[CI] Bump version - #{version}"
+    )
+
+    add_git_tag(
+      tag: version,
+      message: "Release #{version}"
+    )
+
+    # Push to current branch and tag
+    sh("git push #{remote_url} HEAD:#{current_branch}")
+    sh("git push #{remote_url} refs/tags/#{version}")
+
+    UI.success("✅ Successfully committed and tagged version #{version} on branch #{current_branch}")
+  end
+end
