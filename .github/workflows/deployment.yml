@@ -49,6 +49,11 @@ jobs:
       - name: Generate CHANGELOG.md
         run: bundle exec fastlane update_changelog
 
+      - name: Commit version bump
+        run: bundle exec fastlane commit_push
+        env:
+          COURIER_IOS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Publish podspecs
         run: |
           pod trunk push --allow-warnings MQTTClientGJ.podspec
@@ -57,11 +62,6 @@ jobs:
           pod trunk push --allow-warnings --synchronous CourierProtobuf.podspec
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-
-      - name: Commit version bump
-        run: bundle exec fastlane commit_push
-        env:
-          COURIER_IOS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   post_release:
     runs-on: ubuntu-latest

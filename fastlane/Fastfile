@@ -57,6 +57,24 @@ platform :ios do
     )
   end
 
+  desc "Build Swift Package Manager package"
+  lane :spm_build do
+    schemes = ENV['PACKAGES'].split(',')
+
+    schemes.each do |scheme|
+      UI.message("Building SPM scheme #{scheme}...")
+
+      xcodebuild(
+        workspace: ENV['WORKSPACE'],
+        scheme: scheme,
+        destination: "generic/platform=iOS Simulator",
+        configuration: "Debug",
+        clean: true,
+        build: true
+      )
+    end
+  end
+
   desc "Build framework schemes"
   lane :build_all_targets do
     schemes = ENV['PACKAGES'].split(',')
@@ -177,9 +195,15 @@ platform :ios do
       message: "[CI] Bump version - #{version}"
     )
 
-    # Push to current branch
-    sh("git push #{remote_url} HEAD:#{current_branch}")
+    add_git_tag(
+      tag: version,
+      message: "Release #{version}"
+    )
 
-    UI.success("✅ Successfully committed version #{version} on branch #{current_branch}")
+    # Push to current branch and tag
+    sh("git push #{remote_url} HEAD:#{current_branch}")
+    sh("git push #{remote_url} refs/tags/#{version}")
+
+    UI.success("✅ Successfully committed and tagged version #{version} on branch #{current_branch}")
   end
 end
