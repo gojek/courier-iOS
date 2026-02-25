@@ -107,12 +107,13 @@ platform :ios do
       ignore_files: ["Gemfile.lock", "Podfile.lock"]
     )
 
-    # Get version from git tag if available, otherwise use bump_type
-    git_tag = sh("git describe --tags --exact-match 2>/dev/null || echo ''").strip
-    
-    if !git_tag.empty? && git_tag.match?(/^\d+\.\d+\.\d+$/)
-      version = git_tag
-      UI.message("📌 Using version from tag: #{version}")
+    # Get version from release branch name (release/x.y.z), fallback to bump_type
+    ref_name = ENV['GITHUB_REF_NAME'] || `git branch --show-current`.strip
+    branch_version = ref_name.match(/^release\/(\d+\.\d+\.\d+)$/)&.captures&.first
+
+    if branch_version
+      version = branch_version
+      UI.message("📌 Using version from branch: #{version}")
     else
       bump_type = options[:bump_type] || 'patch'
       UI.message("📌 Bumping version using bump_type: #{bump_type}")
@@ -195,9 +196,14 @@ platform :ios do
       message: "[CI] Bump version - #{version}"
     )
 
-    # Push to current branch and tag
-    sh("git push #{remote_url} HEAD:#{current_branch}")
+    add_git_tag(
+      tag: version,
+      message: "Release #{version}"
+    )
 
-    UI.success("✅ Successfully committed version #{version} on branch #{current_branch}")
+    sh("git push #{remote_url} HEAD:#{current_branch}")
+    sh("git push #{remote_url} refs/tags/#{version}")
+
+    UI.success("✅ Successfully committed and tagged version #{version} on branch #{current_branch}")
   end
 end
