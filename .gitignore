@@ -139,3 +139,6 @@ AutoMockable.generated.swift
 /derived_data
 /archives
 Sources/protobuf/protobuf
+
+.bundle/
+vendor/
