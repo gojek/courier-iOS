@@ -184,6 +184,10 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
             self.protocolLevel = protocolLevel
             self.alpn = alpn
 
+            if let oldSession = self.session {
+                oldSession.delegate = nil   // stop callbacks from old session
+                oldSession.close(disconnectHandler: nil)
+            }
             self.session = mqttSessionFactory.makeSession()
             session?.clientId = clientId
             session?.userName = username

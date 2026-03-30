@@ -157,16 +157,27 @@ extension MQTTClientFrameworkConnection: MQTTClientFrameworkSessionManagerDelega
             printDebug("MQTT - COURIER: Connecting")
             resetParams()
             self.connectionAttemptTimestamp = Date()
-            eventHandler.onEvent(.init(connectionInfo: connectOptions , event: .connectionAttempt))
+            let connectOptions = self.connectOptions
+            DispatchQueue.global(qos: .utility).async { [weak self] in
+                self?.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionAttempt))
+            }
 
         case .connected:
             printDebug("MQTT - COURIER: Connected")
-            eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionSuccess(timeTaken: self.connectionAttemptTimestamp.timeTaken)))
+            let connectOptions = self.connectOptions
+            let timeTaken = self.connectionAttemptTimestamp.timeTaken
+            DispatchQueue.global(qos: .utility).async { [weak self] in
+                self?.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionSuccess(timeTaken: timeTaken)))
+            }
 
         case .error:
             guard let error = sessionManager.lastError as NSError? else { return }
             printDebug("MQTT - COURIER: Error \(error.localizedDescription)")
-            eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionFailure(timeTaken: self.connectionAttemptTimestamp.timeTaken, error: error)))
+            let connectOptions = self.connectOptions
+            let timeTaken = self.connectionAttemptTimestamp.timeTaken
+            DispatchQueue.global(qos: .utility).async { [weak self] in
+                self?.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionFailure(timeTaken: timeTaken, error: error)))
+            }
 
             switch error.code {
             case MQTTSessionError.connackBadUsernameOrPassword.rawValue,
@@ -183,11 +194,18 @@ extension MQTTClientFrameworkConnection: MQTTClientFrameworkSessionManagerDelega
 
         case .closed:
             printDebug("MQTT - COURIER: Connection Closed")
-            eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionLost(
-                timeTaken: self.connectionAttemptTimestamp.timeTaken,
-                error: sessionManager.lastError,
-                diffLastInbound: getLastInboundDiff(),
-                diffLastOutbound: getLastOutboundDiff())))
+            let connectOptions = self.connectOptions
+            let timeTaken = self.connectionAttemptTimestamp.timeTaken
+            let lastError = sessionManager.lastError
+            let lastInboundDiff = getLastInboundDiff()
+            let lastOutboundDiff = getLastOutboundDiff()
+            DispatchQueue.global(qos: .utility).async { [weak self] in
+                self?.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionLost(
+                    timeTaken: timeTaken,
+                    error: lastError,
+                    diffLastInbound: lastInboundDiff,
+                    diffLastOutbound: lastOutboundDiff)))
+            }
         @unknown default:
             break
         }
