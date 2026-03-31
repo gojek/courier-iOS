@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## [1.0.11] - 2026-03-31
+
+[ef8657c] Merge pull request #71 from gojek/fix/update_mock_mqqt_client_signature (by @lucmahn88)
+[eaed3d4] fix unit tests (by @Rahul Chaudhari)
+[7afcded] Update MockMQTTClientFramework signature to accept flag (by @Rahul Chaudhari)
+[6622948] Merge pull request #70 from gojek/bugfix/cxx_destruct_crash (by @Abhijeet Mallick)
+[257669b] Resolve conflicts (by @AbhijeetMallick)
+[34b30b3] Resolve conflicts (by @AbhijeetMallick)
+[7d015ae] Revert extra changes (by @AbhijeetMallick)
+[701f930] Add fix for cxx destruct crash (by @Rahul Chaudhari)
+[a598c27] Stop callback from old session before creating new session leading to race condition (by @Rahul Chaudhari)
+[a1406b3] Merge pull request #69 from gojek/release/1.0.10 (by @lucmahn88)
+
 ## [1.0.10] - 2026-02-25
 
 [bba71d1] Update release versioning flow (by @Luqman)
