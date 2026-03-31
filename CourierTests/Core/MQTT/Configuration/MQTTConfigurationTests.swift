@@ -15,7 +15,8 @@ class MQTTConfigurationTests: XCTestCase {
             isMQTTPersistentEnabled: false,
             isMQTTMemoryPersistentEnabled: false,
             messagePersistenceTTLSeconds: 0,
-            messageCleanupInterval: 0
+            messageCleanupInterval: 0,
+            fixCxxDestructCrash: false
         )
         
         XCTAssertEqual(config.isMQTTPersistentEnabled, false)
@@ -32,7 +33,8 @@ class MQTTConfigurationTests: XCTestCase {
             isMQTTPersistentEnabled: false,
             isMQTTMemoryPersistentEnabled: true,
             messagePersistenceTTLSeconds: 0,
-            messageCleanupInterval: 0
+            messageCleanupInterval: 0,
+            fixCxxDestructCrash: false
         )
         
         XCTAssertEqual(config.isMQTTPersistentEnabled, false)
@@ -49,7 +51,8 @@ class MQTTConfigurationTests: XCTestCase {
             isMQTTPersistentEnabled: true,
             isMQTTMemoryPersistentEnabled: false,
             messagePersistenceTTLSeconds: 0,
-            messageCleanupInterval: 0
+            messageCleanupInterval: 0,
+            fixCxxDestructCrash: false
         )
         
         XCTAssertEqual(config.isMQTTPersistentEnabled, true)
@@ -66,7 +69,8 @@ class MQTTConfigurationTests: XCTestCase {
             isMQTTPersistentEnabled: true,
             isMQTTMemoryPersistentEnabled: true,
             messagePersistenceTTLSeconds: 0,
-            messageCleanupInterval: 0
+            messageCleanupInterval: 0,
+            fixCxxDestructCrash: false
         )
         
         XCTAssertEqual(config.isMQTTPersistentEnabled, true)

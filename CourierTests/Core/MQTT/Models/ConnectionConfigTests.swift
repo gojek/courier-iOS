@@ -13,7 +13,8 @@ class ConnectionConfigTests: XCTestCase {
             connectTimeoutPolicy: ConnectTimeoutPolicy(),
             idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
             isDatabasePersistent: false,
-            inMemoryPersistent: true
+            inMemoryPersistent: true,
+            fixCxxDestructCrash: false
         )
         
         XCTAssertEqual(config.isDatabasePersistent, false)
@@ -28,7 +29,8 @@ class ConnectionConfigTests: XCTestCase {
             connectTimeoutPolicy: ConnectTimeoutPolicy(),
             idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
             isDatabasePersistent: true,
-            inMemoryPersistent: false
+            inMemoryPersistent: false,
+            fixCxxDestructCrash: false
         )
         
         XCTAssertEqual(config.isDatabasePersistent, true)
@@ -43,7 +45,8 @@ class ConnectionConfigTests: XCTestCase {
             connectTimeoutPolicy: ConnectTimeoutPolicy(),
             idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
             isDatabasePersistent: false,
-            inMemoryPersistent: false
+            inMemoryPersistent: false,
+            fixCxxDestructCrash: false
         )
         
         XCTAssertEqual(config.isDatabasePersistent, false)
@@ -58,7 +61,8 @@ class ConnectionConfigTests: XCTestCase {
             connectTimeoutPolicy: ConnectTimeoutPolicy(),
             idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
             isDatabasePersistent: true,
-            inMemoryPersistent: true
+            inMemoryPersistent: true,
+            fixCxxDestructCrash: false
         )
         
         XCTAssertEqual(config.isDatabasePersistent, true)

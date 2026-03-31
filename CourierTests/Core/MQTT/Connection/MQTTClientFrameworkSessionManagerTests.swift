@@ -32,7 +32,8 @@ class MQTTClientFrameworkSessionManagerTests: XCTestCase {
             mqttPersistenceFactory: persistenceFactory,
             connectTimeoutPolicy: ConnectTimeoutPolicy(),
             idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
-            eventHandler: mockEventHandler
+            eventHandler: mockEventHandler,
+            fixCxxDestructCrash: false
         )
 
         sut.delegate = mockDelegate
