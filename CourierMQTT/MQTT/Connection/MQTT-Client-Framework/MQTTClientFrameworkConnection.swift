@@ -13,6 +13,7 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
         connectionConfig.eventHandler
     }
 
+    private let fixCxxDestructCrash: Bool
     private let clientFactory: IMQTTClientFrameworkFactory
     private let persistenceFactory: IMQTTPersistenceFactory
     private let connectionConfig: ConnectionConfig
@@ -43,11 +44,12 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
 
     init(connectionConfig: ConnectionConfig,
          clientFactory: IMQTTClientFrameworkFactory,
-         persistenceFactory: IMQTTPersistenceFactory = MQTTPersistenceFactory()
-    ) {
+         persistenceFactory: IMQTTPersistenceFactory = MQTTPersistenceFactory(),
+         fixCxxDestructCrash: Bool) {
         self.connectionConfig = connectionConfig
         self.clientFactory = clientFactory
         self.persistenceFactory = persistenceFactory
+        self.fixCxxDestructCrash = fixCxxDestructCrash
         super.init()
 
         self.sessionManager = clientFactory.makeSessionManager(
@@ -57,7 +59,8 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
             delegate: self,
             connectTimeoutPolicy: connectionConfig.connectTimeoutPolicy,
             idleActivityTimeoutPolicy: connectionConfig.idleActivityTimeoutPolicy,
-            eventHandler: connectionConfig.eventHandler
+            eventHandler: connectionConfig.eventHandler,
+            fixCxxDestructCrash: fixCxxDestructCrash
         )
     }
 
@@ -157,27 +160,16 @@ extension MQTTClientFrameworkConnection: MQTTClientFrameworkSessionManagerDelega
             printDebug("MQTT - COURIER: Connecting")
             resetParams()
             self.connectionAttemptTimestamp = Date()
-            let connectOptions = self.connectOptions
-            DispatchQueue.global(qos: .utility).async { [weak self] in
-                self?.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionAttempt))
-            }
+            eventHandler.onEvent(.init(connectionInfo: connectOptions , event: .connectionAttempt))
 
         case .connected:
             printDebug("MQTT - COURIER: Connected")
-            let connectOptions = self.connectOptions
-            let timeTaken = self.connectionAttemptTimestamp.timeTaken
-            DispatchQueue.global(qos: .utility).async { [weak self] in
-                self?.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionSuccess(timeTaken: timeTaken)))
-            }
+            eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionSuccess(timeTaken: self.connectionAttemptTimestamp.timeTaken)))
 
         case .error:
             guard let error = sessionManager.lastError as NSError? else { return }
             printDebug("MQTT - COURIER: Error \(error.localizedDescription)")
-            let connectOptions = self.connectOptions
-            let timeTaken = self.connectionAttemptTimestamp.timeTaken
-            DispatchQueue.global(qos: .utility).async { [weak self] in
-                self?.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionFailure(timeTaken: timeTaken, error: error)))
-            }
+            eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionFailure(timeTaken: self.connectionAttemptTimestamp.timeTaken, error: error)))
 
             switch error.code {
             case MQTTSessionError.connackBadUsernameOrPassword.rawValue,
@@ -194,18 +186,11 @@ extension MQTTClientFrameworkConnection: MQTTClientFrameworkSessionManagerDelega
 
         case .closed:
             printDebug("MQTT - COURIER: Connection Closed")
-            let connectOptions = self.connectOptions
-            let timeTaken = self.connectionAttemptTimestamp.timeTaken
-            let lastError = sessionManager.lastError
-            let lastInboundDiff = getLastInboundDiff()
-            let lastOutboundDiff = getLastOutboundDiff()
-            DispatchQueue.global(qos: .utility).async { [weak self] in
-                self?.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionLost(
-                    timeTaken: timeTaken,
-                    error: lastError,
-                    diffLastInbound: lastInboundDiff,
-                    diffLastOutbound: lastOutboundDiff)))
-            }
+            eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .connectionLost(
+                timeTaken: self.connectionAttemptTimestamp.timeTaken,
+                error: sessionManager.lastError,
+                diffLastInbound: getLastInboundDiff(),
+                diffLastOutbound: getLastOutboundDiff())))
         @unknown default:
             break
         }

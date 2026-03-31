@@ -93,7 +93,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
 
     private var connectTimeoutPolicy: IConnectTimeoutPolicy
     private var idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
-    
+    private var fixCxxDestructCrash: Bool
 
     var requiresTeardown: Bool {
         state != .closed && state != .starting
@@ -107,7 +107,8 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
          mqttPersistenceFactory: IMQTTPersistenceFactory = MQTTPersistenceFactory(),
          connectTimeoutPolicy: IConnectTimeoutPolicy,
          idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol,
-         eventHandler: ICourierEventHandler
+         eventHandler: ICourierEventHandler,
+         fixCxxDestructCrash: Bool
     ) {
         self.streamSSLLevel = streamSSLLevel
         self.queue = queue
@@ -116,6 +117,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.connectTimeoutPolicy = connectTimeoutPolicy
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
         self.eventHandler = eventHandler
+        self.fixCxxDestructCrash = fixCxxDestructCrash
         
         super.init()
         self.updateState(to: .starting)
@@ -123,6 +125,15 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
             self?.reconnect()
         })
     }
+
+     deinit {
+         if fixCxxDestructCrash == true {
+             reconnectTimer?.stop()
+             session?.delegate = nil
+             session?.close(disconnectHandler: nil)
+             session = nil
+         }
+     }
 
     func connect(
         to host: String,
@@ -183,6 +194,13 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
             self.certificates = certificates
             self.protocolLevel = protocolLevel
             self.alpn = alpn
+            
+            if fixCxxDestructCrash == true { // Remove this first `if` once the crash is fixed
+                if let oldSession = self.session {
+                    oldSession.delegate = nil   // stop callbacks from old session
+                    oldSession.close(disconnectHandler: nil)
+                }
+            }
 
             if let oldSession = self.session {
                 oldSession.delegate = nil   // stop callbacks from old session
