@@ -49,6 +49,8 @@ public struct MQTTClientConfig {
     public var incomingMessagePersistenceEnabled: Bool {
         messagePersistenceTTLSeconds > 0
     }
+    
+    public let fixCxxDestructCrash: Bool
 
     public init(
         topics: [String: QoS] = [:],
@@ -64,7 +66,8 @@ public struct MQTTClientConfig {
         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol = IdleActivityTimeoutPolicy(),
         messagePersistenceTTLSeconds: TimeInterval = 0,
         messageCleanupInterval: TimeInterval = 10,
-        shouldInitializeCoreDataPersistenceContext: Bool = true
+        shouldInitializeCoreDataPersistenceContext: Bool = true,
+        fixCxxDestructCrash: Bool = false
     ) {
         self.topics = topics
         self.authService = authService
@@ -80,6 +83,6 @@ public struct MQTTClientConfig {
         self.messagePersistenceTTLSeconds = messagePersistenceTTLSeconds
         self.messageCleanupInterval = messageCleanupInterval
         self.shouldInitializeCoreDataPersistenceContext = shouldInitializeCoreDataPersistenceContext
+        self.fixCxxDestructCrash = fixCxxDestructCrash
     }
-
 }

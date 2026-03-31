@@ -10,4 +10,5 @@ struct ConnectionConfig {
     
     var isDatabasePersistent: Bool
     var inMemoryPersistent: Bool
+    var fixCxxDestructCrash: Bool
 }

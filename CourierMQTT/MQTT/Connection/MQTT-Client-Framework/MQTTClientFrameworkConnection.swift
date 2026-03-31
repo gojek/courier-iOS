@@ -13,6 +13,7 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
         connectionConfig.eventHandler
     }
 
+    private let fixCxxDestructCrash: Bool
     private let clientFactory: IMQTTClientFrameworkFactory
     private let persistenceFactory: IMQTTPersistenceFactory
     private let connectionConfig: ConnectionConfig
@@ -43,11 +44,12 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
 
     init(connectionConfig: ConnectionConfig,
          clientFactory: IMQTTClientFrameworkFactory,
-         persistenceFactory: IMQTTPersistenceFactory = MQTTPersistenceFactory()
-    ) {
+         persistenceFactory: IMQTTPersistenceFactory = MQTTPersistenceFactory(),
+         fixCxxDestructCrash: Bool) {
         self.connectionConfig = connectionConfig
         self.clientFactory = clientFactory
         self.persistenceFactory = persistenceFactory
+        self.fixCxxDestructCrash = fixCxxDestructCrash
         super.init()
 
         self.sessionManager = clientFactory.makeSessionManager(
@@ -57,7 +59,8 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
             delegate: self,
             connectTimeoutPolicy: connectionConfig.connectTimeoutPolicy,
             idleActivityTimeoutPolicy: connectionConfig.idleActivityTimeoutPolicy,
-            eventHandler: connectionConfig.eventHandler
+            eventHandler: connectionConfig.eventHandler,
+            fixCxxDestructCrash: fixCxxDestructCrash
         )
     }
 
