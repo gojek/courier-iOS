@@ -1,6 +1,6 @@
 import Foundation
 
-class MockNotificationCenter: NotificationCenter {
+class MockNotificationCenter: NotificationCenter, @unchecked Sendable {
     var invokedPostNotificationName = false
     var invokedPostNotificationNameCount = 0
     var invokedPostNotificationNameParameters: (name: NSNotification.Name, Any?, Void)?

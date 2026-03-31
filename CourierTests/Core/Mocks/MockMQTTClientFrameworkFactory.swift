@@ -6,8 +6,8 @@ class MockMQTTClientFrameworkFactory: IMQTTClientFrameworkFactory {
 
     var invokedMakeSessionManager = false
     var invokedMakeSessionManagerCount = 0
-    var invokedMakeSessionManagerParameters: (connectRetryTimePolicy: IConnectRetryTimePolicy, persistenceFactory: IMQTTPersistenceFactory, dispatchQueue: DispatchQueue, delegate: MQTTClientFrameworkSessionManagerDelegate, connectTimeoutPolicy: IConnectTimeoutPolicy, idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol, eventHandler: ICourierEventHandler)?
-    var invokedMakeSessionManagerParametersList = [(connectRetryTimePolicy: IConnectRetryTimePolicy, persistenceFactory: IMQTTPersistenceFactory, dispatchQueue: DispatchQueue, delegate: MQTTClientFrameworkSessionManagerDelegate, connectTimeoutPolicy: IConnectTimeoutPolicy, idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol, eventHandler: ICourierEventHandler)]()
+    var invokedMakeSessionManagerParameters: (connectRetryTimePolicy: IConnectRetryTimePolicy, persistenceFactory: IMQTTPersistenceFactory, dispatchQueue: DispatchQueue, delegate: MQTTClientFrameworkSessionManagerDelegate, connectTimeoutPolicy: IConnectTimeoutPolicy, idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol, eventHandler: ICourierEventHandler, fixCxxDestructCrash: Bool)?
+    var invokedMakeSessionManagerParametersList = [(connectRetryTimePolicy: IConnectRetryTimePolicy, persistenceFactory: IMQTTPersistenceFactory, dispatchQueue: DispatchQueue, delegate: MQTTClientFrameworkSessionManagerDelegate, connectTimeoutPolicy: IConnectTimeoutPolicy, idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol, eventHandler: ICourierEventHandler, fixCxxDestructCrash: Bool)]()
     var stubbedMakeSessionManagerResult: IMQTTClientFrameworkSessionManager!
 
     func makeSessionManager(
@@ -17,12 +17,13 @@ class MockMQTTClientFrameworkFactory: IMQTTClientFrameworkFactory {
         delegate: MQTTClientFrameworkSessionManagerDelegate,
         connectTimeoutPolicy: IConnectTimeoutPolicy,
         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol,
-        eventHandler: ICourierEventHandler
+        eventHandler: ICourierEventHandler,
+        fixCxxDestructCrash: Bool
     ) -> IMQTTClientFrameworkSessionManager {
         invokedMakeSessionManager = true
         invokedMakeSessionManagerCount += 1
-        invokedMakeSessionManagerParameters = (connectRetryTimePolicy, persistenceFactory, dispatchQueue, delegate, connectTimeoutPolicy, idleActivityTimeoutPolicy, eventHandler)
-        invokedMakeSessionManagerParametersList.append((connectRetryTimePolicy, persistenceFactory, dispatchQueue, delegate, connectTimeoutPolicy, idleActivityTimeoutPolicy, eventHandler))
+        invokedMakeSessionManagerParameters = (connectRetryTimePolicy, persistenceFactory, dispatchQueue, delegate, connectTimeoutPolicy, idleActivityTimeoutPolicy, eventHandler, fixCxxDestructCrash)
+        invokedMakeSessionManagerParametersList.append((connectRetryTimePolicy, persistenceFactory, dispatchQueue, delegate, connectTimeoutPolicy, idleActivityTimeoutPolicy, eventHandler, fixCxxDestructCrash))
         return stubbedMakeSessionManagerResult
     }
 }
