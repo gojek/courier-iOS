@@ -1,6 +1,6 @@
 import CourierCore
 import Foundation
-@preconcurrency import CoreData
+import CoreData
 
 protocol IncomingMessagePersistenceProtocol {
     
@@ -82,7 +82,7 @@ final class IncomingMessagePersistence: IncomingMessagePersistenceProtocol {
     func getAllMessages(_ topics: [String]) -> [MQTTPacket] {
         let fetchRequest = NSFetchRequest<IncomingMessage>(entityName: "IncomingMessage")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
-        if !topics.isEmpty {
+        if topics.count > 0 {
             fetchRequest.predicate = NSPredicate(format: "SELF.topic IN %@", topics)
         }
         var messages: [MQTTPacket] = []
@@ -102,11 +102,11 @@ final class IncomingMessagePersistence: IncomingMessagePersistenceProtocol {
     }
     
     func deleteMessages(_ ids: [String]) {
-        guard !ids.isEmpty else {
+        guard ids.count > 0 else {
             printDebug("COURIER Incoming Message - Cancel Deleting message as IDs are empty")
             return
         }
-        deleteMessages(predicate: !ids.isEmpty ? NSPredicate(format: "SELF.id IN %@", ids) : nil)
+        deleteMessages(predicate: ids.count > 0 ? NSPredicate(format: "SELF.id IN %@", ids) : nil)
     }
     
     func deleteMessagesWithOlderTimestamp(_ timestamp: Date) {
