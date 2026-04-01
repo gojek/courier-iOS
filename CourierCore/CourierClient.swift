@@ -28,7 +28,7 @@ public protocol CourierSession: CourierEventManager {
 
     func unsubscribe(_ topics: [String])
 
-    func publishMessage<E>(_ data: E, topic: String, qos: QoS) throws
+    func publishMessage<E>(_ data: E, topic: String, qos: QoS, guid: String?) throws
 
     func messagePublisher<D>(topic: String) -> AnyPublisher<D, Never>
 

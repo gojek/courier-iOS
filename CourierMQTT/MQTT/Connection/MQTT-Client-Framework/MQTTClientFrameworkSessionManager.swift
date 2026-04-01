@@ -4,7 +4,7 @@ import MQTTClientGJ
 
 protocol MQTTClientFrameworkSessionManagerDelegate: AnyObject {
     func sessionManager(_ sessionManager: IMQTTClientFrameworkSessionManager, didChangeState newState: MQTTSessionManagerState)
-    func sessionManager(_ sessionManager: IMQTTClientFrameworkSessionManager, didDeliverMessageID msgID: UInt16, topic: String, data: Data, qos: MQTTQosLevel, retainFlag: Bool)
+    func sessionManager(_ sessionManager: IMQTTClientFrameworkSessionManager, didDeliverMessageID msgID: UInt16, topic: String, data: Data, qos: MQTTQosLevel, retainFlag: Bool, guid: String)
     func sessionManager(_ sessionManager: IMQTTClientFrameworkSessionManager, didReceiveMessageData data: Data, onTopic topic: String, qos: MQTTQosLevel, retained: Bool, mid: UInt32)
     func sessionManager(_ sessionManager: IMQTTClientFrameworkSessionManager, didSubscribeTopics topics: [String])
     func sessionManager(_ sessionManager: IMQTTClientFrameworkSessionManager, didFailToSubscribeTopics topics: [String], error: Error)
@@ -89,6 +89,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     private var protocolLevel: MQTTProtocolVersion?
     private var alpn: [String]?
 
+    private var msgIDToGuidMap = [UInt16: String]()
     private var streamSSLLevel: String
 
     private var connectTimeoutPolicy: IConnectTimeoutPolicy
@@ -262,7 +263,8 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
                 printDebug("COURIER: Puback Handler for Special QoSes")
                 if error == nil {
                     let mid = midProvider?() ?? 0
-                    self.delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
+                    let guid = self.msgIDToGuidMap.removeValue(forKey: mid) ?? ""
+                    self.delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: data, qos: qos, retainFlag: retainFlag, guid: guid)
                 }
             }
         }
@@ -379,7 +381,10 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     }
 
     func publish(packet: MQTTPacket) {
-        sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
+        let msgID = sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
+        if msgID > 0 {
+            msgIDToGuidMap[msgID] = packet.guid
+        }
     }
     
     func deleteAllPersistedMessages() {
@@ -438,7 +443,8 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
     }
 
     func messageDelivered(_ session: MQTTSession!, msgID: UInt16, topic: String!, data: Data!, qos: MQTTQosLevel, retainFlag: Bool) {
-        delegate?.sessionManager(self, didDeliverMessageID: msgID, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
+        let guid = msgIDToGuidMap.removeValue(forKey: msgID) ?? ""
+        delegate?.sessionManager(self, didDeliverMessageID: msgID, topic: topic, data: data, qos: qos, retainFlag: retainFlag, guid: guid)
     }
 
     func sending(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {

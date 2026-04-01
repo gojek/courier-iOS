@@ -8,6 +8,7 @@ import MQTTClientGJ
 /// However, all non-Sendable properties are accessed in a thread-safe and controlled manner (e.g., via `@Atomic` or internal dispatching),
 /// so manual conformance is safe in this context.
 class MQTTCourierClient: CourierClient, @unchecked Sendable {
+    
     var client: IMQTTClient!
     private let connectionSubject = PublishSubject<ConnectionState>()
     let subscriptionStore: ISubscriptionStore
@@ -228,7 +229,7 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
         )
     }
 
-    func publishMessage<E>(_ data: E, topic: String, qos: QoS) throws {
+    func publishMessage<E>(_ data: E, topic: String, qos: QoS, guid: String? = nil) throws {
         guard client.hasExistingSession else {
             throw CourierError.sessionNotExist.asNSError
         }
@@ -236,7 +237,7 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
         do {
             let data = try messageAdaptersCoordinator.encodeMessage(data, topic: topic)
             printDebug("COURIER Publish - topic:\(topic), payload: \(String(data: data, encoding: .utf8) ?? "")")
-            client.send(packet: MQTTPacket(data: data, topic: topic, qos: qos))
+            client.send(packet: MQTTPacket(data: data, topic: topic, qos: qos, guid: guid ?? ""))
         } catch {
             courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .messageSendFailure(topic: topic, qos: qos, error: error, sizeBytes: 0)))
             throw error
