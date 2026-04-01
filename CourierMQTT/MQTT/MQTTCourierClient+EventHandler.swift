@@ -61,7 +61,13 @@ extension MQTTCourierClient: ICourierEventHandler {
     }
 
     private func onAppBackground() {
-        Task { @MainActor in
+        if #available(iOS 13.0, *) {
+            Task { @MainActor in
+                self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "Cleanup pending unsub") { [weak self] in
+                    self?.invalidateBackgroundTask()
+                }
+            }
+        } else {
             self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "Cleanup pending unsub") { [weak self] in
                 self?.invalidateBackgroundTask()
             }
@@ -84,8 +90,16 @@ extension MQTTCourierClient: ICourierEventHandler {
     }
     
     private func invalidateBackgroundTask() {
-        Task { @MainActor in
-            if let backgroundTaskID = self.backgroundTaskID {
+        if #available(iOS 13.0, *) {
+            Task { @MainActor in
+                if let backgroundTaskID = self.backgroundTaskID {
+                    UIApplication.shared.endBackgroundTask(backgroundTaskID)
+                    self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+                }
+            }
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self, let backgroundTaskID = self.backgroundTaskID else { return }
                 UIApplication.shared.endBackgroundTask(backgroundTaskID)
                 self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
             }

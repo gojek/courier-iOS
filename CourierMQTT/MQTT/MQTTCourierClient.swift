@@ -104,6 +104,7 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
         isDestroyed = false
 
         if config.enableAuthenticationTimeout {
+            if #available(iOS 13.0, *) {
             authenticationTimeoutTimer?.stop()
             let isGettingConnectOptionsCompleted = BoolActor(false)
 
@@ -135,6 +136,14 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
                         return
                     }
                     self.handleAuthenticationResult(result)
+                }
+            }
+            } else {
+                connectionServiceProvider.getConnectOptions { [weak self] result in
+                    self?.dispatchQueue.async { [weak self] in
+                        self?.isAuthenticating = false
+                        self?.handleAuthenticationResult(result)
+                    }
                 }
             }
         } else {
@@ -360,6 +369,7 @@ extension ConnectionState {
 
 }
 
+@available(iOS 13.0, *)
 actor BoolActor {
     private var value: Bool
     init(_ initial: Bool) {

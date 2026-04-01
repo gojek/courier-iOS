@@ -25,8 +25,10 @@ public class MQTTChuckLogger: @unchecked Sendable {
     
     public init() {
         NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMQTTChuckNotification), name: mqttChuckNotification, object: nil)
-        Task {
-            await CourierMQTTChuck.shared.setEnabled(true)
+        if #available(iOS 13.0, *) {
+            Task {
+                await CourierMQTTChuck.shared.setEnabled(true)
+            }
         }
     }
         
@@ -79,26 +81,44 @@ public class MQTTChuckLogger: @unchecked Sendable {
             log.scheme = connectOptions["scheme"] as? String
         }
         
-        Task { @MainActor in
-            self.logs.append(log)
-            if self.logs.count >= self.logsMaxSize {
-                self.logs.removeFirst(10)
+        if #available(iOS 13.0, *) {
+            Task { @MainActor in
+                self.logs.append(log)
+                if self.logs.count >= self.logsMaxSize {
+                    self.logs.removeFirst(10)
+                }
+                self.delegate?.mqttChuckLoggerDidUpdateLogs(logs)
             }
-
-            self.delegate?.mqttChuckLoggerDidUpdateLogs(logs)
+        } else {
+            DispatchQueue.main.async {
+                self.logs.append(log)
+                if self.logs.count >= self.logsMaxSize {
+                    self.logs.removeFirst(10)
+                }
+                self.delegate?.mqttChuckLoggerDidUpdateLogs(self.logs)
+            }
         }
     }
     
     public func clearLogs() {
-        Task { @MainActor in
-            self.logs = []
-            self.delegate?.mqttChuckLoggerDidUpdateLogs([])
+        if #available(iOS 13.0, *) {
+            Task { @MainActor in
+                self.logs = []
+                self.delegate?.mqttChuckLoggerDidUpdateLogs([])
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.logs = []
+                self.delegate?.mqttChuckLoggerDidUpdateLogs([])
+            }
         }
     }
     
     deinit {
-        Task {
-            await CourierMQTTChuck.shared.setEnabled(false)
+        if #available(iOS 13.0, *) {
+            Task {
+                await CourierMQTTChuck.shared.setEnabled(false)
+            }
         }
     }
     

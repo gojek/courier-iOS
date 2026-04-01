@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Courier",
     platforms: [
-        .iOS(.v15)
+        .iOS(.v12)
     ],
     products: [
         .library(
