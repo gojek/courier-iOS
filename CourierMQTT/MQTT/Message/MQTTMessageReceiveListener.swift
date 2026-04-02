@@ -7,7 +7,6 @@ import Foundation
 /// controlled dispatch queues. Given this controlled access pattern, it's safe to treat this type as Sendable in our use case.
 
 final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sendable {
-    
     private var publishSubject: PublishSubject<MQTTPacket>
     private let publishSubjectDispatchQueue: DispatchQueue
     
