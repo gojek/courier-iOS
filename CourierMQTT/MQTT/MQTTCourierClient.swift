@@ -228,8 +228,23 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
                                   sinkInitiated: { [weak self] in self?.client.messageReceiverListener.handlePersistedMessages() }
         )
     }
+    
+    func publishMessage<E>(_ data: E, topic: String, qos: QoS) throws {
+        guard client.hasExistingSession else {
+            throw CourierError.sessionNotExist.asNSError
+        }
 
-    func publishMessage<E>(_ data: E, topic: String, qos: QoS, guid: String? = nil) throws {
+        do {
+            let data = try messageAdaptersCoordinator.encodeMessage(data, topic: topic)
+            printDebug("COURIER Publish - topic:\(topic), payload: \(String(data: data, encoding: .utf8) ?? "")")
+            client.send(packet: MQTTPacket(data: data, topic: topic, qos: qos))
+        } catch {
+            courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .messageSendFailure(topic: topic, qos: qos, error: error, sizeBytes: 0)))
+            throw error
+        }
+    }
+    
+    func publishMessageWithGUID<E>(_ data: E, topic: String, qos: QoS, guid: String? = nil) throws {
         guard client.hasExistingSession else {
             throw CourierError.sessionNotExist.asNSError
         }
