@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [1.0.12] - 2026-04-02
+
+[d69122f] Merge pull request #73 from gojek/task/track-guid (by @Abhijeet Mallick)
+[e899079] Remove extra spaces (by @AbhijeetMallick)
+[46e64c3] Use data instead of guid (by @AbhijeetMallick)
+[1591dba] Use data instead of GUID (by @AbhijeetMallick)
+[857be0f] Added new function for GUID (by @AbhijeetMallick)
+[263215d] Add GUID tracking (by @AbhijeetMallick)
+[b12093e] Merge pull request #72 from gojek/release/1.0.11 (by @lucmahn88)
+
 ## [1.0.11] - 2026-03-31
 
 [ef8657c] Merge pull request #71 from gojek/fix/update_mock_mqqt_client_signature (by @lucmahn88)
