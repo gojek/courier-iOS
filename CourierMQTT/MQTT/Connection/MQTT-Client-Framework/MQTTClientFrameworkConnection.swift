@@ -235,11 +235,11 @@ extension MQTTClientFrameworkConnection: MQTTClientFrameworkSessionManagerDelega
         )
     }
 
-    func sessionManager(_ sessionManager: IMQTTClientFrameworkSessionManager, didDeliverMessageID msgID: UInt16, topic: String, data: Data, qos: MQTTQosLevel, retainFlag: Bool, guid: String) {
+    func sessionManager(_ sessionManager: IMQTTClientFrameworkSessionManager, didDeliverMessageID msgID: UInt16, topic: String, data: Data, qos: MQTTQosLevel, retainFlag: Bool) {
         #if DEBUG
         printDebug("MQTT - COURIER: Message Delivered topic: \(topic), qos: \(qos), payload: \(String(data: data, encoding: .utf8) ?? "")")
         #endif
-        eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .messageSendSuccess(topic: topic, qos: QoS(rawValue: Int(qos.rawValue)) ?? .zero, sizeBytes: data.count, guid: guid)))
+        eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .messageSendSuccess(topic: topic, qos: QoS(rawValue: Int(qos.rawValue)) ?? .zero, sizeBytes: data.count, data: data)))
     }
 
     func sessionManager(_ sessionManager: IMQTTClientFrameworkSessionManager, didSubscribeTopics topics: [String]) {

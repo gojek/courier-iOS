@@ -41,7 +41,7 @@ public enum CourierEventType {
     case messageReceiveFailure(topic: String, error: Error?, sizeBytes: Int)
 
     case messageSend(topic: String, qos: QoS, sizeBytes: Int)
-    case messageSendSuccess(topic: String, qos: QoS, sizeBytes: Int, guid: String)
+    case messageSendSuccess(topic: String, qos: QoS, sizeBytes: Int, data: Data)
     case messageSendFailure(topic: String, qos: QoS, error: Error?, sizeBytes: Int)
 
     case appForeground
