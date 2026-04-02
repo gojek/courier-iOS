@@ -89,6 +89,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     private var protocolLevel: MQTTProtocolVersion?
     private var alpn: [String]?
 
+    private var msgIDToDataMap = [UInt16: Data]()
     private var streamSSLLevel: String
 
     private var connectTimeoutPolicy: IConnectTimeoutPolicy
@@ -262,7 +263,8 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
                 printDebug("COURIER: Puback Handler for Special QoSes")
                 if error == nil {
                     let mid = midProvider?() ?? 0
-                    self.delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
+                    let deliveredData = self.msgIDToDataMap.removeValue(forKey: mid) ?? data
+                    self.delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: deliveredData, qos: qos, retainFlag: retainFlag)
                 }
             }
         }
@@ -379,7 +381,10 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     }
 
     func publish(packet: MQTTPacket) {
-        sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
+        let msgID = sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
+        if msgID > 0 {
+            msgIDToDataMap[msgID] = packet.data
+        }
     }
     
     func deleteAllPersistedMessages() {
@@ -438,7 +443,8 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
     }
 
     func messageDelivered(_ session: MQTTSession!, msgID: UInt16, topic: String!, data: Data!, qos: MQTTQosLevel, retainFlag: Bool) {
-        delegate?.sessionManager(self, didDeliverMessageID: msgID, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
+        let deliveredData = msgIDToDataMap.removeValue(forKey: msgID) ?? data ?? Data()
+        delegate?.sessionManager(self, didDeliverMessageID: msgID, topic: topic, data: deliveredData, qos: qos, retainFlag: retainFlag)
     }
 
     func sending(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
