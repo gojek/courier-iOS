@@ -243,21 +243,6 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
             throw error
         }
     }
-    
-    func publishMessageWithGUID<E>(_ data: E, topic: String, qos: QoS, guid: String? = nil) throws {
-        guard client.hasExistingSession else {
-            throw CourierError.sessionNotExist.asNSError
-        }
-
-        do {
-            let data = try messageAdaptersCoordinator.encodeMessage(data, topic: topic)
-            printDebug("COURIER Publish - topic:\(topic), payload: \(String(data: data, encoding: .utf8) ?? "")")
-            client.send(packet: MQTTPacket(data: data, topic: topic, qos: qos, guid: guid ?? ""))
-        } catch {
-            courierEventHandler.onEvent(.init(connectionInfo: client.connectOptions, event: .messageSendFailure(topic: topic, qos: qos, error: error, sizeBytes: 0)))
-            throw error
-        }
-    }
 
     func subscribe(_ topics: (topic: String, qos: QoS)...) {
         subscribe(topics)
