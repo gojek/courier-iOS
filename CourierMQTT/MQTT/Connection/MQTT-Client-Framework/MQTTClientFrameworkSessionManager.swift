@@ -202,13 +202,6 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
                     oldSession.close(disconnectHandler: nil)
                 }
             }
-            
-            if fixCxxDestructCrash == true { // Remove this first `if` once the crash is fixed
-                if let oldSession = self.session {
-                    oldSession.delegate = nil   // stop callbacks from old session
-                    oldSession.close(disconnectHandler: nil)
-                }
-            }
 
             self.session = mqttSessionFactory.makeSession()
             session?.clientId = clientId
