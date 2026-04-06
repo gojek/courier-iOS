@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.0.13] - 2026-04-06
+
+[c2afd95] Merge pull request #75 from gojek/task/remove-duplicate-code (by @Abhijeet Mallick)
+[d6465c8] Merge pull request #74 from gojek/release/1.0.12 (by @lucmahn88)
+[d9e2389] Remove duplicate code (by @AbhijeetMallick)
+
 ## [1.0.12] - 2026-04-02
 
 [d69122f] Merge pull request #73 from gojek/task/track-guid (by @Abhijeet Mallick)
