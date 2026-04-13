@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.0.14] - 2026-04-13
+
+[f977129] Merge pull request #76 from gojek/task/fixMessageDeliveredCrash (by @Abhijeet Mallick)
+[42640c3] Possible crash fix (by @AbhijeetMallick)
+[920768c] [CI] Bump version - 1.0.13 (by @github-actions[bot])
+
 ## [1.0.12] - 2026-04-02
 
 [d69122f] Merge pull request #73 from gojek/task/track-guid (by @Abhijeet Mallick)
