@@ -14,4 +14,5 @@ protocol IMQTTConfiguration {
     var isMQTTPersistentEnabled: Bool { get }
     var isMQTTMemoryPersistentEnabled: Bool { get }
     var fixCxxDestructCrash: Bool { get }
+    var fixMessageDeliveredCrash: Bool { get }
 }
