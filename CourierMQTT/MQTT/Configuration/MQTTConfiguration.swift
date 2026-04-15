@@ -12,7 +12,6 @@ struct MQTTConfiguration: IMQTTConfiguration {
     var isMQTTPersistentEnabled: Bool
     var isMQTTMemoryPersistentEnabled: Bool
     var fixCxxDestructCrash: Bool
-    var fixMessageDeliveredCrash: Bool
 
     init(connectRetryTimePolicy: IConnectRetryTimePolicy = ConnectRetryTimePolicy(),
          connectTimeoutPolicy: IConnectTimeoutPolicy = ConnectTimeoutPolicy(),
@@ -23,8 +22,7 @@ struct MQTTConfiguration: IMQTTConfiguration {
          messageCleanupInterval: TimeInterval = 10,
          isMQTTPersistentEnabled: Bool,
          isMQTTMemoryPersistentEnabled: Bool,
-         fixCxxDestructCrash: Bool,
-         fixMessageDeliveredCrash: Bool) {
+         fixCxxDestructCrash: Bool) {
         self.connectRetryTimePolicy = connectRetryTimePolicy
         self.connectTimeoutPolicy = connectTimeoutPolicy
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
@@ -35,6 +33,5 @@ struct MQTTConfiguration: IMQTTConfiguration {
         self.isMQTTPersistentEnabled = isMQTTPersistentEnabled
         self.isMQTTMemoryPersistentEnabled = isMQTTMemoryPersistentEnabled
         self.fixCxxDestructCrash = fixCxxDestructCrash
-        self.fixMessageDeliveredCrash = fixMessageDeliveredCrash
     }
 }

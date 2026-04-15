@@ -55,8 +55,7 @@ class MQTTClient: IMQTTClient {
             idleActivityTimeoutPolicy: configuration.idleActivityTimeoutPolicy,
             isDatabasePersistent: configuration.isMQTTPersistentEnabled,
             inMemoryPersistent: configuration.isMQTTMemoryPersistentEnabled,
-            fixCxxDestructCrash: configuration.fixCxxDestructCrash,
-            fixMessageDeliveredCrash: configuration.fixMessageDeliveredCrash
+            fixCxxDestructCrash: configuration.fixCxxDestructCrash
         )
 
         connection = mqttConnectionFactory.makeConnection(connectionConfig: connectionConfig)
