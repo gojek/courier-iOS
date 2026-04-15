@@ -51,7 +51,6 @@ public struct MQTTClientConfig {
     }
     
     public let fixCxxDestructCrash: Bool
-    public let fixMessageDeliveredCrash: Bool
 
     public init(
         topics: [String: QoS] = [:],
@@ -68,8 +67,7 @@ public struct MQTTClientConfig {
         messagePersistenceTTLSeconds: TimeInterval = 0,
         messageCleanupInterval: TimeInterval = 10,
         shouldInitializeCoreDataPersistenceContext: Bool = true,
-        fixCxxDestructCrash: Bool = false,
-        fixMessageDeliveredCrash: Bool = false
+        fixCxxDestructCrash: Bool = false
     ) {
         self.topics = topics
         self.authService = authService
@@ -86,6 +84,5 @@ public struct MQTTClientConfig {
         self.messageCleanupInterval = messageCleanupInterval
         self.shouldInitializeCoreDataPersistenceContext = shouldInitializeCoreDataPersistenceContext
         self.fixCxxDestructCrash = fixCxxDestructCrash
-        self.fixMessageDeliveredCrash = fixMessageDeliveredCrash
     }
 }

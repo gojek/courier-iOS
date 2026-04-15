@@ -88,15 +88,11 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     private var certificates: [Any]?
     private var protocolLevel: MQTTProtocolVersion?
     private var alpn: [String]?
-
-    private var msgIDToDataMap = [UInt16: Data]()
-    private let msgIDToDataLock = NSLock()
     private var streamSSLLevel: String
 
     private var connectTimeoutPolicy: IConnectTimeoutPolicy
     private var idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
     private var fixCxxDestructCrash: Bool
-    private var fixMessageDeliveredCrash: Bool
 
     var requiresTeardown: Bool {
         state != .closed && state != .starting
@@ -111,8 +107,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
          connectTimeoutPolicy: IConnectTimeoutPolicy,
          idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol,
          eventHandler: ICourierEventHandler,
-         fixCxxDestructCrash: Bool,
-         fixMessageDeliveredCrash: Bool
+         fixCxxDestructCrash: Bool
     ) {
         self.streamSSLLevel = streamSSLLevel
         self.queue = queue
@@ -122,7 +117,6 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
         self.eventHandler = eventHandler
         self.fixCxxDestructCrash = fixCxxDestructCrash
-        self.fixMessageDeliveredCrash = fixMessageDeliveredCrash
         
         super.init()
         self.updateState(to: .starting)
@@ -259,19 +253,8 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
                 guard let self = self else { return }
                 printDebug("COURIER: Puback Handler for Special QoSes")
                 if error == nil {
-                    if fixMessageDeliveredCrash == true {
-                        let mid = midProvider?() ?? 0
-                        self.msgIDToDataLock.lock()
-                        let deliveredData = self.msgIDToDataMap.removeValue(forKey: mid) ?? data
-                        self.msgIDToDataLock.unlock()
-                        
-                        guard let delegate = self.delegate else { return }
-                        delegate.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: deliveredData, qos: qos, retainFlag: retainFlag)
-                    } else {
-                        let mid = midProvider?() ?? 0
-                        let deliveredData = self.msgIDToDataMap.removeValue(forKey: mid) ?? data
-                        self.delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: deliveredData, qos: qos, retainFlag: retainFlag)
-                    }
+                    let mid = midProvider?() ?? 0
+                    self.delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
                 }
             }
         }
@@ -388,18 +371,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     }
 
     func publish(packet: MQTTPacket) {
-        let msgID = sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
-        if fixMessageDeliveredCrash == true {
-            if msgID > 0 {
-                msgIDToDataLock.lock()
-                msgIDToDataMap[msgID] = packet.data
-                msgIDToDataLock.unlock()
-            }
-        } else {
-            if msgID > 0 {
-                msgIDToDataMap[msgID] = packet.data
-            }
-        }
+        sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
     }
     
     func deleteAllPersistedMessages() {
@@ -458,17 +430,7 @@ extension MQTTClientFrameworkSessionManager: MQTTSessionDelegate {
     }
 
     func messageDelivered(_ session: MQTTSession!, msgID: UInt16, topic: String!, data: Data!, qos: MQTTQosLevel, retainFlag: Bool) {
-        if fixMessageDeliveredCrash == true {
-            msgIDToDataLock.lock()
-            let deliveredData = msgIDToDataMap.removeValue(forKey: msgID) ?? data ?? Data()
-            msgIDToDataLock.unlock()
-            
-            guard let delegate = delegate else { return }
-            delegate.sessionManager(self, didDeliverMessageID: msgID, topic: topic, data: deliveredData, qos: qos, retainFlag: retainFlag)
-        } else {
-            let deliveredData = msgIDToDataMap.removeValue(forKey: msgID) ?? data ?? Data()
-            delegate?.sessionManager(self, didDeliverMessageID: msgID, topic: topic, data: deliveredData, qos: qos, retainFlag: retainFlag)
-        }
+        delegate?.sessionManager(self, didDeliverMessageID: msgID, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
     }
 
     func sending(_ session: MQTTSession!, type: MQTTCommandType, qos: MQTTQosLevel, retained: Bool, duped: Bool, mid: UInt16, data: Data!) {
