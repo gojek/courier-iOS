@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.0.15] - 2026-04-15
+
+[78cb137] Merge pull request #77 from gojek/task/fixMessageDeliveredCrash (by @Abhijeet Mallick)
+[b71c3bb] Revert `fixMessageDeliveredCrash` variable and remove hashmap (by @AbhijeetMallick)
+[9eb78dc] [CI] Bump version - 1.0.14 (by @github-actions[bot])
+
 ## [1.0.12] - 2026-04-02
 
 [d69122f] Merge pull request #73 from gojek/task/track-guid (by @Abhijeet Mallick)
