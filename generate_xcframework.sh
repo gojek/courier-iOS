@@ -11,6 +11,7 @@ rm -rf archives/
 framework_name="MQTTClientGJ"
 scheme="MQTTClientGJ"
 workspace="Courier.xcworkspace"
+deployment_target="12.0"
 
 rm -rf $framework_name.xcframework
 echo "Archiving $framework_name to XCFramework"
@@ -23,7 +24,8 @@ xcodebuild archive \
     -sdk iphoneos \
     -archivePath archives/$framework_name-iOS \
     BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-    SKIP_INSTALL=NO 
+    SKIP_INSTALL=NO \
+    IPHONEOS_DEPLOYMENT_TARGET="$deployment_target"
 
 xcodebuild archive \
     -workspace $workspace \
@@ -33,7 +35,8 @@ xcodebuild archive \
     -sdk iphonesimulator \
     -archivePath archives/$framework_name-iOS-Simulator \
     BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-    SKIP_INSTALL=NO 
+    SKIP_INSTALL=NO \
+    IPHONEOS_DEPLOYMENT_TARGET="$deployment_target"
 
 xcodebuild -create-xcframework \
     -framework "archives/$framework_name-iOS.xcarchive/Products/Library/Frameworks/$framework_name.framework" \
