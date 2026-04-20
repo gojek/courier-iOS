@@ -10,9 +10,9 @@ Pod::Spec.new do |c|
     c.platform        = :ios, '12.0'
 
     c.source          = {
-		:git => "https://github.com/gojek/courier-iOS.git",
-		:tag => "#{c.version}"
-	}
+	:git => "https://github.com/gojek/courier-iOS.git",
+	:tag => "#{c.version}"
+    }
     c.swift_version   = ['6.0', '5.3']
     c.source_files    = 'CourierCore/**/*.swift'
 end

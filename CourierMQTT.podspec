@@ -10,8 +10,8 @@ Pod::Spec.new do |c|
     c.platform        = :ios, '12.0'
   
     c.source = {
-  	:git => "https://github.com/gojek/courier-iOS.git",
-  	:branch => "digital_identity_ios_12"
+	:git => "https://github.com/gojek/courier-iOS.git",
+	:tag => "#{c.version}"
     }
     c.swift_version = ['6.0', '5.3']
     c.static_framework = true

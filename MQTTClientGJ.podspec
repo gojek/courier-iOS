@@ -5,9 +5,9 @@ Pod::Spec.new do |mqttc|
 	mqttc.homepage     = "https://github.com/gojek/courier-iOS"
 	mqttc.license 	   = { :type => 'EPLv1', :file => './LICENSES/EPLV1_LICENSE' }
 	mqttc.author       = "Gojek"
-	mqttc.source = {
-  		:git => "https://github.com/gojek/courier-iOS.git",
-  		:branch => "digital_identity_ios_12"
+	mqttc.source = = {
+	 	:git => "https://github.com/gojek/courier-iOS.git",
+		:tag => "#{mqttc.version}"
 	}
 	mqttc.platform = :ios, '12.0'
 	mqttc.swift_version = ['6.0', '5.3']
