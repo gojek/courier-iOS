@@ -1,0 +1,16 @@
+---
+path:            '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_StringProcessing.swiftmodule/arm64e-apple-ios.swiftmodule'
+dependencies:
+  - mtime:           1767984762000000000
+    path:            '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/_StringProcessing.swiftmodule/arm64e-apple-ios.swiftmodule'
+    size:            83612
+  - mtime:           1762654597000000000
+    path:            'usr/lib/swift/Swift.swiftmodule/arm64e-apple-ios.swiftinterface'
+    size:            2257762
+    sdk_relative:    true
+  - mtime:           1762656216000000000
+    path:            'usr/lib/swift/_StringProcessing.swiftmodule/arm64e-apple-ios.swiftinterface'
+    size:            24455
+    sdk_relative:    true
+version:         1
+...

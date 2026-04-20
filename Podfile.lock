@@ -1,6 +1,6 @@
 PODS:
   - ReachabilitySwift (5.2.4)
-  - SwiftProtobuf (1.33.3)
+  - SwiftProtobuf (1.36.1)
 
 DEPENDENCIES:
   - ReachabilitySwift (>= 5.0.0)
@@ -13,7 +13,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
-  SwiftProtobuf: e1b437c8e31a4c5577b643249a0bb62ed4f02153
+  SwiftProtobuf: 9e106a71456f4d3f6a3b0c8fd87ef0be085efc38
 
 PODFILE CHECKSUM: f91dcf2d6c2aaf8f8ba6bda095d305b14b6cdd94
 

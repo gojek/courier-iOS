@@ -1,0 +1,5 @@
+ extern const unsigned char Pods_CourierMQTTVersionString[];
+ extern const double Pods_CourierMQTTVersionNumber;
+
+ const unsigned char Pods_CourierMQTTVersionString[] __attribute__ ((used)) = "@(#)PROGRAM:Pods_CourierMQTT  PROJECT:Pods-1" "\n";
+ const double Pods_CourierMQTTVersionNumber __attribute__ ((used)) = (double)1.;

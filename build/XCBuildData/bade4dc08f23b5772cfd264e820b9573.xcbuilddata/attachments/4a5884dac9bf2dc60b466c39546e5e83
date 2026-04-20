@@ -1,0 +1,4 @@
+
+module SwiftProtobuf.__Swift {
+  exclude header "SwiftProtobuf-Swift.h"
+}

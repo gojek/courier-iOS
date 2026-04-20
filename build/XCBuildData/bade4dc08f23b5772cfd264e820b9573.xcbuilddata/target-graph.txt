@@ -1,0 +1,20 @@
+Target dependency graph (9 targets)
+Target 'Pods-CourierTests' in project 'Pods'
+➜ Explicit dependency on target 'ReachabilitySwift' in project 'Pods'
+➜ Explicit dependency on target 'SwiftProtobuf' in project 'Pods'
+Target 'Pods-CourierProtobuf' in project 'Pods'
+➜ Explicit dependency on target 'ReachabilitySwift' in project 'Pods'
+➜ Explicit dependency on target 'SwiftProtobuf' in project 'Pods'
+Target 'Pods-CourierMQTTChuck' in project 'Pods'
+➜ Explicit dependency on target 'ReachabilitySwift' in project 'Pods'
+Target 'Pods-CourierMQTT' in project 'Pods'
+➜ Explicit dependency on target 'ReachabilitySwift' in project 'Pods'
+Target 'Pods-CourierE2EApp' in project 'Pods'
+➜ Explicit dependency on target 'ReachabilitySwift' in project 'Pods'
+➜ Explicit dependency on target 'SwiftProtobuf' in project 'Pods'
+Target 'SwiftProtobuf' in project 'Pods'
+➜ Explicit dependency on target 'SwiftProtobuf-SwiftProtobuf' in project 'Pods'
+Target 'SwiftProtobuf-SwiftProtobuf' in project 'Pods' (no dependencies)
+Target 'ReachabilitySwift' in project 'Pods'
+➜ Explicit dependency on target 'ReachabilitySwift-ReachabilitySwift' in project 'Pods'
+Target 'ReachabilitySwift-ReachabilitySwift' in project 'Pods' (no dependencies)

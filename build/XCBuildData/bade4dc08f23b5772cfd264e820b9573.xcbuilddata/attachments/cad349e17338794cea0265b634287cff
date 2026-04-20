@@ -1,0 +1,16 @@
+{
+  "" : {
+    "const-values" : "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Pods.build/Release-iphoneos/ReachabilitySwift.build/Objects-normal/arm64/ReachabilitySwift-primary.swiftconstvalues",
+    "dependencies" : "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Pods.build/Release-iphoneos/ReachabilitySwift.build/Objects-normal/arm64/ReachabilitySwift-primary.d",
+    "diagnostics" : "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Pods.build/Release-iphoneos/ReachabilitySwift.build/Objects-normal/arm64/ReachabilitySwift-primary.dia",
+    "emit-module-dependencies" : "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Pods.build/Release-iphoneos/ReachabilitySwift.build/Objects-normal/arm64/ReachabilitySwift-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Pods.build/Release-iphoneos/ReachabilitySwift.build/Objects-normal/arm64/ReachabilitySwift-primary-emit-module.dia",
+    "pch" : "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Pods.build/Release-iphoneos/ReachabilitySwift.build/Objects-normal/arm64/ReachabilitySwift-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Pods.build/Release-iphoneos/ReachabilitySwift.build/Objects-normal/arm64/ReachabilitySwift-primary.swiftdeps"
+  },
+  "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/Pods/ReachabilitySwift/Sources/Reachability.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/ReachabilitySwift.build/Objects-normal/arm64/Reachability.o",
+    "llvm-bc" : "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Pods.build/Release-iphoneos/ReachabilitySwift.build/Objects-normal/arm64/Reachability.bc",
+    "object" : "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Pods.build/Release-iphoneos/ReachabilitySwift.build/Objects-normal/arm64/Reachability.o"
+  }
+}

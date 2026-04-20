@@ -1,0 +1,4 @@
+
+module Reachability.__Swift {
+  exclude header "Reachability-Swift.h"
+}

@@ -1,0 +1,23 @@
+{
+  "version": 0,
+  "use-external-names": false,
+  "case-sensitive": false,
+  "roots": [{
+    "type": "directory",
+    "name": "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Release-iphoneos/ReachabilitySwift/Reachability.framework/Modules",
+    "contents": [{
+      "type": "file",
+      "name": "module.modulemap",
+      "external-contents": "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Pods.build/Release-iphoneos/ReachabilitySwift.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    "type": "directory",
+    "name": "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Release-iphoneos/ReachabilitySwift/Reachability.framework/Headers",
+    "contents": [{
+      "type": "file",
+      "name": "Reachability-Swift.h",
+      "external-contents": "/Users/kuncoro.gemilang/Documents/Projects/courier-iOS/build/Pods.build/Release-iphoneos/ReachabilitySwift.build/unextended-interface-header.h",
+    }]
+  }]
+}

@@ -1,0 +1,20 @@
+---
+path:            '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Observation.swiftmodule/arm64e-apple-ios.swiftmodule'
+dependencies:
+  - mtime:           1767984765000000000
+    path:            '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/prebuilt-modules/26.2/Observation.swiftmodule/arm64e-apple-ios.swiftmodule'
+    size:            30500
+  - mtime:           1762654597000000000
+    path:            'usr/lib/swift/Swift.swiftmodule/arm64e-apple-ios.swiftinterface'
+    size:            2257762
+    sdk_relative:    true
+  - mtime:           1762656027000000000
+    path:            'usr/lib/swift/_Concurrency.swiftmodule/arm64e-apple-ios.swiftinterface'
+    size:            407491
+    sdk_relative:    true
+  - mtime:           1762656036000000000
+    path:            'usr/lib/swift/Observation.swiftmodule/arm64e-apple-ios.swiftinterface'
+    size:            5638
+    sdk_relative:    true
+version:         1
+...
