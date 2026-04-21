@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ConnectOptions: Equatable {
+public struct ConnectOptions: Equatable, @unchecked Sendable {
 
     public let host: String
 

@@ -11,7 +11,7 @@ protocol IncomingMessagePersistenceProtocol {
     func deleteMessagesWithOlderTimestamp(_ timestamp: Date)
 }
 
-final class IncomingMessagePersistence: IncomingMessagePersistenceProtocol {
+final class IncomingMessagePersistence: IncomingMessagePersistenceProtocol, @unchecked Sendable {
     
     private var _managedObjectContext: NSManagedObjectContext?
     var managedObjectContext: NSManagedObjectContext {

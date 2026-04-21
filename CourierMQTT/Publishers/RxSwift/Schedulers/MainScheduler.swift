@@ -13,7 +13,7 @@ import Foundation
  This scheduler is optimized for `observeOn` operator. To ensure observable sequence is subscribed on main thread using `subscribeOn`
  operator please use `ConcurrentMainScheduler` because it is more optimized for that purpose.
  */
-final class MainScheduler: SerialDispatchQueueScheduler {
+final class MainScheduler: SerialDispatchQueueScheduler, @unchecked Sendable {
     private let mainQueue: DispatchQueue
 
     let numberEnqueued = AtomicInt(0)

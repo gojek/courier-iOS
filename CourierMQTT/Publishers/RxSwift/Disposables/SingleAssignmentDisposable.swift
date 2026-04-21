@@ -3,7 +3,7 @@
 
  If an underlying disposable resource has already been set, future attempts to set the underlying disposable resource will throw an exception.
  */
-final class SingleAssignmentDisposable: DisposeBase, Cancelable {
+final class SingleAssignmentDisposable: DisposeBase, Cancelable, @unchecked Sendable {
     private enum DisposeState: Int32 {
         case disposed = 1
         case disposableSet = 2
