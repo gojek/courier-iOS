@@ -42,7 +42,7 @@ final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sen
         _messagePublisherDict.mutate { dict in
             dict[topic, default: 0] += 1
         }
-        self.publishSubjectDispatchQueue.async { [weak self] in
+        self.publishSubjectDispatchQueue.sync(flags: .barrier) { [weak self] in
             self?.handlePersistedMessages()
         }
     }
@@ -59,7 +59,7 @@ final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sen
 
     func messageArrived(data: Data, topic: String, qos: QoS) {
         if IsIncomingMessagePersistenceEnabled, qos != .zero {
-            publishSubjectDispatchQueue.async { [weak self] in
+            publishSubjectDispatchQueue.sync(flags: .barrier) { [weak self] in
                 guard let self = self else { return }
                 let safeMessage = MQTTPacket(data: data, topic: topic, qos: qos)
                 do {
