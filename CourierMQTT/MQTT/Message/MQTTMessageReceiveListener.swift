@@ -64,6 +64,10 @@ final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sen
                 let safeMessage = MQTTPacket(data: data, topic: topic, qos: qos)
                 do {
                     try self.messagePersistence.saveMessage(safeMessage)
+                    
+                    if qos == .one {
+                        self.addPublisherDict(topic: topic)
+                    }
                 } catch {
                     self.publishSubject.onNext(safeMessage)
                 }
