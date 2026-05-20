@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## [1.0.16] - 2026-05-20
+
+[ea42527] Merge pull request #78 from gojek/fix/qos_1_subscribe (by @Abhijeet Mallick)
+[4bb1e70] Update on message received for qos 1 (by @luqman.fauzi@gojek.com)
+[46c4b67] Add barrier flags on publisher flags (by @Luqman)
+[60a9c2d] Add fallback ios 12 & swift concurrency for CourierMQTT (by @Luqman)
+[a8174e5] Update MQTTClientGJ.podspec (by @Kuncoro Galih Gemilang)
+[18e7528] Update podspec and framework (by @Kuncoro Galih Gemilang)
+[48a2269] Update podspec (by @Kuncoro Galih Gemilang)
+[94623a6] Bump version to 1.0.15 (by @Luqman)
+[76c8965] Update podspec (by @Kuncoro Galih Gemilang)
+[71c3331] Change podspec (by @Kuncoro Galih Gemilang)
+[e5d39c4] Modify script by adding deployment target (by @Kuncoro Galih Gemilang)
+[13057c0] Update xcframework (by @Kuncoro Galih Gemilang)
+[bdebc94] Update build (by @Kuncoro Galih Gemilang)
+[896bb37] Update ios min. version in build setting (by @Kuncoro Galih Gemilang)
+[7a02c67] Merge remote-tracking branch 'origin/digital_identity_ios_12' into digital_identity_ios_12 (by @Kuncoro Galih Gemilang)
+[4faa258] Update generated xcframework (by @Kuncoro Galih Gemilang)
+[ed5ce23] Fix syntax error (by @Luqman)
+[0b76554] Change min. ios version (by @Kuncoro Galih Gemilang)
+[d9872ce] Update Podfile.lock (by @Kuncoro Galih Gemilang)
+[5dd8e1a] Change min. ios version (by @Kuncoro Galih Gemilang)
+[cb183c3] Fix string (by @Kuncoro Galih Gemilang)
+[9ac4b3a] Revert "Update podspecs' syntax" (by @Kuncoro Galih Gemilang)
+[06968ce] Update podspecs' syntax (by @Kuncoro Galih Gemilang)
+[fc3b122] Set min. deployment target to iOS 12 (by @Luqman)
+
 ## [1.0.12] - 2026-04-02
 
 [d69122f] Merge pull request #73 from gojek/task/track-guid (by @Abhijeet Mallick)
