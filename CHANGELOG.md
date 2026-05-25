@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [1.0.17] - 2026-05-20
+
+[6e6b523] [CI] Bump version - 1.0.16 (by @github-actions[bot])
+
 ## [1.0.12] - 2026-04-02
 
 [d69122f] Merge pull request #73 from gojek/task/track-guid (by @Abhijeet Mallick)
