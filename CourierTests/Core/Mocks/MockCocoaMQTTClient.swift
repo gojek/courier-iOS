@@ -12,6 +12,7 @@ final class MockCocoaMQTTClient: ICocoaMQTTClient {
     var enableSSL: Bool = false
     var allowUntrustCACertificate: Bool = false
     var autoReconnect: Bool = true
+    var sslSettings: [String: NSObject]?
     var connectProperties: MqttConnectProperties?
     var delegateQueue: DispatchQueue = .main
     weak var delegate: CocoaMQTT5Delegate?

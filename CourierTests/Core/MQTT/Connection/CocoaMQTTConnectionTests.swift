@@ -93,6 +93,130 @@ class CocoaMQTTConnectionTests: XCTestCase {
         XCTAssertEqual(mockClient.connectProperties?.userProperties?["k"], "v")
     }
 
+    // MARK: - ALPN
+
+    func testConnectWithALPNSetsSSLSettings() {
+        let options = ConnectOptions(
+            host: "broker.com", port: 443, keepAlive: 60, clientId: "id",
+            username: "u", password: "p", isCleanSession: true,
+            userProperties: nil, alpn: ["mqtt"], scheme: "tls"
+        )
+        sut.connect(connectOptions: options, messageReceiveListener: mockMessageReceiveListener)
+
+        let alpn = mockClient.sslSettings?["MGCDAsyncSocketSSLALPN"] as? [String]
+        XCTAssertEqual(alpn, ["mqtt"])
+    }
+
+    func testConnectWithoutALPNDoesNotSetSSLSettings() {
+        sut.connect(connectOptions: stubConnectOptions, messageReceiveListener: mockMessageReceiveListener)
+        XCTAssertNil(mockClient.sslSettings?["MGCDAsyncSocketSSLALPN"])
+    }
+
+    // MARK: - Custom QoS 3/4
+
+    func testPublishQoS3MapsToWireQoS1() {
+        sut.connect(connectOptions: stubConnectOptions, messageReceiveListener: mockMessageReceiveListener)
+        sut.publish(packet: MQTTPacket(data: Data("x".utf8), topic: "t", qos: .oneWithoutPersistenceAndNoRetry))
+        XCTAssertEqual(mockClient.invokedPublishParameters?.message.qos, .qos1)
+    }
+
+    func testPublishQoS4MapsToWireQoS1() {
+        sut.connect(connectOptions: stubConnectOptions, messageReceiveListener: mockMessageReceiveListener)
+        sut.publish(packet: MQTTPacket(data: Data("x".utf8), topic: "t", qos: .oneWithoutPersistenceAndRetry))
+        XCTAssertEqual(mockClient.invokedPublishParameters?.message.qos, .qos1)
+    }
+
+    // MARK: - Connect timeout watchdog
+
+    func testConnectTimeoutForcesReconnect() {
+        mockConnectTimeoutPolicy.stubbedIsEnabled = true
+        mockConnectTimeoutPolicy.stubbedTimerInterval = 100
+        mockConnectTimeoutPolicy.stubbedTimeout = 0
+
+        sut.connect(connectOptions: stubConnectOptions, messageReceiveListener: mockMessageReceiveListener)
+        mockClient.connState = .connecting
+
+        let makeCountBefore = mockClientFactory.invokedMakeClientCount
+        sut.checkConnectActivity()
+
+        XCTAssertGreaterThan(mockClientFactory.invokedMakeClientCount, makeCountBefore)
+        let events = mockEventHandler.invokedOnEventParametersList.compactMap { $0?.event.type }
+        XCTAssertTrue(events.contains { if case .connectionLost = $0 { return true } else { return false } })
+    }
+
+    func testConnectTimeoutIgnoredWhenNotConnecting() {
+        mockConnectTimeoutPolicy.stubbedIsEnabled = true
+        mockConnectTimeoutPolicy.stubbedTimerInterval = 100
+        mockConnectTimeoutPolicy.stubbedTimeout = 0
+
+        sut.connect(connectOptions: stubConnectOptions, messageReceiveListener: mockMessageReceiveListener)
+        mockClient.connState = .connected
+
+        let makeCountBefore = mockClientFactory.invokedMakeClientCount
+        sut.checkConnectActivity()
+
+        XCTAssertEqual(mockClientFactory.invokedMakeClientCount, makeCountBefore)
+    }
+
+    // MARK: - Activity / read timeout watchdog
+
+    func testReadTimeoutForcesReconnect() {
+        sut = makeSUT(idlePolicy: IdleActivityTimeoutPolicy(isEnabled: true, timerInterval: 100, inactivityTimeout: 100, readTimeout: 0))
+        sut.connect(connectOptions: stubConnectOptions, messageReceiveListener: mockMessageReceiveListener)
+        mockClient.connState = .connected
+        // No outbound packet awaiting a response: total inbound silence path.
+        sut.fastReconnect = nil
+        sut.lastInboundActivity = Date(timeIntervalSince1970: 0)
+
+        let makeCountBefore = mockClientFactory.invokedMakeClientCount
+        sut.checkActivity()
+
+        XCTAssertGreaterThan(mockClientFactory.invokedMakeClientCount, makeCountBefore)
+        let events = mockEventHandler.invokedOnEventParametersList.compactMap { $0?.event.type }
+        XCTAssertTrue(events.contains { if case .connectionLost = $0 { return true } else { return false } })
+    }
+
+    func testInactivityTimeoutForcesReconnectAfterOutboundSend() {
+        sut = makeSUT(idlePolicy: IdleActivityTimeoutPolicy(isEnabled: true, timerInterval: 100, inactivityTimeout: 0, readTimeout: 100))
+        sut.connect(connectOptions: stubConnectOptions, messageReceiveListener: mockMessageReceiveListener)
+        mockClient.connState = .connected
+        sut.lastInboundActivity = Date()
+        // Outbound packet expecting a response arms the fast-reconnect watchdog.
+        sut.recordOutboundActivity(armsFastReconnect: true)
+
+        let makeCountBefore = mockClientFactory.invokedMakeClientCount
+        sut.checkActivity()
+
+        XCTAssertGreaterThan(mockClientFactory.invokedMakeClientCount, makeCountBefore)
+    }
+
+    func testActivityCheckIgnoredWhenNotConnected() {
+        sut = makeSUT(idlePolicy: IdleActivityTimeoutPolicy(isEnabled: true, timerInterval: 100, inactivityTimeout: 0, readTimeout: 0))
+        sut.connect(connectOptions: stubConnectOptions, messageReceiveListener: mockMessageReceiveListener)
+        mockClient.connState = .disconnected
+
+        let makeCountBefore = mockClientFactory.invokedMakeClientCount
+        sut.checkActivity()
+
+        XCTAssertEqual(mockClientFactory.invokedMakeClientCount, makeCountBefore)
+    }
+
+    private func makeSUT(idlePolicy: IdleActivityTimeoutPolicyProtocol) -> CocoaMQTTConnection {
+        CocoaMQTTConnection(
+            connectionConfig: ConnectionConfig(
+                connectRetryTimePolicy: mockConnectRetryTimePolicy,
+                eventHandler: mockEventHandler,
+                authFailureHandler: mockAuthFailureHandler,
+                connectTimeoutPolicy: mockConnectTimeoutPolicy,
+                idleActivityTimeoutPolicy: idlePolicy,
+                isDatabasePersistent: false,
+                inMemoryPersistent: false,
+                fixCxxDestructCrash: false
+            ),
+            clientFactory: mockClientFactory
+        )
+    }
+
     func testConnectEmitsConnectionAttemptAndConnectedPacketSent() {
         sut.connect(connectOptions: stubConnectOptions, messageReceiveListener: mockMessageReceiveListener)
 

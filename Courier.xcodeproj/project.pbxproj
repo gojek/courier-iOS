@@ -154,6 +154,7 @@
 		B8748B172E20E6530046E779 /* libCourierCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE0DD41270BE3B000630D60 /* libCourierCore.a */; };
 		B8748B1A2E20E6530046E779 /* libCourierMQTT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE0DD6D270BE47300630D60 /* libCourierMQTT.a */; };
 		C5E4431D4623A56173D74703 /* CocoaMQTTConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8C69354F447474A21B97AA /* CocoaMQTTConnection.swift */; };
+		FACE0001CAFE0001BEEF0001 /* CocoaMQTTConnection+MQTTChuck.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACE0002CAFE0002BEEF0002 /* CocoaMQTTConnection+MQTTChuck.swift */; };
 		D669F5562E01509DCAD8D2E5 /* CocoaMQTTConnection+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED766E2D0D70CFF57AFB4B7D /* CocoaMQTTConnection+Mapping.swift */; };
 		D8C17FCA2F0CA89100C8DFF9 /* AnonymousDisposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C17F762F0CA89100C8DFF9 /* AnonymousDisposable.swift */; };
 		D8C17FCB2F0CA89100C8DFF9 /* ObservableConvertibleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C17FC22F0CA89100C8DFF9 /* ObservableConvertibleType.swift */; };
@@ -439,6 +440,7 @@
 		72386047C1E9D9AE0FBD6A08 /* Pods-CourierE2EApp.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierE2EApp.production.xcconfig"; path = "Target Support Files/Pods-CourierE2EApp/Pods-CourierE2EApp.production.xcconfig"; sourceTree = "<group>"; };
 		7E49E07DAB10C93C22BFC41A /* Pods-CourierTests.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.alpha.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.alpha.xcconfig"; sourceTree = "<group>"; };
 		7E8C69354F447474A21B97AA /* CocoaMQTTConnection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CocoaMQTTConnection.swift; path = CocoaMQTTConnection.swift; sourceTree = "<group>"; };
+		FACE0002CAFE0002BEEF0002 /* CocoaMQTTConnection+MQTTChuck.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CocoaMQTTConnection+MQTTChuck.swift"; path = "CocoaMQTTConnection+MQTTChuck.swift"; sourceTree = "<group>"; };
 		7F30B8436BCF64CF5DC3A755 /* Pods-CourierTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierTests.debug.xcconfig"; path = "Target Support Files/Pods-CourierTests/Pods-CourierTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B013989270ABA6600AEEA42 /* ConnectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionState.swift; sourceTree = "<group>"; };
 		8B01398D270ABCDB00AEEA42 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
@@ -868,6 +870,7 @@
 				923B8B5B46980386FB8715AC /* ICocoaMQTTClient.swift */,
 				7E8C69354F447474A21B97AA /* CocoaMQTTConnection.swift */,
 				ED766E2D0D70CFF57AFB4B7D /* CocoaMQTTConnection+Mapping.swift */,
+				FACE0002CAFE0002BEEF0002 /* CocoaMQTTConnection+MQTTChuck.swift */,
 				E2ED6E8513E0E0B463427B47 /* CocoaMQTTConnectionFactory.swift */,
 			);
 			name = CocoaMQTT;
@@ -2385,6 +2388,7 @@
 				8BE0DF77270BE50900630D60 /* ConnectionConfig.swift in Sources */,
 				F4BB1877D27EC18331D5DEC6 /* ICocoaMQTTClient.swift in Sources */,
 				C5E4431D4623A56173D74703 /* CocoaMQTTConnection.swift in Sources */,
+				FACE0001CAFE0001BEEF0001 /* CocoaMQTTConnection+MQTTChuck.swift in Sources */,
 				D669F5562E01509DCAD8D2E5 /* CocoaMQTTConnection+Mapping.swift in Sources */,
 				E97F64F2B5E8133066FA9B49 /* CocoaMQTTConnectionFactory.swift in Sources */,
 			);

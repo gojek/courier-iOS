@@ -11,6 +11,7 @@ protocol ICocoaMQTTClient: AnyObject {
     var enableSSL: Bool { get set }
     var allowUntrustCACertificate: Bool { get set }
     var autoReconnect: Bool { get set }
+    var sslSettings: [String: NSObject]? { get set }
     var connectProperties: MqttConnectProperties? { get set }
     var delegateQueue: DispatchQueue { get set }
     var delegate: CocoaMQTT5Delegate? { get set }

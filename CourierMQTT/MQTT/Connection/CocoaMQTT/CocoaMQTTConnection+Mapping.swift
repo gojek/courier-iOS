@@ -50,6 +50,16 @@ enum CocoaMQTTConnectionError: Error {
     case socketConnectFailed
     /// The broker rejected the CONNECT with a non-success CONNACK reason code.
     case connectionRefused(CocoaMQTTCONNACKReasonCode)
+    /// CONNACK was not received within the configured connect timeout.
+    /// Code mirrors the v3 framework's `MQTTSessionErrorConnectTimeout`.
+    case connectTimeout
+    /// No inbound activity received after an outbound packet that expected a
+    /// response, within the configured inactivity window. Mirrors v3
+    /// `MQTTSessionErrorInactivityTimeout`.
+    case inactivityTimeout
+    /// No inbound activity at all within the configured read-timeout window.
+    /// Mirrors v3 `MQTTSessionErrorReadTimeout`.
+    case readTimeout
 
     var code: Int {
         switch self {
@@ -57,6 +67,12 @@ enum CocoaMQTTConnectionError: Error {
             return -1
         case let .connectionRefused(reasonCode):
             return Int(reasonCode.rawValue)
+        case .connectTimeout:
+            return 101
+        case .inactivityTimeout:
+            return 102
+        case .readTimeout:
+            return 103
         }
     }
 
@@ -66,6 +82,12 @@ enum CocoaMQTTConnectionError: Error {
             return "Failed to initiate socket connection to the MQTT broker"
         case let .connectionRefused(reasonCode):
             return "MQTT broker refused the connection with CONNACK reason code \(reasonCode.rawValue)"
+        case .connectTimeout:
+            return "MQTT Session Connect Timeout"
+        case .inactivityTimeout:
+            return "MQTT Session Inactivity Timeout"
+        case .readTimeout:
+            return "MQTT Session Read Timeout"
         }
     }
 
@@ -73,3 +95,24 @@ enum CocoaMQTTConnectionError: Error {
         NSError(domain: Self.errorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: message])
     }
 }
+
+extension QoS {
+    /// Whether an outbound PUBLISH of this QoS expects an inbound acknowledgement
+    /// (PUBACK/PUBREC) and should therefore arm the fast-reconnect watchdog.
+    ///
+    /// Mirrors the v3 framework's `shouldLogForFastReconnectTimestampIfValid`:
+    /// QoS0 and the "retry without persistence" variant do not arm it.
+    var armsFastReconnect: Bool {
+        switch self {
+        case .zero, .oneWithoutPersistenceAndRetry:
+            return false
+        case .one, .two, .oneWithoutPersistenceAndNoRetry:
+            return true
+        }
+    }
+}
+
+/// ALPN protocol negotiation key understood by the underlying
+/// `MqttCocoaAsyncSocket` (`MGCDAsyncSocketSSLALPN`). Declared as a literal so the
+/// v5 connection does not need to import the socket module directly.
+let cocoaMQTTSSLALPNSettingKey = "MGCDAsyncSocketSSLALPN"
