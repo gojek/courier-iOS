@@ -29,6 +29,7 @@ struct ConnectionFormView: View {
     
     @State var isCleanSession = true
     @State var pingInterval = "60"
+    @State var useMQTTV5 = false
     @State var isErrorShown = false
     @State var errorMessage: String?
     @State var connectionServiceProviderForE2EFlow: ConnectionServiceProvider?
@@ -132,6 +133,7 @@ struct ConnectionFormView: View {
                         Text("Ping Interval:")
                         TextField("Ping Interval", text: $pingInterval)
                     }
+                    Toggle("Use MQTT V5 (CocoaMQTT)", isOn: $useMQTTV5)
                 }
             }
         }
@@ -147,12 +149,12 @@ struct ConnectionFormView: View {
         }
         .fullScreenCover(item: $connectionServiceProviderForE2EFlow) { provider in
             NavigationView {
-                ConnectionE2EView(connectionVM: ConnectionE2EObservableObject(connectionserviceProvider: provider, username: username, roomCode: roomCode))
+                ConnectionE2EView(connectionVM: ConnectionE2EObservableObject(connectionserviceProvider: provider, username: username, roomCode: roomCode, useMQTTV5: useMQTTV5))
             }
         }
         .fullScreenCover(item: $connectionServiceProviderForNormalFlow) { provider in
             NavigationView {
-                ConnectionView(connectionVM: ConnectionObservableObject(connectionserviceProvider: provider))
+                ConnectionView(connectionVM: ConnectionObservableObject(connectionserviceProvider: provider, useMQTTV5: useMQTTV5))
             }
         }
 

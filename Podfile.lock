@@ -1,20 +1,30 @@
 PODS:
+  - CocoaMQTT (2.2.5):
+    - CocoaMQTT/Core (= 2.2.5)
+  - CocoaMQTT/Core (2.2.5):
+    - MqttCocoaAsyncSocket (~> 1.0.8)
+  - MqttCocoaAsyncSocket (1.0.8)
   - ReachabilitySwift (5.2.4)
   - SwiftProtobuf (1.33.3)
 
 DEPENDENCIES:
+  - CocoaMQTT (>= 2.1.0)
   - ReachabilitySwift (>= 5.0.0)
   - SwiftProtobuf
 
 SPEC REPOS:
   trunk:
+    - CocoaMQTT
+    - MqttCocoaAsyncSocket
     - ReachabilitySwift
     - SwiftProtobuf
 
 SPEC CHECKSUMS:
+  CocoaMQTT: 1e2fa493d57045d66fb1eba2bb5ffb8d77039c60
+  MqttCocoaAsyncSocket: 77d3b74f76228dd5a05d1f9526eab101d415b30c
   ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
   SwiftProtobuf: e1b437c8e31a4c5577b643249a0bb62ed4f02153
 
-PODFILE CHECKSUM: 1b81838a9e6f3b25fa3d24b9efdf11c300fe91e9
+PODFILE CHECKSUM: 839f61b859dd61d8c019777d3b7b87bfeccb60d9
 
-COCOAPODS: 1.16.1
+COCOAPODS: 1.16.2

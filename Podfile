@@ -4,6 +4,7 @@ source 'https://cdn.cocoapods.org/'
 
 def courier_pods
   pod 'ReachabilitySwift', '>= 5.0.0'
+  pod 'CocoaMQTT', '>= 2.1.0'
 end
 
 target 'CourierMQTT' do

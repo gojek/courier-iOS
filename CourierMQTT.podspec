@@ -20,4 +20,5 @@ Pod::Spec.new do |c|
     c.dependency 'CourierCore', "#{c.version}"
     c.dependency 'MQTTClientGJ', "#{c.version}"
     c.dependency 'ReachabilitySwift', '>= 5.0.0'
+    c.dependency 'CocoaMQTT', '>= 2.1.0'
 end
