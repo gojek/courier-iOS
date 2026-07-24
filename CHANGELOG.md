@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.0.18] - 2026-07-24
+
+[07bad3d] Merge pull request #81 from gojek/task/distribute-dynamic-pods (by @Abhijeet Mallick)
+[ac6a324] Task Distribute pods as dynamic (by @AbhijeetMallick)
+[4ea0a43] Merge pull request #79 from gojek/release/1.0.17 (by @Abhijeet Mallick)
+
 ## [1.0.17] - 2026-05-20
 
 [6e6b523] [CI] Bump version - 1.0.16 (by @github-actions[bot])
