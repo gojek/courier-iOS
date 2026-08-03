@@ -45,7 +45,8 @@ class MQTTClient: IMQTTClient {
             publishSubject: messagePublishSubject,
             publishSubjectDispatchQueue: DispatchQueue(label: "com.courier.incomingMessage"),
             messagePersistenceTTLSeconds: configuration.messagePersistenceTTLSeconds,
-            messageCleanupInterval: configuration.messageCleanupInterval)
+            messageCleanupInterval: configuration.messageCleanupInterval,
+            useSafeDeleteForNonSQLiteStore: configuration.useSafeDeleteForNonSQLiteStore)
 
         let connectionConfig = ConnectionConfig(
             connectRetryTimePolicy: configuration.connectRetryTimePolicy,
@@ -55,7 +56,8 @@ class MQTTClient: IMQTTClient {
             idleActivityTimeoutPolicy: configuration.idleActivityTimeoutPolicy,
             isDatabasePersistent: configuration.isMQTTPersistentEnabled,
             inMemoryPersistent: configuration.isMQTTMemoryPersistentEnabled,
-            fixCxxDestructCrash: configuration.fixCxxDestructCrash
+            fixCxxDestructCrash: configuration.fixCxxDestructCrash,
+            useSafeDeleteForNonSQLiteStore: configuration.useSafeDeleteForNonSQLiteStore
         )
 
         connection = mqttConnectionFactory.makeConnection(connectionConfig: connectionConfig)

@@ -12,7 +12,22 @@ protocol IncomingMessagePersistenceProtocol {
 }
 
 final class IncomingMessagePersistence: IncomingMessagePersistenceProtocol {
-    
+
+    /// When `true`, message deletion on a non-SQLite (in-memory fallback) store uses a
+    /// fetch-and-delete loop instead of `NSBatchDeleteRequest`. `NSBatch*Request` is only
+    /// supported by SQLite stores; running it against the in-memory fallback store throws an
+    /// uncatchable `NSInternalInconsistencyException` ("Unknown command type") and crashes.
+    /// Set to `false` to restore the previous (crashing) behaviour.
+    private let useSafeDeleteForNonSQLiteStore: Bool
+
+    /// The store type the coordinator actually initialised with. `nil` until `coordinator`
+    /// is first resolved. Used to decide whether batch deletes are safe.
+    private var resolvedStoreType: String?
+
+    init(useSafeDeleteForNonSQLiteStore: Bool) {
+        self.useSafeDeleteForNonSQLiteStore = useSafeDeleteForNonSQLiteStore
+    }
+
     private var _managedObjectContext: NSManagedObjectContext?
     var managedObjectContext: NSManagedObjectContext {
         let managedObjectContext: NSManagedObjectContext
@@ -44,12 +59,14 @@ final class IncomingMessagePersistence: IncomingMessagePersistenceProtocol {
             
             do {
                 try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: persistentStoreURL, options: options)
+                self.resolvedStoreType = NSSQLiteStoreType
                 self._coordinator = coordinator
             } catch {
                 printDebug("COURIER Message Store -  Failed to initialize coordinator with SQLLiteStore type, fallback to inMemory instead")
                 do {
                     coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.createManagedObjectModel())
                     try coordinator.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: options)
+                    self.resolvedStoreType = NSInMemoryStoreType
                     self._coordinator = coordinator
                 } catch {
                     printDebug("COURIER Message Store -  Failed to initialize coordinator with inMemory store type")
@@ -172,18 +189,33 @@ extension IncomingMessagePersistence {
     }
     
     private func deleteMessages(predicate: NSPredicate?) {
-        self.managedObjectContext.performAndWait {
+        // Resolve the coordinator/context (populates `resolvedStoreType`) before deciding
+        // which delete strategy is safe for the underlying store.
+        let context = self.managedObjectContext
+
+        if useSafeDeleteForNonSQLiteStore, resolvedStoreType != NSSQLiteStoreType {
+            deleteMessagesUsingFetch(predicate: predicate, in: context)
+        } else {
+            deleteMessagesUsingBatchRequest(predicate: predicate, in: context)
+        }
+    }
+
+    /// Original deletion path. `NSBatchDeleteRequest` is only supported by SQLite stores;
+    /// executing it against the in-memory fallback store throws an uncatchable
+    /// `NSInternalInconsistencyException` and crashes the app.
+    private func deleteMessagesUsingBatchRequest(predicate: NSPredicate?, in context: NSManagedObjectContext) {
+        context.performAndWait {
             let fetchRequest: NSFetchRequest<NSFetchRequestResult>
             fetchRequest = NSFetchRequest(entityName: "IncomingMessage")
             if let predicate = predicate {
                 fetchRequest.predicate = predicate
             }
-            
+
             let deleteRequest = NSBatchDeleteRequest(
                 fetchRequest: fetchRequest)
             deleteRequest.resultType = .resultTypeObjectIDs
             do {
-                let batchDelete = try self.managedObjectContext.execute(deleteRequest) as? NSBatchDeleteResult
+                let batchDelete = try context.execute(deleteRequest) as? NSBatchDeleteResult
                 guard let deleteResult = batchDelete?.result
                     as? [NSManagedObjectID]
                     else { return }
@@ -191,13 +223,32 @@ extension IncomingMessagePersistence {
                 let deletedObjects: [AnyHashable: Any] = [
                     NSDeletedObjectsKey: deleteResult
                 ]
-                
+
                 NSManagedObjectContext.mergeChanges(
                     fromRemoteContextSave: deletedObjects,
-                    into: [self.managedObjectContext]
+                    into: [context]
                 )
                 try self.sync()
                 printDebug("COURIER Incoming Message - Successfully deleted \(deleteResult.count) message(s)")
+            } catch {
+                printDebug("COURIER Incoming Message - Failed to delete")
+            }
+        }
+    }
+
+    /// Safe deletion path that works on every store type (used for the in-memory fallback
+    /// store). Fetches matching objects and deletes them individually, then saves.
+    private func deleteMessagesUsingFetch(predicate: NSPredicate?, in context: NSManagedObjectContext) {
+        context.performAndWait {
+            let fetchRequest = NSFetchRequest<IncomingMessage>(entityName: "IncomingMessage")
+            if let predicate = predicate {
+                fetchRequest.predicate = predicate
+            }
+            do {
+                let results = try context.fetch(fetchRequest)
+                results.forEach { context.delete($0) }
+                try self.sync()
+                printDebug("COURIER Incoming Message - Successfully deleted \(results.count) message(s)")
             } catch {
                 printDebug("COURIER Incoming Message - Failed to delete")
             }
