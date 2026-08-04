@@ -42,7 +42,8 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
                 idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
                 isDatabasePersistent: true,
                 inMemoryPersistent: false,
-                fixCxxDestructCrash: false
+                fixCxxDestructCrash: false,
+                useSafeDeleteForNonSQLiteStore: false
             ),
             clientFactory: mockClientFactory,
             persistenceFactory: mockPersistenceFactory,

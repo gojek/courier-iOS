@@ -24,7 +24,7 @@ final class IncomingMessagePersistence: IncomingMessagePersistenceProtocol {
     /// is first resolved. Used to decide whether batch deletes are safe.
     private var resolvedStoreType: String?
 
-    init(useSafeDeleteForNonSQLiteStore: Bool) {
+    init(useSafeDeleteForNonSQLiteStore: Bool = false) {
         self.useSafeDeleteForNonSQLiteStore = useSafeDeleteForNonSQLiteStore
     }
 

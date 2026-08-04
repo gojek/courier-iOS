@@ -15,7 +15,7 @@ class MQTTMessageReceiveListenerTests: XCTestCase {
         dispatchQueue = .main
         mockMessagePersistence = MockIncomingMessagePersistence()
         
-        sut = MqttMessageReceiverListener(publishSubject: publishSubject, publishSubjectDispatchQueue: dispatchQueue)
+        sut = MqttMessageReceiverListener(publishSubject: publishSubject, publishSubjectDispatchQueue: dispatchQueue, incomingMessagePersistence: IncomingMessagePersistence(useSafeDeleteForNonSQLiteStore: false))
     }
     
     @MainActor
