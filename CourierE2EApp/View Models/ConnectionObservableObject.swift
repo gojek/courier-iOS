@@ -32,7 +32,7 @@ final class ConnectionObservableObject: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(connectionserviceProvider: ConnectionServiceProvider) {
+    init(connectionserviceProvider: ConnectionServiceProvider, useMQTTV5: Bool = false) {
         self.connectionServiceProvider = connectionserviceProvider
         
         // Configure & Initialize Courier
@@ -51,7 +51,8 @@ final class ConnectionObservableObject: ObservableObject {
                 connectTimeoutPolicy: ConnectTimeoutPolicy(isEnabled: true),
                 idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(isEnabled: true),
                 messagePersistenceTTLSeconds: 86400,
-                messageCleanupInterval: 10
+                messageCleanupInterval: 10,
+                useMQTTV5: useMQTTV5
             )
         )
         self.courierClient.addEventHandler(self)

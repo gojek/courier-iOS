@@ -52,6 +52,12 @@ public struct MQTTClientConfig {
     
     public let fixCxxDestructCrash: Bool
 
+    /// Feature flag selecting the underlying MQTT stack.
+    ///
+    /// - `false` (default): uses the MQTT 3.1.1 stack backed by MQTTClientGJ (the original implementation).
+    /// - `true`: uses the MQTT 5 stack backed by CocoaMQTT.
+    public let useMQTTV5: Bool
+
     public init(
         topics: [String: QoS] = [:],
         authService: IConnectionServiceProvider,
@@ -67,7 +73,8 @@ public struct MQTTClientConfig {
         messagePersistenceTTLSeconds: TimeInterval = 0,
         messageCleanupInterval: TimeInterval = 10,
         shouldInitializeCoreDataPersistenceContext: Bool = true,
-        fixCxxDestructCrash: Bool = false
+        fixCxxDestructCrash: Bool = false,
+        useMQTTV5: Bool = false
     ) {
         self.topics = topics
         self.authService = authService
@@ -84,5 +91,6 @@ public struct MQTTClientConfig {
         self.messageCleanupInterval = messageCleanupInterval
         self.shouldInitializeCoreDataPersistenceContext = shouldInitializeCoreDataPersistenceContext
         self.fixCxxDestructCrash = fixCxxDestructCrash
+        self.useMQTTV5 = useMQTTV5
     }
 }

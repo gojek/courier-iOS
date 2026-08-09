@@ -34,7 +34,7 @@ final class ConnectionE2EObservableObject: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(connectionserviceProvider: ConnectionServiceProvider, username: String, roomCode: String) {
+    init(connectionserviceProvider: ConnectionServiceProvider, username: String, roomCode: String, useMQTTV5: Bool = false) {
         self.connectionServiceProvider = connectionserviceProvider
         self.username = username
         self.roomCode = roomCode
@@ -55,7 +55,8 @@ final class ConnectionE2EObservableObject: ObservableObject {
                 connectTimeoutPolicy: ConnectTimeoutPolicy(isEnabled: true),
                 idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(isEnabled: true),
                 messagePersistenceTTLSeconds: 86400,
-                messageCleanupInterval: 10
+                messageCleanupInterval: 10,
+                useMQTTV5: useMQTTV5
             )
         )
         courierClient.addEventHandler(self)

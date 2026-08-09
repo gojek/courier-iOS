@@ -22,7 +22,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/ashleymills/Reachability.swift", from: "5.0.0"),
-        .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.30.0")
+        .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.30.0"),
+        .package(url: "https://github.com/emqx/CocoaMQTT.git", from: "2.1.0")
     ],
     targets: [
         .target(
@@ -34,7 +35,8 @@ let package = Package(
             dependencies: [
                 "CourierCore",
                 "MQTTClientGJ",
-                .product(name: "Reachability", package: "Reachability.swift")
+                .product(name: "Reachability", package: "Reachability.swift"),
+                .product(name: "CocoaMQTT", package: "CocoaMQTT")
             ],
             path: "CourierMQTT"),
         .binaryTarget(

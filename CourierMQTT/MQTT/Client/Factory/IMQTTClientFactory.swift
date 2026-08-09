@@ -8,7 +8,9 @@ protocol IMQTTClientFactory {
 struct MQTTClientFactory: IMQTTClientFactory {
 
     func makeClient(configuration: IMQTTConfiguration, reachability: Reachability?, dispatchQueue: DispatchQueue) -> IMQTTClient {
-        let factory = MQTTClientFrameworkConnectionFactory(clientFactory: MQTTClientFrameworkFactory())
+        let factory: IMQTTConnectionFactory = configuration.useMQTTV5
+            ? CocoaMQTTConnectionFactory()
+            : MQTTClientFrameworkConnectionFactory(clientFactory: MQTTClientFrameworkFactory())
         return MQTTClient(configuration: configuration, mqttConnectionFactory: factory, reachability: reachability, dispatchQueue: dispatchQueue)
     }
 }
