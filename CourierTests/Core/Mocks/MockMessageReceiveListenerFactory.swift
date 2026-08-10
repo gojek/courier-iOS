@@ -13,7 +13,8 @@ class MockMessageReceiveListenerFactory: IMessageReceiveListenerFactory {
     func makeListener(publishSubject: PublishSubject<MQTTPacket>,
         publishSubjectDispatchQueue: DispatchQueue,
         messagePersistenceTTLSeconds: TimeInterval,
-        messageCleanupInterval: TimeInterval) -> IMessageReceiveListener {
+        messageCleanupInterval: TimeInterval,
+        useSafeDeleteForNonSQLiteStore: Bool) -> IMessageReceiveListener {
         invokedMakeListener = true
         invokedMakeListenerCount += 1
         invokedMakeListenerParameters = (publishSubject, publishSubjectDispatchQueue, messagePersistenceTTLSeconds, messageCleanupInterval)

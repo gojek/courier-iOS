@@ -27,7 +27,7 @@ final class MqttMessageReceiverListener: IMessageReceiveListener, @unchecked Sen
     init(publishSubject: PublishSubject<MQTTPacket>,
          publishSubjectDispatchQueue: DispatchQueue,
          enableIncomingMessagePersistence: Bool = false,
-         incomingMessagePersistence: IncomingMessagePersistenceProtocol = IncomingMessagePersistence(),
+         incomingMessagePersistence: IncomingMessagePersistenceProtocol,
          messagePersistenceTTLSeconds: TimeInterval = 0,
          messageCleanupInterval: TimeInterval = 10) {
         self.publishSubject = publishSubject

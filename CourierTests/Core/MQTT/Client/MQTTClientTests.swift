@@ -315,7 +315,7 @@ extension MQTTClientTests {
 
     var stubbedConfiguration: IMQTTConfiguration {
         MQTTConfiguration(
-            connectRetryTimePolicy: mockConnectRetryTimePolicy, authFailureHandler: mockAuthFailureHandler, eventHandler: mockEventHandler, isMQTTPersistentEnabled: true, isMQTTMemoryPersistentEnabled: false, fixCxxDestructCrash: false)
+            connectRetryTimePolicy: mockConnectRetryTimePolicy, authFailureHandler: mockAuthFailureHandler, eventHandler: mockEventHandler, isMQTTPersistentEnabled: true, isMQTTMemoryPersistentEnabled: false, fixCxxDestructCrash: false, useSafeDeleteForNonSQLiteStore: false)
     }
 
     var stubConnectOptions: ConnectOptions {
