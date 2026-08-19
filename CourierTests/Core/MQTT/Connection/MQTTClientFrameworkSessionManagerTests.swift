@@ -33,7 +33,8 @@ class MQTTClientFrameworkSessionManagerTests: XCTestCase {
             connectTimeoutPolicy: ConnectTimeoutPolicy(),
             idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
             eventHandler: mockEventHandler,
-            fixCxxDestructCrash: false
+            fixCxxDestructCrash: false,
+            serializeSessionAccess: false
         )
 
         sut.delegate = mockDelegate
@@ -259,6 +260,100 @@ class MQTTClientFrameworkSessionManagerTests: XCTestCase {
 }
 
 extension MQTTClientFrameworkSessionManagerTests {
+
+    // MARK: - serializeSessionAccess (MQTTSession subscribe/unsubscribe data-race fix)
+
+    func testSubscribeRunsInlineWhenSerializeSessionAccessDisabled() {
+        setupSession()
+        mockSession.stubbedSubscribeSubscribeHandlerResult = (nil, [NSNumber(value: 1)])
+
+        sut.subscribe([("fbon", .one)])
+
+        // Legacy behaviour: the session is called on the caller's thread before returning.
+        XCTAssertTrue(mockSession.invokedSubscribe)
+    }
+
+    func testSubscribeIsSerialisedOntoSessionQueueWhenEnabled() {
+        let sessionQueue = DispatchQueue(label: "test.courier.session")
+        sut = makeSUT(queue: sessionQueue, serializeSessionAccess: true)
+        setupSession()
+        sut.handleEvent(MQTTSession(), event: .connected, error: nil)
+        mockSession.stubbedSubscribeSubscribeHandlerResult = (nil, [NSNumber(value: 1)])
+
+        sessionQueue.suspend()
+        sut.subscribe([("fbon", .one)])
+
+        // The hop onto the session's own queue is the fix: nothing may touch the session
+        // on the caller's thread, because that is what races the session's event handling.
+        XCTAssertFalse(mockSession.invokedSubscribe, "subscribe must be deferred to the session queue")
+
+        sessionQueue.resume()
+        drain(sessionQueue)
+
+        XCTAssertTrue(mockSession.invokedSubscribe)
+        XCTAssertEqual(mockSession.invokedSubscribeParameters?.topics?.keys.first, "fbon")
+    }
+
+    func testUnsubscribeIsSerialisedOntoSessionQueueWhenEnabled() {
+        let sessionQueue = DispatchQueue(label: "test.courier.session")
+        sut = makeSUT(queue: sessionQueue, serializeSessionAccess: true)
+        setupSession()
+        sut.handleEvent(MQTTSession(), event: .connected, error: nil)
+
+        sessionQueue.suspend()
+        sut.unsubscribe(["fbon"])
+
+        XCTAssertFalse(mockSession.invokedUnsubscribeTopics, "unsubscribe must be deferred to the session queue")
+
+        sessionQueue.resume()
+        drain(sessionQueue)
+
+        XCTAssertTrue(mockSession.invokedUnsubscribeTopics)
+        XCTAssertEqual(mockSession.invokedUnsubscribeTopicsParameters?.topics?.first, "fbon")
+    }
+
+    func testSubscribeIsDroppedWhenNotConnectedAndSerializeSessionAccessEnabled() {
+        let sessionQueue = DispatchQueue(label: "test.courier.session")
+        sut = makeSUT(queue: sessionQueue, serializeSessionAccess: true)
+        setupSession() // reaches .connecting only, never .connected
+
+        sut.subscribe([("fbon", .one)])
+        drain(sessionQueue)
+
+        // Deferred work re-validates state on the queue, so a subscribe issued while the
+        // connection is down is dropped instead of being sent on a stale session. The
+        // subscription store replays it on the next successful connect.
+        XCTAssertFalse(mockSession.invokedSubscribe)
+    }
+
+    private func makeSUT(queue: DispatchQueue, serializeSessionAccess: Bool) -> MQTTClientFrameworkSessionManager {
+        let sessionFactory = MockMQTTSessionFactory()
+        sessionFactory.stubbedMakeSessionResult = mockSession
+        let persistenceFactory = MockMQTTPersistenceFactory()
+        persistenceFactory.stubbedMakePersistenceResult = mockPersistence
+
+        let manager = MQTTClientFrameworkSessionManager(
+            retryInterval: 10,
+            maxRetryInterval: 15,
+            streamSSLLevel: "9999",
+            queue: queue,
+            mqttSessionFactory: sessionFactory,
+            mqttPersistenceFactory: persistenceFactory,
+            connectTimeoutPolicy: ConnectTimeoutPolicy(),
+            idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
+            eventHandler: mockEventHandler,
+            fixCxxDestructCrash: false,
+            serializeSessionAccess: serializeSessionAccess
+        )
+        manager.delegate = mockDelegate
+        return manager
+    }
+
+    private func drain(_ queue: DispatchQueue) {
+        let drained = expectation(description: "session queue drained")
+        queue.async { drained.fulfill() }
+        wait(for: [drained], timeout: 5)
+    }
 
     func setupSession(securityPolicy: MQTTSSLSecurityPolicy = .init()) {
         sut.connect(to: "host", port: 443, keepAlive: 240, isCleanSession: true, isAuth: true, clientId: "clientid", username: "username", password: "password", lastWill: false, lastWillTopic: nil, lastWillMessage: nil, lastWillQoS: nil, lastWillRetainFlag: false, securityPolicy: securityPolicy, certificates: nil, protocolLevel: .version311, connectOptions: stubConnectOptions, connectHandler: nil)
