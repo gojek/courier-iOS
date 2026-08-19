@@ -54,6 +54,20 @@ public struct MQTTClientConfig {
     
     public let useSafeDeleteForNonSQLiteStore: Bool
 
+    /**
+     Serialises every call into the underlying `MQTTSession` onto the session's own
+     dispatch queue, instead of running them on the caller's thread.
+
+     Fixes the `-[MQTTSession subscribeToTopics:subscribeHandler:]` data race, where a
+     subscribe issued by the app raced the re-subscribe triggered by the session's own
+     CONNACK handling and corrupted `MQTTSession`'s handler dictionaries.
+
+     Kill switch. The value is captured for the lifetime of the client, so the host app
+     must read it once at construction time; flipping it takes effect on the next launch.
+     Defaults to `false` (legacy behaviour).
+     */
+    public let serializeSessionAccess: Bool
+
     public init(
         topics: [String: QoS] = [:],
         authService: IConnectionServiceProvider,
@@ -70,7 +84,8 @@ public struct MQTTClientConfig {
         messageCleanupInterval: TimeInterval = 10,
         shouldInitializeCoreDataPersistenceContext: Bool = true,
         fixCxxDestructCrash: Bool = false,
-        useSafeDeleteForNonSQLiteStore: Bool = false
+        useSafeDeleteForNonSQLiteStore: Bool = false,
+        serializeSessionAccess: Bool = false
     ) {
         self.topics = topics
         self.authService = authService
@@ -88,5 +103,6 @@ public struct MQTTClientConfig {
         self.shouldInitializeCoreDataPersistenceContext = shouldInitializeCoreDataPersistenceContext
         self.fixCxxDestructCrash = fixCxxDestructCrash
         self.useSafeDeleteForNonSQLiteStore = useSafeDeleteForNonSQLiteStore
+        self.serializeSessionAccess = serializeSessionAccess
     }
 }

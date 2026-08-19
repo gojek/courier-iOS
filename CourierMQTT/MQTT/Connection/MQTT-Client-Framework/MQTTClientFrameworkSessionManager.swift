@@ -93,6 +93,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     private var connectTimeoutPolicy: IConnectTimeoutPolicy
     private var idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
     private var fixCxxDestructCrash: Bool
+    private let serializeSessionAccess: Bool
 
     var requiresTeardown: Bool {
         state != .closed && state != .starting
@@ -107,7 +108,8 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
          connectTimeoutPolicy: IConnectTimeoutPolicy,
          idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol,
          eventHandler: ICourierEventHandler,
-         fixCxxDestructCrash: Bool
+         fixCxxDestructCrash: Bool,
+         serializeSessionAccess: Bool
     ) {
         self.streamSSLLevel = streamSSLLevel
         self.queue = queue
@@ -117,6 +119,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
         self.eventHandler = eventHandler
         self.fixCxxDestructCrash = fixCxxDestructCrash
+        self.serializeSessionAccess = serializeSessionAccess
         
         super.init()
         self.updateState(to: .starting)
@@ -333,41 +336,76 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.reconnectTimer?.schedule()
     }
 
+    /// Hands `session` to `work`, serialised onto the session's own queue when
+    /// `serializeSessionAccess` is enabled.
+    ///
+    /// `MQTTSession` is confined to `queue` — it is the queue its CFStreams are scheduled
+    /// on, so every callback the session raises runs there and every piece of its internal
+    /// state is mutated there. Calling into it from the caller's thread races that, which
+    /// corrupts its handler dictionaries (see `subscribeToTopics:subscribeHandler:`).
+    ///
+    /// When the flag is off, `work` is invoked inline on the caller's thread so behaviour is
+    /// unchanged from before the fix.
+    private func withSession(_ work: @escaping (IMQTTSession?) -> Void) {
+        guard serializeSessionAccess else {
+            work(session)
+            return
+        }
+        // MUST be async, never sync. The MQTT event path (socket read -> CONNACK ->
+        // updateState -> delegate -> onMQTTConnectSuccess -> subscribe) is *already*
+        // running on `queue`, and `queue` is serial, so `queue.sync` here would deadlock.
+        queue.async { [weak self] in
+            guard let self = self else { return }
+            // Re-validate on the queue: execution is deferred, so the connection may have
+            // dropped since MQTTClientFrameworkConnection checked `isConnected`. Reading
+            // `session` here also keeps it off the caller's thread, where it races the
+            // reassignment done on reconnect.
+            guard self.state == .connected else { return }
+            work(self.session)
+        }
+    }
+
     func subscribe(_ topics: [(topic: String, qos: QoS)]) {
-        let connectOptions = self.connectOptions
-        topics.forEach { topic, qos in
-            let attemptTimestamp = Date()
-            self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeAttempt(topics: [topic])))
-            session?.subscribe(toTopics: [topic: NSNumber(value: qos.type)], subscribeHandler: { [weak self] (error, responseCodes) in
-                guard let self = self else { return }
-                if let error = error {
-                    self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeFailure(topics: [(topic, qos)], timeTaken: attemptTimestamp.timeTaken, error: error)))
-                    self.delegate?.sessionManager(self, didFailToSubscribeTopics: [topic], error: error)
-                } else if let responseCode = responseCodes?.first, responseCode == 128 {
-                    self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeFailure(topics: [(topic, qos)], timeTaken: attemptTimestamp.timeTaken, error: CourierError.subackFail128)))
-                    self.delegate?.sessionManager(self, didFailToSubscribeTopics: [topic], error: CourierError.subackFail128)
-                } else {
-                    self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeSuccess(topics: [(topic, qos)], timeTaken: attemptTimestamp.timeTaken)))
-                    self.delegate?.sessionManager(self, didSubscribeTopics: [topic])
-                }
-            })
+        withSession { [weak self] session in
+            guard let self = self else { return }
+            let connectOptions = self.connectOptions
+            topics.forEach { topic, qos in
+                let attemptTimestamp = Date()
+                self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeAttempt(topics: [topic])))
+                session?.subscribe(toTopics: [topic: NSNumber(value: qos.type)], subscribeHandler: { [weak self] (error, responseCodes) in
+                    guard let self = self else { return }
+                    if let error = error {
+                        self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeFailure(topics: [(topic, qos)], timeTaken: attemptTimestamp.timeTaken, error: error)))
+                        self.delegate?.sessionManager(self, didFailToSubscribeTopics: [topic], error: error)
+                    } else if let responseCode = responseCodes?.first, responseCode == 128 {
+                        self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeFailure(topics: [(topic, qos)], timeTaken: attemptTimestamp.timeTaken, error: CourierError.subackFail128)))
+                        self.delegate?.sessionManager(self, didFailToSubscribeTopics: [topic], error: CourierError.subackFail128)
+                    } else {
+                        self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .subscribeSuccess(topics: [(topic, qos)], timeTaken: attemptTimestamp.timeTaken)))
+                        self.delegate?.sessionManager(self, didSubscribeTopics: [topic])
+                    }
+                })
+            }
         }
     }
 
     func unsubscribe(_ topics: [String]) {
-        let connectOptions = self.connectOptions
-        let attemptTimestamp = Date()
-        eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeAttempt(topics: topics)))
-        session?.unsubscribeTopics(topics, unsubscribeHandler: { [weak self] error in
+        withSession { [weak self] session in
             guard let self = self else { return }
-            if let error = error {
-                self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeFailure(topics: topics, timeTaken: attemptTimestamp.timeTaken, error: error)))
-                self.delegate?.sessionManager(self, didFailToUnsubscribeTopics: topics, error: error)
-            } else {
-                self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeSuccess(topics: topics, timeTaken: attemptTimestamp.timeTaken)))
-                self.delegate?.sessionManager(self, didUnsubscribeTopics: topics)
-            }
-        })
+            let connectOptions = self.connectOptions
+            let attemptTimestamp = Date()
+            self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeAttempt(topics: topics)))
+            session?.unsubscribeTopics(topics, unsubscribeHandler: { [weak self] error in
+                guard let self = self else { return }
+                if let error = error {
+                    self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeFailure(topics: topics, timeTaken: attemptTimestamp.timeTaken, error: error)))
+                    self.delegate?.sessionManager(self, didFailToUnsubscribeTopics: topics, error: error)
+                } else {
+                    self.eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeSuccess(topics: topics, timeTaken: attemptTimestamp.timeTaken)))
+                    self.delegate?.sessionManager(self, didUnsubscribeTopics: topics)
+                }
+            })
+        }
     }
 
     func publish(packet: MQTTPacket) {
