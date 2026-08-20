@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## [1.0.21] - 2026-08-19
+
+[3bf4d83] Merge pull request #86 from gojek/revert-81-task/distribute-dynamic-pods (by @rishabhabbu-ctrl)
+[3beee32] Revert "Distribute pods as dynamic/static as per client apps" (by @rishabhabbu-ctrl)
+[eab9177] Merge pull request #84 from gojek/release/1.0.20 (by @Abhijeet Mallick)
+
+## [1.0.20] - 2026-08-10
+
+[4ca243f] Merge pull request #83 from gojek/task/incoming-message-persistence-crash-fix (by @Abhijeet Mallick)
+[f7cf4c4] Fixed unit tests (by @AbhijeetMallick)
+[06ec1e7] Fix crash on Incoming Message class (by @AbhijeetMallick)
+[5a32316] Added  MQTTClientGJ.podspec (by @AbhijeetMallick)
+[316e129] Make MQTT dynamic (by @AbhijeetMallick)
+[8261322] [CI] Bump version - 1.0.18 (by @github-actions[bot])
+
 ## [1.0.17] - 2026-05-20
 
 [6e6b523] [CI] Bump version - 1.0.16 (by @github-actions[bot])

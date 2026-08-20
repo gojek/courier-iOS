@@ -1,6 +1,6 @@
 Pod::Spec.new do |c|
     c.name            = 'CourierMQTTChuck'
-    c.version         = '1.0.17'
+    c.version         = '1.0.21'
     c.summary         = "Gojek iOS Long Run Connection Open Source SDK"
     c.description     = "Publish and Subscribe data with bidirectional communication between client and server"
   
@@ -14,6 +14,7 @@ Pod::Spec.new do |c|
 		:tag => "#{c.version}"
 	}
     c.swift_version = ['6.0', '5.3']
+    c.static_framework = true
     c.source_files = "CourierMQTTChuck/**/*.swift"
 
     c.dependency 'CourierCore', "#{c.version}"
