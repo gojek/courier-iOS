@@ -93,6 +93,10 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     private var connectTimeoutPolicy: IConnectTimeoutPolicy
     private var idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
     private var fixCxxDestructCrash: Bool
+    private let serializeSessionAccess: Bool
+    /// Marks `queue` so `subscribe`/`unsubscribe` can tell whether they are already running
+    /// on it. Only stamped when `serializeSessionAccess` is on.
+    private let sessionQueueKey = DispatchSpecificKey<UInt8>()
 
     var requiresTeardown: Bool {
         state != .closed && state != .starting
@@ -107,7 +111,8 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
          connectTimeoutPolicy: IConnectTimeoutPolicy,
          idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol,
          eventHandler: ICourierEventHandler,
-         fixCxxDestructCrash: Bool
+         fixCxxDestructCrash: Bool,
+         serializeSessionAccess: Bool
     ) {
         self.streamSSLLevel = streamSSLLevel
         self.queue = queue
@@ -117,8 +122,12 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
         self.eventHandler = eventHandler
         self.fixCxxDestructCrash = fixCxxDestructCrash
+        self.serializeSessionAccess = serializeSessionAccess
         
         super.init()
+        if serializeSessionAccess {
+            queue.setSpecific(key: sessionQueueKey, value: 1)
+        }
         self.updateState(to: .starting)
         self.reconnectTimer = ReconnectTimer(retryInterval: retryInterval, maxRetryInterval: maxRetryInterval, queue: queue, reconnect: { [weak self] in
             self?.reconnect()
@@ -333,7 +342,28 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.reconnectTimer?.schedule()
     }
 
+    /// `MQTTSession` is confined to `queue` — it is the queue its CFStreams are scheduled
+    /// on, so every callback the session raises runs there and every piece of its internal
+    /// state is mutated there. Calling into it from the caller's thread races that, which
+    /// corrupts its handler dictionaries (see `subscribeToTopics:subscribeHandler:`).
+    ///
+    /// When `serializeSessionAccess` is off the body runs inline on the caller's thread, so
+    /// behaviour is unchanged from before the fix.
     func subscribe(_ topics: [(topic: String, qos: QoS)]) {
+        // Hop onto the session's queue and re-enter; the key tells us when we are already
+        // there, which is the case for the MQTT event path (socket read -> CONNACK ->
+        // updateState -> delegate -> onMQTTConnectSuccess -> subscribe).
+        if serializeSessionAccess, DispatchQueue.getSpecific(key: sessionQueueKey) == nil {
+            queue.async { [weak self] in
+                guard let self = self else { return }
+                // Re-validate on the queue: execution is deferred, so the connection may
+                // have dropped since MQTTClientFrameworkConnection checked `isConnected`.
+                guard self.state == .connected else { return }
+                self.subscribe(topics)
+            }
+            return
+        }
+
         let connectOptions = self.connectOptions
         topics.forEach { topic, qos in
             let attemptTimestamp = Date()
@@ -354,7 +384,17 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         }
     }
 
+    /// See `subscribe(_:)` for why session access is hopped onto `queue`.
     func unsubscribe(_ topics: [String]) {
+        if serializeSessionAccess, DispatchQueue.getSpecific(key: sessionQueueKey) == nil {
+            queue.async { [weak self] in
+                guard let self = self else { return }
+                guard self.state == .connected else { return }
+                self.unsubscribe(topics)
+            }
+            return
+        }
+
         let connectOptions = self.connectOptions
         let attemptTimestamp = Date()
         eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeAttempt(topics: topics)))

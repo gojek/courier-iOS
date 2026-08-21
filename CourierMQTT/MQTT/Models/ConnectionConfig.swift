@@ -12,4 +12,5 @@ struct ConnectionConfig {
     var inMemoryPersistent: Bool
     var fixCxxDestructCrash: Bool
     var useSafeDeleteForNonSQLiteStore: Bool
+    var serializeSessionAccess: Bool
 }

@@ -15,4 +15,5 @@ protocol IMQTTConfiguration {
     var isMQTTMemoryPersistentEnabled: Bool { get }
     var fixCxxDestructCrash: Bool { get }
     var useSafeDeleteForNonSQLiteStore: Bool { get }
+    var serializeSessionAccess: Bool { get }
 }
