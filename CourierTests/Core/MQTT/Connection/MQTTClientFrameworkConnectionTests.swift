@@ -43,11 +43,13 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
                 isDatabasePersistent: true,
                 inMemoryPersistent: false,
                 fixCxxDestructCrash: false,
-                useSafeDeleteForNonSQLiteStore: false
+                useSafeDeleteForNonSQLiteStore: false,
+                serializeSessionAccess: false
             ),
             clientFactory: mockClientFactory,
             persistenceFactory: mockPersistenceFactory,
-            fixCxxDestructCrash: false
+            fixCxxDestructCrash: false,
+            serializeSessionAccess: false
         )
     }
     
