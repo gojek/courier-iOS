@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [1.0.22] - 2026-08-24
+
+[dec3a02] Merge pull request #85 from gojek/fix/accessConnectionSrially (by @rishabhabbu-ctrl)
+[7f364b3] Wiring crash fix flags for serializeAccess and publishMessage and sqlLite to Courier and Clickstream SDKs (by @Rishab Habbu)
+[bd9d8d4] Wiring crash fix flags for serializeAccess and publishMessage and sqlLite to Courier and Clickstream SDKs (by @Rishab Habbu)
+[05c7f1b] Merge branch 'main' into fix/accessConnectionSrially (by @Rishab Habbu)
+[90457ab] Add fix for Accessing connections dictioray serially to avoid crash (by @Rishab Habbu)
+[6b2db22] Merge pull request #87 from gojek/release/1.0.21 (by @rishabhabbu-ctrl)
+[e71fd05] Add fix for Accessing connections dictioray serially to avoid crash (by @Rishab Habbu)
+
 ## [1.0.21] - 2026-08-19
 
 [3bf4d83] Merge pull request #86 from gojek/revert-81-task/distribute-dynamic-pods (by @rishabhabbu-ctrl)
