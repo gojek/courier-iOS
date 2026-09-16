@@ -37,6 +37,7 @@
         "Message QoS",
         "Subscribe & Receive Message",
         "Publish Message",
+        "Topic Placeholders",
         "Event Handling",
         "Monitoring MQTT Packet"
         ],

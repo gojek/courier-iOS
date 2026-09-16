@@ -201,7 +201,28 @@ class MQTTClientFrameworkConnectionTests: XCTestCase {
         XCTAssertEqual(mockSessionManager.invokedPublishParameters?.packet.data, "hello".data(using: .utf8))
         XCTAssertEqual(mockSessionManager.invokedPublishParameters?.packet.topic, "fbon")
     }
-    
+
+    func testPublishPacketResolvesTopicPlaceholders() {
+        connectWithDefaultOptions()
+        sut.publish(packet: MQTTPacket(data: "hello".data(using: .utf8)!, topic: "chat/%u/%c", qos: .one))
+        XCTAssertTrue(mockSessionManager.invokedPublish)
+        XCTAssertEqual(mockSessionManager.invokedPublishParameters?.packet.topic, "chat/hello/1234")
+    }
+
+    func testSubscribeTopicResolvesTopicPlaceholders() {
+        connectWithDefaultOptions()
+        sut.subscribe([("chat/%u/inbox", .one)])
+        XCTAssertTrue(mockSessionManager.invokedSubscribe)
+        XCTAssertEqual(mockSessionManager.invokedSubscribeParameters?.topics.first?.topic, "chat/hello/inbox")
+    }
+
+    func testUnsubscribeTopicResolvesTopicPlaceholders() {
+        connectWithDefaultOptions()
+        sut.unsubscribe(["chat/(%c,3,0)/inbox"])
+        XCTAssertTrue(mockSessionManager.invokedUnsubscribe)
+        XCTAssertEqual(mockSessionManager.invokedUnsubscribeParameters?.topics[0], "chat/12/inbox")
+    }
+
     func testSetKeepAliveFailureHandler() {
         sut.setKeepAliveFailureHandler(handler: mockKeepAliveFailureHandler)
         XCTAssertNotNil(sut.keepAliveFailureHandler)

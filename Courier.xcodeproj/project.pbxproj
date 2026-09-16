@@ -16,6 +16,8 @@
 		8B31F2A526328614001E0D7F /* MockCourierClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B31F2A426328614001E0D7F /* MockCourierClient.swift */; };
 		8B3DAB9426D75A0000FFED68 /* DataMessageAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3DAB9326D75A0000FFED68 /* DataMessageAdapterTests.swift */; };
 		8B410BE12669E84C0025E07B /* MQTTClientFrameworkConnectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B410BE02669E84C0025E07B /* MQTTClientFrameworkConnectionTests.swift */; };
+		7DA1B2C3D4E50000000A0002 /* TopicPlaceholderResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA1B2C3D4E50000000A0001 /* TopicPlaceholderResolver.swift */; };
+		7DA1B2C3D4E50000000A0005 /* TopicPlaceholderResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA1B2C3D4E50000000A0004 /* TopicPlaceholderResolverTests.swift */; };
 		8B410BE32669ECDC0025E07B /* MockMQTTClientFrameworkSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B410BE22669ECDC0025E07B /* MockMQTTClientFrameworkSessionManager.swift */; };
 		8B410BE72669ED610025E07B /* MockMQTTClientFrameworkSessionManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B410BE62669ED610025E07B /* MockMQTTClientFrameworkSessionManagerDelegate.swift */; };
 		8B410BE92669F3690025E07B /* MockMQTTSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B410BE82669F3690025E07B /* MockMQTTSession.swift */; };
@@ -570,6 +572,8 @@
 		8BE0DED2270BE50700630D60 /* IMessageReceiverListenerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMessageReceiverListenerFactory.swift; sourceTree = "<group>"; };
 		8BE0DED4270BE50700630D60 /* ConnectionConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionConfig.swift; sourceTree = "<group>"; };
 		8BE0DED5270BE50700630D60 /* MQTTPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MQTTPacket.swift; sourceTree = "<group>"; };
+		7DA1B2C3D4E50000000A0001 /* TopicPlaceholderResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicPlaceholderResolver.swift; sourceTree = "<group>"; };
+		7DA1B2C3D4E50000000A0004 /* TopicPlaceholderResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPlaceholderResolverTests.swift; sourceTree = "<group>"; };
 		8BE0DED7270BE50700630D60 /* IAuthRetryPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAuthRetryPolicy.swift; sourceTree = "<group>"; };
 		8BE0DED8270BE50700630D60 /* ConnectRetryTimePolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectRetryTimePolicy.swift; sourceTree = "<group>"; };
 		8BE0DED9270BE50700630D60 /* IConnectTimeoutPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IConnectTimeoutPolicy.swift; sourceTree = "<group>"; };
@@ -929,6 +933,7 @@
 				8B7976C82628023000FD704B /* Subscriptions */,
 				8B7976CA2628023000FD704B /* Event */,
 				8B7976CC2628023000FD704B /* Client */,
+				7DA1B2C3D4E50000000A0006 /* Topic */,
 			);
 			path = MQTT;
 			sourceTree = "<group>";
@@ -940,6 +945,14 @@
 				8B410BEC266A19D10025E07B /* MQTTClientFrameworkSessionManagerTests.swift */,
 			);
 			path = Connection;
+			sourceTree = "<group>";
+		};
+		7DA1B2C3D4E50000000A0006 /* Topic */ = {
+			isa = PBXGroup;
+			children = (
+				7DA1B2C3D4E50000000A0004 /* TopicPlaceholderResolverTests.swift */,
+			);
+			path = Topic;
 			sourceTree = "<group>";
 		};
 		8B7976C32628023000FD704B /* Message */ = {
@@ -1180,6 +1193,7 @@
 				8BE0DEEE270BE50700630D60 /* Error */,
 				8BE0DEF0270BE50700630D60 /* Event */,
 				8BE0DEF4270BE50700630D60 /* Client */,
+				7DA1B2C3D4E50000000A0003 /* Topic */,
 				B0DC1BD5292F39EB000BB593 /* Date+Extension.swift */,
 				B0EF8E3729E408B5001DF51B /* MQTTChuck.swift */,
 			);
@@ -1276,6 +1290,14 @@
 				8BE0DED5270BE50700630D60 /* MQTTPacket.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		7DA1B2C3D4E50000000A0003 /* Topic */ = {
+			isa = PBXGroup;
+			children = (
+				7DA1B2C3D4E50000000A0001 /* TopicPlaceholderResolver.swift */,
+			);
+			path = Topic;
 			sourceTree = "<group>";
 		};
 		8BE0DED6270BE50700630D60 /* Policies */ = {
@@ -2194,6 +2216,7 @@
 				8B7977012628023200FD704B /* MockMulticastCourierEventHandler.swift in Sources */,
 				8B7977152628023300FD704B /* MockMQTTClient.swift in Sources */,
 				8B410BE12669E84C0025E07B /* MQTTClientFrameworkConnectionTests.swift in Sources */,
+				7DA1B2C3D4E50000000A0005 /* TopicPlaceholderResolverTests.swift in Sources */,
 				8B7977092628023300FD704B /* MockConnectRetryTimePolicy.swift in Sources */,
 				8B410BF3266A1EC60025E07B /* MockMQTTPersistence.swift in Sources */,
 				8B410BED266A19D10025E07B /* MQTTClientFrameworkSessionManagerTests.swift in Sources */,
@@ -2258,6 +2281,7 @@
 				8BE0DF7D270BE50900630D60 /* IConnectRetryTimeoutPolicy.swift in Sources */,
 				8BE0DF6B270BE50900630D60 /* IMQTTClientFrameworkFactory.swift in Sources */,
 				8BE0DF78270BE50900630D60 /* MQTTPacket.swift in Sources */,
+				7DA1B2C3D4E50000000A0002 /* TopicPlaceholderResolver.swift in Sources */,
 				D8C17FCA2F0CA89100C8DFF9 /* AnonymousDisposable.swift in Sources */,
 				D8C17FCB2F0CA89100C8DFF9 /* ObservableConvertibleType.swift in Sources */,
 				D8C17FCC2F0CA89100C8DFF9 /* Producer.swift in Sources */,

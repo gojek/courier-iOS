@@ -18,6 +18,7 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
     private let clientFactory: IMQTTClientFrameworkFactory
     private let persistenceFactory: IMQTTPersistenceFactory
     private let connectionConfig: ConnectionConfig
+    private let topicPlaceholderResolver = TopicPlaceholderResolver()
     private(set) var messageReceiveListener: IMessageReceiveListener?
     
     @Atomic<ConnectOptions?>(nil) var connectOptions
@@ -116,6 +117,8 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
     }
 
     func publish(packet: MQTTPacket) {
+        var packet = packet
+        packet.topic = resolveTopicPlaceholders(in: packet.topic)
         eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .messageSend(topic: packet.topic, qos: packet.qos, sizeBytes: packet.data.count)))
         sessionManager.publish(packet: packet)
     }
@@ -129,16 +132,30 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
             return
         }
 
-        printDebug("MQTT - COURIER: Starting to request subscribe \(topics.map { "\($0.0):\($0.1)" })")
-        sessionManager.subscribe(topics)
+        let resolvedTopics = topics.map { (topic: resolveTopicPlaceholders(in: $0.topic), qos: $0.qos) }
+        printDebug("MQTT - COURIER: Starting to request subscribe \(resolvedTopics.map { "\($0.0):\($0.1)" })")
+        sessionManager.subscribe(resolvedTopics)
     }
 
     func unsubscribe(_ topics: [String]) {
         guard isConnected, !topics.isEmpty else {
             return
         }
-        printDebug("MQTT - COURIER: Starting to request unsubscribe \(topics)")
-        sessionManager.unsubscribe(topics)
+        let resolvedTopics = topics.map { resolveTopicPlaceholders(in: $0) }
+        printDebug("MQTT - COURIER: Starting to request unsubscribe \(resolvedTopics)")
+        sessionManager.unsubscribe(resolvedTopics)
+    }
+
+    private func resolveTopicPlaceholders(in topic: String) -> String {
+        guard let connectOptions = connectOptions else {
+            return topic
+        }
+        do {
+            return try topicPlaceholderResolver.resolve(topic: topic, connectOptions: connectOptions)
+        } catch {
+            printDebug("MQTT - COURIER: Failed to resolve placeholders in topic \(topic): \(error)")
+            return topic
+        }
     }
 
     func setKeepAliveFailureHandler(handler: KeepAliveFailureHandler) {
