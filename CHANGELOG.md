@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [1.0.23] - 2026-09-16
+
+[e0d722c] Merge pull request #88 from gojek/feature/resolveTopicWithSessionId (by @rishabhabbu-ctrl)
+[13be5b7] Add support to replace placeholders with client_id and username (by @Rishab Habbu)
+[7ad2b48] Add support to replace placeholders with client_id and username (by @Rishab Habbu)
+[75129f7] [CI] Bump version - 1.0.22 (by @github-actions[bot])
+
 ## [1.0.21] - 2026-08-19
 
 [3bf4d83] Merge pull request #86 from gojek/revert-81-task/distribute-dynamic-pods (by @rishabhabbu-ctrl)
