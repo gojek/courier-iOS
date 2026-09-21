@@ -74,7 +74,8 @@ class MQTTCourierClient: CourierClient, @unchecked Sendable {
             isMQTTMemoryPersistentEnabled: config.isMessageInMemoryPersistenceEnabled,
             fixCxxDestructCrash: config.fixCxxDestructCrash,
             useSafeDeleteForNonSQLiteStore: config.useSafeDeleteForNonSQLiteStore,
-            serializeSessionAccess: config.serializeSessionAccess)
+            serializeSessionAccess: config.serializeSessionAccess,
+            confineSessionLifecycleToQueue: config.confineSessionLifecycleToQueue)
 
         let reachability = try? Reachability()
         self.client = mqttClientFactory.makeClient(configuration: configuration, reachability: reachability, dispatchQueue: dispatchQueue)

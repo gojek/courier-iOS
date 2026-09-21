@@ -14,6 +14,7 @@ struct MQTTConfiguration: IMQTTConfiguration {
     var fixCxxDestructCrash: Bool
     var useSafeDeleteForNonSQLiteStore: Bool
     var serializeSessionAccess: Bool
+    var confineSessionLifecycleToQueue: Bool
 
     init(connectRetryTimePolicy: IConnectRetryTimePolicy = ConnectRetryTimePolicy(),
          connectTimeoutPolicy: IConnectTimeoutPolicy = ConnectTimeoutPolicy(),
@@ -26,7 +27,8 @@ struct MQTTConfiguration: IMQTTConfiguration {
          isMQTTMemoryPersistentEnabled: Bool,
          fixCxxDestructCrash: Bool,
          useSafeDeleteForNonSQLiteStore: Bool,
-         serializeSessionAccess: Bool) {
+         serializeSessionAccess: Bool,
+         confineSessionLifecycleToQueue: Bool = false) {
         self.connectRetryTimePolicy = connectRetryTimePolicy
         self.connectTimeoutPolicy = connectTimeoutPolicy
         self.idleActivityTimeoutPolicy = idleActivityTimeoutPolicy
@@ -39,5 +41,6 @@ struct MQTTConfiguration: IMQTTConfiguration {
         self.fixCxxDestructCrash = fixCxxDestructCrash
         self.useSafeDeleteForNonSQLiteStore = useSafeDeleteForNonSQLiteStore
         self.serializeSessionAccess = serializeSessionAccess
+        self.confineSessionLifecycleToQueue = confineSessionLifecycleToQueue
     }
 }

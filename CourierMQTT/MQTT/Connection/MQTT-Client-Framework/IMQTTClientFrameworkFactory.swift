@@ -12,7 +12,8 @@ protocol IMQTTClientFrameworkFactory {
         idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol,
         eventHandler: ICourierEventHandler,
         fixCxxDestructCrash: Bool,
-        serializeSessionAccess: Bool
+        serializeSessionAccess: Bool,
+        confineSessionLifecycleToQueue: Bool
     ) -> IMQTTClientFrameworkSessionManager
 }
 
@@ -20,7 +21,7 @@ struct MQTTClientFrameworkFactory: IMQTTClientFrameworkFactory {
 
     func makeSessionManager(connectRetryTimePolicy: IConnectRetryTimePolicy, persistenceFactory: IMQTTPersistenceFactory, dispatchQueue: DispatchQueue, delegate: MQTTClientFrameworkSessionManagerDelegate, connectTimeoutPolicy: IConnectTimeoutPolicy,
                             idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol, eventHandler: ICourierEventHandler, fixCxxDestructCrash: Bool,
-                            serializeSessionAccess: Bool) -> IMQTTClientFrameworkSessionManager {
+                            serializeSessionAccess: Bool, confineSessionLifecycleToQueue: Bool) -> IMQTTClientFrameworkSessionManager {
         guard !MQTTClientcourier.isEmpty else { fatalError("Please use the MQTTClientGJ from courier podspecs") }
 
         let sessionManager = MQTTClientFrameworkSessionManager(
@@ -33,7 +34,8 @@ struct MQTTClientFrameworkFactory: IMQTTClientFrameworkFactory {
             idleActivityTimeoutPolicy: idleActivityTimeoutPolicy,
             eventHandler: eventHandler,
             fixCxxDestructCrash: fixCxxDestructCrash,
-            serializeSessionAccess: serializeSessionAccess
+            serializeSessionAccess: serializeSessionAccess,
+            confineSessionLifecycleToQueue: confineSessionLifecycleToQueue
         )
         sessionManager.delegate = delegate
 

@@ -15,6 +15,7 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
 
     private let fixCxxDestructCrash: Bool
     private let serializeSessionAccess: Bool
+    private let confineSessionLifecycleToQueue: Bool
     private let clientFactory: IMQTTClientFrameworkFactory
     private let persistenceFactory: IMQTTPersistenceFactory
     private let connectionConfig: ConnectionConfig
@@ -48,12 +49,14 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
          clientFactory: IMQTTClientFrameworkFactory,
          persistenceFactory: IMQTTPersistenceFactory = MQTTPersistenceFactory(),
          fixCxxDestructCrash: Bool,
-         serializeSessionAccess: Bool) {
+         serializeSessionAccess: Bool,
+         confineSessionLifecycleToQueue: Bool = false) {
         self.connectionConfig = connectionConfig
         self.clientFactory = clientFactory
         self.persistenceFactory = persistenceFactory
         self.fixCxxDestructCrash = fixCxxDestructCrash
         self.serializeSessionAccess = serializeSessionAccess
+        self.confineSessionLifecycleToQueue = confineSessionLifecycleToQueue
         super.init()
 
         self.sessionManager = clientFactory.makeSessionManager(
@@ -65,7 +68,8 @@ class MQTTClientFrameworkConnection: NSObject, IMQTTConnection {
             idleActivityTimeoutPolicy: connectionConfig.idleActivityTimeoutPolicy,
             eventHandler: connectionConfig.eventHandler,
             fixCxxDestructCrash: fixCxxDestructCrash,
-            serializeSessionAccess: serializeSessionAccess
+            serializeSessionAccess: serializeSessionAccess,
+            confineSessionLifecycleToQueue: confineSessionLifecycleToQueue
         )
     }
 

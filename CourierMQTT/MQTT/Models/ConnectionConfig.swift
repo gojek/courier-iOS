@@ -13,4 +13,5 @@ struct ConnectionConfig {
     var fixCxxDestructCrash: Bool
     var useSafeDeleteForNonSQLiteStore: Bool
     var serializeSessionAccess: Bool
+    var confineSessionLifecycleToQueue: Bool = false
 }

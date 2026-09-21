@@ -326,7 +326,127 @@ extension MQTTClientFrameworkSessionManagerTests {
         XCTAssertFalse(mockSession.invokedSubscribe)
     }
 
-    private func makeSUT(queue: DispatchQueue, serializeSessionAccess: Bool) -> MQTTClientFrameworkSessionManager {
+    // MARK: - confineSessionLifecycleToQueue (MQTTSession .cxx_destruct over-release fix)
+
+    func testConnectRunsInlineWhenConfineSessionLifecycleDisabled() {
+        setupSession()
+
+        // Legacy behaviour: the session is created and connected on the caller's thread.
+        XCTAssertTrue(sut.session === mockSession)
+        XCTAssertTrue(mockSession.invokedConnect)
+    }
+
+    func testConnectIsConfinedToSessionQueueWhenEnabled() {
+        let sessionQueue = DispatchQueue(label: "test.courier.session")
+        sut = makeSUT(queue: sessionQueue, serializeSessionAccess: false, confineSessionLifecycleToQueue: true)
+
+        sessionQueue.suspend()
+        setupSession()
+
+        // `session` is only ever assigned on the session queue: the crash is two callers
+        // replacing it from different queues and over-releasing the old MQTTSession.
+        XCTAssertNil(sut.session, "session must not be created on the caller's thread")
+        XCTAssertFalse(mockSession.invokedConnect)
+
+        sessionQueue.resume()
+        drain(sessionQueue)
+
+        XCTAssertTrue(sut.session === mockSession)
+        XCTAssertTrue(mockSession.invokedConnect)
+        XCTAssertEqual(mockSession.invokedQueue, sessionQueue)
+        XCTAssertEqual(sut.state, .connecting)
+    }
+
+    func testReplacingSessionClosesOldOneOnSessionQueueWhenEnabled() {
+        let sessionQueue = DispatchQueue(label: "test.courier.session")
+        sut = makeSUT(queue: sessionQueue, serializeSessionAccess: false, confineSessionLifecycleToQueue: true)
+        setupSession()
+        drain(sessionQueue)
+        XCTAssertFalse(mockSession.invokedClose)
+
+        sessionQueue.suspend()
+        // Fresh credentials (the re-auth path in the crash) force a new session.
+        sut.connect(to: "host", port: 443, keepAlive: 240, isCleanSession: true, isAuth: true, clientId: "clientid", username: "username", password: "new-password", lastWill: false, lastWillTopic: nil, lastWillMessage: nil, lastWillQoS: nil, lastWillRetainFlag: false, securityPolicy: .init(), certificates: nil, protocolLevel: .version311, connectOptions: stubConnectOptions, connectHandler: nil)
+        XCTAssertFalse(mockSession.invokedClose, "old session must not be closed off-queue")
+
+        sessionQueue.resume()
+        drain(sessionQueue)
+
+        XCTAssertTrue(mockSession.invokedClose)
+        XCTAssertTrue(mockSession.invokedConnect)
+    }
+
+    func testDisconnectFlipsStateInlineButClosesSessionOnQueueWhenEnabled() {
+        let sessionQueue = DispatchQueue(label: "test.courier.session")
+        sut = makeSUT(queue: sessionQueue, serializeSessionAccess: false, confineSessionLifecycleToQueue: true)
+        setupSession()
+        drain(sessionQueue)
+
+        sessionQueue.suspend()
+        sut.disconnect(with: nil)
+
+        // Callers such as MQTTClient.reconnect check `isConnecting`/`isConnected` straight
+        // after disconnecting, so the state change stays synchronous...
+        XCTAssertEqual(sut.state, .closing)
+        // ...while the session itself is only touched on its own queue.
+        XCTAssertFalse(mockSession.invokedClose, "close must be deferred to the session queue")
+
+        sessionQueue.resume()
+        drain(sessionQueue)
+
+        XCTAssertTrue(mockSession.invokedClose)
+    }
+
+    func testPublishIsConfinedToSessionQueueWhenEnabled() {
+        let sessionQueue = DispatchQueue(label: "test.courier.session")
+        sut = makeSUT(queue: sessionQueue, serializeSessionAccess: false, confineSessionLifecycleToQueue: true)
+        setupSession()
+        drain(sessionQueue)
+
+        sessionQueue.suspend()
+        sut.publish(packet: MQTTPacket(data: "hello".data(using: .utf8)!, topic: "fbon", qos: .one))
+        XCTAssertFalse(mockSession.invokedPublishData, "publish must be deferred to the session queue")
+
+        sessionQueue.resume()
+        drain(sessionQueue)
+
+        XCTAssertTrue(mockSession.invokedPublishData)
+    }
+
+    func testSubscribeIsSerialisedWhenOnlyConfineSessionLifecycleEnabled() {
+        let sessionQueue = DispatchQueue(label: "test.courier.session")
+        sut = makeSUT(queue: sessionQueue, serializeSessionAccess: false, confineSessionLifecycleToQueue: true)
+        setupSession()
+        drain(sessionQueue)
+        sut.handleEvent(MQTTSession(), event: .connected, error: nil)
+        mockSession.stubbedSubscribeSubscribeHandlerResult = (nil, [NSNumber(value: 1)])
+
+        sessionQueue.suspend()
+        sut.subscribe([("fbon", .one)])
+        XCTAssertFalse(mockSession.invokedSubscribe, "confining the lifecycle implies serialised subscribe")
+
+        sessionQueue.resume()
+        drain(sessionQueue)
+
+        XCTAssertTrue(mockSession.invokedSubscribe)
+    }
+
+    func testWorkIssuedFromSessionQueueRunsInlineWhenEnabled() {
+        let sessionQueue = DispatchQueue(label: "test.courier.session")
+        sut = makeSUT(queue: sessionQueue, serializeSessionAccess: false, confineSessionLifecycleToQueue: true)
+        setupSession()
+        drain(sessionQueue)
+
+        // The ReconnectTimer and MQTTSessionDelegate callbacks already run on the session
+        // queue; re-enqueueing from there would reorder them against each other, so the hop
+        // must be inline in that case.
+        sessionQueue.sync {
+            sut.disconnect(with: nil)
+            XCTAssertTrue(mockSession.invokedClose, "already on the session queue: must run inline")
+        }
+    }
+
+    private func makeSUT(queue: DispatchQueue, serializeSessionAccess: Bool, confineSessionLifecycleToQueue: Bool = false) -> MQTTClientFrameworkSessionManager {
         let sessionFactory = MockMQTTSessionFactory()
         sessionFactory.stubbedMakeSessionResult = mockSession
         let persistenceFactory = MockMQTTPersistenceFactory()
@@ -343,7 +463,8 @@ extension MQTTClientFrameworkSessionManagerTests {
             idleActivityTimeoutPolicy: IdleActivityTimeoutPolicy(),
             eventHandler: mockEventHandler,
             fixCxxDestructCrash: false,
-            serializeSessionAccess: serializeSessionAccess
+            serializeSessionAccess: serializeSessionAccess,
+            confineSessionLifecycleToQueue: confineSessionLifecycleToQueue
         )
         manager.delegate = mockDelegate
         return manager

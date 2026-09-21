@@ -16,4 +16,5 @@ protocol IMQTTConfiguration {
     var fixCxxDestructCrash: Bool { get }
     var useSafeDeleteForNonSQLiteStore: Bool { get }
     var serializeSessionAccess: Bool { get }
+    var confineSessionLifecycleToQueue: Bool { get }
 }

@@ -58,7 +58,8 @@ class MQTTClient: IMQTTClient {
             inMemoryPersistent: configuration.isMQTTMemoryPersistentEnabled,
             fixCxxDestructCrash: configuration.fixCxxDestructCrash,
             useSafeDeleteForNonSQLiteStore: configuration.useSafeDeleteForNonSQLiteStore,
-            serializeSessionAccess: configuration.serializeSessionAccess
+            serializeSessionAccess: configuration.serializeSessionAccess,
+            confineSessionLifecycleToQueue: configuration.confineSessionLifecycleToQueue
         )
 
         connection = mqttConnectionFactory.makeConnection(connectionConfig: connectionConfig)
