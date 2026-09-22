@@ -322,32 +322,6 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         }
     }
 
-    @discardableResult
-    private func sendData(_ data: Data, topic: String, qos: MQTTQosLevel, retainFlag: Bool) -> UInt16 {
-        
-        var midProvider: (() -> UInt16)?
-        var publishHandler: MQTTPublishHandler?
-        if qos == MQTTQosLevel.atLeastOnceWithoutPersistenceAndNoRetry || qos == MQTTQosLevel.atLeastOnceWithoutPersistenceAndNoRetry {
-            publishHandler = { [weak self] error in
-                guard let self = self else { return }
-                printDebug("COURIER: Puback Handler for Special QoSes")
-                if error == nil {
-                    let mid = midProvider?() ?? 0
-                    self.delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
-                }
-            }
-        }
-        
-        let msgId = session?.publishData(data, onTopic: topic, retain: retainFlag, qos: qos, publishHandler: publishHandler) ?? 0
-        if publishHandler != nil {
-            midProvider = { [weak self] in
-                guard self != nil else { return 0 }
-                return msgId
-            }
-        }
-        return msgId
-    }
-
     func disconnect(with disconnectHandler: MQTTDisconnectHandler? = nil) {
         printDebug("MQTT - COURIER: MQTTSessionManager Disconnect")
         // `state` flips synchronously either way, so callers that check `isConnected` /
@@ -370,6 +344,10 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.state = newState
         self.delegate?.sessionManager(self, didChangeState: newState)
     }
+}
+
+// MARK: - Reconnection
+extension MQTTClientFrameworkSessionManager {
 
     private func reconnect(connectHandler: MQTTConnectHandler? = nil) {
         printDebug("MQTT - COURIER: MQTTSessionManager Reconnect")
@@ -429,6 +407,36 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
 
     private func triggerDelayedReconnect() {
         self.reconnectTimer?.schedule()
+    }
+}
+
+// MARK: - Publish / Subscribe
+extension MQTTClientFrameworkSessionManager {
+
+    @discardableResult
+    private func sendData(_ data: Data, topic: String, qos: MQTTQosLevel, retainFlag: Bool) -> UInt16 {
+        
+        var midProvider: (() -> UInt16)?
+        var publishHandler: MQTTPublishHandler?
+        if qos == MQTTQosLevel.atLeastOnceWithoutPersistenceAndNoRetry || qos == MQTTQosLevel.atLeastOnceWithoutPersistenceAndNoRetry {
+            publishHandler = { [weak self] error in
+                guard let self = self else { return }
+                printDebug("COURIER: Puback Handler for Special QoSes")
+                if error == nil {
+                    let mid = midProvider?() ?? 0
+                    self.delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
+                }
+            }
+        }
+        
+        let msgId = session?.publishData(data, onTopic: topic, retain: retainFlag, qos: qos, publishHandler: publishHandler) ?? 0
+        if publishHandler != nil {
+            midProvider = { [weak self] in
+                guard self != nil else { return 0 }
+                return msgId
+            }
+        }
+        return msgId
     }
 
     /// `MQTTSession` is confined to `queue` — it is the queue its CFStreams are scheduled
