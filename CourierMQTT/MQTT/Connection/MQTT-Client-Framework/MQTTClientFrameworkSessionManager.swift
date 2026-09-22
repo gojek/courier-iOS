@@ -164,11 +164,15 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     /// Never `sync` — the MQTT event path (socket read → CONNACK → delegate callback) is
     /// delivered on `queue`, so a `sync` hop from inside a callback would deadlock.
     private func performOnSessionQueue(_ work: @escaping () -> Void) {
-        if DispatchQueue.getSpecific(key: sessionQueueKey) == true {
+        if isOnSessionQueue {
             work()
         } else {
             queue.async(execute: work)
         }
+    }
+
+    private var isOnSessionQueue: Bool {
+        DispatchQueue.getSpecific(key: sessionQueueKey) == true
     }
 
     func connect(
@@ -192,48 +196,20 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         alpn: [String]? = nil,
         connectOptions: ConnectOptions,
         connectHandler: MQTTConnectHandler? = nil) {
-        guard confineSessionLifecycleToQueue else {
-            performConnect(to: host, port: port, keepAlive: keepAlive, isCleanSession: isCleanSession, isAuth: isAuth,
-                clientId: clientId, username: username, password: password, lastWill: lastWill,
-                lastWillTopic: lastWillTopic, lastWillMessage: lastWillMessage, lastWillQoS: lastWillQoS,
-                lastWillRetainFlag: lastWillRetainFlag, securityPolicy: securityPolicy, certificates: certificates,
-                protocolLevel: protocolLevel, userProperties: userProperties, alpn: alpn,
-                connectOptions: connectOptions, connectHandler: connectHandler)
+        // With `confineSessionLifecycleToQueue` on, the body below must run on `queue`.
+        // Hop there and re-enter; on the queue this check is false and the body runs
+        // inline. With the flag off the body runs exactly as before, on the caller's thread.
+        if confineSessionLifecycleToQueue, !isOnSessionQueue {
+            queue.async { [weak self] in
+                self?.connect(to: host, port: port, keepAlive: keepAlive, isCleanSession: isCleanSession, isAuth: isAuth,
+                    clientId: clientId, username: username, password: password, lastWill: lastWill,
+                    lastWillTopic: lastWillTopic, lastWillMessage: lastWillMessage, lastWillQoS: lastWillQoS,
+                    lastWillRetainFlag: lastWillRetainFlag, securityPolicy: securityPolicy, certificates: certificates,
+                    protocolLevel: protocolLevel, userProperties: userProperties, alpn: alpn,
+                    connectOptions: connectOptions, connectHandler: connectHandler)
+            }
             return
         }
-        performOnSessionQueue { [weak self] in
-            self?.performConnect(to: host, port: port, keepAlive: keepAlive, isCleanSession: isCleanSession, isAuth: isAuth,
-                clientId: clientId, username: username, password: password, lastWill: lastWill,
-                lastWillTopic: lastWillTopic, lastWillMessage: lastWillMessage, lastWillQoS: lastWillQoS,
-                lastWillRetainFlag: lastWillRetainFlag, securityPolicy: securityPolicy, certificates: certificates,
-                protocolLevel: protocolLevel, userProperties: userProperties, alpn: alpn,
-                connectOptions: connectOptions, connectHandler: connectHandler)
-        }
-    }
-
-    /// Body of `connect`. With `confineSessionLifecycleToQueue` on this only ever runs on
-    /// `queue`, which is what makes replacing `session` below safe.
-    private func performConnect(
-        to host: String,
-        port: Int,
-        keepAlive: Int,
-        isCleanSession: Bool,
-        isAuth: Bool = true,
-        clientId: String,
-        username: String,
-        password: String,
-        lastWill: Bool = false,
-        lastWillTopic: String? = nil,
-        lastWillMessage: Data? = nil,
-        lastWillQoS: MQTTQosLevel? = nil,
-        lastWillRetainFlag: Bool = false,
-        securityPolicy: MQTTSSLSecurityPolicy? = nil,
-        certificates: [Any]? = nil,
-        protocolLevel: MQTTProtocolVersion = .version311,
-        userProperties: [String: String]? = nil,
-        alpn: [String]? = nil,
-        connectOptions: ConnectOptions,
-        connectHandler: MQTTConnectHandler? = nil) {
         printDebug("MQTT - COURIER: Client Session Manager connect to: \(host)")
         self.connectOptions = connectOptions
         let shouldReconnect = self.session != nil
@@ -320,6 +296,32 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
             printDebug("MQTT - COURIER: MQTTSessionManager connecting")
             self.connectToInternal(connectHandler: connectHandler)
         }
+    }
+
+    @discardableResult
+    private func sendData(_ data: Data, topic: String, qos: MQTTQosLevel, retainFlag: Bool) -> UInt16 {
+        
+        var midProvider: (() -> UInt16)?
+        var publishHandler: MQTTPublishHandler?
+        if qos == MQTTQosLevel.atLeastOnceWithoutPersistenceAndNoRetry || qos == MQTTQosLevel.atLeastOnceWithoutPersistenceAndNoRetry {
+            publishHandler = { [weak self] error in
+                guard let self = self else { return }
+                printDebug("COURIER: Puback Handler for Special QoSes")
+                if error == nil {
+                    let mid = midProvider?() ?? 0
+                    self.delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
+                }
+            }
+        }
+        
+        let msgId = session?.publishData(data, onTopic: topic, retain: retainFlag, qos: qos, publishHandler: publishHandler) ?? 0
+        if publishHandler != nil {
+            midProvider = { [weak self] in
+                guard self != nil else { return 0 }
+                return msgId
+            }
+        }
+        return msgId
     }
 
     func disconnect(with disconnectHandler: MQTTDisconnectHandler? = nil) {
@@ -412,32 +414,6 @@ extension MQTTClientFrameworkSessionManager {
 
 // MARK: - Publish / Subscribe
 extension MQTTClientFrameworkSessionManager {
-
-    @discardableResult
-    private func sendData(_ data: Data, topic: String, qos: MQTTQosLevel, retainFlag: Bool) -> UInt16 {
-        
-        var midProvider: (() -> UInt16)?
-        var publishHandler: MQTTPublishHandler?
-        if qos == MQTTQosLevel.atLeastOnceWithoutPersistenceAndNoRetry || qos == MQTTQosLevel.atLeastOnceWithoutPersistenceAndNoRetry {
-            publishHandler = { [weak self] error in
-                guard let self = self else { return }
-                printDebug("COURIER: Puback Handler for Special QoSes")
-                if error == nil {
-                    let mid = midProvider?() ?? 0
-                    self.delegate?.sessionManager(self, didDeliverMessageID: mid, topic: topic, data: data, qos: qos, retainFlag: retainFlag)
-                }
-            }
-        }
-        
-        let msgId = session?.publishData(data, onTopic: topic, retain: retainFlag, qos: qos, publishHandler: publishHandler) ?? 0
-        if publishHandler != nil {
-            midProvider = { [weak self] in
-                guard self != nil else { return 0 }
-                return msgId
-            }
-        }
-        return msgId
-    }
 
     /// `MQTTSession` is confined to `queue` — it is the queue its CFStreams are scheduled
     /// on, so every callback the session raises runs there and every piece of its internal
