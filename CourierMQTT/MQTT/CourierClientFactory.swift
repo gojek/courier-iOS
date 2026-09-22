@@ -68,6 +68,23 @@ public struct MQTTClientConfig {
      */
     public let serializeSessionAccess: Bool
 
+    /**
+     Confines the whole `MQTTSession` lifecycle — connect, disconnect, reconnect, publish
+     and the replacement of a retired session — to the session's own dispatch queue.
+
+     Fixes the `-[MQTTSession .cxx_destruct]` crash. `MQTTSession` schedules its streams,
+     decoder and timers on that queue, but the session manager's `connect`/`disconnect`
+     and its `session` property were driven inline from whichever queue called them (the
+     auth-result queue, the reconnect timer, reachability/foreground on main). Two callers
+     racing on the property over-released the session, so it deallocated while still in
+     use. `fixCxxDestructCrash` closed the old session first but still did so off-queue,
+     which is why that crash survived it.
+
+     Implies `serializeSessionAccess`. Kill switch; captured for the lifetime of the client,
+     so flipping it takes effect on the next launch. Defaults to `false` (legacy behaviour).
+     */
+    public let confineSessionLifecycleToQueue: Bool
+
     public init(
         topics: [String: QoS] = [:],
         authService: IConnectionServiceProvider,
@@ -85,7 +102,8 @@ public struct MQTTClientConfig {
         shouldInitializeCoreDataPersistenceContext: Bool = true,
         fixCxxDestructCrash: Bool = false,
         useSafeDeleteForNonSQLiteStore: Bool = false,
-        serializeSessionAccess: Bool = false
+        serializeSessionAccess: Bool = false,
+        confineSessionLifecycleToQueue: Bool = false
     ) {
         self.topics = topics
         self.authService = authService
@@ -104,5 +122,6 @@ public struct MQTTClientConfig {
         self.fixCxxDestructCrash = fixCxxDestructCrash
         self.useSafeDeleteForNonSQLiteStore = useSafeDeleteForNonSQLiteStore
         self.serializeSessionAccess = serializeSessionAccess
+        self.confineSessionLifecycleToQueue = confineSessionLifecycleToQueue
     }
 }

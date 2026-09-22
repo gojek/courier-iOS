@@ -94,6 +94,12 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     private var idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol
     private var fixCxxDestructCrash: Bool
     private let serializeSessionAccess: Bool
+    /// See `MQTTClientConfig.confineSessionLifecycleToQueue`. When on, every read or write of
+    /// `session` and every call into it happens on `queue`; see `performOnSessionQueue(_:)`.
+    private let confineSessionLifecycleToQueue: Bool
+    /// Tags `queue` so `performOnSessionQueue(_:)` can tell whether the caller is already on
+    /// it (the `ReconnectTimer` and every `MQTTSessionDelegate` callback are).
+    private let sessionQueueKey = DispatchSpecificKey<Bool>()
 
     var requiresTeardown: Bool {
         state != .closed && state != .starting
@@ -109,7 +115,8 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
          idleActivityTimeoutPolicy: IdleActivityTimeoutPolicyProtocol,
          eventHandler: ICourierEventHandler,
          fixCxxDestructCrash: Bool,
-         serializeSessionAccess: Bool
+         serializeSessionAccess: Bool,
+         confineSessionLifecycleToQueue: Bool = false
     ) {
         self.streamSSLLevel = streamSSLLevel
         self.queue = queue
@@ -120,8 +127,12 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         self.eventHandler = eventHandler
         self.fixCxxDestructCrash = fixCxxDestructCrash
         self.serializeSessionAccess = serializeSessionAccess
+        self.confineSessionLifecycleToQueue = confineSessionLifecycleToQueue
         
         super.init()
+        if confineSessionLifecycleToQueue {
+            queue.setSpecific(key: sessionQueueKey, value: true)
+        }
         self.updateState(to: .starting)
         self.reconnectTimer = ReconnectTimer(retryInterval: retryInterval, maxRetryInterval: maxRetryInterval, queue: queue, reconnect: { [weak self] in
             self?.reconnect()
@@ -129,13 +140,40 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     }
 
      deinit {
-         if fixCxxDestructCrash == true {
+         if confineSessionLifecycleToQueue {
+             // The last reference to the manager can be dropped on any thread, but the
+             // session may only be touched on `queue`. Hand it over there; the block keeps
+             // the retired session alive until it has been closed on its own queue.
+             // Nothing in the block may reference `self`.
+             let retiredSession = session
+             let timer = reconnectTimer
+             queue.async {
+                 timer?.stop()
+                 retiredSession?.delegate = nil
+                 retiredSession?.close(disconnectHandler: nil)
+             }
+         } else if fixCxxDestructCrash == true {
              reconnectTimer?.stop()
              session?.delegate = nil
              session?.close(disconnectHandler: nil)
              session = nil
          }
      }
+
+    /// Runs `work` on `queue`: inline when the caller is already on it, `async` otherwise.
+    /// Never `sync` — the MQTT event path (socket read → CONNACK → delegate callback) is
+    /// delivered on `queue`, so a `sync` hop from inside a callback would deadlock.
+    private func performOnSessionQueue(_ work: @escaping () -> Void) {
+        if isOnSessionQueue {
+            work()
+        } else {
+            queue.async(execute: work)
+        }
+    }
+
+    private var isOnSessionQueue: Bool {
+        DispatchQueue.getSpecific(key: sessionQueueKey) == true
+    }
 
     func connect(
         to host: String,
@@ -158,6 +196,20 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
         alpn: [String]? = nil,
         connectOptions: ConnectOptions,
         connectHandler: MQTTConnectHandler? = nil) {
+        // With `confineSessionLifecycleToQueue` on, the body below must run on `queue`.
+        // Hop there and re-enter; on the queue this check is false and the body runs
+        // inline. With the flag off the body runs exactly as before, on the caller's thread.
+        if confineSessionLifecycleToQueue, !isOnSessionQueue {
+            queue.async { [weak self] in
+                self?.connect(to: host, port: port, keepAlive: keepAlive, isCleanSession: isCleanSession, isAuth: isAuth,
+                    clientId: clientId, username: username, password: password, lastWill: lastWill,
+                    lastWillTopic: lastWillTopic, lastWillMessage: lastWillMessage, lastWillQoS: lastWillQoS,
+                    lastWillRetainFlag: lastWillRetainFlag, securityPolicy: securityPolicy, certificates: certificates,
+                    protocolLevel: protocolLevel, userProperties: userProperties, alpn: alpn,
+                    connectOptions: connectOptions, connectHandler: connectHandler)
+            }
+            return
+        }
         printDebug("MQTT - COURIER: Client Session Manager connect to: \(host)")
         self.connectOptions = connectOptions
         let shouldReconnect = self.session != nil
@@ -197,7 +249,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
             self.protocolLevel = protocolLevel
             self.alpn = alpn
             
-            if fixCxxDestructCrash == true { // Remove this first `if` once the crash is fixed
+            if fixCxxDestructCrash || confineSessionLifecycleToQueue { // Remove this first `if` once the crash is fixed
                 if let oldSession = self.session {
                     oldSession.delegate = nil   // stop callbacks from old session
                     oldSession.close(disconnectHandler: nil)
@@ -274,15 +326,30 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
 
     func disconnect(with disconnectHandler: MQTTDisconnectHandler? = nil) {
         printDebug("MQTT - COURIER: MQTTSessionManager Disconnect")
+        // `state` flips synchronously either way, so callers that check `isConnected` /
+        // `isConnecting` right after disconnecting (`MQTTClient.reconnect`,
+        // `MQTTClientFrameworkConnection.connect`) keep observing the same thing.
         self.updateState(to: .closing)
-        self.session?.close(disconnectHandler: disconnectHandler)
-        self.reconnectTimer?.stop()
+        guard confineSessionLifecycleToQueue else {
+            self.session?.close(disconnectHandler: disconnectHandler)
+            self.reconnectTimer?.stop()
+            return
+        }
+        performOnSessionQueue { [weak self] in
+            guard let self else { return }
+            self.session?.close(disconnectHandler: disconnectHandler)
+            self.reconnectTimer?.stop()
+        }
     }
 
     private func updateState(to newState: MQTTSessionManagerState) {
         self.state = newState
         self.delegate?.sessionManager(self, didChangeState: newState)
     }
+}
+
+// MARK: - Reconnection
+extension MQTTClientFrameworkSessionManager {
 
     private func reconnect(connectHandler: MQTTConnectHandler? = nil) {
         printDebug("MQTT - COURIER: MQTTSessionManager Reconnect")
@@ -328,13 +395,25 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
             return
         }
         printDebug("MQTT - COURIER: MQTTSessionManager Connect to last")
-        self.reconnectTimer?.resetRetryInterval()
-        self.reconnect(connectHandler: connectHandler)
+        guard confineSessionLifecycleToQueue else {
+            self.reconnectTimer?.resetRetryInterval()
+            self.reconnect(connectHandler: connectHandler)
+            return
+        }
+        performOnSessionQueue { [weak self] in
+            guard let self, self.state != .connected else { return }
+            self.reconnectTimer?.resetRetryInterval()
+            self.reconnect(connectHandler: connectHandler)
+        }
     }
 
     private func triggerDelayedReconnect() {
         self.reconnectTimer?.schedule()
     }
+}
+
+// MARK: - Publish / Subscribe
+extension MQTTClientFrameworkSessionManager {
 
     /// `MQTTSession` is confined to `queue` — it is the queue its CFStreams are scheduled
     /// on, so every callback the session raises runs there and every piece of its internal
@@ -342,9 +421,11 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     /// corrupts its handler dictionaries (see `subscribeToTopics:subscribeHandler:`).
     ///
     /// When `serializeSessionAccess` is off the body runs inline on the caller's thread, so
-    /// behaviour is unchanged from before the fix.
+    /// behaviour is unchanged from before the fix. `confineSessionLifecycleToQueue` implies
+    /// the hop as well: it is meaningless to confine the session's lifecycle to `queue` while
+    /// still calling into it from elsewhere.
     func subscribe(_ topics: [(topic: String, qos: QoS)]) {
-        guard serializeSessionAccess else {
+        guard serializeSessionAccess || confineSessionLifecycleToQueue else {
             let connectOptions = self.connectOptions
             topics.forEach { topic, qos in
                 let attemptTimestamp = Date()
@@ -396,7 +477,7 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
 
     /// See `subscribe(_:)` for why session access is hopped onto `queue`.
     func unsubscribe(_ topics: [String]) {
-        guard serializeSessionAccess else {
+        guard serializeSessionAccess || confineSessionLifecycleToQueue else {
             let connectOptions = self.connectOptions
             let attemptTimestamp = Date()
             eventHandler.onEvent(.init(connectionInfo: connectOptions, event: .unsubscribeAttempt(topics: topics)))
@@ -432,7 +513,13 @@ class MQTTClientFrameworkSessionManager: NSObject, IMQTTClientFrameworkSessionMa
     }
 
     func publish(packet: MQTTPacket) {
-        sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
+        guard confineSessionLifecycleToQueue else {
+            sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
+            return
+        }
+        performOnSessionQueue { [weak self] in
+            self?.sendData(packet.data, topic: packet.topic, qos: MQTTQosLevel(qos: packet.qos), retainFlag: false)
+        }
     }
     
     func deleteAllPersistedMessages() {

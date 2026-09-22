@@ -16,7 +16,8 @@ struct MQTTClientFrameworkConnectionFactory: IMQTTConnectionFactory {
                                         isDatabasePersistent: connectionConfig.isDatabasePersistent,
                                         inMemoryPersistent: connectionConfig.inMemoryPersistent),
                                       fixCxxDestructCrash: connectionConfig.fixCxxDestructCrash,
-                                      serializeSessionAccess: connectionConfig.serializeSessionAccess)
+                                      serializeSessionAccess: connectionConfig.serializeSessionAccess,
+                                      confineSessionLifecycleToQueue: connectionConfig.confineSessionLifecycleToQueue)
     }
 
 }
