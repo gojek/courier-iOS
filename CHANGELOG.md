@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [1.0.24] - 2026-09-23
+
+[9ee1696] Merge pull request #89 from gojek/fix/confineSessionLifecycleToQueue (by @rishabhabbu-ctrl)
+[a0d6380] Keep main's connect body inline instead of wrapping it in performConnect (by @Rishab Habbu)
+[3f3b782] Split MQTTClientFrameworkSessionManager into extensions to satisfy SwiftLint (by @Rishab Habbu)
+[b1c6a06] Fix for cxx destruct by making sure func call happens on the same queue in async (by @Rishab Habbu)
+[ad20ca2] [CI] Bump version - 1.0.23 (by @github-actions[bot])
+
 ## [1.0.21] - 2026-08-19
 
 [3bf4d83] Merge pull request #86 from gojek/revert-81-task/distribute-dynamic-pods (by @rishabhabbu-ctrl)
