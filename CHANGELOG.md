@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.0.25] - 2026-09-23
+
+[50f6807] Merge pull request #90 from gojek/feature/spm_fix (by @romitkumar-gjk)
+[8f8c53a] [CI] Bump version - 1.0.24 (by @github-actions[bot])
+[888ecab] added Package.swift for spm (by @Romit Kumar)
+
 ## [1.0.21] - 2026-08-19
 
 [3bf4d83] Merge pull request #86 from gojek/revert-81-task/distribute-dynamic-pods (by @rishabhabbu-ctrl)
